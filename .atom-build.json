@@ -1,0 +1,9 @@
+{
+    "cmd": "C:/Program Files (x86)/BYOND 511/bin/dm.exe",
+    "args": [ "C:/Users/Anthonin/Documents/GitHub/vgstation13/vgstation13.dme" ],
+    "sh": false,
+    "errorMatch":
+    [
+        "\n(?<file>[\\\\\/0-9a-zA-Z\\._]+):(?<line>\\d+).*"
+    ]
+}

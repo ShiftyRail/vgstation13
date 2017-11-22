@@ -45,6 +45,7 @@
 	var/role_alt_title
 
 	var/datum/job/assigned_job
+	var/datum/religion/faith
 
 	var/list/kills=list()
 	var/list/datum/objective/objectives = list()
