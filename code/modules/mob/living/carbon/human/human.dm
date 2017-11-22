@@ -1513,7 +1513,7 @@
 /mob/living/carbon/human/proc/make_robot_limbs_organic()
 	for(var/datum/organ/external/O in src.organs)
 		if(O.is_robotic())
-			O &= ~ORGAN_ROBOT
+			O.status &= ~ORGAN_ROBOT
 	update_icons()
 
 // Makes all robot internal organs organic.
@@ -1864,3 +1864,13 @@ mob/living/carbon/human/remove_internal_organ(var/mob/living/user, var/datum/org
 	T.name = real_name
 	T.host = src
 	forceMove(null)
+
+/mob/living/carbon/human/throw_item(var/atom/target,var/atom/movable/what=null)
+	var/atom/movable/item = get_active_hand()
+	if(what)
+		item=what
+	var/success = ..()
+	if(success)
+		if(istype(gloves))
+			var/obj/item/clothing/gloves/G = gloves
+			G.on_wearer_threw_item(src,target,item)

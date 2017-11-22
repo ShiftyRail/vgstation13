@@ -135,7 +135,7 @@
 				to_chat(user, "You need more welding fuel to complete this task.")
 				return
 
-	if(isrobot(user) && !istype(I, /obj/item/weapon/storage/bag/trash) && !istype(user,/mob/living/silicon/robot/mommi) )
+	if(isrobot(user) && !istype(I, /obj/item/weapon/storage/bag/trash) && !isgripper(user.get_active_hand()) && !isMoMMI(user) )
 		return
 
 	if(istype(I, /obj/item/weapon/storage/bag/))
@@ -226,7 +226,7 @@
 	ui_interact(user)
 
 // user interaction
-/obj/machinery/disposal/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1)
+/obj/machinery/disposal/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = NANOUI_FOCUS)
 	var/list/data[0]
 
 	if(air_contents)

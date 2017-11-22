@@ -44,6 +44,7 @@ var/global/list/whitelisted_species = list("Human")
 	var/default_language = LANGUAGE_GALACTIC_COMMON				// Default language is used when 'say' is used without modifiers.
 	var/attack_verb = "punches"									// Empty hand hurt intent verb.
 	var/punch_damage = 0										// Extra empty hand attack damage.
+	var/punch_sharpness = 0										// Slicing/cutting force of punches. Independent of the sharpness added by claws.
 	var/punch_throw_range = 0
 	var/punch_throw_speed = 1
 	var/mutantrace											// Safeguard due to old code.
@@ -916,11 +917,12 @@ var/list/has_died_as_golem = list()
 				if(!client)
 					to_chat(user, "<span class='notice'>As you press \the [A] into \the [src], it shudders briefly, but falls still.</span>")
 					var/mob/dead/observer/ghost = mind_can_reenter(mind)
-					var/mob/ghostmob = ghost.get_top_transmogrification()
-					if(ghostmob)
-						ghostmob << 'sound/effects/adminhelp.ogg'
-						to_chat(ghostmob, "<span class='interface big'><span class='bold'>Someone is trying to resurrect you. Return to your body if you want to live again!</span> \
-							(Verbs -> Ghost -> Re-enter corpse, or <a href='?src=\ref[ghost];reentercorpse=1'>click here!</a>)</span>")
+					if(ghost)
+						var/mob/ghostmob = ghost.get_top_transmogrification()
+						if(ghostmob)
+							ghostmob << 'sound/effects/adminhelp.ogg'
+							to_chat(ghostmob, "<span class='interface big'><span class='bold'>Someone is trying to resurrect you. Return to your body if you want to live again!</span> \
+								(Verbs -> Ghost -> Re-enter corpse, or <a href='?src=\ref[ghost];reentercorpse=1'>click here!</a>)</span>")
 				else
 					anim(target = src, a_icon = 'icons/mob/mob.dmi', flick_anim = "reverse-dust-g", sleeptime = 15)
 					var/mob/living/carbon/human/golem/G = new /mob/living/carbon/human/golem

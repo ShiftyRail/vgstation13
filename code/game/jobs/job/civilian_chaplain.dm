@@ -49,9 +49,16 @@
 				if (lowertext(new_religion) == key)
 					rel.equip_chaplain(H) // We do the misc things related to the religion
 					B = new rel.bible_type
+<<<<<<< HEAD
 					B.my_rel = rel
 					rel.religiousLeader = H
 					H.put_in_hands(B)
+=======
+					B.name = rel.bible_name
+					B.deity_name = rel.deity_name
+					H.put_in_hands(B)
+					rel.holy_book = B
+>>>>>>> 9880b09f03b5a0189d66a6929e2191c60c773161
 					J = (H.gender == FEMALE ? rel.female_adept : rel.male_adept)
 					chap_religion = rel
 					choice = TRUE
@@ -63,10 +70,11 @@
 			chap_religion.name = "[new_religion]"
 			chap_religion.deity_name = "[new_religion]"
 			chap_religion.bible_name = "The Holy Book of [new_religion]"
-			chap_religion.religiousLeader = H
 			B = new chap_religion.bible_type
-			B.my_rel = chap_religion
+			B.name = chap_religion.bible_name
+			B.deity_name = chap_religion.deity_name
 			H.put_in_hands(B)
+			chap_religion.holy_book = B
 
 		//This goes down here due to problems with loading orders that took me 4 hours to identify
 		var/obj/item/weapon/card/id/I = null
