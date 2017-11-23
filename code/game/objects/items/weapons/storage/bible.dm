@@ -1,4 +1,5 @@
 /obj/item/weapon/storage/bible
+	var/datum/religion/my_rel = /datum/religion
 	name = "bible"
 	desc = "Apply to head repeatedly."
 	icon_state = "bible"
@@ -9,7 +10,6 @@
 	flags = FPRINT
 	attack_verb = list("whacks", "slaps", "slams", "forcefully blesses")
 	var/mob/affecting = null
-	var/datum/religion/my_rel = /datum/religion
 
 	autoignition_temperature = 522 // Kelvin
 	fire_fuel = 2

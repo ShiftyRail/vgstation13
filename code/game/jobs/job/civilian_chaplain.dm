@@ -52,6 +52,7 @@
 					B.my_rel = rel
 					rel.religiousLeader = H
 					H.put_in_hands(B)
+					B.name = rel.bible_name
 					J = (H.gender == FEMALE ? rel.female_adept : rel.male_adept)
 					chap_religion = rel
 					choice = TRUE
@@ -65,6 +66,7 @@
 			chap_religion.bible_name = "The Holy Book of [new_religion]"
 			B = new chap_religion.bible_type
 			B.my_rel = chap_religion
+			B.name = chap_religion.bible_name
 			H.put_in_hands(B)
 
 		//This goes down here due to problems with loading orders that took me 4 hours to identify
