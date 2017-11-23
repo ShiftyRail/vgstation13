@@ -49,10 +49,9 @@
 				if (lowertext(new_religion) == key)
 					rel.equip_chaplain(H) // We do the misc things related to the religion
 					B = new rel.bible_type
-					B.name = rel.bible_name
-					B.deity_name = rel.deity_name
+					B.my_rel = rel
+					rel.religiousLeader = H
 					H.put_in_hands(B)
-					rel.holy_book = B
 					J = (H.gender == FEMALE ? rel.female_adept : rel.male_adept)
 					chap_religion = rel
 					choice = TRUE
@@ -65,10 +64,8 @@
 			chap_religion.deity_name = "[new_religion]"
 			chap_religion.bible_name = "The Holy Book of [new_religion]"
 			B = new chap_religion.bible_type
-			B.name = chap_religion.bible_name
-			B.deity_name = chap_religion.deity_name
+			B.my_rel = chap_religion
 			H.put_in_hands(B)
-			chap_religion.holy_book = B
 
 		//This goes down here due to problems with loading orders that took me 4 hours to identify
 		var/obj/item/weapon/card/id/I = null
@@ -90,7 +87,6 @@
 		var/new_deity = copytext(sanitize(input(H, "Would you like to change your deity? Your deity currently is [chap_religion.deity_name] (Leave empty or unchanged to keep deity name)", "Name of Deity", chap_religion.deity_name)), 1, MAX_NAME_LEN)
 		if(length(new_deity))
 			chap_religion.deity_name = new_deity
-			B.deity_name = new_deity
 
 		var/accepted = 0
 		var/outoftime = 0
@@ -216,7 +212,7 @@
 			ticker.Bible_icon_state = B.icon_state
 			ticker.Bible_item_state = B.item_state
 			ticker.Bible_name = B.name
-			ticker.Bible_deity_name = B.deity_name
+			ticker.Bible_deity_name = B.my_rel.deity_name
 		feedback_set_details("religion_deity","[new_deity]")
 		feedback_set_details("religion_book","[new_book_style]")
 	return 1

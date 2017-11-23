@@ -8,7 +8,7 @@
 	var/female_adept = "Chaplain"
 	var/bible_type = /obj/item/weapon/storage/bible
 
-	var/obj/item/weapon/storage/bible/holy_book
+	var/mob/living/religiousLeader
 
 	var/list/bible_names = list()
 	var/list/deity_names = list()
@@ -24,6 +24,41 @@
 // Give the chaplain the basic gear, as well as a few misc effects.
 /datum/religion/proc/equip_chaplain(var/mob/living/carbon/human/H)
 	return TRUE // Nothing to see here, but redefined in some other religions !
+
+/* ---- RELIGIOUS CONVERSION ----
+ * convertAct() -> convertCeremony() -> convertCheck()
+ * Redefine 'convertCeremony' to play out your snowflake ceremony/interactions in your religion datum.
+ * In a saner language, convertCeremony() and convertCheck() would be private methods. Those are UNSAFE procs. Call convertAct() instead.
+ */
+
+/* ConvertAct() : here we check if eveything is in place for the conversion, and provide feedback if needed. Sanity for the preacher or the target belongs to the verb in the bible.
+ * - preacher : the guy doing the converting
+ * - subject : the guy being converted
+ * - B : the bible using for the conversion
+ */
+/datum/religion/proc/convertAct(var/mob/living/preacher, var/mob/living/subject, var/obj/item/weapon/storage/bible/B)
+	if (B.my_rel != src) // BLASPHEMY
+		to_chat(preacher, "<span class='warning'>You are a heathen to this God. You feel [B.my_rel.deity_name]'s wrath strike you for this blasphemy.</span>")
+		preacher.fire_stacks += 5
+		preacher.IgniteMob()
+		preacher.emote("scream",,, 1)
+		return FALSE
+	if (preacher != religiousLeader)
+		to_chat(preacher, "<span class='warning'>You fail to muster enough mental strength to begin the conversion. Only the Spiritual Guide of [name] can perfom this.</span>")
+		return FALSE
+	if (subject.mind.faith == src)
+		to_chat(preacher, "<span class='warning'>You and your target follow the same faith.</span>")
+		return FALSE
+	else
+		return convertCeremony(preacher, subject)
+
+/* ConvertCeremony() : the RP ceremony to convert the newfound person.
+ Here we check if we have the tools to convert and play out the little interactions. */
+/datum/religion/proc/convertCeremony(var/mob/preacher, var/mob/subject)
+	// TODO
+
+// Here we check if the subject is willing
+/datum/religion/proc/convertCheck(var/mob/subject)
 
 // The list of all religions spacemen have designed, so far.
 /datum/religion/catholic
