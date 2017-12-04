@@ -4808,7 +4808,7 @@
 				if (!isliving(M) || !M.mind.faith)
 					return FALSE
 
-				if (M.mind.faith.religiousLeader == M && alert("This mob is the leader of the religion. Are you sure you wish to remove him from his faith?", "Removing religion", "Yes", "No") != "Yes")
+				if (M.mind.gfaith.religiousLeader == M && alert("This mob is the leader of the religion. Are you sure you wish to remove him from his faith?", "Removing religion", "Yes", "No") != "Yes")
 					return FALSE
 
 				M.mind.faith.renounce(M)
