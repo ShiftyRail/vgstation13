@@ -4,6 +4,7 @@
 	can_butcher = 0
 	mob_property_flags = MOB_ROBOTIC
 
+	var/chip_loss = 0
 	var/flashed = 0
 	var/syndicate = 0
 	var/datum/ai_laws/laws = null//Now... THEY ALL CAN ALL HAVE LAWS
@@ -338,3 +339,6 @@
 
 /mob/living/silicon/get_survive_objective()
 	return new /datum/objective/siliconsurvive
+
+/mob/living/silicon/proc/adjustChipLoss(var/amount)
+	chip_loss = min(chip_loss + amount, maxHealth)
