@@ -33,9 +33,9 @@
 	var/list/possible_traitors = get_players_for_role(ROLE_TRAITOR)
 
 	// stop setup if no possible traitors
-	if(!possible_traitors.len)
-		log_admin("Failed to set-up a round of double agents. Couldn't find any volunteers to be traitors.")
-		message_admins("Failed to set-up a round of double agents. Couldn't find any volunteers to be traitors.")
+	if(possible_traitors.len < 2)
+		log_admin("Failed to set-up a round of double agents. Couldn't find enough volunteers to be traitors.")
+		message_admins("Failed to set-up a round of double agents. Couldn't find enough volunteers to be traitors.")
 		return 0
 
 	var/num_traitors = 1
