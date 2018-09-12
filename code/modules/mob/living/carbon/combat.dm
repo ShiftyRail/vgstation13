@@ -30,7 +30,9 @@
 	if(!I || !user)
 		return FALSE
 	var/target_zone = null
-	if(originator)
+	if(def_zone)
+		target_zone = get_zone_with_miss_chance(def_zone, src)
+	else if(originator)
 		if(ismob(originator))
 			var/mob/M = originator
 			target_zone = get_zone_with_miss_chance(M.zone_sel.selecting, src)
@@ -56,7 +58,7 @@
 			return TRUE //We still connected
 		if(!I.force)
 			return TRUE
-
-	apply_damage(I.force, I.damtype, affecting, armor , I.is_sharp(), used_weapon = I)
+	var/damage = run_armor_absorb(target_zone, I.damtype, I.force)
+	apply_damage(damage, I.damtype, affecting, armor , I.is_sharp(), used_weapon = I)
 
 	return TRUE

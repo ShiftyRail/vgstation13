@@ -163,7 +163,7 @@
 				warning("Tried to draw blood or equivalent from [target] (\ref[target]) but it's missing their DNA datum!")
 				return
 
-			if (M_NOCLONE in T.mutations) // Target has been husked
+			if (M_HUSK in T.mutations) // Target has been husked
 				to_chat(user, "<span class='warning'>You are unable to locate any blood.</span>")
 				return
 
@@ -327,7 +327,7 @@
 
 	// Break the syringe and transfer some of the reagents to the target
 	src.reagents.reaction(target, INGEST)
-	var/syringestab_amount_transferred = rand(0, (reagents.total_volume - 5)) //nerfed by popular demand
+	var/syringestab_amount_transferred = max(rand(min(reagents.total_volume, 2), (reagents.total_volume - 5)), 0) //nerfed by popular demand.
 	src.reagents.trans_to(target, syringestab_amount_transferred)
 	src.desc += " It is broken."
 	src.mode = SYRINGE_BROKEN

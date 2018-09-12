@@ -21,7 +21,7 @@ var/global/global_playlists = list()
 		return
 	for(var/playlist_id in list("bar", "jazz", "rock", "muzak", "emagged", "endgame", "clockwork", "vidyaone", "vidyatwo", "vidyathree", "vidyafour"))
 		var/url="[config.media_base_url]/index.php?playlist=[playlist_id]"
-		testing("Updating playlist from [url]...")
+		//testing("Updating playlist from [url]...")
 
 		//  Media Server 2 requires a secret key in order to tell the jukebox
 		// where the music files are. It's set in config with MEDIA_SECRET_KEY
@@ -57,7 +57,7 @@ var/global/global_playlists = list()
 
 	else
 		var/url="[config.media_base_url]/index.php?playlist=[playlist_id]"
-		testing("[src] - Updating playlist from [url]...")
+		//testing("[src] - Updating playlist from [url]...")
 
 		//  Media Server 2 requires a secret key in order to tell the jukebox
 		// where the music files are. It's set in config with MEDIA_SECRET_KEY
@@ -351,7 +351,9 @@ var/global/list/loopModeNames=list(
 /obj/machinery/media/jukebox/proc/ScreenSettings(var/mob/user)
 	if(!linked_account)
 		linked_account = station_account
-	var/dat={"<h1>Settings</h1>
+	var/dat
+
+	dat += {"<h1>Settings</h1>
 		<form action="?src=\ref[src]" method="get">
 		<input type="hidden" name="src" value="\ref[src]" />
 		<fieldset>
@@ -382,11 +384,58 @@ var/global/list/loopModeNames=list(
 				<input type="radio" name="lock" id="lock_cap" value="[access_captain]"[change_access == list(access_captain) ? " checked='selected'":""] /> <label for="lock_cap">Captain</label>
 			</div>
 		</fieldset>
-		<input type="submit" name="act" value="Save Settings" />
-		</form>"}
+		<input type="submit" name="act" value="Save Settings" /></form>"}
+
+	dat += "<BR><b>Media</b><BR>"
+	for(var/element in playlists)
+		dat += "[playlists[element]] <a href='?src=\ref[src];eject=[element]'>Eject</a><BR>"
+	dat += "<a href='?src=\ref[src];insert=1'>Insert Vinyl</a><BR>"
 	return dat
 
+/obj/machinery/media/jukebox/proc/generate_name()
+	return "[get_area(src).name] [name]"
 
+/obj/machinery/media/jukebox/scan_card(var/obj/item/weapon/card/C)
+	var/remaining_credits_needed = credits_needed - credits_held
+	var/pos_name = generate_name()
+	var/charge_response = charge_flow(linked_db, C, usr, remaining_credits_needed, linked_account, "Song Selection", pos_name, 0)
+	switch(charge_response)
+		if(CARD_CAPTURE_SUCCESS)
+			visible_message("<span class='notice'>The machine beeps happily.</span>","You hear a beep.")
+			if(credits_held)
+				linked_account.charge(-credits_held, null, "Cash Deposit", pos_name, 0, linked_account.owner_name)
+				credits_held=0
+			credits_needed=0
+			successful_purchase()
+			return
+		if(CARD_CAPTURE_FAILURE_NOT_ENOUGH_FUNDS)
+			visible_message("<span class='warning'>The machine buzzes, and flashes \"NOT ENOUGH FUNDS\" on the screen.</span>","You hear a buzz.")
+		if(CARD_CAPTURE_ACCOUNT_DISABLED)
+			visible_message("<span class='warning'>The machine buzzes, and flashes \"ACCOUNT DISABLED\" on the screen.</span>","You hear a buzz.")
+		if(CARD_CAPTURE_ACCOUNT_DISABLED_MERCHANT)
+			visible_message("<span class='warning'>The machine buzzes, and flashes \"MERCHANT ACCOUNT DISABLED\" on the screen.</span>","You hear a buzz.")
+		if(CARD_CAPTURE_FAILURE_BAD_ACCOUNT_PIN_COMBO)
+			visible_message("<span class='warning'>The machine buzzes, and flashes \"BAD ACCOUNT/PIN COMBO\" on the screen.</span>","You hear a buzz.")
+		if(CARD_CAPTURE_FAILURE_SECURITY_LEVEL)
+			visible_message("<span class='warning'>The machine buzzes, and flashes \"SECURITY EXCEPTION\" on the screen.</span>","You hear a buzz.")
+		if(CARD_CAPTURE_FAILURE_USER_CANCELED)
+			visible_message("<span class='warning'>The machine buzzes, and flashes \"ORDER CANCELED\" on the screen.</span>","You hear a buzz.")
+		if(CARD_CAPTURE_FAILURE_NO_DESTINATION)
+			visible_message("<span class='warning'>The machine buzzes, and flashes \"NO LINKED ACCOUNT\" on the screen.</span>","You hear a buzz.")
+		if(CARD_CAPTURE_FAILURE_NO_CONNECTION)
+			visible_message("<span class='warning'>The machine buzzes, and flashes \"DATABASE UNAVAILABLE\" on the screen.</span>","You hear a buzz.")
+		else
+			visible_message("<span class='warning'>The machine buzzes, and flashes \"CARD CAPTURE ERROR\" on the screen.</span>","You hear a buzz.")
+
+/obj/machinery/media/jukebox/proc/dispense_change(var/amount = 0)
+	if(!amount)
+		amount = credits_held
+		credits_held = 0
+	if(amount > 0)
+		var/obj/item/weapon/storage/box/B = new(loc)
+		dispense_cash(amount,B)
+		B.name="change"
+		B.desc="A box of change."
 
 /obj/machinery/media/jukebox/attackby(obj/item/W, mob/user)
 	. = ..()
@@ -396,27 +445,12 @@ var/global/list/loopModeNames=list(
 		if(panel_open)
 			wires.Interact(user)
 		return
-	if(istype(W,/obj/item/weapon/card/id))
+	if(istype(W,/obj/item/weapon/card))
 		if(!selected_song || screen!=JUKEBOX_SCREEN_PAYMENT)
 			visible_message("<span class='notice'>The machine buzzes.</span>","<span class='warning'>You hear a buzz.</span>")
 			return
-		var/obj/item/weapon/card/id/I = W
-		if(!linked_account)
-			visible_message("<span class='warning'>The machine buzzes, and flashes \"NO LINKED ACCOUNT\" on the screen.</span>","You hear a buzz.")
-			return
-		var/datum/money_account/acct = get_card_account(I)
-		if(!acct)
-			visible_message("<span class='warning'>The machine buzzes, and flashes \"NO ACCOUNT\" on the screen.</span>","You hear a buzz.")
-			return
-		if(credits_needed > acct.money)
-			visible_message("<span class='warning'>The machine buzzes, and flashes \"NOT ENOUGH FUNDS\" on the screen.</span>","You hear a buzz.")
-			return
-		visible_message("<span class='notice'>The machine beeps happily.</span>","You hear a beep.")
-		acct.charge(credits_needed,linked_account,"Song selection at [areaMaster.name]'s [name].")
-		credits_needed = 0
-
-		successful_purchase()
-
+		var/obj/item/weapon/card/I = W
+		connect_account(user, I)
 		attack_hand(user)
 	else if(istype(W,/obj/item/weapon/spacecash))
 		if(!selected_song || screen!=JUKEBOX_SCREEN_PAYMENT)
@@ -426,21 +460,20 @@ var/global/list/loopModeNames=list(
 			visible_message("<span class='warning'>The machine buzzes, and flashes \"NO LINKED ACCOUNT\" on the screen.</span>","You hear a buzz.")
 			return
 		var/obj/item/weapon/spacecash/C=W
-		credits_held += C.worth*C.amount
+		credits_held += C.get_total()
+		qdel(C)
 		if(credits_held >= credits_needed)
 			visible_message("<span class='notice'>The machine beeps happily.</span>","You hear a beep.")
+			linked_account.charge(-credits_needed, null, "Song selection at [generate_name()].", dest_name = linked_account.owner_name)
 			credits_held -= credits_needed
 			credits_needed=0
 			screen=JUKEBOX_SCREEN_MAIN
-			if(credits_held)
-				var/obj/item/weapon/storage/box/B = new(loc)
-				dispense_cash(credits_held,B)
-				B.name="change"
-				B.desc="A box of change."
-			credits_held=0
-
+			dispense_change()
 			successful_purchase()
+		else
+			say("Your total is now $[num2septext(credits_needed-credits_held)].  Please insert more credit chips or swipe your ID.")
 		attack_hand(user)
+		
 
 /obj/machinery/media/jukebox/emag(mob/user)
 	if(!emagged)
@@ -486,8 +519,8 @@ var/global/list/loopModeNames=list(
 
 /obj/machinery/media/jukebox/proc/rad_pulse() //Called by pulsing the transmit wire
 	for(var/mob/living/carbon/M in view(src,3))
-		var/rads = 50 * sqrt( 1 / (get_dist(M, src) + 1) ) //It's like a transmitter, but 1/3 as powerful
-		M.apply_radiation((rads*2),RAD_EXTERNAL)
+		var/rads = 50 * sqrt( 1 / (get_dist(M, src) + 1) ) //It's like a transmitter, but 1/3 as powerful.
+		M.apply_radiation(round(rads/2),RAD_EXTERNAL) //Distance/rads: 1 = 18, 2 = 14, 3 = 12
 
 /obj/machinery/media/jukebox/Topic(href, href_list)
 	if(isobserver(usr) && !isAdminGhost(usr))
@@ -589,6 +622,20 @@ var/global/list/loopModeNames=list(
 		update_music()
 		update_icon()
 
+	if (href_list["insert"])
+		if(isobserver(usr) && !canGhostWrite(usr,src,""))
+			to_chat(usr, "<span class='warning'>You can't do that.</span>")
+			return
+		var/obj/item/weapon/vinyl/V = usr.get_active_hand()
+		if(istype(V))
+			insert(V)
+
+	if (href_list["eject"])
+		if(isobserver(usr) && !canGhostWrite(usr,src,""))
+			to_chat(usr, "<span class='warning'>You can't do that.</span>")
+			return
+		eject(href_list["eject"])
+
 	if (href_list["song"])
 		if(wires.IsIndexCut(JUKE_CAPITAL))
 			to_chat(usr, "<span class='warning'>You select a song, but [src] is unresponsive...</span>")
@@ -613,6 +660,7 @@ var/global/list/loopModeNames=list(
 
 	if (href_list["cancelbuy"])
 		selected_song=0
+		dispense_change()
 		screen = JUKEBOX_SCREEN_MAIN
 
 	if (href_list["mode"])
@@ -647,6 +695,26 @@ var/global/list/loopModeNames=list(
 						update_icon()
 						return
 			update_music()
+
+/obj/machinery/media/jukebox/proc/eject(var/playlist_name)
+	if(playlists.Find(playlist_name))
+		new /obj/item/weapon/vinyl(get_turf(src), playlist_name, playlists[playlist_name])
+		playlists.Remove(playlist_name)
+		if(playlist == playlist_name)
+			stop_playing()
+			playlist = playlists[1]
+	else
+		visible_message("<span class='warning'>[bicon(src)] \The [src] buzzes, unable to eject the vinyl.</span>")
+
+/obj/machinery/media/jukebox/proc/insert(var/obj/O)
+	var/obj/item/weapon/vinyl/V = O
+	if(!istype(V))
+		return
+	if(playlists.Find(V.unformatted))
+		visible_message("<span class='warning'>[bicon(src)] \The [src] buzzes, rejecting the vinyl.</span>")
+	else
+		playlists[V.unformatted] = V.formatted
+		qdel(V)
 
 /obj/machinery/media/jukebox/update_music()
 	if(!playlist)
@@ -853,3 +921,88 @@ var/global/list/loopModeNames=list(
 
 /obj/machinery/media/jukebox/superjuke/adminbus/cultify()
 	return
+
+
+/obj/item/weapon/vinyl
+	name = "nanovinyl"
+	desc = "In reality, the bulk of the disc serves only decorative purposes and the many songs are recorded on a very small microchip near the center."
+	icon = 'icons/obj/jukebox.dmi'
+	icon_state = "vinyl"
+	flags = FPRINT
+	siemens_coefficient = 1
+	sharpness = 1
+	force = 7
+	throwforce = 7
+	throw_speed = 7
+	throw_range = 7
+	w_class = W_CLASS_SMALL
+	attack_verb = list("plays out", "records", "frisbees") //Fuck it, we'll do it live. Fucking thing sucks!
+	var/unformatted
+	var/formatted
+
+/obj/item/weapon/vinyl/New(loc,U,F)
+	..(loc)
+	unformatted = U
+	formatted = F
+	name = "nanovinyl - [formatted]"
+
+//Premades
+/obj/item/weapon/vinyl/vidyaone
+	name = "nanovinyl - video games, volume one"
+	unformatted = "vidyaone"
+	formatted = "Vidya Pt.1"
+
+/obj/item/weapon/vinyl/vidyatwo
+	name = "nanovinyl - video games, volume two"
+	unformatted = "vidyatwo"
+	formatted = "Vidya Pt.2"
+
+/obj/item/weapon/vinyl/vidyathree
+	name = "nanovinyl - video games, volume three"
+	unformatted = "vidyathree"
+	formatted = "Vidya Pt.3"
+
+/obj/item/weapon/vinyl/vidyafour
+	name = "nanovinyl - video games, volume four"
+	unformatted = "vidyafour"
+	formatted = "Vidya Pt.4"
+
+/obj/item/weapon/vinyl/jazz
+	name = "nanovinyl - jazz"
+	unformatted = "jazz"
+	formatted = "Jazz"
+
+/obj/item/weapon/vinyl/rock
+	name = "nanovinyl - rock"
+	unformatted = "rock"
+	formatted = "Rock"
+
+/obj/item/weapon/vinyl/muzak
+	name = "nanovinyl - muzak"
+	unformatted = "muzak"
+	formatted = "Muzak"
+
+/obj/item/weapon/vinyl/shuttle
+	name = "nanovinyl - shuttle"
+	unformatted = "shuttle"
+	formatted = "Shuttle"
+
+/obj/item/weapon/vinyl/syndie
+	name = "nanovinyl - syndicate"
+	unformatted = "emagged"
+	formatted = "Syndie Mix"
+
+/obj/item/weapon/vinyl/endgame
+	name = "nanovinyl - apocalypse"
+	unformatted = "endgame"
+	formatted =	"Apocalypse"
+
+/obj/item/weapon/vinyl/clockwork
+	name = "nanovinyl - clockwork"
+	unformatted = "clockwork"
+	formatted =	"Clockwork"
+
+/obj/item/weapon/vinyl/thunderdome
+	name = "nanovinyl - thunderdome"
+	unformatted = "thunderdome"
+	formatted =	"Thunderdome"

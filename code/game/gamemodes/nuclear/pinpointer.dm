@@ -16,9 +16,14 @@
 	var/active = FALSE
 	var/watches_nuke = TRUE
 
-/obj/item/weapon/pinpointer/Destroy()
+/obj/item/weapon/pinpointer/New()
 	..()
-	processing_objects -= src
+	pinpointer_list.Add(src)
+
+/obj/item/weapon/pinpointer/Destroy()
+	fast_objects -= src
+	pinpointer_list.Remove(src)
+	..()
 
 /obj/item/weapon/pinpointer/acidable()
 	return FALSE
@@ -28,13 +33,13 @@
 		active = TRUE
 		workdisk()
 		to_chat(usr,"<span class='notice'>You activate \the [src]</span>")
-		playsound(get_turf(src), 'sound/items/healthanalyzer.ogg', 30, 1)
-		processing_objects += src
+		playsound(src, 'sound/items/healthanalyzer.ogg', 30, 1)
+		fast_objects += src
 	else
 		active = FALSE
 		icon_state = "pinoff"
 		to_chat(usr,"<span class='notice'>You deactivate \the [src]</span>")
-		processing_objects -= src
+		fast_objects -= src
 
 /obj/item/weapon/pinpointer/proc/workdisk()
 	process()
@@ -97,11 +102,11 @@
 /obj/item/weapon/pinpointer/advpinpointer/attack_self()
 	if(!active)
 		active = TRUE
-		processing_objects += src
+		fast_objects += src
 		process()
 		to_chat(usr,"<span class='notice'>You activate the pinpointer</span>")
 	else
-		processing_objects -= src
+		fast_objects -= src
 		active = FALSE
 		icon_state = "pinoff"
 		to_chat(usr,"<span class='notice'>You deactivate the pinpointer</span>")
@@ -200,12 +205,12 @@
 		else
 			to_chat(user,"<span class='notice'>Shuttle Locator active.</span>")
 		process()
-		processing_objects += src
+		fast_objects += src
 	else
 		active = FALSE
 		icon_state = "pinoff"
 		to_chat(user,"<span class='notice'>You deactivate the pinpointer.</span>")
-		processing_objects -= src
+		fast_objects -= src
 
 
 /obj/item/weapon/pinpointer/nukeop/process()
@@ -247,11 +252,11 @@
 	if(!active)
 		active = TRUE
 		process()
-		processing_objects += src
+		fast_objects += src
 		to_chat(usr,"<span class='notice'>You activate the pinpointer</span>")
 	else
 		active = FALSE
-		processing_objects -= src
+		fast_objects -= src
 		icon_state = "pinoff"
 		to_chat(usr,"<span class='notice'>You deactivate the pinpointer</span>")
 
@@ -270,7 +275,7 @@
 	var/list/L = list()
 	L["Cancel"] = "Cancel"
 	var/length = 1
-	for (var/obj/item/device/pda/P in world)
+	for (var/obj/item/device/pda/P in PDAs)
 		if(P.name != "\improper PDA")
 			L[text("([length]) [P.name]")] = P
 			length++

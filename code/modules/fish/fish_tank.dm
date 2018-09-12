@@ -23,7 +23,7 @@
 
 // Made by FalseIncarnate on Paradise
 // Ported to /vg/ by Shifty and jakmak(s)
-
+// Fish Bowl construction moved to code/game/machinery/constructable_frame.dm
 
 /obj/machinery/fishtank
 	name = "placeholder tank"
@@ -33,6 +33,7 @@
 	density = FALSE
 	anchored = FALSE
 	throwpass = FALSE
+	var/circuitboard = null		// The circuitboard to eject when deconstructed
 
 	var/tank_type = ""			// Type of aquarium, used for icon updating
 	var/water_capacity = 0		// Number of units the tank holds (varies with tank type)
@@ -42,7 +43,6 @@
 	var/lid_switch = FALSE		// FALSE = open, TRUE = closed (open by default)
 	var/max_fish = 0			// How many fish the tank can support (varies with tank type, 1 fish per 50 units sounds reasonable)
 	var/food_level = 0			// Amount of fishfood floating in the tank (max 10)
-	var/fish_list.len = 0		// Number of fish in the tank
 	var/list/fish_list = list()	// Tracks the current types of fish in the tank
 	var/list/egg_list = list()	// Tracks the current types of harvestable eggs in the tank
 
@@ -78,6 +78,7 @@
 	density = TRUE
 	anchored = TRUE
 	throwpass = TRUE				// You can throw objects over this, despite it's density, because it's short enough.
+	circuitboard = /obj/item/weapon/circuitboard/fishtank
 
 	tank_type = "tank"
 	water_capacity = 200		// Decent sized, holds 2 full large beakers worth
@@ -86,7 +87,7 @@
 	has_lid = TRUE
 	max_health = 50				// Average strength, will take a couple hits from a toolbox.
 	cur_health = 50
-	shard_count = 2
+	shard_count = 4
 
 
 /obj/machinery/fishtank/wall
@@ -96,6 +97,7 @@
 	density = TRUE
 	anchored = TRUE
 	throwpass = FALSE				// This thing is the size of a wall, you can't throw past it.
+	circuitboard = /obj/item/weapon/circuitboard/fishwall
 
 	tank_type = "wall"
 	water_capacity = 500		// This thing fills an entire tile,5 large beakers worth
@@ -104,7 +106,15 @@
 	has_lid = TRUE
 	max_health = 100			// This thing is a freaking wall, it can handle abuse.
 	cur_health = 100
-	shard_count = 3
+	shard_count = 9
+
+/obj/machinery/fishtank/wall/full
+	water_level = 500
+	food_level = MAX_FOOD
+
+/obj/machinery/fishtank/wall/full
+	water_level = 500
+	food_level = MAX_FOOD
 
 /obj/machinery/fishtank/wall/Cross(atom/movable/mover, turf/target, height = 1.5, air_group = 0) // Prevents airflow. Copied from windows.
 	if(istype(mover) && mover.checkpass(PASSGLASS))
@@ -289,6 +299,18 @@
 					add_food(1)					//The corpse became food for the other fish, ecology at it's finest
 			if("glofish")
 				glo_light++
+			if("clownfish")
+				if(prob(10))
+					playsound(src,'sound/items/bikehorn.ogg', 80, 1)
+			if("sea devil")
+				if(fish_list.len > 1 && prob(5))
+					//Small chance to eat a random fish that isn't itself.
+					seadevil_eat()
+
+				if(fish_list.len < max_fish && egg_list.len)
+					add_fish(get_key_by_element(fish_eggs_list,egg_list[1])) //add_fish takes a string. egg_list gives a path. fish_eggs_list is an associative list keyed with strings. get_key_by_index returns that string key by matching the path
+					egg_list -= egg_list[1]
+
 	if(!light_switch && (glo_light > 0))
 		set_light(2,glo_light,"#99FF66")
 
@@ -340,19 +362,43 @@
 		fish_list.Remove(pick(fish_list))			//Kill a random fish
 	update_icon()
 
+/obj/machinery/fishtank/proc/seadevil_eat()
+	var/tmp/list/fish_to_eat = fish_list.Copy()
+	fish_to_eat.Remove("sea devil")
+	var/eat_target = pick(fish_to_eat)
+	visible_message("<span class='notice'>The sea devil devours \an [eat_target].</span>")
+	kill_fish(eat_target)
+
 /obj/machinery/fishtank/proc/add_fish(var/type)
+	if(!type || type == "dud")
+		return
 	//Check if we were passed a fish type
 	fish_list.Add("[type]")						//Add a fish of the specified type
 	//Announce the new fish
 	update_icon()
-	visible_message("A new [type] has hatched in \the [src]!")
+	if(nonhatching_types.Find(type))
+		visible_message("The [type] has been placed in \the [src]!")
+	else
+		visible_message("A new [type] has hatched in \the [src]!")
 
 /obj/machinery/fishtank/proc/select_egg_type()
-	var/fish = pick(fish_list)						//Select a fish from the fish in the tank
-	if(prob(25))									//25% chance to be a dud (blank) egg
+	var/fish = null
+	if(prob(10)) //Small chance for infertility
 		fish = "dud"
+	else
+		fish = recursive_valid_egg(fish_list)
 	var/obj/item/fish_eggs/egg_path	= fish_eggs_list[fish]					//Locate the corresponding path from fish_eggs_list that matches the fish
-	return egg_path									//The fish was located in the fish_eggs_list, so return the proper egg
+	return egg_path
+
+/obj/machinery/fishtank/proc/recursive_valid_egg(var/list/pick_egg_from)
+	var/fish = pick(pick_egg_from)
+	if(!fish || nonhatching_types.Find(fish))
+		var/tmp/list/new_list = pick_egg_from.Copy()
+		return recursive_valid_egg(new_list.Remove(fish))
+		//If it's a nonvalid type, let's try again without it.
+	else
+		return fish
+		//If it's valid, return this.
 
 /obj/machinery/fishtank/proc/harvest_eggs(var/mob/user)
 	if(!egg_list.len)									//Can't harvest non-existant eggs
@@ -386,7 +432,10 @@
 			spill_water()
 	else																//We are deconstructing, make glass sheets instead of shards
 		var/sheets = shard_count + 1									//Deconstructing it salvages all the glass used to build the tank
-		new /obj/item/stack/sheet/glass/glass(get_turf(src), sheets)	//Produce the appropriate number of glass sheets, in a single stack (/glass/glass)
+		var/cur_turf = get_turf(src)
+		new /obj/item/stack/sheet/glass/glass(cur_turf, sheets)			//Produce the appropriate number of glass sheets, in a single stack (/glass/glass)
+		if(circuitboard)
+			new circuitboard(cur_turf)									//Eject the circuitboard
 	qdel(src)															//qdel the tank and it's contents
 
 
@@ -488,7 +537,7 @@
 		for (var/i = 1 to fish_list.len)
 			if(fish_list.len > 1 && i == fish_list.len)	//If there were at least 2 fish, and this is the last one, add "and" to the message
 				message += "and "
-			message += "a [fish_list[i]]"
+			message += "\an [fish_list[i]]"
 			if(i < fish_list.len)					//There's more fish, add a comma to the message
 				message +=", "
 		message +="."								//No more fish, end the message with a period
@@ -702,13 +751,67 @@
 		hit(O, user)
 	return TRUE
 
-/* tank construction */
+//Conduction plate for electric eels
 
-/obj/structure/displaycase_frame/attackby(var/obj/item/weapon/F, var/mob/user) // FISH BOWL
-	if (iswelder(F))
-		to_chat(user, "<span class='notice'>You use the machine frame as a vice and shape the glass with the welder into a fish bowl.</span>")
-		getFromPool(/obj/item/stack/sheet/metal, get_turf(src), 5)
-		new /obj/machinery/fishtank/bowl(get_turf(src))
-		qdel(src)
-		return TRUE
+/obj/machinery/power/conduction_plate
+	name = "conduction plate"
+	icon = 'icons/mecha/mech_bay.dmi'
+	icon_state = "recharge_floor"
+	layer = ABOVE_TILE_LAYER
+	plane = ABOVE_TURF_PLANE
+	anchored = 1
+	density = 0
 
+	machine_flags = SCREWTOGGLE | CROWDESTROY | FIXED2WORK
+
+	component_parts = newlist(
+		/obj/item/weapon/circuitboard/conduction_plate,
+		/obj/item/weapon/stock_parts/capacitor
+	)
+
+	var/obj/machinery/fishtank/attached_tank = null
+	var/multiplier = 0.9
+
+/obj/machinery/power/conduction_plate/New()
+	..()
+	if(anchored)
+		connect_to_network()
+	RefreshParts()
+
+/obj/machinery/power/conduction_plate/RefreshParts()
+	for(var/obj/item/weapon/stock_parts/capacitor/C in component_parts)
+		multiplier = initial(multiplier) + (C.rating*0.1) //1 to 1.2
+
+/obj/machinery/power/conduction_plate/process()
+	if(check_tank())
+		var/power = 0
+		for(var/fish in attached_tank.fish_list)
+			if(fish == "electric eel")
+				power += ARBITRARILY_LARGE_NUMBER * multiplier //10000
+		add_avail(power)
+
+/obj/machinery/power/conduction_plate/proc/check_tank()
+	//Are we anchored?
+	if(!anchored)
+		return 0
+
+	//Is our old tank is still valid?
+	if(attached_tank && attached_tank.loc == loc)
+		return 1
+
+	//No? Let's look for a new one.
+	attached_tank = locate(/obj/machinery/fishtank/) in loc
+	if(attached_tank)
+		return 1
+	else
+		return 0
+
+/obj/machinery/power/conduction_plate/wrenchAnchor(var/mob/user)
+	. = ..()
+	if(!.)
+		return
+	attached_tank = null
+	if(anchored)
+		connect_to_network()
+	else
+		disconnect_from_network()

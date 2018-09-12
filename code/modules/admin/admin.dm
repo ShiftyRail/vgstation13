@@ -679,6 +679,21 @@ var/global/floorIsLava = 0
 		"}
 	if(master_mode == "secret")
 		dat += "<A href='?src=\ref[src];f_secret=1'>(Force Secret Mode)</A><br>"
+	if(master_mode == "Dynamic Mode")
+		if(ticker.current_state == GAME_STATE_PREGAME)
+			dat += "<A href='?src=\ref[src];f_dynamic_roundstart=1'>(Force Roundstart Rulesets)</A><br>"
+			if (forced_roundstart_ruleset.len > 0)
+				for(var/datum/dynamic_ruleset/roundstart/rule in forced_roundstart_ruleset)
+					dat += {"<A href='?src=\ref[src];f_dynamic_roundstart_remove=\ref[rule]'>-> [rule.name] <-</A><br>"}
+				dat += "<A href='?src=\ref[src];f_dynamic_roundstart_clear=1'>(Clear Rulesets)</A><br>"
+		else
+			dat += "<A href='?src=\ref[src];f_dynamic_latejoin=1'>(Force Next Latejoin Ruleset)</A><br>"
+			if (ticker && ticker.mode && istype(ticker.mode,/datum/gamemode/dynamic))
+				var/datum/gamemode/dynamic/mode = ticker.mode
+				if (mode.forced_latejoin_rule)
+					dat += {"<A href='?src=\ref[src];f_dynamic_latejoin_clear=1'>-> [mode.forced_latejoin_rule.name] <-</A><br>"}
+			dat += "<A href='?src=\ref[src];f_dynamic_midround=1'>(Execute Midround Ruleset!)</A><br>"
+
 
 	dat += {"
 		<hr />
@@ -687,7 +702,7 @@ var/global/floorIsLava = 0
 				<a href="?src=\ref[src];set_base_laws=ai"><b>Default Cyborg/AI Laws:</b>[base_law_type]</a>
 			</li>
 			<li>
-				<a href="?src=\ref[src];set_base_laws=mommi"><b>Default MoMMI Laws:</b>[mommi_base_law_type]</a>
+				<a href="?src=\ref[src];set_base_laws=mommi"><b>Default MoMMI Laws:</b>[mommi_laws["Default"]]</a>
 			</li>
 		</ul>
 		<hr />
@@ -851,7 +866,7 @@ var/global/floorIsLava = 0
 			<A href='?src=\ref[src];secretsfun=hellonearth'>Summon Nar-Sie</A><BR>
 			<A href='?src=\ref[src];secretsfun=supermattercascade'>Start a Supermatter Cascade</A><BR>
 			<A href='?src=\ref[src];secretsfun=meteorstorm'>Trigger an undending Meteor Storm</A><BR>
-			<A href='?src=\ref[src];secretsfun=halloween'>Awaken the damned for some spooky shenanigans</A><BR>
+			<A href='?src=\ref[src];secretsfun=halloween'>Trigger the blood moon</A><BR>
 			<A href='?src=\ref[src];secretsfun=christmas_vic'>Make the station christmasy</A><BR>
 			"}
 
@@ -1116,6 +1131,9 @@ var/global/floorIsLava = 0
 	if(!check_rights(R_ADMIN))
 		return
 	if (!ticker || ticker.current_state != GAME_STATE_PREGAME)
+		var/response = alert("Toggle round end delay? It is currently [ticker.delay_end?"delayed":"not delayed"]","Toggle round end delay","Yes","No")
+		if(response != "Yes")
+			return
 		if(ticker.delay_end == 2)
 			to_chat(world, "<font size=4><span class='danger'>World Reboot triggered by [key_name(usr)]!</font></span>")
 			log_admin("<font size=4><span class='danger'>World Reboot triggered by [key_name(usr)]!</font></span>")
@@ -1210,53 +1228,41 @@ var/global/floorIsLava = 0
 	feedback_add_details("admin_verb","UP") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 ////////////////////////////////////////////////////////////////////////////////////////////////ADMIN HELPER PROCS
-/*
-/proc/is_special_character(mob/M as mob) // returns 1 for specail characters and 2 for heroes of gamemode
+
+/proc/is_special_character(mob/M as mob) // returns 1 for special characters
 	if(!ticker || !ticker.mode)
 		return 0
 	if (!istype(M))
 		return 0
 	if(isrev(M) || isrevhead(M))
-		if (ticker.mode.config_tag == "revolution")
-			return 2
 		return 1
-	if(iscult(M))
-		if (ticker.mode.config_tag == "cult")
-			return 2
+	if(isanycultist(M))
 		return 1
 	if(ismalf(M))
-		if (ticker.mode.config_tag == "malfunction")
-			return 2
 		return 1
 	if(isnukeop(M))
-		if (ticker.mode.config_tag == "nuclear")
-			return 2
 		return 1
 	if(iswizard(M) || isapprentice(M))
-		if (ticker.mode.config_tag == "wizard")
-			return 2
 		return 1
 	if(ischangeling(M))
-		if (ticker.mode.config_tag == "changeling")
-			return 2
 		return 1
 	/*if(isborer(M)) //They ain't antags anymore
 		if (ticker.mode.config_tag == "borer")
 			return 2
 		return 1*/
 	if(isbadmonkey(M))
-		if (ticker.mode.config_tag == "monkey")
-			return 2
 		return 1
 	if(isrobot(M))
 		var/mob/living/silicon/robot/R = M
 		if(R.emagged)
 			return 1
+	if(isdeathsquad(M))
+		return 1
 	if(M.mind&&M.mind.special_role)//If they have a mind and special role, they are some type of traitor or antagonist.
 		return 1
 
 	return 0
-*/
+
 /*
 /datum/admins/proc/get_sab_desc(var/target)
 	switch(target)

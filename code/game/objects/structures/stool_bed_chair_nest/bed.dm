@@ -14,10 +14,15 @@
 	icon = 'icons/obj/stools-chairs-beds.dmi'
 	layer = BELOW_OBJ_LAYER
 	anchored = 1
-	var/sheet_type = /obj/item/stack/sheet/metal
-	var/sheet_amt = 1
+	sheet_type = /obj/item/stack/sheet/metal
+	sheet_amt = 1
 
 	var/lock_type = /datum/locking_category/buckle/bed
+
+/obj/structure/bed/New()
+	..()
+	if(material_type)
+		sheet_type = material_type.sheettype
 
 /obj/structure/bed/alien
 	name = "resting contraption"
@@ -49,12 +54,9 @@
 	if(Adjacent(user))
 		manual_unbuckle(user)
 
-/obj/structure/bed/MouseDrop(atom/over_object)
-	return
-
-/obj/structure/bed/MouseDrop_T(mob/M as mob, mob/user as mob)
+/obj/structure/bed/MouseDropTo(mob/M as mob, mob/user as mob)
 	if(!istype(M))
-		return
+		return ..()
 
 	buckle_mob(M, user)
 
@@ -77,7 +79,7 @@
 			"<span class='notice'>[M] unbuckled \himself!</span>",\
 			"You unbuckle yourself from \the [src].",\
 			"You hear metal clanking.")
-	playsound(get_turf(src), 'sound/misc/buckle_unclick.ogg', 50, 1)
+	playsound(src, 'sound/misc/buckle_unclick.ogg', 50, 1)
 	unlock_atom(M)
 
 	add_fingerprint(user)
@@ -117,7 +119,7 @@
 			"You are buckled in to [src] by [user.name].",\
 			"You hear metal clanking.")
 
-	playsound(get_turf(src), 'sound/misc/buckle_click.ogg', 50, 1)
+	playsound(src, 'sound/misc/buckle_click.ogg', 50, 1)
 	add_fingerprint(user)
 
 	lock_atom(M, lock_type)
@@ -143,6 +145,10 @@
 	lockflags = DENSE_WHEN_LOCKED
 	lock_type = /datum/locking_category/buckle/bed/roller
 
+/obj/structure/bed/roller/deff
+	icon = 'maps/defficiency/medbay.dmi'
+	roller_type = /obj/item/roller/deff
+
 /obj/item/roller
 	name = "roller bed"
 	desc = "A collapsed roller bed that can be carried around."
@@ -152,6 +158,10 @@
 	item_state = "folded"
 	var/bed_type = /obj/structure/bed/roller
 	w_class = W_CLASS_LARGE // Can't be put in backpacks. Oh well.
+
+/obj/item/roller/deff
+	icon = 'maps/defficiency/medbay.dmi'
+	bed_type = /obj/structure/bed/roller/deff
 
 /obj/item/roller/attack_self(mob/user)
 	var/obj/structure/bed/roller/R = new bed_type(user.loc)
@@ -172,7 +182,7 @@
 
 	icon_state = down_state
 
-/obj/structure/bed/roller/MouseDrop(over_object, src_location, over_location)
+/obj/structure/bed/roller/MouseDropFrom(over_object, src_location, over_location)
 	..()
 	if(over_object == usr && Adjacent(usr))
 		if(!ishigherbeing(usr) || usr.incapacitated() || usr.lying)
@@ -188,72 +198,42 @@
 		qdel(src)
 
 /obj/structure/bed/attackby(obj/item/weapon/W, mob/user)
-	if(istype(W,/obj/item/roller_holder))
-		manual_unbuckle(user)
 	if(iswrench(W))
-		playsound(get_turf(src), 'sound/items/Ratchet.ogg', 50, 1)
+		playsound(src, 'sound/items/Ratchet.ogg', 50, 1)
 		drop_stack(sheet_type, loc, 2, user)
 		qdel(src)
 		return
 
 	. = ..()
 
-/obj/structure/bed/roller/attackby(obj/item/weapon/W, mob/user)
-	..()
-	if(istype(W,/obj/item/roller_holder))
-		var/obj/item/roller_holder/RH = W
-		if(!RH.held)
-			to_chat(user, "<span class='notice'>You collect \the [src].</span>")
-			src.forceMove(RH)
-			RH.held = src
-			RH.update_icon()
-
-/obj/item/roller_holder
-	name = "roller bed rack"
-	desc = "A rack for carrying a collapsed roller bed."
-	icon = 'icons/obj/rollerbed.dmi'
-	icon_state = "borgbed_stored"
-	var/obj/structure/bed/roller/borg/held
-
-/obj/item/roller_holder/update_icon()
-	icon_state = "borgbed_[held ? "stored" : "deployed"]"
-
-/obj/item/roller_holder/New()
-	..()
-	held = new(src)
-
-/obj/item/roller_holder/attack_self(mob/user as mob)
-
-	if(!held)
-		to_chat(user, "<span class='notice'>The [src.name] is empty.</span>")
-		return
-
-	to_chat(user, "<span class='notice'>You deploy \the [held].</span>")
-	held.add_fingerprint(user)
-	held.forceMove(get_turf(src))
-	held = null
-	update_icon()
-
-/obj/item/roller_holder/Destroy()
-	if(held)
-		qdel(held)
-		held = null
-	..()
-
 /obj/item/roller/borg
-	name = "hover roller bed"
-	desc = "A collapsed cyborg hover roller bed that can be carried around."
+	name = "hover bed"
+	desc = "A collapsed cyborg hover bed that can be carried around."
 	icon = 'icons/obj/rollerbed.dmi'
 	icon_state = "borgbed_stored"
 	bed_type = /obj/structure/bed/roller/borg
 
 /obj/structure/bed/roller/borg
-	name = "hover roller bed"
+	name = "hover bed"
 	icon = 'icons/obj/rollerbed.dmi'
 	icon_state = "borgbed_down"
 	up_state ="borgbed_up"
 	down_state = "borgbed_down"
 	roller_type = /obj/item/roller/borg
+
+/obj/item/roller/borg/syndie
+	name = "syndicate hover bed"
+	desc = "A syndicate-modded cyborg hover bed that can be carried around."
+	icon = 'icons/obj/rollerbed.dmi'
+	icon_state = "syndie_borgbed_stored"
+	bed_type = /obj/structure/bed/roller/borg/syndie
+
+/obj/structure/bed/roller/borg/syndie
+	name = "syndicate hover bed"
+	icon_state = "syndie_borgbed_down"
+	up_state ="syndie_borgbed_up"
+	down_state = "syndie_borgbed_down"
+	roller_type = /obj/item/roller/borg/syndie
 
 //A surgical roller bed that allows you to do surgery on it 100% of the time in place of the 75% chance of the normal one.
 /obj/item/roller/surgery

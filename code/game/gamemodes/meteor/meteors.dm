@@ -223,7 +223,7 @@
 
 	//Adjusted from flashbangs, should be its own global proc
 	visible_message("<span class='danger'>BANG</span>")
-	playsound(get_turf(src), 'sound/effects/bang.ogg', 25, 1)
+	playsound(src, 'sound/effects/bang.ogg', 25, 1)
 
 	for(var/mob/living/M in viewers(src, null))
 
@@ -515,7 +515,8 @@ var/list/blob_candidates = list()
 	icon_state = "firework_sparkle"
 	pixel_x = -16 * PIXEL_MULTIPLIER
 	pixel_y = -16 * PIXEL_MULTIPLIER
-	plane = ABOVE_LIGHTING_LAYER
+	plane = LIGHTING_PLANE
+	layer = ABOVE_LIGHTING_LAYER
 
 /obj/effect/overlay/firework_sparkle/New()
 	..()

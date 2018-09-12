@@ -115,6 +115,7 @@ Class Procs:
 	var/icon_state_open = ""
 
 	w_type = NOT_RECYCLABLE
+	layer = MACHINERY_LAYER
 
 	penetration_dampening = 5
 
@@ -475,7 +476,7 @@ Class Procs:
 	user.visible_message(	"[user] begins to pry out the circuitboard from \the [src].",
 							"You begin to pry out the circuitboard from \the [src]...")
 	if(do_after(user, src, 40))
-		playsound(get_turf(src), 'sound/items/Crowbar.ogg', 50, 1)
+		playsound(src, 'sound/items/Crowbar.ogg', 50, 1)
 		dropFrame()
 		spillContents()
 		user.visible_message(	"<span class='notice'>[user] successfully pries out the circuitboard from \the [src]!</span>",
@@ -523,26 +524,24 @@ Class Procs:
 		state = 0 //since this might be wrong, we go sanity
 		to_chat(user, "You need to secure \the [src] before it can be welded.")
 		return -1
-	if (WT.remove_fuel(0,user))
-		playsound(get_turf(src), 'sound/items/Welder2.ogg', 50, 1)
-		user.visible_message("[user.name] starts to [state - 1 ? "unweld": "weld" ] the [src] [state - 1 ? "from" : "to"] the floor.", \
-				"You start to [state - 1 ? "unweld": "weld" ] the [src] [state - 1 ? "from" : "to"] the floor.", \
-				"You hear welding.")
-		if (do_after(user, src,20))
-			if(!src || !WT.isOn())
+	user.visible_message("[user.name] starts to [state - 1 ? "unweld": "weld" ] the [src] [state - 1 ? "from" : "to"] the floor.", \
+		"You start to [state - 1 ? "unweld": "weld" ] the [src] [state - 1 ? "from" : "to"] the floor.", \
+		"You hear welding.")
+	if (WT.do_weld(user, src,20, 0))
+		if(gcDestroyed)
+			return -1
+		switch(state)
+			if(0)
+				to_chat(user, "You have to keep \the [src] secure before it can be welded down.")
 				return -1
-			switch(state)
-				if(0)
-					to_chat(user, "You have to keep \the [src] secure before it can be welded down.")
-					return -1
-				if(1)
-					state = 2
-				if(2)
-					state = 1
-			user.visible_message(	"[user.name] [state - 1 ? "weld" : "unweld"]s \the [src] [state - 1 ? "to" : "from"] the floor.",
-									"[bicon(src)] You [state - 1 ? "weld" : "unweld"] \the [src] [state - 1 ? "to" : "from"] the floor."
-								)
-			return 1
+			if(1)
+				state = 2
+			if(2)
+				state = 1
+		user.visible_message(	"[user.name] [state - 1 ? "weld" : "unweld"]s \the [src] [state - 1 ? "to" : "from"] the floor.",
+								"[bicon(src)] You [state - 1 ? "weld" : "unweld"] \the [src] [state - 1 ? "to" : "from"] the floor."
+							)
+		return 1
 	else
 		to_chat(user, "<span class='rose'>You need more welding fuel to complete this task.</span>")
 		return -1
@@ -663,13 +662,13 @@ Class Procs:
 	switch(notice_state)
 		if("ping")
 			src.visible_message("<span class='notice'>[bicon(src)] \The [src] pings.</span>")
-			playsound(get_turf(src), 'sound/machines/notify.ogg', 50, 0)
+			playsound(src, 'sound/machines/notify.ogg', 50, 0)
 		if("beep")
 			src.visible_message("<span class='notice'>[bicon(src)] \The [src] beeps.</span>")
-			playsound(get_turf(src), 'sound/machines/twobeep.ogg', 50, 0)
+			playsound(src, 'sound/machines/twobeep.ogg', 50, 0)
 		if("buzz")
 			src.visible_message("<span class='notice'>[bicon(src)] \The [src] buzzes.</span>")
-			playsound(get_turf(src), 'sound/machines/buzz-two.ogg', 50, 0)
+			playsound(src, 'sound/machines/buzz-two.ogg', 50, 0)
 
 /obj/machinery/proc/check_rebuild()
 	return
@@ -688,7 +687,6 @@ Class Procs:
 			var/P
 			for(var/obj/item/A in component_parts)
 				for(var/D in CB.req_components)
-					D = text2path(D) //For some stupid reason these are strings by default.
 					if(ispath(A.type, D))
 						P = D
 						break
@@ -720,7 +718,7 @@ Class Procs:
 		if(O.onBuckledUserKick(H, src))
 			return //don't return 1! we will do the normal "touch" action if so!
 
-	playsound(get_turf(src), 'sound/effects/grillehit.ogg', 50, 1) //Zth: I couldn't find a proper sound, please replace it
+	playsound(src, 'sound/effects/grillehit.ogg', 50, 1) //Zth: I couldn't find a proper sound, please replace it
 
 	H.visible_message("<span class='danger'>[H] kicks \the [src].</span>", "<span class='danger'>You kick \the [src].</span>")
 	if(prob(70))

@@ -66,6 +66,8 @@
 
 	var/image/viewblock
 
+	var/junction = 0
+
 /turf/examine(mob/user)
 	..()
 	if(bullet_marks)
@@ -84,9 +86,6 @@
 		spawn( 0 )
 			src.Entered(AM)
 			return
-
-/turf/proc/initialize()
-	return
 
 /turf/ex_act(severity)
 	return 0
@@ -215,14 +214,14 @@
 
 			var/move_to_z = src.z
 
-			// Prevent MoMMIs from leaving the derelict.
-			for(var/mob/living/silicon/robot/mommi in contents_brought)
-				if(mommi.locked_to_z != 0)
-					if(src.z == mommi.locked_to_z)
+			// Prevent MoMMIs from leaving the derelict and to ensure Exile Implants work properly.
+			for(var/mob/living/L in contents_brought)
+				if(L.locked_to_z != 0)
+					if(src.z == L.locked_to_z)
 						locked_to_current_z = map.zMainStation
 					else
-						to_chat(mommi, "<span class='warning'>You find your way back.</span>")
-						move_to_z = mommi.locked_to_z
+						to_chat(L, "<span class='warning'>You find your way back.</span>")
+						move_to_z = L.locked_to_z
 
 			var/safety = 1
 
@@ -237,6 +236,9 @@
 			if(!move_to_z)
 				return
 
+			INVOKE_EVENT(A.on_z_transition, list("user" = A, "from_z" = A.z, "to_z" = move_to_z))
+			for(var/atom/AA in contents_brought)
+				INVOKE_EVENT(AA.on_z_transition, list("user" = AA, "from_z" = AA.z, "to_z" = move_to_z))
 			A.z = move_to_z
 
 			if(src.x <= TRANSITIONEDGE)
@@ -414,6 +416,7 @@
 		//		zone.SetStatus(ZONE_ACTIVE)
 
 		var/turf/W = new N(src)
+		W.initialize()
 
 		if(tell_universe)
 			universe.OnTurfChange(W)
@@ -532,8 +535,9 @@
 		spawn(0)
 			M.take_damage(100, "brute")
 
-/turf/proc/Bless()
-	turf_flags |= NOJAUNT
+/turf/bless()
+	holy = 1
+	..()
 
 /////////////////////////////////////////////////////////////////////////
 // Navigation procs
@@ -707,11 +711,6 @@
 		holomap_data = list()
 	holomap_data += I
 
-// Calls the above, but only if the game has not yet started.
-/turf/proc/soft_add_holomap(var/atom/movable/AM)
-	if (!ticker || ticker.current_state != GAME_STATE_PLAYING)
-		add_holomap(AM)
-
 // Goddamnit BYOND.
 // So for some reason, I incurred a rendering issue with the usage of FLOAT_PLANE for the holomap plane.
 //   (For some reason the existance of underlays prevented the main icon and overlays to render)
@@ -773,3 +772,6 @@
 	spawn(duration)
 		being_sent_to_past = FALSE
 		ChangeTurf(current_type)
+
+/turf/attack_hand(mob/user as mob)
+	user.Move_Pulled(src)

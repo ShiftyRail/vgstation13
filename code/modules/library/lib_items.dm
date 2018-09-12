@@ -24,7 +24,7 @@
 	var/health = 50
 	var/tmp/busy = 0
 	var/list/valid_types = list(/obj/item/weapon/book, \
-								/obj/item/weapon/tome, \
+								/obj/item/weapon/tome_legacy, \
 								/obj/item/weapon/spellbook, \
 								/obj/item/weapon/storage/bible)
 
@@ -54,13 +54,13 @@
 		to_chat(user, "<span class='notice'>There are no screws on \the [src], it appears to be nailed together. You could probably disassemble it with just a crowbar.</span>")
 		return
 	else if(iscrowbar(O) && user.a_intent == I_HELP) //Only way to deconstruct, needs help intent
-		playsound(get_turf(src), 'sound/items/Crowbar.ogg', 75, 1)
+		playsound(src, 'sound/items/Crowbar.ogg', 75, 1)
 		user.visible_message("<span class='warning'>[user] starts disassembling \the [src].</span>", \
 		"<span class='notice'>You start disassembling \the [src].</span>")
 		busy = 1
 
 		if(do_after(user, src, 50))
-			playsound(get_turf(src), 'sound/items/Deconstruct.ogg', 75, 1)
+			playsound(src, 'sound/items/Deconstruct.ogg', 75, 1)
 			user.visible_message("<span class='warning'>[user] disassembles \the [src].</span>", \
 			"<span class='notice'>You disassemble \the [src].</span>")
 			busy = 0
@@ -72,7 +72,7 @@
 		return
 	else if(iswrench(O))
 		anchored = !anchored
-		playsound(get_turf(src), 'sound/items/Ratchet.ogg', 50, 1)
+		playsound(src, 'sound/items/Ratchet.ogg', 50, 1)
 		user.visible_message("<span class='warning'>[user] [anchored ? "":"un"]anchors \the [src] [anchored ? "to":"from"] the floor.</span>", \
 		"<span class='notice'>You [anchored ? "":"un"]anchor the [src] [anchored ? "to":"from"] the floor.</span>")
 	else if(istype(O, /obj/item/weapon/pen))
@@ -182,6 +182,8 @@
 	name = "book"
 	icon = 'icons/obj/library.dmi'
 	icon_state ="book"
+	inhand_states = list("left_hand" = 'icons/mob/in-hand/left/books.dmi', "right_hand" = 'icons/mob/in-hand/right/books.dmi')
+	item_state = "book"
 	throw_speed = 1
 	throw_range = 5
 	w_class = W_CLASS_MEDIUM		 //upped to three because books are, y'know, pretty big. (and you could hide them inside eachother recursively forever)
@@ -214,7 +216,7 @@
 		"}
 
 /obj/item/weapon/book/cultify()
-	new /obj/item/weapon/tome(loc)
+	new /obj/item/weapon/tome_legacy(loc)
 	..()
 
 /obj/item/weapon/book/proc/read_a_motherfucking_book(mob/user)

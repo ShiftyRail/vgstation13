@@ -35,7 +35,10 @@
 		scanner.connected = null
 		scanner = null
 	if(diskette)
-		qdel(diskette)
+		if(loc)
+			diskette.forceMove(loc)
+		else
+			qdel(diskette)
 		diskette = null
 	records.Cut()
 	active_record = null
@@ -172,7 +175,7 @@
 			// Database
 
 			dat += {"<h4>Database Functions</h4>
-				<a href='byond://?src=\ref[src];menu=2'>View Records</a><br>"}
+				<a href='byond://?src=\ref[src];menu=2'>View Records[records.len?"([records.len])":""]</a><br>"}
 			if (src.diskette)
 				dat += "<a href='byond://?src=\ref[src];disk=eject'>Eject Disk</a>"
 
@@ -321,7 +324,7 @@
 			return
 
 		// DNA2 makes things a little simpler.
-		src.diskette.buf=src.active_record
+		src.diskette.buf=src.active_record.Clone() //Copy the record, not just the reference to it
 		src.diskette.buf.types=0
 		switch(href_list["save_disk"]) //Save as Ui/Ui+Ue/Se
 			if("ui")
@@ -491,6 +494,7 @@
 	R.name=R.dna.real_name
 	R.types=DNA2_BUF_UI|DNA2_BUF_UE|DNA2_BUF_SE
 	R.languages = subject.languages.Copy()
+	R.times_cloned = subject.times_cloned
 
 	//Add an implant if needed
 	var/obj/item/weapon/implant/health/imp = locate(/obj/item/weapon/implant/health, subject)

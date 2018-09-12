@@ -53,6 +53,9 @@
 	if(!allowed(user))
 		to_chat(user, "<span class='warning'>Access denied.</span>")
 		return FALSE
+	if(!user.dexterity_check())
+		to_chat(user, "<span class='warning'>You don't have the dexterity to do this!</span>")
+		return FALSE
 	on = !on
 	investigation_log(I_ATMOS, "was turned [on ? "on" : "off"] by [key_name(user)].")
 	update_icon()
@@ -121,9 +124,7 @@
 	node2 = findConnecting(dir)
 
 	update_icon()
-	var/turf/T = loc
-	if (istype(T))
-		T.soft_add_holomap(src)
+	add_self_to_holomap()
 
 /obj/machinery/atmospherics/binary/build_network()
 	if(!network1 && node1)

@@ -7,7 +7,7 @@
 		return
 
 	var/client/CLIENT = usr.client
-	/*if(href_list["makeAntag"])
+	if(href_list["makeAntag"])
 		switch(href_list["makeAntag"])
 			if("1")
 				log_admin("[key_name(usr)] has spawned a traitor.")
@@ -37,6 +37,10 @@
 				log_admin("[key_name(usr)] has spawned a nuke team.")
 				if(!src.makeNukeTeam())
 					to_chat(usr, "<span class='warning'>Unfortunately there weren't enough candidates available.</span>")
+			if("8")
+				log_admin("[key_name(usr)] has spawned a count of vampires.")
+				if(!src.makeVampires())
+					to_chat(usr, "<span class='warning'>Unfortunately there weren't enough candidates available.</span>")
 			if("9")
 				log_admin("[key_name(usr)] has spawned aliens.")
 				if(!src.makeAliens())
@@ -49,7 +53,7 @@
 				log_admin("[key_name(usr)] has spawned vox raiders.")
 				if(!src.makeVoxRaiders())
 					to_chat(usr, "<span class='warning'>Unfortunately, there weren't enough candidates available.</span>")
-	*/
+
 	if("announce_laws" in href_list)
 		var/mob/living/silicon/S = locate(href_list["mob"])
 
@@ -81,7 +85,7 @@
 		lawtype=lawtypes[lawtype]
 		if(lawtype == null)
 			return
-		testing("Lawtype: [lawtype]")
+		//testing("Lawtype: [lawtype]")
 		if(lawtype==1)
 			lawtype=text2num(input("Enter desired law priority. (15-50)","Priority", 15) as num)
 			lawtype=Clamp(lawtype,15,50)
@@ -100,7 +104,7 @@
 		var/lawtype = input("Select a lawset.","Law Type",1) as null|anything in lawtypes
 		if(lawtype == null)
 			return
-		testing("Lawtype: [lawtype]")
+		//testing("Lawtype: [lawtype]")
 
 		var/law_zeroth=null
 		var/law_zeroth_borg=null
@@ -442,24 +446,26 @@
 
 		if (href_list["move_escape_pod"] == "all")
 			for (var/pod in emergency_shuttle.escape_pods)
-				if (emergency_shuttle.escape_pods[pod] == href_list["move_destination"])
-					continue
 				emergency_shuttle.move_pod(pod,href_list["move_destination"])
 			log_admin("[key_name(usr)] moved all escape pods to [href_list["move_destination"]]")
 			message_admins("<span class='notice'>[key_name_admin(usr)] moved all escape pods to [href_list["move_destination"]]</span>", 1)
 		else
-			var/old_loc = emergency_shuttle.escape_pods[href_list["move_escape_pod"]]
-			emergency_shuttle.move_pod(href_list["move_escape_pod"],href_list["move_destination"])
-			var/area/pod_area = locate(text2path("/area/shuttle/escape_pod[href_list["move_escape_pod"]]/[emergency_shuttle.escape_pods[href_list["move_escape_pod"]]]"))
-			var/turf/T = pick(pod_area.area_turfs)
-			log_admin("[key_name(usr)] moved [pod_area.name] from [old_loc] to [href_list["move_destination"]]")
-			message_admins("<span class='notice'>[key_name_admin(usr)] moved <a href='?_src_=holder;adminplayerobservecoodjump=1;X=[T.x];Y=[T.y];Z=[T.z]'>[pod_area.name]</a> from [old_loc] to [href_list["move_destination"]]</span>", 1)
+			var/datum/shuttle/escape/S = locate(href_list["move_escape_pod"])
+			if(!emergency_shuttle.escape_pods.Find(S))
+				return
+			var/obj/docking_port/destination/D = S.current_port
+			emergency_shuttle.move_pod(S,href_list["move_destination"])
+			var/turf/T = get_turf(D)
+			log_admin("[key_name(usr)] moved [S.name] from [D.areaname] to [href_list["move_destination"]]")
+			message_admins("<span class='notice'>[key_name_admin(usr)] moved <a href='?_src_=holder;adminplayerobservecoodjump=1;X=[T.x];Y=[T.y];Z=[T.z]'>[S.name]</a> from [D.areaname] to [href_list["move_destination"]]</span>", 1)
 		href_list["secretsadmin"] = "emergency_shuttle_panel"
 
 	else if(href_list["delay_round_end"])
 		if(!check_rights(R_SERVER))
 			return
-
+		var/response = alert("Toggle round end delay? It is currently [ticker.delay_end?"delayed":"not delayed"]","Toggle round end delay","Yes","No")
+		if(response != "Yes")
+			return
 		ticker.delay_end = !ticker.delay_end
 		log_admin("[key_name(usr)] [ticker.delay_end ? "delayed the round end" : "has made the round end normally"].")
 		message_admins("<span class='notice'>[key_name(usr)] [ticker.delay_end ? "delayed the round end" : "has made the round end normally"].</span>", 1)
@@ -1441,6 +1447,98 @@
 		dat += {"Now: [secret_force_mode]"}
 		usr << browse(dat, "window=f_secret")
 
+	else if(href_list["f_dynamic_roundstart"])
+		if(!check_rights(R_ADMIN))
+			return
+
+		if(ticker && ticker.mode)
+			return alert(usr, "The game has already started.", null, null, null, null)
+		if(master_mode != "Dynamic Mode")
+			return alert(usr, "The game mode has to be Dynamic Mode!", null, null, null, null)
+		var/roundstart_rules = list()
+		for (var/rule in subtypesof(/datum/dynamic_ruleset/roundstart))
+			var/datum/dynamic_ruleset/roundstart/newrule = new rule()
+			roundstart_rules[newrule.name] = newrule
+		var/added_rule = input(usr,"What ruleset do you want to force? This will bypass threat level and population restrictions.", "Rigging Roundstart", null) as null|anything in roundstart_rules
+		if (added_rule)
+			forced_roundstart_ruleset += roundstart_rules[added_rule]
+			log_admin("[key_name(usr)] set [added_rule] to be a forced roundstart ruleset.")
+			message_admins("[key_name(usr)] set [added_rule] to be a forced roundstart ruleset.", 1)
+			Game()
+
+	else if(href_list["f_dynamic_roundstart_clear"])
+		if(!check_rights(R_ADMIN))
+			return
+
+		forced_roundstart_ruleset = list()
+		Game()
+		log_admin("[key_name(usr)] cleared the rigged roundstart rulesets. The mode will pick them as normal.")
+		message_admins("[key_name(usr)] cleared the rigged roundstart rulesets. The mode will pick them as normal.", 1)
+
+
+	else if(href_list["f_dynamic_roundstart_remove"])
+		if(!check_rights(R_ADMIN))
+			return
+
+		var/datum/dynamic_ruleset/roundstart/rule = locate(href_list["f_dynamic_roundstart_remove"])
+		forced_roundstart_ruleset -= rule
+		Game()
+		log_admin("[key_name(usr)] removed [rule] from the forced roundstart rulesets.")
+		message_admins("[key_name(usr)] removed [rule] from the forced roundstart rulesets.", 1)
+
+
+	else if(href_list["f_dynamic_latejoin"])
+		if(!check_rights(R_ADMIN))
+			return
+
+		if(!ticker || !ticker.mode)
+			return alert(usr, "The game must start first.", null, null, null, null)
+		if(master_mode != "Dynamic Mode")
+			return alert(usr, "The game mode has to be Dynamic Mode!", null, null, null, null)
+		var/latejoin_rules = list()
+		for (var/rule in subtypesof(/datum/dynamic_ruleset/latejoin))
+			var/datum/dynamic_ruleset/latejoin/newrule = new rule()
+			latejoin_rules[newrule.name] = newrule
+		var/added_rule = input(usr,"What ruleset do you want to force upon the next latejoiner? This will bypass threat level and population restrictions.", "Rigging Latejoin", null) as null|anything in latejoin_rules
+		if (added_rule)
+			var/datum/gamemode/dynamic/mode = ticker.mode
+			mode.forced_latejoin_rule = latejoin_rules[added_rule]
+			log_admin("[key_name(usr)] set [added_rule] to proc on the next latejoin.")
+			message_admins("[key_name(usr)] set [added_rule] to proc on the next latejoin.", 1)
+			Game()
+
+	else if(href_list["f_dynamic_latejoin_clear"])
+		if(!check_rights(R_ADMIN))
+			return
+
+		if (ticker && ticker.mode && istype(ticker.mode,/datum/gamemode/dynamic))
+			var/datum/gamemode/dynamic/mode = ticker.mode
+			mode.forced_latejoin_rule = null
+			Game()
+			log_admin("[key_name(usr)] cleared the forced latejoin ruleset.")
+			message_admins("[key_name(usr)] cleared the forced latejoin ruleset.", 1)
+
+	else if(href_list["f_dynamic_midround"])
+		if(!check_rights(R_ADMIN))
+			return
+
+		if(!ticker || !ticker.mode)
+			return alert(usr, "The game must start first.", null, null, null, null)
+		if(master_mode != "Dynamic Mode")
+			return alert(usr, "The game mode has to be Dynamic Mode!", null, null, null, null)
+		var/midround_rules = list()
+		for (var/rule in subtypesof(/datum/dynamic_ruleset/midround))
+			var/datum/dynamic_ruleset/midround/newrule = new rule()
+			midround_rules[newrule.name] = rule
+		var/added_rule = input(usr,"What ruleset do you want to force right now? This will bypass threat level and population restrictions.", "Execute Ruleset", null) as null|anything in midround_rules
+		if (added_rule)
+			var/datum/gamemode/dynamic/mode = ticker.mode
+			log_admin("[key_name(usr)] executed the [added_rule] ruleset.")
+			message_admins("[key_name(usr)] executed the [added_rule] ruleset.", 1)
+			mode.picking_specific_rule(midround_rules[added_rule],1)
+
+
+
 	else if(href_list["c_mode2"])
 		if(!check_rights(R_ADMIN|R_SERVER))
 			return
@@ -2336,7 +2434,7 @@
 			to_chat(H, "<span class='warning'>Your ass was just blown off by an unknown force!</span>")
 			log_admin("[key_name(H)] was buttblasted by [src.owner]")
 			message_admins("[key_name(H)] was buttblasted by [src.owner]")
-			playsound(get_turf(H), 'sound/effects/superfart.ogg', 50, 1)
+			playsound(H, 'sound/effects/superfart.ogg', 50, 1)
 			H.apply_damage(40, BRUTE, LIMB_GROIN)
 			H.apply_damage(10, BURN, LIMB_GROIN)
 			H.Knockdown(8)
@@ -2530,7 +2628,7 @@
 				base_law_type = selected_law
 				subject = "AIs and Cyborgs"
 			if("mommi")
-				mommi_base_law_type = selected_law
+				mommi_laws["Default"] = selected_law
 				subject = "MoMMIs"
 		to_chat(usr, "<span class='notice'>New [subject] will spawn with the [selected_law] lawset.</span>")
 		log_admin("[key_name(src.owner)] set the default laws of [subject] to: [selected_law]")
@@ -3319,8 +3417,12 @@
 				feedback_add_details("admin_secrets_fun_used","HW")
 				var/choice = input("Are you sure you want to wake up the space indian burial ground?. Misuse of this could result in removal of flags or hilarity.") in list("Get our spook on", "Cancel")
 				if(choice != "Cancel")
-					SetUniversalState(/datum/universal_state/halloween, 1, 1)
-					message_admins("[key_name_admin(usr)] has pressed the halloween fun button. Truly [key_name_admin(usr)] is the spookiest.")
+					var/list/given_args = list()
+					var/number = input("How many mobs do you want per area?", 10) as num
+					if(number)
+						given_args["mobs"] = number
+					SetUniversalState(/datum/universal_state/halloween, 1, 1, given_args)
+					message_admins("[key_name_admin(usr)] has pressed the halloween fun button with [number] amount of mobs per area. Truly [key_name_admin(usr)] is the spookiest.")
 			if("christmas_vic")
 				feedback_inc("admin_secrets_fun_used",1)
 				feedback_add_details("admin_secrets_fun_used","XMS")
@@ -3562,6 +3664,7 @@
 					"incinerator" = LOC_INCIN,
 					"chapel" = LOC_CHAPEL,
 					"library" = LOC_LIBRARY,
+					"hydroponics" = LOC_HYDRO,
 					"vault" = LOC_VAULT,
 					"technical storage" = LOC_TECH,
 					)
@@ -3577,6 +3680,10 @@
 					"roaches" = VERM_ROACHES,
 					"gremlins" = VERM_GREMLINS,
 					"bees" = VERM_BEES,
+					"hornets" = VERM_HORNETS,
+					"syphoners" = VERM_SYPHONER,
+					"greytide gremlins" = VERM_GREMTIDE,
+					"crabs" = VERM_CRABS,
 					)
 				var/ov = vermins[input("What vermin should infest the station?", "Vermin Infestation") in vermins]
 				var/ol = locations[input("Where should they spawn?", "Vermin Infestation") in locations]
@@ -3587,10 +3694,42 @@
 				infestation_event.override_location = ol
 				infestation_event.override_vermin = ov
 			if("hostile_infestation")
+				var/list/locations = list(
+					"RANDOM" = null,
+					"kitchen" = LOC_KITCHEN,
+					"atmospherics" = LOC_ATMOS,
+					"incinerator" = LOC_INCIN,
+					"chapel" = LOC_CHAPEL,
+					"library" = LOC_LIBRARY,
+					"hydroponics" = LOC_HYDRO,
+					"vault" = LOC_VAULT,
+					"technical storage" = LOC_TECH,
+					)
+				var/list/hostiles = list(
+					"RANDOM" = null,
+					"space bears" = MONSTER_BEAR,
+					"creatures" = MONSTER_CREATURE,
+					"xenos" = MONSTER_XENO,
+					"hivebots" = MONSTER_HIVEBOT,
+					"zombies" = MONSTER_ZOMBIE,
+					"skrites" = MONSTER_SKRITE,
+					"xeno empress" = MONSTER_SQUEEN,
+					"frogs" = MONSTER_FROG,
+					"goliaths" = MONSTER_GOLIATH,
+					"davids" = MONSTER_DAVID,
+					"megamadcrabs" = MONSTER_MADCRAB,
+					"spaghetti monster" = MONSTER_MEATBALLER,
+					"mutated cockroaches" = MONSTER_BIG_ROACH,
+					"cockroach queen" = MONSTER_ROACH_QUEEN,
+					)
+				var/om = hostiles[input("What hostile mob should infest the station?", "Hostile Infestation") in hostiles]
+				var/ol = locations[input("Where should they spawn?", "Hostile Infestation") in locations]
 				feedback_inc("admin_secrets_fun_used",1)
 				feedback_add_details("admin_secrets_fun_used","HI")
 				message_admins("[key_name_admin(usr)] has triggered an infestation of hostile creatures.", 1)
-				new /datum/event/hostile_infestation
+				var/datum/event/hostile_infestation/hostile_infestation_event = new()
+				hostile_infestation_event.override_location = ol
+				hostile_infestation_event.override_monster = om
 			if("mass_hallucination")
 				feedback_inc("admin_secrets_fun_used",1)
 				feedback_add_details("admin_secrets_fun_used","MH")
@@ -4591,16 +4730,22 @@
 
 		var/datum/objective/new_objective = new obj_type(null,FALSE)
 
+		if (new_objective.flags & FACTION_OBJECTIVE)
+			var/datum/faction/fac = input("To which faction shall we give this?", "Faction-wide objective", null) as null|anything in ticker.mode.factions
+			fac.handleNewObjective(new_objective)
+			return TRUE // It's a faction objective, let's not move any further.
+
 		if (obj_holder.owner)//so objectives won't target their owners.
 			new_objective.owner = obj_holder.owner
 
 		var/setup = TRUE
 		if (istype(new_objective,/datum/objective/target))
 			var/datum/objective/target/new_O = new_objective
-			if (alert("Do you want to specify a target?", "New Objective", "Yes", "No") == "No")
-				setup = new_O.find_target()
-			else
+			if (alert("Do you want to specify a target?", "New Objective", "Yes", "No") == "Yes")
 				setup = new_O.select_target()
+				new_O.auto_target = FALSE
+			else
+				setup = TRUE //Let it sort itself out
 
 		if(!setup)
 			alert("Couldn't set-up a proper target.", "New Objective")
@@ -4617,16 +4762,21 @@
 
 		ASSERT(istype(objective) && istype(obj_holder))
 
-		obj_holder.objectives.Remove(objective)
 		check_antagonists()
 		if (obj_holder.faction)
 			log_admin("[usr.key]/([usr.name]) removed \the [obj_holder.faction.ID]'s objective ([objective.explanation_text])")
+			objective.faction.handleRemovedObjective(objective)
+
+		obj_holder.objectives.Remove(objective)
 
 	if(href_list["obj_completed"])
 		var/datum/objective/objective = locate(href_list["obj_completed"])
 		var/datum/objective_holder/obj_holder = locate(href_list["obj_holder"])
 
 		ASSERT(istype(objective))
+
+		if (objective.faction)
+			objective.faction.handleForcedCompletedObjective(objective)
 
 		objective.force_success = !objective.force_success
 		check_antagonists()
@@ -4847,7 +4997,7 @@
 					 (<A HREF='?_src_=holder;subtlemessage=\ref[R.religiousLeader.current]'>SM</A>)<br/>"
 			text += "<b>Adepts:</b> <ul>"
 			for (var/datum/mind/M in R.adepts)
-				text += "<li>[M.name] (<A HREF='?_src_=vars;Vars=\ref[M.current]'>VV</A>) (<A HREF='?_src_=holder;adminplayerobservejump=\ref[M.current]&;religions=renounce&mob=\ref[M.current]'>JMP</A>) \
+				text += "<li>[M.name] (<A HREF='?_src_=vars;Vars=\ref[M.current]'>VV</A>) (<A HREF='?_src_=holder;adminplayerobservejump=\ref[M.current]&mob=\ref[M.current]'>JMP</A>) \
 					 	  (<A HREF='?_src_=holder;subtlemessage=\ref[M.current]'>SM</A>) (<A HREF='?_src_=holder;religions=renounce&mob=\ref[M.current]'>Deconvert</A>)</li>"
 			text +="</ul>"
 			text += "<A HREF='?src=\ref[src];religions=global_subtle_pm&rel=\ref[R]'>Subtle PM all believers</a> <br/>"

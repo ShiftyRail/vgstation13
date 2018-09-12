@@ -4,6 +4,8 @@
 	name = "bible"
 	desc = "Apply to head repeatedly."
 	icon_state = "bible"
+	inhand_states = list("left_hand" = 'icons/mob/in-hand/left/books.dmi', "right_hand" = 'icons/mob/in-hand/right/books.dmi')
+	item_state = "bible"
 	throw_speed = 1
 	throw_range = 5
 	w_class = W_CLASS_MEDIUM
@@ -23,7 +25,7 @@
 	spawn(10) //Wait for it
 		user.fire_stacks += 5
 		user.IgniteMob()
-		user.emote("scream",,, 1)
+		user.audible_scream()
 		return FIRELOSS //Set ablaze and burned to crisps
 
 //"Special" Bible with a little gift on introduction
@@ -61,13 +63,13 @@
 			to_chat(user, "<span class='danger'>[my_rel.deity_name] channels through \the [src] and sets you ablaze for your blasphemy!</span>")
 			user.fire_stacks += 5
 			user.IgniteMob()
-			user.emote("scream",,, 1)
+			user.audible_scream()
 			V.smitecounter += 50 //Once we are extinguished, we will be quite vulnerable regardless
-		else if(iscultist(user)) //Cultist trying to use it
+		else if(isanycultist(user)) //Cultist trying to use it
 			to_chat(user, "<span class='danger'>[my_rel.deity_name] channels through \the [src] and sets you ablaze for your blasphemy!</span>")
 			user.fire_stacks += 5
 			user.IgniteMob()
-			user.emote("scream",,, 1)
+			user.audible_scream()
 		else //Literally anyone else than a Cultist using it, at this point it's just a big book
 			..() //WHACK
 		return 1 //Non-chaplains can't use the holy book, at least not properly
@@ -88,7 +90,7 @@
 
 	if(ishuman(M)) //We're forced to do two ishuman() code paragraphs because this one blocks the others
 		var/mob/living/carbon/human/H = M
-		if(istype(H.head, /obj/item/clothing/head/helmet) || istype(H.head, /obj/item/clothing/head/hardhat) || istype(H.head, /obj/item/clothing/head/fedora) || istype(H.head, /obj/item/clothing/head/culthood)) //Blessing blocked
+		if(istype(H.head, /obj/item/clothing/head/helmet) || istype(H.head, /obj/item/clothing/head/hardhat) || istype(H.head, /obj/item/clothing/head/fedora) || istype(H.head, /obj/item/clothing/head/legacy_culthood)) //Blessing blocked
 			user.visible_message("<span class='warning'>[user] [pick(attack_verb)] [H]'s head with \the [src], but their headgear blocks the hit.</span>",
 			"<span class='warning'>You try to bless [H]'s head with \the [src], but their headgear blocks the blessing. Blasphemy!</span>")
 			return 1 //That's it. Helmets are very haram
@@ -96,7 +98,7 @@
 	if(M.stat == DEAD) //Our target is dead. RIP in peace
 		user.visible_message("<span class='warning'>[user] [pick(attack_verb)] [M]'s lifeless body with \the [src].</span>",
 		"<span class='warning'>You bless [M]'s lifeless body with \the [src], trying to conjure [my_rel.deity_name]'s mercy on them.</span>")
-		playsound(get_turf(src), "punch", 25, 1, -1)
+		playsound(src, "punch", 25, 1, -1)
 
 		//TODO : Way to bring people back from death if they are your followers
 		return 1 //Otherwise, there's so little we can do
@@ -104,7 +106,7 @@
 	//Our target is alive, prepare the blessing
 	user.visible_message("<span class='warning'>[user] [pick(attack_verb)] [M]'s head with \the [src].</span>",
 	"<span class='warning'>You bless [M]'s head with \the [src]. In the name of [my_rel.deity_name], bless thee!</span>")
-	playsound(get_turf(src), "punch", 25, 1, -1)
+	playsound(src, "punch", 25, 1, -1)
 
 	if(ishuman(M)) //Only humans can be vampires or cultists. isChaplain() checks are here to ensure only the proper chaplain has the gameplay-related interactions.
 		var/mob/living/carbon/human/H = M
@@ -151,7 +153,7 @@
 			A.reagents.add_reagent(HOLYWATER, water2holy)
 
 /obj/item/weapon/storage/bible/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	playsound(get_turf(src), "rustle", 50, 1, -5)
+	playsound(src, "rustle", 50, 1, -5)
 	. = ..()
 
 /obj/item/weapon/storage/bible/pickup(mob/living/user as mob)
@@ -160,7 +162,7 @@
 	if(ishuman(user)) //We are checking for antagonists, only humans can be antagonists
 		var/mob/living/carbon/human/H = user
 		var/datum/role/vampire/V = isvampire(H)
-		var/datum/role/cultist/C = iscultist(H)
+		var/datum/role/cultist/C = isanycultist(H)
 		if(V && (!(VAMP_UNDYING in V.powers))) //We are a Vampire, we aren't very smart
 			to_chat(H, "<span class ='danger'>[my_rel.deity_name]'s power channels through \the [src]. You feel extremely uneasy as you grab it!</span>")
 			V.smitecounter += 10

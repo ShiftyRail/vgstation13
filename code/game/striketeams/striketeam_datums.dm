@@ -112,8 +112,9 @@ var/list/sent_strike_teams = list()
 				break
 
 			var/mob/applicant = null
+			var/selected_key = pick(applicants)
 			for(var/mob/M in player_list)
-				if(M.key == pick(applicants))
+				if(M.key == selected_key)
 					applicant = M
 
 			if(!applicant || !applicant.key)
@@ -144,7 +145,7 @@ var/list/sent_strike_teams = list()
 
 				new_commando.key = applicant.key
 
-				new_commando.update_action_buttons(1)
+				new_commando.update_action_buttons_icon()
 				new_commando.mind.store_memory("<B>Mission:</B> <span class='warning'>[mission].</span>")
 
 				greet_commando(new_commando)
@@ -342,12 +343,11 @@ var/list/sent_strike_teams = list()
 	if(!(new_commando.mind in ticker.minds))
 		ticker.minds += new_commando.mind//Adds them to regular mind list.
 
-	var/datum/faction/customsquad = find_active_faction(CUSTOMSQUAD)
+	var/datum/faction/customsquad = find_active_faction_by_type(/datum/faction/strike_team/custom)
 	if(customsquad)
 		customsquad.HandleRecruitedMind(new_commando.mind)
 	else
-		ticker.mode.CreateFaction(/datum/faction/strike_team)
-		customsquad = find_active_faction(CUSTOMSQUAD)
+		customsquad = ticker.mode.CreateFaction(/datum/faction/strike_team/custom)
 		if(customsquad)
 			customsquad.HandleNewMind(new_commando.mind) //First come, first served
 	new_commando.equip_death_commando(leader_selected)

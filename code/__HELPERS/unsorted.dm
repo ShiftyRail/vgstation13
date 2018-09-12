@@ -253,13 +253,10 @@ Turf and target are seperate in case you want to teleport some distance from a t
 	spawn(0)
 		var/oldname = real_name
 
-		var/time_passed = world.time
 		var/newname
 
 		for(var/i=1,i<=3,i++)	//we get 3 attempts to pick a suitable name.
 			newname = input(src,"You are a [role]. Would you like to change your name to something else?", "Name change",oldname) as text
-			if((world.time-time_passed)>300)
-				return	//took too long
 			newname = reject_bad_name(newname,allow_numbers)	//returns null if the name doesn't meet some basic requirements. Tidies up a few other things like bad-characters.
 
 			for(var/mob/living/M in player_list)
@@ -883,6 +880,11 @@ proc/GaussRandRound(var/sigma,var/roundto)
 		progbar.loc = null
 	return 1
 
+/proc/do_flick(var/atom/A, var/icon_state, var/time)
+	flick(icon_state, A)
+	sleep(time)
+	return 1
+
 //Takes: Anything that could possibly have variables and a varname to check.
 //Returns: 1 if found, 0 if not.
 /proc/hasvar(var/datum/A, var/varname)
@@ -1261,7 +1263,7 @@ var/global/list/common_tools = list(
 /proc/can_operate(mob/living/carbon/M, mob/U)
 	if(U == M)
 		return 0
-	if(ishuman(M) && M.lying)
+	if((ishuman(M) || isslime(M)) && M.lying)
 		if(locate(/obj/machinery/optable,M.loc) || locate(/obj/structure/bed/roller/surgery, M.loc))
 			return 1
 		if(locate(/obj/structure/bed/roller, M.loc) && prob(75))
@@ -1600,21 +1602,10 @@ Game Mode config tags:
 "raginmages""
 */
 
-/proc/find_active_mode(var/mode_ctag) //This should never be used //THEN WHY DOES IT EXIST??
-	var/found_mode = null
-	if(ticker && ticker.mode)
-		if(ticker.mode.name == mode_ctag)
-			found_mode = ticker.mode
-	return found_mode
-
-/proc/find_active_faction(var/faction_name)
-	var/found_faction = null
-	if(ticker && ticker.mode && ticker.mode.factions.len)
-		for(var/datum/faction/F in ticker.mode.factions)
-			if(faction_name in F.ID)
-				found_faction = F
-				break
-	return found_faction
+/proc/find_active_faction_by_type(var/faction_type)
+	if(!ticker || !ticker.mode)
+		return null
+	return locate(faction_type) in ticker.mode.factions
 
 /proc/find_active_faction_by_member(var/datum/role/R)
 	if(!R)
@@ -1695,13 +1686,6 @@ Game Mode config tags:
 /proc/sentStrikeTeams(var/team)
 	return (team in sent_strike_teams)
 
-
-/proc/area_in_map(var/area/A)
-	for (var/turf/T in A.area_turfs)
-		return TRUE
-	return FALSE
-
-
 /proc/get_exact_dist(atom/A, atom/B)	//returns the coordinate distance between the coordinates of the turfs of A and B
 	var/turf/T1 = A
 	var/turf/T2 = B
@@ -1733,18 +1717,20 @@ Game Mode config tags:
 	if(istype(O, /obj/item/weapon/grown))
 		var/obj/item/weapon/grown/F = O
 		if(F.plantname)
-			new_seed_type = plant_controller.seeds[F.plantname]
+			new_seed_type = SSplant.seeds[F.plantname]
 	else
 		if(istype(O, /obj/item/weapon/reagent_containers/food/snacks/grown))
 			var/obj/item/weapon/reagent_containers/food/snacks/grown/F = O
 			if(F.plantname)
-				new_seed_type = plant_controller.seeds[F.plantname]
+				new_seed_type = SSplant.seeds[F.plantname]
 		else
 			var/obj/item/F = O
 			if(F.nonplant_seed_type)
 				while(min_seeds <= produce)
 					new F.nonplant_seed_type(seedloc)
 					min_seeds++
+				if(user)
+					user.drop_item(F, force_drop = TRUE)
 				qdel(F)
 				return TRUE
 
@@ -1757,5 +1743,44 @@ Game Mode config tags:
 	else
 		return FALSE
 
+	if(user)
+		user.drop_item(O, force_drop = TRUE)
 	qdel(O)
 	return TRUE
+
+//Same as block(Start, End), but only returns the border turfs
+//'Start' must be lower-left, 'End' must be upper-right
+/proc/block_borders(turf/Start, turf/End)
+	ASSERT(istype(Start))
+	ASSERT(istype(End))
+
+	//i'm a lazy cunt and I don't feel like making this work
+	ASSERT(Start.x < End.x && Start.y < End.y)
+
+	return block(Start, End) - block(locate(Start.x + 1, Start.y + 1, Start.z), locate(End.x - 1, End.y - 1, End.z))
+
+
+/proc/pick_rand_tele_turf(atom/hit_atom, var/inner_teleport_radius, var/outer_teleport_radius)
+	if((inner_teleport_radius < 1) || (outer_teleport_radius < inner_teleport_radius))
+		return 0
+
+	var/list/turfs = new/list()
+	var/turf/hit_turf = get_turf(hit_atom)
+	//This could likely use some standardization but I have no idea how to not break it.
+	for(var/turf/T in trange(outer_teleport_radius, hit_turf))
+		if(get_dist(T, hit_atom) <= inner_teleport_radius)
+			continue
+		if(is_blocked_turf(T) || istype(T, /turf/space))
+			continue
+		if(T.x > world.maxx-outer_teleport_radius || T.x < outer_teleport_radius)
+			continue
+		if(T.y > world.maxy-outer_teleport_radius || T.y < outer_teleport_radius)
+			continue
+		turfs += T
+	return pick(turfs)
+
+/proc/get_key(mob/M)
+	if(M.mind)
+		return M.mind.key
+	else
+		return null

@@ -42,7 +42,7 @@
 /mob/living/simple_animal/hostile/faithless/FindTarget()
 	. = ..()
 	if(.)
-		emote("wails at [.]")
+		emote("me",,"wails at [.]!")
 
 /mob/living/simple_animal/hostile/faithless/AttackingTarget()
 	. =..()
@@ -61,7 +61,7 @@
 	//IF WE ARE CULT MONSTERS (those who spawn after Nar-Sie has risen) THEN WE DON'T ATTACK CULTISTS
 	if(ismob(the_target))
 		var/mob/M = the_target
-		if(iscultist(M))
+		if(isanycultist(M))
 			return 0
 	return ..(the_target)
 

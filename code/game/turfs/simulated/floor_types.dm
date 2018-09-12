@@ -112,7 +112,7 @@
 		return
 	if(iswrench(C))
 		to_chat(user, "<span class='notice'>Removing rods...</span>")
-		playsound(get_turf(src), 'sound/items/Ratchet.ogg', 80, 1)
+		playsound(src, 'sound/items/Ratchet.ogg', 80, 1)
 		if(do_after(user, src, 30) && istype(src, /turf/simulated/floor/engine)) // Somehow changing the turf does NOT kill the current running proc.
 			new /obj/item/stack/rods(src, 2)
 			ChangeTurf(/turf/simulated/floor)
@@ -362,6 +362,8 @@
 	name = "Iron Sand"
 	icon_state = "ironsand[rand(1,15)]"
 
+//snow moved to seperate file pending testing
+/*
 /turf/simulated/floor/plating/snow
 	name = "snow"
 	icon = 'icons/turf/snow.dmi'
@@ -381,7 +383,7 @@
 /turf/simulated/floor/plating/snow/ice
 	name = "ice"
 	icon_state = "ice"
-
+*/
 /turf/simulated/floor/plating/airless/damaged
 	icon_state = "platingdmg1"
 

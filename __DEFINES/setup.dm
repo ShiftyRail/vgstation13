@@ -1,9 +1,14 @@
 //This file was auto-corrected by findeclaration.exe on 25.5.2012 20:42:31
-#if DM_VERSION < 511
-#error Your version of byond is too old, you need version 511 or higher
+#if DM_VERSION < 512
+#error Your version of byond is too old, you need version 512 or higher
 #endif
 #define RUNWARNING // disable if they re-enable run() in 507 or newer.
                    // They did, tested in 508.1296 - N3X
+
+// Defines for the shuttle
+#define SHUTTLE_ON_STANDBY 0
+#define SHUTTLE_ON_STATION 1
+#define SHUTTLE_ON_CENTCOM 2
 
 #ifndef RUNWARNING
 #warn If you have issues with retrieving logs update byond on the server and client to 507.1277 or greater, or uncomment RUNWARNING
@@ -13,7 +18,7 @@
 #define PROFILE_MACHINES // Disable when not debugging.
 
 #define ARBITRARILY_LARGE_NUMBER 10000 //Used in delays.dm and vehicle.dm. Upper limit on delays
-#define ARBITRARILY_PLANCK_NUMBER 1.417*(10**32) //1.417×10^32. Because ARBITRARILY_LARGE_NUMBER is too small and INF is too large
+#define ARBITRARILY_PLANCK_NUMBER 1.417*(10**32) //1.417Ã—10^32. Because ARBITRARILY_LARGE_NUMBER is too small and INF is too large
 #define MAX_VALUE 65535
 
 #ifdef PROFILE_MACHINES
@@ -375,6 +380,8 @@ var/global/list/BODY_COVER_VALUE_LIST=list("[HEAD]" = COVER_PROTECTION_HEAD,"[EY
 #define DISABILITY_FLAG_BLIND       16
 #define DISABILITY_FLAG_MUTE		32
 #define DISABILITY_FLAG_VEGAN		64
+#define DISABILITY_FLAG_ASTHMA 128
+#define DISABILITY_FLAG_LACTOSE		256
 
 ///////////////////////////////////////
 // MUTATIONS
@@ -447,6 +454,8 @@ var/global/list/BODY_COVER_VALUE_LIST=list("[HEAD]" = COVER_PROTECTION_HEAD,"[EY
 #define M_FARSIGHT	212		// Increases mob's view range by 2
 #define M_NOIR		213		// aww yis detective noir
 #define M_VEGAN		214
+#define M_ASTHMA	215
+#define M_LACTOSE	216
 
 var/global/list/NOIRMATRIX = list(0.33,0.33,0.33,0,\
 				 				  0.33,0.33,0.33,0,\
@@ -464,6 +473,8 @@ var/global/list/bad_changing_colour_ckeys = list()
 #define COUGHING		4
 #define TOURETTES		8
 #define NERVOUS			16
+#define ASTHMA		32
+#define LACTOSE		64
 
 //sdisabilities
 #define BLIND			1
@@ -546,6 +557,9 @@ var/list/global_mutations = list() // list of hidden mutation things
 #define EYE_BLUR	"eye_blur"
 #define DROWSY		"drowsy"
 
+#define CUT 		"cut"
+#define BRUISE		"bruise"
+#define SLUR 		"slur"
 
 //intent flags yay
 #define I_HELP		"help"
@@ -645,6 +659,9 @@ var/list/liftable_structures = list(\
 #define SEE_INVISIBLE_LEVEL_TWO 45	//Used by mobs under certain conditions.
 #define INVISIBILITY_LEVEL_TWO 45	//Used by turrets inside their covers.
 
+#define INVISIBILITY_CULTJAUNT 50	//Used by cult
+#define SEE_INVISIBLE_CULTJAUNT 50	//Used by cult
+
 #define INVISIBILITY_OBSERVER 60	//Used by Ghosts.
 #define SEE_INVISIBLE_OBSERVER 60	//Used by Ghosts.
 
@@ -687,7 +704,9 @@ SEE_PIXELS	256
 #define BEE_OUT_FOR_ENEMIES 2
 #define BEE_HEADING_HOME 3
 #define BEE_SWARM 4
+#define BEE_BUILDING 5
 
+//for infestation events
 #define LOC_KITCHEN 0
 #define LOC_ATMOS 1
 #define LOC_INCIN 2
@@ -707,28 +726,28 @@ SEE_PIXELS	256
 #define VERM_ROACHES 7
 #define VERM_GREMLINS 8
 #define VERM_BEES 9
+#define VERM_HORNETS 10
+#define VERM_SYPHONER 11
+#define VERM_GREMTIDE 12
+#define VERM_CRABS 13
+
+
+#define MONSTER_BEAR    0
+#define MONSTER_CREATURE 1
+#define MONSTER_XENO 2
+#define MONSTER_HIVEBOT  3
+#define MONSTER_ZOMBIE    4
+#define MONSTER_SKRITE  5
+#define MONSTER_SQUEEN  6
+#define MONSTER_FROG 7
+#define MONSTER_GOLIATH 8
+#define MONSTER_DAVID 9
+#define MONSTER_MADCRAB 10
+#define MONSTER_MEATBALLER 11
+#define MONSTER_BIG_ROACH 12
+#define MONSTER_ROACH_QUEEN 13
 
 #define ROUNDSTART_LOGOUT_REPORT_TIME 6000 //Amount of time (in deciseconds) after the rounds starts, that the player disconnect report is issued.
-
-//Damage things
-
-#define CUT 		"cut"
-#define BRUISE		"bruise"
-#define BRUTE		"brute"
-#define BURN		"fire"
-#define TOX			"tox"
-#define OXY			"oxy"
-#define CLONE		"clone"
-#define HALLOSS		"halloss"
-
-#define STUN		"stun"
-#define WEAKEN		"weaken"
-#define PARALYZE	"paralize"
-#define IRRADIATE	"irradiate"
-#define STUTTER		"stutter"
-#define SLUR 		"slur"
-#define EYE_BLUR	"eye_blur"
-#define DROWSY		"drowsy"
 
 // Special 'weapons', used in damage procs
 #define WPN_HIGH_BODY_TEMP "High Body Temperature"
@@ -764,6 +783,9 @@ SEE_PIXELS	256
 #define MAT_CLOWN		"$clown"
 #define MAT_PLASTIC		"$plastic"
 #define MAT_CARDBOARD   "$cardboard"
+#define MAT_WOOD		"$wood"
+#define MAT_BRASS   	"$brass"
+#define MAT_RALLOY   	"$ralloy"
 
 //Admin Permissions
 //Please don't edit these values without speaking to [current /vg/ host here] first
@@ -831,24 +853,25 @@ SEE_PIXELS	256
 #define ROLEPREF_VALMASK  3 // 0b00000011 - Used to get ROLEPREF flags without the ROLEPREF_POLLED and ROLEPREF_SAVE bits
 
 // Should correspond to jobbans, too.
-#define ROLE_ALIEN      "alien"
-#define ROLE_BLOB       "blob"      // New!
-#define ROLE_BORER      "borer"     // New!
-#define ROLE_CHANGELING "changeling"
-#define ROLE_COMMANDO   "commando"  // New!
-#define ROLE_CULTIST    "cultist"
-#define ROLE_MALF       "malf AI"
-#define ROLE_NINJA      "ninja"
-#define ROLE_OPERATIVE  "operative" // New!
-#define ROLE_PAI        "pAI"
-#define ROLE_PLANT      "Dionaea"
-#define ROLE_POSIBRAIN  "posibrain"
-#define ROLE_REV        "revolutionary"
-#define ROLE_STRIKE     "Strike Team"
-#define ROLE_TRAITOR    "traitor"
-#define ROLE_VAMPIRE    "vampire"
-#define ROLE_VOXRAIDER  "vox raider"
-#define ROLE_WIZARD     "wizard"
+#define ROLE_ALIEN      	"alien"
+#define ROLE_BLOB       	"blob"      // New!
+#define ROLE_BORER      	"borer"     // New!
+#define ROLE_CHANGELING 	"changeling"
+#define ROLE_COMMANDO   	"commando"  // New!
+#define ROLE_CULTIST    	"cultist"
+#define ROLE_LEGACY_CULTIST "legacy_cultist"
+#define ROLE_MALF       	"malf AI"
+#define ROLE_NINJA      	"ninja"
+#define ROLE_OPERATIVE  	"operative" // New!
+#define ROLE_PAI        	"pAI"
+#define ROLE_PLANT      	"Dionaea"
+#define ROLE_POSIBRAIN  	"posibrain"
+#define ROLE_REV        	"revolutionary"
+#define ROLE_STRIKE     	"Strike Team"
+#define ROLE_TRAITOR    	"traitor"
+#define ROLE_VAMPIRE    	"vampire"
+#define ROLE_VOXRAIDER  	"vox raider"
+#define ROLE_WIZARD     	"wizard"
 
 
 #define AGE_MIN 17			//youngest a character can be
@@ -921,6 +944,8 @@ var/list/RESTRICTED_CAMERA_NETWORKS = list( //Those networks can only be accesse
 #define PLASMA_IMMUNE 512
 #define RAD_GLOW 1024
 #define ELECTRIC_HEAL 2048
+#define IS_SPECIES_MUTE 4096
+#define REQUIRE_DARK 8192
 
 //Species anatomical flags.
 #define HAS_SKIN_TONE 1
@@ -959,6 +984,7 @@ var/default_colour_matrix = list(1,0,0,0,\
 //Language flags.
 #define WHITELISTED 1  // Language is available if the speaker is whitelisted.
 #define RESTRICTED 2   // Language can only be accquired by spawning or an admin.
+#define CAN_BE_SECONDARY_LANGUAGE 4 // Language is available on character setup as secondary language.
 
 // Hairstyle flags
 #define HAIRSTYLE_CANTRIP 1 // 5% chance of tripping your stupid ass if you're running.
@@ -991,6 +1017,11 @@ var/default_colour_matrix = list(1,0,0,0,\
 #define VAMP_SHADOW   15
 #define VAMP_CHARISMA 16
 #define VAMP_UNDYING  17
+#define VAMP_CAPE	  18
+
+#define STARTING_BLOOD 10
+
+#define STARTING_BLOOD 10
 
 // Moved from machine_interactions.dm
 #define STATION_Z  1
@@ -1195,61 +1226,6 @@ var/default_colour_matrix = list(1,0,0,0,\
 #define PDA_APP_SNAKEII_MAXSPEED		9
 #define PDA_APP_SNAKEII_MAXLABYRINTH	8
 
-
-////////////////////////
-////WIZARD SHIT GO//////
-////////////////////////
-
-/*		WIZARD SPELL FLAGS		*/
-#define GHOSTCAST		1	//can a ghost cast it?
-#define NEEDSCLOTHES	2	//does it need the wizard garb to cast? Nonwizard spells should not have this
-#define NEEDSHUMAN		4	//does it require the caster to be human?
-#define Z2NOCAST		8	//if this is added, the spell can't be cast at centcomm
-#define STATALLOWED		16	//if set, the user doesn't have to be conscious to cast. Required for ghost spells
-#define IGNOREPREV		32	//if set, each new target does not overlap with the previous one
-//The following flags only affect different types of spell, and therefore overlap
-//Targeted spells
-#define INCLUDEUSER		64	//does the spell include the caster in its target selection?
-#define SELECTABLE		128	//can you select each target for the spell?
-//AOE spells
-#define IGNOREDENSE		64	//are dense turfs ignored in selection?
-#define IGNORESPACE		128	//are space turfs ignored in selection?
-#define NODUPLICATE		256 //can we put the same summon type on the same tile?
-//End split flags
-#define CONSTRUCT_CHECK	512	//used by construct spells - checks for nullrods
-#define NO_BUTTON		1024	//spell won't show up in the HUD with this
-#define WAIT_FOR_CLICK	2048//spells wait for you to click on a target to cast
-#define TALKED_BEFORE	4096//spells require you to have heard the person you are casting it upon
-
-//invocation
-#define SpI_SHOUT	"shout"
-#define SpI_WHISPER	"whisper"
-#define SpI_EMOTE	"emote"
-#define SpI_NONE	"none"
-
-//upgrading
-#define Sp_SPEED	"cooldown"
-#define Sp_POWER	"power"
-#define Sp_MOVE		"mobility"
-#define Sp_AMOUNT	"amount"
-
-#define Sp_TOTAL	"total"
-
-//casting costs
-#define Sp_RECHARGE	1
-#define Sp_CHARGES	2
-#define Sp_HOLDVAR	4
-#define Sp_GRADUAL	8
-
-//spell range
-#define SELFCAST -1
-#define GLOBALCAST -2
-
-//buying costs
-#define Sp_BASE_PRICE 20
-
-///////WIZ END/////////
-
 //Some alien checks for reagents for alien races.
 #define IS_DIONA 1
 #define IS_VOX 2
@@ -1311,7 +1287,7 @@ var/proccalls = 1
 
 #else
 	#define writepanic(a) null << a
-#endif*/
+#endif
 
 //Default frequencies of signal based RC stuff, because comic and his magic numbers.
 #define FREQ_DISPOSAL 1367
@@ -1360,7 +1336,7 @@ var/proccalls = 1
 #define FOOD_SWEET	4
 #define FOOD_LIQUID	8
 #define FOOD_SKELETON_FRIENDLY 16 //Can be eaten by skeletons
-
+#define FOOD_LACTOSE 32 //Contains MILK
 /*
  *
  *
@@ -1420,6 +1396,7 @@ var/proccalls = 1
 #define MODE_CHANGELING "changeling"
 #define MODE_CULTCHAT "cultchat"
 #define MODE_ANCIENT "ancientchat"
+#define MODE_MUSHROOM "sporechat"
 
 //Hardcore mode stuff
 
@@ -1561,6 +1538,8 @@ var/proccalls = 1
 
 #define BEESPECIES_NORMAL	"bees"
 #define BEESPECIES_VOX		"chill bugs"
+#define BEESPECIES_HORNET	"hornets"
+#define BEESPECIES_BLOOD	"hell bugs"
 
 //mob/proc/is_pacified()
 #define VIOLENCE_SILENT		0
@@ -1572,11 +1551,26 @@ var/proccalls = 1
 #define HUD_MEDICAL 1
 #define HUD_SECURITY 2
 
-#define INERTIA_MOVEDELAY 5
+//Cyborg components
+#define COMPONENT_BROKEN -1
+#define COMPONENT_MISSING 0
+#define COMPONENT_INSTALLED 1
 
+//Glidesize
+#define INERTIA_MOVEDELAY 5
 #define FRACTIONAL_GLIDESIZES 1
 #ifdef FRACTIONAL_GLIDESIZES
 #define DELAY2GLIDESIZE(delay) (WORLD_ICON_SIZE / max(Ceiling(delay / world.tick_lag), 1))
 #else
 #define DELAY2GLIDESIZE(delay) (Ceiling(WORLD_ICON_SIZE / max(Ceiling(delay / world.tick_lag), 1)))
 #endif
+
+//Custom vending machines
+#define CUSTOM_VENDING_MAX_SLOGAN_LENGTH	50
+#define CUSTOM_VENDING_MAX_NAME_LENGTH	25
+#define CUSTOM_VENDING_MAX_SLOGANS	5
+
+#define MACHINE "machine"
+#define COMPUTER "computer"
+#define EMBEDDED_CONTROLLER "embedded controller"
+#define OTHER "other"

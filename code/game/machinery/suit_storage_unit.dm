@@ -311,7 +311,7 @@
 				protected = 1
 
 	if(!protected)
-		playsound(get_turf(src), "sparks", 75, 1, -1)
+		playsound(src, "sparks", 75, 1, -1)
 		to_chat(user, "<font color='red'>You try to touch the controls but you get zapped. There must be a short circuit somewhere.</font>")
 		return*/
 	else  //welp, the guy is protected, we can continue
@@ -337,7 +337,7 @@
 				protected = 1
 
 	if(!protected)
-		playsound(get_turf(src), "sparks", 75, 1, -1)
+		playsound(src, "sparks", 75, 1, -1)
 		to_chat(user, "<font color='red'>You try to touch the controls but you get zapped. There must be a short circuit somewhere.</font>")
 		return*/
 	else
@@ -441,11 +441,11 @@
 			if(src.issuperUV)
 				var/burndamage = rand(28,35)
 				occupant.take_organ_damage(0,burndamage)
-				occupant.emote("scream",,, 1)
+				occupant.audible_scream()
 			else
 				var/burndamage = rand(6,10)
 				occupant.take_organ_damage(0,burndamage)
-				occupant.emote("scream",,, 1)
+				occupant.audible_scream()
 		if(i==3) //End of the cycle
 			if(!src.issuperUV)
 				if(helmet)
@@ -579,7 +579,7 @@
 			stat &= !BROKEN
 			to_chat(user, "<span class='notice'>You repair the blown out electronics in the suit storage unit.</span>")
 	if((stat & NOPOWER) && iscrowbar(I) && !islocked)
-		playsound(get_turf(src), 'sound/items/Deconstruct.ogg', 50, 1)
+		playsound(src, 'sound/items/Deconstruct.ogg', 50, 1)
 		to_chat(user, "<span class='notice'>You begin prying the equipment out of the suit storage unit</span>")
 		if(do_after(user, src,20))
 			dump_everything()

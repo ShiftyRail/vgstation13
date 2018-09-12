@@ -1,7 +1,7 @@
 /datum/gamemode/vampire
 	minimum_player_count = 10
 	name = "Vampire"
-	roles_allowed = list(/datum/role/vampire = 1)
+	factions_allowed = list(/datum/faction/vampire = 4) // Up to 4 vampires.
 
 // -- Vampire powers
 
@@ -145,5 +145,12 @@
 	blood_threeshold = 666
 	id = VAMP_UNDYING
 	spell_path = /spell/undeath
-	helptext = "You have reached the absolute peak of your power. Your abilities cannot be nullified very easily, and you may return from the grave so long as your body is not burned, destroyed or sanctified. You can also spawn a rather nice cape."
+	helptext = "You have reached the absolute peak of your power. Your abilities cannot be nullified very easily, and you may return from the grave so long as your body is not burned, destroyed or sanctified."
+	store_in_memory = TRUE
+
+/datum/power/vampire/cape
+	blood_threeshold = 666
+	id = VAMP_CAPE
+	spell_path = /spell/targeted/equip_item/cape
+	helptext = "You can also spawn a rather nice cape."
 	store_in_memory = TRUE

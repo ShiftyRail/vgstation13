@@ -240,6 +240,7 @@
 	var/max_fuel = 20 	//The max amount of fuel the welder can hold
 	var/start_fueled = 1 //Explicit, should the welder start with fuel in it ?
 	var/eye_damaging = TRUE	//Whether the welder damages unprotected eyes.
+	var/weld_speed = 1 //How much faster this welder is at welding. Higher number = faster
 
 /obj/item/weapon/weldingtool/suicide_act(mob/user)
 	user.visible_message("<span class='danger'>[user] is burning \his face off with the [src.name]! It looks like \he's  trying to commit suicide!</span>")
@@ -294,26 +295,40 @@
 
 	..()
 
+/obj/item/weapon/weldingtool/proc/do_weld(var/mob/user, var/atom/thing, var/time, var/fuel_cost)
+	if(!remove_fuel(fuel_cost, user))
+		return 0
+
+	playsound(src, pick('sound/items/Welder.ogg', 'sound/items/Welder2.ogg'), 50, 1)
+	return isOn() && do_after(user, thing, time/weld_speed) && isOn() //Checks if it's on, then does the do_after, then checks if it's still on after.
 
 /obj/item/weapon/weldingtool/process()
 	switch(welding)
 		//If off
 		if(0)
-			if(src.icon_state != "welder") //Check that the sprite is correct, if it isnt, it means toggle() was not called
-				src.force = 3
-				src.damtype = "brute"
+			if(icon_state != "welder") //Check that the sprite is correct, if it isnt, it means toggle() was not called
+				force = 3
+				sharpness = 0
+				sharpness_flags = 0
+				damtype = "brute"
+				heat_production = 0
+				source_temperature = 0
 				update_icon()
-				src.hitsound = "sound/weapons/toolhit.ogg"
-				src.welding = 0
+				hitsound = "sound/weapons/toolhit.ogg"
+				welding = 0
 			processing_objects.Remove(src)
 			return
 		//Welders left on now use up fuel, but lets not have them run out quite that fast
 		if(1)
-			if(src.icon_state != "welder1") //Check that the sprite is correct, if it isnt, it means toggle() was not called
-				src.force = 15
-				src.damtype = "fire"
+			if(icon_state != "welder1") //Check that the sprite is correct, if it isnt, it means toggle() was not called
+				force = 15
+				sharpness = 0.8
+				sharpness_flags = INSULATED_EDGE | HOT_EDGE
+				damtype = "fire"
+				heat_production = 3800
+				source_temperature = TEMPERATURE_WELDER
 				update_icon()
-				src.hitsound = "sound/weapons/welderattack.ogg"
+				hitsound = "sound/weapons/welderattack.ogg"
 			if(prob(5))
 				remove_fuel(1)
 
@@ -341,7 +356,7 @@
 	if (istype(O, /obj/structure/reagent_dispensers/fueltank) && get_dist(src,O) <= 1 && !src.welding)
 		O.reagents.trans_to(src, max_fuel)
 		to_chat(user, "<span class='notice'>Welder refueled</span>")
-		playsound(get_turf(src), 'sound/effects/refill.ogg', 50, 1, -6)
+		playsound(src, 'sound/effects/refill.ogg', 50, 1, -6)
 		return
 	else if (istype(O, /obj/structure/reagent_dispensers/fueltank) && get_dist(src,O) <= 1 && src.welding)
 		message_admins("[key_name_admin(user)] triggered a fueltank explosion.")
@@ -404,6 +419,7 @@
 /obj/item/weapon/weldingtool/proc/setWelding(var/temp_welding)
 	//If we're turning it on
 	if(temp_welding > 0)
+		src.welding = 1
 		if (remove_fuel(1))
 			to_chat(usr, "<span class='notice'>\The [src] switches on.</span>")
 			src.force = 15
@@ -526,7 +542,7 @@
 	start_fueled = 0
 
 /obj/item/weapon/weldingtool/largetank
-	name = "Industrial Welding Tool"
+	name = "industrial welding tool"
 	desc = "The cutting edge between portability and tank size."
 	icon_state = "welder_large"
 	max_fuel = 40
@@ -537,7 +553,7 @@
 	start_fueled = 0
 
 /obj/item/weapon/weldingtool/hugetank
-	name = "Upgraded Welding Tool"
+	name = "upgraded welding tool"
 	desc = "A large tank for a large job."
 	icon_state = "welder_larger"
 	max_fuel = 80
@@ -566,7 +582,7 @@
 
 
 /obj/item/weapon/weldingtool/experimental
-	name = "Experimental Welding Tool"
+	name = "experimental welding tool"
 	max_fuel = 40
 	w_class = W_CLASS_MEDIUM
 	starting_materials = list(MAT_IRON = 70, MAT_GLASS = 120)
@@ -724,8 +740,8 @@
 	to_chat(user, "It contains [reagents.get_reagent_amount(SACID) + reagents.get_reagent_amount(FORMIC_ACID)]/[src.max_fuel] units of fuel!")
 
 /obj/item/weapon/solder/attackby(obj/item/W as obj, mob/user as mob)
-	if(istype(W,/obj/item/weapon/reagent_containers/glass/))
-		var/obj/item/weapon/reagent_containers/glass/G = W
+	if(istype(W,/obj/item/weapon/reagent_containers/) && W.flags & OPENCONTAINER)
+		var/obj/item/weapon/reagent_containers/G = W
 		if(G.reagents.reagent_list.len>1)
 			user.simple_message("<span class='warning'>The mixture is rejected by the tool.</span>",
 				"<span class='warning'>The tool isn't THAT thirsty.</span>")

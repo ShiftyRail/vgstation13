@@ -77,12 +77,16 @@ var/list/camera_names=list()
 		ASSERT(src.network)
 		ASSERT(src.network.len > 0)
 
+	//allow mappers to use the name field for the camera instead of c_tag
+	//this helps organize the camera object list in DreamMaker
+	if(name != initial(name) && !c_tag)
+		c_tag = name
+		name = initial(name)
 	if(!c_tag)
 		name_camera()
 	..()
 	if(adv_camera && adv_camera.initialized && !(src in adv_camera.camerasbyzlevel["[z]"]))
 		adv_camera.update(z, TRUE, list(src))
-
 	update_hear()
 
 /obj/machinery/camera/proc/name_camera()
@@ -162,11 +166,6 @@ var/list/camera_names=list()
 	src.view_range = num
 	cameranet.updateVisibility(src, 0)
 
-/obj/machinery/camera/shock(var/mob/living/user)
-	if(!istype(user))
-		return
-	user.electrocute_act(10, src)
-
 /obj/machinery/camera/attack_paw(mob/living/carbon/alien/humanoid/user as mob)
 	if(!istype(user))
 		return
@@ -176,7 +175,7 @@ var/list/camera_names=list()
 	update_icon()
 	user.do_attack_animation(src, user)
 	visible_message("<span class='warning'>\The [user] slashes at [src]!</span>")
-	playsound(get_turf(src), 'sound/weapons/slash.ogg', 100, 1)
+	playsound(src, 'sound/weapons/slash.ogg', 100, 1)
 	add_hiddenprint(user)
 	deactivate(user,0)
 
@@ -193,7 +192,7 @@ var/list/camera_messages = list()
 	else if(panel_open && iswiretool(W))
 		wires.Interact(user)
 
-	else if(istype(W, /obj/item/weapon/weldingtool) && wires.CanDeconstruct())
+	else if(iswelder(W) && wires.CanDeconstruct())
 		if(weld(W, user))
 			if(assembly)
 				assembly.state = 1
@@ -240,7 +239,7 @@ var/list/camera_messages = list()
 			var/obj/U = locate(/obj) in assembly.upgrades
 			if(U)
 				to_chat(user, "You unattach \the [U] from the camera.")
-				playsound(get_turf(src), 'sound/items/Crowbar.ogg', 50, 1)
+				playsound(src, 'sound/items/Crowbar.ogg', 50, 1)
 				U.forceMove(get_turf(src))
 				assembly.upgrades -= U
 				update_upgrades()
@@ -299,6 +298,9 @@ var/list/camera_messages = list()
 	wirejack(user)
 
 /obj/machinery/camera/proc/deactivate(user as mob, var/choice = 1)
+	vision_flags = SEE_SELF
+	update_upgrades()
+	cameranet.addCamera(src)
 	if(choice==1)
 		status = !( src.status )
 		update_icon()
@@ -308,7 +310,7 @@ var/list/camera_messages = list()
 				add_hiddenprint(user)
 			else
 				visible_message("<span class='warning'> \The [src] deactivates!</span>")
-			playsound(get_turf(src), 'sound/items/Wirecutter.ogg', 50, 1)
+			playsound(src, 'sound/items/Wirecutter.ogg', 50, 1)
 			add_hiddenprint(user)
 		else
 			if(user)
@@ -316,7 +318,7 @@ var/list/camera_messages = list()
 				add_hiddenprint(user)
 			else
 				visible_message("<span class='warning'> \The [src] reactivates!</span>")
-			playsound(get_turf(src), 'sound/items/Wirecutter.ogg', 50, 1)
+			playsound(src, 'sound/items/Wirecutter.ogg', 50, 1)
 			add_hiddenprint(user)
 		cameranet.updateVisibility(src, 0)
 	// now disconnect anyone using the camera
@@ -333,15 +335,17 @@ var/list/camera_messages = list()
 
 /obj/machinery/camera/proc/triggerCameraAlarm()
 	alarm_on = 1
+	var/area/this_area = get_area(src)
 	for(var/mob/living/silicon/S in mob_list)
-		S.triggerAlarm("Camera", areaMaster, list(src), src)
+		S.triggerAlarm("Camera", this_area, list(src), src)
 	adv_camera.update(z, TRUE, list(src))
 
 
 /obj/machinery/camera/proc/cancelCameraAlarm()
 	alarm_on = 0
+	var/area/this_area = get_area(src)
 	for(var/mob/living/silicon/S in mob_list)
-		S.cancelAlarm("Camera", areaMaster, src)
+		S.cancelAlarm("Camera", this_area, src)
 	adv_camera.update(z, TRUE, list(src))
 
 /obj/machinery/camera/proc/can_use()
@@ -395,18 +399,12 @@ var/list/camera_messages = list()
 
 	if(busy)
 		return 0
-	if(!WT.isOn())
-		return 0
 
 	// Do after stuff here
 	to_chat(user, "<span class='notice'>You start to weld the [src].</span>")
-	playsound(get_turf(src), 'sound/items/Welder.ogg', 50, 1)
-	WT.eyecheck(user)
 	busy = 1
-	if(do_after(user, src, 100))
+	if(WT.do_weld(user, src, 100, 0))
 		busy = 0
-		if(!WT.isOn())
-			return 0
 		return 1
 	busy = 0
 	return 0

@@ -216,7 +216,6 @@
 					if((G.mind && (G.mind.current.stat != DEAD) ||  G.mind != clonemind))
 						return FALSE
 
-
 	heal_level = rand(10,40) //Randomizes what health the clone is when ejected
 	working = TRUE //One at a time!!
 	locked = TRUE
@@ -227,6 +226,7 @@
 
 	var/mob/living/carbon/human/H = new /mob/living/carbon/human(src, R.dna.species, delay_ready_dna = TRUE)
 	occupant = H
+	H.times_cloned = R.times_cloned +1
 
 	if(!connected.emagged)
 		icon_state = "pod_1"
@@ -234,6 +234,9 @@
 		icon_state = "pod_e"
 
 	connected.update_icon()
+
+	if(isplasmaman(H))
+		H.fire_sprite = "Plasmaman"
 
 	//Get the clone body ready
 	H.dna = R.dna.Clone()
@@ -279,6 +282,11 @@
 
 	// -- End mode specific stuff
 	*/
+	if (H.mind.miming)
+		H.add_spell(new /spell/aoe_turf/conjure/forcewall/mime, "grey_spell_ready")
+		if (H.mind.miming == MIMING_OUT_OF_CHOICE)
+			H.add_spell(new /spell/targeted/oathbreak/)
+
 	H.UpdateAppearance()
 	H.set_species(R.dna.species)
 	randmutb(H) // sometimes the clones come out wrong.
@@ -317,14 +325,15 @@
 			//Premature clones may have brain damage.
 			occupant.adjustBrainLoss(-1*time_coeff) //Ditto above
 
-			//So clones don't die of oxyloss in a running pod.
-			if (occupant.reagents.get_reagent_amount(INAPROVALINE) < 30)
-				occupant.reagents.add_reagent(INAPROVALINE, 60)
-
 			var/mob/living/carbon/human/H = occupant
 
-			if(istype(H.species, /datum/species/vox) & occupant.reagents.get_reagent_amount(NITROGEN) < 30)
-				occupant.reagents.add_reagent(NITROGEN, 60)
+			if(isvox(H))
+				if(occupant.reagents.get_reagent_amount(NITROGEN) < 30)
+					occupant.reagents.add_reagent(NITROGEN, 60)
+
+			//So clones don't die of oxyloss in a running pod.
+			else if(occupant.reagents.get_reagent_amount(INAPROVALINE) < 30) //Done like this because inaprovaline is toxic to vox
+				occupant.reagents.add_reagent(INAPROVALINE, 60)
 
 			//Also heal some oxyloss ourselves because inaprovaline is so bad at preventing it!!
 			occupant.adjustOxyLoss(-4)
@@ -391,7 +400,7 @@
 			to_chat(user, "System unlocked.")
 	if (istype(W, /obj/item/weapon/reagent_containers/food/snacks/meat))
 		if(user.drop_item(W))
-			playsound(get_turf(src), 'sound/machines/juicerfast.ogg', 30, 1)
+			playsound(src, 'sound/machines/juicerfast.ogg', 30, 1)
 			to_chat(user, "<span class='notice'>\The [src] processes \the [W].</span>")
 			biomass += BIOMASS_CHUNK
 			qdel(W)
@@ -452,7 +461,7 @@
 
 	return TRUE
 
-/obj/machinery/cloning/clonepod/MouseDrop(over_object, src_location, var/turf/over_location, src_control, over_control, params)
+/obj/machinery/cloning/clonepod/MouseDropFrom(over_object, src_location, var/turf/over_location, src_control, over_control, params)
 	if(!occupant || occupant == usr || (!ishigherbeing(usr) && !isrobot(usr)) || usr.incapacitated() || usr.lying)
 		return
 	if(!istype(over_location) || over_location.density)
@@ -466,7 +475,7 @@
 			return
 	if(isrobot(usr))
 		var/mob/living/silicon/robot/robit = usr
-		if(istype(robit) && !istype(robit.module, /obj/item/weapon/robot_module/medical))
+		if(!HAS_MODULE_QUIRK(robit, MODULE_CAN_HANDLE_MEDICAL))
 			to_chat(usr, "<span class='warning'>You do not have the means to do this!</span>")
 			return
 
@@ -521,7 +530,7 @@
 		else
 	return
 
-/obj/machinery/cloning/clonepod/MouseDrop_T(obj/item/weapon/reagent_containers/food/snacks/meat/M, mob/living/user)
+/obj/machinery/cloning/clonepod/MouseDropTo(obj/item/weapon/reagent_containers/food/snacks/meat/M, mob/living/user)
 	var/busy = FALSE
 	var/visible_message = FALSE
 
@@ -531,7 +540,7 @@
 	if(issilicon(user))
 		return //*buzz
 
-	if(!Adjacent(user) || !user.Adjacent(src) || M.loc == user || !isturf(M.loc) || !isturf(user.loc) || user.loc==null)
+	if(!Adjacent(user) || !user.Adjacent(src) || !user.Adjacent(M) || M.loc == user || !isturf(M.loc) || !isturf(user.loc) || user.loc==null)
 		return
 
 	if(user.incapacitated() || user.lying)
@@ -548,7 +557,7 @@
 			visible_message = TRUE // Prevent chatspam when multiple meat are near
 
 		if(visible_message)
-			playsound(get_turf(src), 'sound/machines/juicer.ogg', 30, 1)
+			playsound(src, 'sound/machines/juicer.ogg', 30, 1)
 			visible_message("<span class = 'notice'>[src] sucks in and processes the nearby biomass.</span>")
 		busy = FALSE
 
@@ -557,7 +566,7 @@
 
 	if(occupant && prob(5))
 		visible_message("<span class='notice'>[src] buzzes.</span>","<span class='warning'>You hear a buzz.</span>")
-		playsound(get_turf(src), 'sound/machines/buzz-sigh.ogg', 50, 0)
+		playsound(src, 'sound/machines/buzz-sigh.ogg', 50, 0)
 		locked = FALSE
 		go_out()
 

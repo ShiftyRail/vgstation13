@@ -44,6 +44,9 @@ mob/proc/get_heart()
 /mob/proc/get_appendix()
 	return null
 
+/mob/proc/get_stomach()
+	return null
+
 mob/proc/remove_internal_organ()
 	return null
 
@@ -73,18 +76,26 @@ mob/proc/remove_internal_organ()
 		return .
 	else if(has_reagent_in_blood(DETCOFFEE))
 		return NOIRMATRIX
+	var/obj/item/clothing/glasses/scanner/S = is_wearing_item(/obj/item/clothing/glasses/scanner, slot_glasses)
+	if(S && S.on && S.color_matrix)
+		return S.color_matrix
 	var/datum/organ/internal/eyes/eyes = internal_organs_by_name["eyes"]
 	if(eyes && eyes.colourmatrix.len && !(eyes.robotic))
 		return eyes.colourmatrix
 	else
 		return default_colour_matrix
 
-/mob/proc/update_colour(var/time = 50,var/forceupdate = 0)
+/mob/proc/update_colour(var/time = 50,var/forceupdate = 0, var/list/colour_to_apply)
 	if(!client || (client.updating_colour && !forceupdate))
 		return
-	var/list/colour_to_apply = get_screen_colour()
-	var/list/difference = difflist(client.color,colour_to_apply)
-	if(difference || !(client.color) || !istype(difference) || !difference.len)
+	if(!colour_to_apply)
+		colour_to_apply = get_screen_colour()
+	var/list/difference = list()
+	if(client.color)
+		difference = difflist(client.color,colour_to_apply)
+	if(!difference) // otherwise !difference.len throws a runtime since null.len isn't a thing
+		return
+	else if(!difference.len)
 		client.updating_colour = 1
 		var/cached_ckey = client.ckey
 		if(forceupdate)
@@ -101,7 +112,7 @@ mob/proc/remove_internal_organ()
 				client.updating_colour = 0
 				difference = difflist(client.color,get_screen_colour())
 				if((difference || !(client.color) || !istype(difference) || !difference.len) && !forceupdate) // panic panic panic
-					src.update_colour(forceupdate = 1)
+					src.update_colour(0,1,colour_to_apply)
 			else
 				bad_changing_colour_ckeys["[cached_ckey]"] = 1
 /*

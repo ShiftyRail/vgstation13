@@ -83,7 +83,6 @@
 
 /datum/gamemode/proc/PopulateFactions()
 	var/list/available_players = get_ready_players()
-
 	for(var/datum/faction/F in factions)
 		for(var/mob/new_player/P in available_players)
 			if(F.max_roles && F.members.len >= F.max_roles)
@@ -93,7 +92,7 @@
 			if(!P.client.desires_role(F.required_pref) || jobban_isbanned(P, F.required_pref))
 				continue
 			if(!F.HandleNewMind(P.mind))
-				warning("[P.mind] failed [F] HandleNewMind!")
+				stack_trace("[P.mind] failed [F] HandleNewMind!")
 				continue
 	return 1
 
@@ -112,7 +111,7 @@
 
 /datum/gamemode/proc/CreateNumOfRoles(var/datum/role/R, var/list/candidates)
 	if(!candidates || !candidates.len)
-		warning("ran out of available players to fill role [R]!")
+		WARNING("ran out of available players to fill role [R]!")
 		return
 	for(var/mob/M in candidates)
 		CreateRole(R, M)
@@ -122,7 +121,7 @@
 	var/list/available_players = FilterAvailablePlayers(R)
 	for(var/i = 0 to num)
 		if(!available_players.len)
-			warning("ran out of available players to fill role [R]!")
+			WARNING("ran out of available players to fill role [R]!")
 			break
 		shuffle(available_players)
 		var/mob/new_player/P = pick(available_players)
@@ -190,8 +189,11 @@
 	feedback_set_details("server_ip","[world.internet_address]:[world.port]")
 
 	for(var/datum/faction/F in factions)
+		F.forgeObjectives()
 		F.OnPostSetup()
 	for(var/datum/role/R in orphaned_roles)
+		R.ForgeObjectives()
+		R.MemorizeObjectives()
 		R.OnPostSetup()
 	return 1
 
@@ -203,6 +205,8 @@
 	for(var/datum/faction/F in factions)
 		dat += F.GetScoreboard()
 		dat += "\n\n"
+	for(var/datum/role/R in orphaned_roles)
+		dat += R.GetScoreboard()
 	return dat
 
 /datum/gamemode/proc/get_player_count()
@@ -238,3 +242,4 @@
 
 
 /datum/gamemode/proc/declare_completion()
+	return GetScoreboard()

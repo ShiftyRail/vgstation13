@@ -96,7 +96,7 @@
 
 	var/icon/logo_state = "synd-logo"
 
-	var/list/greets = list("default","custom")
+	var/list/greets = list(GREET_DEFAULT,GREET_CUSTOM)
 
 	var/wikiroute
 
@@ -116,21 +116,22 @@
 	if(!plural_name)
 		plural_name="[name]s"
 
-	objectives.owner = src
+	objectives.owner = M
 
 	return 1
 
-/datum/role/proc/AssignToRole(var/datum/mind/M,var/override = 0)
+/datum/role/proc/AssignToRole(var/datum/mind/M, var/override = 0)
 	if(!istype(M) && !override)
-		WARNING("M is [M.type]!")
+		stack_trace("M is [M.type]!")
 		return 0
 	if(!CanBeAssigned(M) && !override)
-		WARNING("[M] was to be assigned to [name] but failed CanBeAssigned!")
+		stack_trace("[M.name] was to be assigned to [name] but failed CanBeAssigned!")
 		return 0
 
 	antag = M
 	M.antag_roles.Add(id)
 	M.antag_roles[id] = src
+	objectives.owner = M
 
 	if (!OnPreSetup())
 		return FALSE
@@ -203,9 +204,7 @@
 // Return 1 on success, 0 on failure.
 /datum/role/proc/OnPostSetup(var/auto_antag = TRUE)
 	if (auto_antag)
-		ForgeObjectives()
 		Greet(1)
-		MemorizeObjectives()
 	return 1
 
 /datum/role/proc/process()
@@ -223,8 +222,7 @@
 		O = objective_type
 	else
 		O = new objective_type
-	if(O.PostAppend())
-		objectives.AddObjective(O, antag)
+	if(objectives.AddObjective(O, antag))
 		return TRUE
 	return FALSE
 
@@ -250,7 +248,7 @@
 
 	var/icon/logo = icon('icons/logos.dmi', logo_state)
 	switch(greeting)
-		if ("custom")
+		if (GREET_CUSTOM)
 			to_chat(antag.current, "<img src='data:image/png;base64,[icon2base64(logo)]' style='position: relative; top: 10;'/> <B>[custom]</B>")
 		else
 			to_chat(antag.current, "<img src='data:image/png;base64,[icon2base64(logo)]' style='position: relative; top: 10;'/> <B>You are \a [name][faction ? ", a member of the [faction.GetObjectivesMenuHeader()]":"."]</B>")
@@ -327,7 +325,7 @@
 	text += "<br>"
 	if (objectives.objectives.len)
 		text += "<b>personnal objectives</b><br>"
-	text += objectives.GetObjectiveString(0,admin_edit,M)
+	text += objectives.GetObjectiveString(0,admin_edit,M, src)
 	text += "<br>"
 	if (faction && faction.objective_holder)
 		if (faction.objective_holder.objectives.len)

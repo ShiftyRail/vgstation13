@@ -9,7 +9,7 @@
 	disallow_job = FALSE
 	restricted_jobs = list("AI", "Cyborg", "Mobile MMI", "Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Chaplain")
 	logo_state = "vampire-logo"
-	greets = list("default","custom","admintoggle")
+	greets = list(GREET_DEFAULT,GREET_CUSTOM,GREET_ADMINTOGGLE)
 	required_pref = ROLE_VAMPIRE
 
 	// -- Vampire mechanics --
@@ -45,9 +45,9 @@
 
 	var/icon/logo = icon('icons/logos.dmi', logo_state)
 	switch(greeting)
-		if ("custom")
+		if (GREET_CUSTOM)
 			to_chat(antag.current, "<img src='data:image/png;base64,[icon2base64(logo)]' style='position: relative; top: 10;'/> [custom]")
-		if ("admintoggle")
+		if (GREET_ADMINTOGGLE)
 			to_chat(antag.current, "<img src='data:image/png;base64,[icon2base64(logo)]' style='position: relative; top: 10;'/> <span class='danger'>Your powers are awoken. Your lust for blood grows... You are a Vampire!</span></B>")
 		else
 			to_chat(antag.current, "<img src='data:image/png;base64,[icon2base64(logo)]' style='position: relative; top: 10;'/> <span class='danger'>You are a Vampire!</br></span>")
@@ -78,16 +78,30 @@
 			antag.current.client.screen -= list(antag.current.hud_used.vampire_blood_display)
 	..()
 
-/* we're gonna have procedural faction generation to handle thralls and apprentices
-/datum/role/vampire/AdminPanelEntry()
+/datum/role/vampire/AdminPanelEntry(var/show_logo = FALSE,var/datum/admins/A)
+	var/icon/logo = icon('icons/logos.dmi', logo_state)
+	var/mob/M = antag.current
+	var/text = {"[show_logo ? "<img src='data:image/png;base64,[icon2base64(logo)]' style='position: relative; top: 10;'/> " : "" ]
+[name] <a href='?_src_=holder;adminplayeropts=\ref[M]'>[M.real_name]/[M.key]</a>[M.client ? "" : " <i> - (logged out)</i>"][M.stat == DEAD ? " <b><font color=red> - (DEAD)</font></b>" : ""]
+ - <a href='?src=\ref[usr];priv_msg=\ref[M]'>(priv msg)</a>
+ - <a href='?_src_=holder;traitor=\ref[M]'>(role panel)</a> - <a href='?src=\ref[src]&mind=\ref[antag]&giveblood=1'>Give blood</a>"}
+	return text
+
+/datum/role/vampire/RoleTopic(href, href_list)
 	. = ..()
-	if (thralls.len)
-		. += "<b>Thralls slaved to [antag.current]:</b> <br/>"
-		. += "<ul>"
-		for (var/datum/role/thrall/T in thralls)
-			. += T.AdminPanelEntry()
-		. += "</ul>"
-*/
+	if (!usr.client.holder)
+		return FALSE
+	if (href_list["giveblood"])
+		var/amount = input("How much would you like to give?", "Giving blood") as null|num
+		if (!amount)
+			return FALSE
+		give_blood(amount)
+
+/datum/role/vampire/proc/give_blood(var/amount)
+	blood_total += amount
+	blood_usable += amount
+	check_vampire_upgrade()
+	update_vamp_hud()
 
 // -- Not sure if this is meant to work like that.
 // I just put what I expect to see in the "The vampires were..."
@@ -198,6 +212,20 @@
 			if (!(VP.id in powers))
 				VP.Give(src)
 
+	var/mob/living/carbon/human/H = antag.current
+	if (!istype(H))
+		return
+
+	// Vision-related changes.
+	if (VAMP_MATURE in powers)
+		H.change_sight(adding = SEE_TURFS|SEE_MOBS|SEE_OBJS)
+		H.see_in_dark = 8
+		H.see_invisible = SEE_INVISIBLE_MINIMUM
+
+	else if (VAMP_VISION in powers)
+		H.change_sight(adding = SEE_MOBS)
+	
+
 /datum/role/vampire/proc/handle_enthrall(var/datum/mind/M)
 	if (!istype(M))
 		return FALSE
@@ -231,17 +259,6 @@
 				I.status &= ~ORGAN_SPLINTED
 				I.status &= ~ORGAN_BLEEDING
 	nullified = max(0, nullified - 1)
-
-	if (!H.druggy)
-		H.see_invisible = SEE_INVISIBLE_LEVEL_TWO
-
-	if (VAMP_MATURE in powers)
-		H.change_sight(adding = SEE_TURFS|SEE_MOBS|SEE_OBJS)
-		H.see_in_dark = 8
-		H.see_invisible = SEE_INVISIBLE_MINIMUM
-
-	else if (VAMP_VISION in powers)
-		antag.current.change_sight(adding = SEE_MOBS)
 
 /datum/role/vampire/proc/handle_cloak(var/mob/living/carbon/human/H)
 	var/turf/T = get_turf(H)

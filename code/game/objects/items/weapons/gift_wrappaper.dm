@@ -239,7 +239,7 @@
 		/obj/item/device/fuse_bomb,
 		/obj/item/weapon/card/emag,
 		/obj/item/weapon/reagent_containers/food/snacks/grown/apple/poisoned,
-		/obj/item/weapon/tome,
+		/obj/item/weapon/tome_legacy,
 		)
 
 	var/obj/item/I = new gift_type(M)
@@ -325,6 +325,6 @@
 
 /obj/item/weapon/winter_gift/dorkcube/attack_self(mob/user)
 	user.say("Loot get!")
-	playsound(get_turf(src), 'sound/misc/achievement.ogg', 30, 1)
+	playsound(src, 'sound/misc/achievement.ogg', 30, 1)
 	user.gib()
 	qdel(src)

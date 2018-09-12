@@ -219,6 +219,9 @@
 /datum/organ/internal/brain/slime_core
 	removed_type = /obj/item/organ/internal/brain/slime_core
 
+/datum/organ/internal/brain/mushroom_brain
+	removed_type = /obj/item/organ/internal/brain/mushroom
+
 /datum/organ/internal/appendix
 	name = "appendix"
 	parent_organ = LIMB_GROIN
@@ -226,8 +229,6 @@
 	removed_type = /obj/item/organ/internal/appendix
 
 /datum/organ/internal/proc/remove(var/mob/user, var/quiet=0)
-
-
 	if(!removed_type)
 		return 0
 	var/obj/item/organ/internal/removed_organ

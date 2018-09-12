@@ -1,8 +1,16 @@
-#define DNA_SE_LENGTH 56
+/proc/writeglobal(var/which, var/what)
+	global.vars[which] = what
+
+/proc/readglobal(var/which)
+	return global.vars[which]
+
+#define DNA_SE_LENGTH 58
 
 #define VOX_SHAPED "Vox","Skeletal Vox"
 
 #define GREY_SHAPED "Grey"
+
+#define UNDEAD_SHAPED "Skellington","Undead","Plasmaman"
 
 //Content of the Round End Information window
 var/round_end_info = ""
@@ -51,9 +59,6 @@ var/list/paper_blacklist = list("java","onblur","onchange","onclick","ondblclick
 	"onkeypress","onkeyup","onload","onmousedown","onmousemove","onmouseout","onmouseover",	\
 	"onmouseup","onreset","onselect","onsubmit","onunload")
 
-
-var/skipupdate = 0
-	///////////////
 var/eventchance = 10 //% per 5 mins
 var/event = 0
 var/hadevent = 0
@@ -65,7 +70,6 @@ var/endicon = null
 var/diary = null
 var/diaryofmeanpeople = null
 var/admin_diary = null
-var/href_logfile = null
 var/station_name = null
 var/game_version = "veegee"
 var/changelog_hash = ""
@@ -81,22 +85,16 @@ var/ooc_allowed = 1
 var/looc_allowed = 1
 var/dooc_allowed = 1
 var/traitor_scaling = 1
-//var/goonsay_allowed = 0
-var/dna_ident = 1
 var/abandon_allowed = 1
 var/enter_allowed = 1
 var/guests_allowed = 1
-var/shuttle_frozen = 0
-var/shuttle_left = 0
 var/tinted_weldhelh = 1
 
-var/list/jobMax = list()
 var/list/bombers = list(  )
 var/list/admin_log = list (  )
 var/list/lawchanges = list(  ) //Stores who uploaded laws to which silicon-based lifeform, and what the law was
 var/list/shuttles = list(  )
 var/list/reg_dna = list(  )
-//	list/traitobj = list(  )
 
 var/CELLRATE = 0.002  // multiplier for watts per tick <> cell storage (eg: .002 means if there is a load of 1000 watts, 20 units will be taken from a cell per second)
 var/CHARGELEVEL = 0.001 // Cap for how fast cells charge, as a percentage-per-tick (.001 means cellcharge is capped to 1% per second)
@@ -140,11 +138,6 @@ var/global/universal_cult_chat = 0 //if set to 1, even human cultists can use cu
 var/datum/station_state/start_state = null
 var/datum/configuration/config = null
 
-var/list/combatlog = list()
-var/list/IClog = list()
-var/list/OOClog = list()
-var/list/adminlog = list()
-
 var/suspend_alert = 0
 
 var/Debug = 0	// global debug switch
@@ -154,13 +147,9 @@ var/datum/debug/debugobj
 
 var/datum/moduletypes/mods = new()
 
-var/wavesecret = 0
 var/gravity_is_on = 1
 
-var/shuttlecoming = 0
-
 var/join_motd = null
-var/forceblob = 0
 
 var/polarstar = 0 //1 means that the polar star has been found, 2 means that the spur modification kit has been found
 
@@ -272,9 +261,6 @@ var/global/event/on_login
 var/global/event/on_ban
 var/global/event/on_unban
 
-// List of /plugins
-var/global/list/plugins = list()
-
 // Space get this to return for things i guess?
 var/global/datum/gas_mixture/space_gas = new
 
@@ -317,7 +303,6 @@ var/global/list/minesweeper_best_players = list()
 var/nanocoins_rates = 1
 var/nanocoins_lastchange = 0
 
-var/speciesinit = 0
 var/minimapinit = 0
 
 var/bees_species = list()
@@ -379,13 +364,70 @@ var/list/available_staff_transforms = list(
 
 //Broken mob list
 var/list/blacklisted_mobs = list(
-		/mob/living/simple_animal/space_worm, // Unfinished. Very buggy, they seem to just spawn additional space worms everywhere and eating your own tail results in new worms spawning.
-		/mob/living/simple_animal/hostile/humanoid, // JUST DON'T DO IT, OK?
-		/mob/living/simple_animal/hostile/retaliate/cockatrice, // I'm just copying this from transmog.
-		/mob/living/simple_animal/hostile/giant_spider/hunter/dead, // They are dead.
-		/mob/living/simple_animal/hostile/asteroid/hivelordbrood, // They aren't supposed to be playable.
-		/mob/living/simple_animal/hologram, // Can't live outside the holodeck.
-		/mob/living/slime_pile, // They are dead.
-		/mob/living/adamantine_dust // Ditto
+		/mob/living/simple_animal/space_worm,							// Unfinished. Very buggy, they seem to just spawn additional space worms everywhere and eating your own tail results in new worms spawning.
+		/mob/living/simple_animal/hostile/humanoid,						// JUST DON'T DO IT, OK?
+		/mob/living/simple_animal/hostile/retaliate/cockatrice,			// I'm just copying this from transmog.
+		/mob/living/simple_animal/hostile/giant_spider/hunter/dead,		// They are dead.
+		/mob/living/simple_animal/hostile/asteroid/hivelordbrood,		// They aren't supposed to be playable.
+		/mob/living/simple_animal/hologram,								// Can't live outside the holodeck.
+		/mob/living/simple_animal/hostile/carp/holocarp,				// These can but they're just a retarded hologram carp reskin for the love of god.
+		/mob/living/slime_pile,											// They are dead.
+		/mob/living/adamantine_dust, 									// Ditto
+		/mob/living/simple_animal/hostile/viscerator,					// Nope.
+		/mob/living/simple_animal/hostile/mining_drone,					// This thing is super broken in the hands of a player and it was never meant to be summoned out of actual mining drone cubes.
+		/mob/living/simple_animal/bee,									// Aren't set up to be playable
+		/mob/living/simple_animal/hostile/asteroid/goliath/david/dave,	// Isn't supposed to be spawnable by xenobio
 		)
 
+//Boss monster list
+var/list/boss_mobs = list(
+	/mob/living/simple_animal/scp_173,								// Just a statue.
+	/mob/living/simple_animal/hostile/hivebot/tele,					// Hivebot spawner WIP thing
+	/mob/living/simple_animal/hostile/wendigo,						// Stupid strong evolving creature things that scream for help
+	/mob/living/simple_animal/hostile/mechahitler,					// Sieg heil!
+	/mob/living/simple_animal/hostile/alien/queen/large,			// The bigger and beefier version of queens.
+	/mob/living/simple_animal/hostile/asteroid/rockernaut/boss, 	// Angie
+	/mob/living/simple_animal/hostile/humanoid/surgeon/boss, 		// First stage of Doctor Placeholder
+	/mob/living/simple_animal/hostile/humanoid/surgeon/skeleton,	// Second stage of Doctor Placeholder
+	)
+
+// Set by traitor item, affects cargo supplies
+var/station_does_not_tip = FALSE
+
+#define CARD_CAPTURE_SUCCESS 0 // Successful charge
+#define CARD_CAPTURE_FAILURE_GENERAL 1 // General error
+#define CARD_CAPTURE_FAILURE_NOT_ENOUGH_FUNDS 2 // Not enough funds in the account.
+#define CARD_CAPTURE_ACCOUNT_DISABLED 3 // Account locked.
+#define CARD_CAPTURE_ACCOUNT_DISABLED_MERCHANT 4 // Destination account disabled.
+#define CARD_CAPTURE_FAILURE_BAD_ACCOUNT_PIN_COMBO 5 // Bad account/pin combo
+#define CARD_CAPTURE_FAILURE_SECURITY_LEVEL 6 // Security level didn't allow current authorization or another exception occurred
+#define CARD_CAPTURE_FAILURE_USER_CANCELED 7 // The user canceled the transaction
+#define CARD_CAPTURE_FAILURE_NO_DESTINATION 8 // There was no linked account to send funds to.
+#define CARD_CAPTURE_FAILURE_NO_CONNECTION 9 // Account database not available.
+
+#define BANK_SECURITY_EXPLANATION {"Choose your bank account security level.
+Vendors will try to subtract from your virtual wallet if possible.
+If you're too broke, they'll try to access your bank account directly.
+This setting decides how much info you have to enter to allow for that.
+Zero; Only your account number is required to deduct funds.
+One; Your account number and PIN are required.
+Two; Your ID card, account number and PIN are required.
+You can change this mid-game at an ATM."}
+
+proc/bank_security_num2text(var/num)
+	switch(num)
+		if(0)
+			return "Zero"
+		if(1)
+			return "One"
+		if(2)
+			return "Two"
+		else
+			return "OUT OF RANGE"
+
+var/list/bank_security_text2num_associative = list(
+	"Zero" = 0,
+	"One" = 1,
+	"Two" = 2
+) // Can't use a zero. Throws a fit about out of bounds indices if you do.
+// Also if you add more security levels, please also update the above BANK_SECURITY_EXPLANATION

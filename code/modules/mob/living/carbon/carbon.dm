@@ -212,7 +212,7 @@
 			AdjustParalysis(-3)
 			AdjustStunned(-3)
 			AdjustKnockdown(-3)
-			playsound(get_turf(src), 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
+			playsound(src, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
 			M.visible_message( \
 				"<span class='notice'>[M] shakes [src] trying to wake [t_him] up!</span>", \
 				"<span class='notice'>You shake [src] trying to wake [t_him] up!</span>", \
@@ -272,13 +272,13 @@
 					if (U && U.wired && U.cell && U.cell.charge >= STUNGLOVES_CHARGE_COST && T.siemens_coefficient == 0)
 						to_chat(M, "<span class='notice'>\The [src]'s insulated gloves prevent them from being shocked.</span>")
 
-					playsound(get_turf(src), 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
+					playsound(src, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
 					M.visible_message( \
 						"<span class='notice'>[M] shakes [ismartian(M) ? "tentacles" : "hands"] with [src].</span>", \
 						"<span class='notice'>You shake [ismartian(M) ? "tentacles" : "hands"] with [src].</span>", \
 						)
 			else
-				playsound(get_turf(src), 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
+				playsound(src, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
 				M.visible_message( \
 					"<span class='notice'>[M] gives [src] a [pick("hug","warm embrace")].</span>", \
 					"<span class='notice'>You hug [src].</span>", \
@@ -388,23 +388,21 @@
 		if(PULSE_NONE)
 			return "0"
 		if(PULSE_2SLOW)
-			temp = rand(20, 40)
-			return num2text(method ? temp : temp + rand(-10, 10))
+			temp = 30 + sin(life_tick / 2) * 10
 		if(PULSE_SLOW)
-			temp = rand(40, 60)
-			return num2text(method ? temp : temp + rand(-10, 10))
+			temp = 50 + sin(life_tick / 2) * 10
 		if(PULSE_NORM)
-			temp = rand(60, 90)
-			return num2text(method ? temp : temp + rand(-10, 10))
+			temp = 75 + sin(life_tick / 2) * 15
 		if(PULSE_FAST)
-			temp = rand(90, 120)
-			return num2text(method ? temp : temp + rand(-10, 10))
+			temp = 105 + sin(life_tick / 2) * 15
 		if(PULSE_2FAST)
-			temp = rand(120, 160)
-			return num2text(method ? temp : temp + rand(-10, 10))
+			temp = 140 + sin(life_tick / 2) * 20
 		if(PULSE_THREADY)
 			return method ? ">250" : "extremely weak and fast, patient's artery feels like a thread"
 //			output for machines^	^^^^^^^output for people^^^^^^^^^
+	if(method == GETPULSE_HAND)
+		temp += rand(-10, 10)
+	return num2text(round(temp))
 
 /mob/living/carbon/verb/mob_sleep()
 	set name = "Sleep"
@@ -500,20 +498,21 @@
 /mob/living/carbon/CheckSlip()
 	return !locked_to && !lying && !unslippable
 
-/mob/living/carbon/proc/Slip(stun_amount, weaken_amount, slip_on_walking = 0)
+/mob/living/proc/Slip(stun_amount, weaken_amount, slip_on_walking = 0)
+	stop_pulling()
+	Stun(stun_amount)
+	Knockdown(weaken_amount)
+	return 1
+
+/mob/living/carbon/Slip(stun_amount, weaken_amount, slip_on_walking = 0)
 	if(!slip_on_walking && m_intent == "walk")
 		return 0
 
 	if (CheckSlip() < 1 || !on_foot())
 		return 0
-
-	stop_pulling()
-	Stun(stun_amount)
-	Knockdown(weaken_amount)
-
-	playsound(get_turf(src), 'sound/misc/slip.ogg', 50, 1, -3)
-
-	return 1
+	if(..())
+		playsound(src, 'sound/misc/slip.ogg', 50, 1, -3)
+		return 1
 
 /mob/living/carbon/proc/transferImplantsTo(mob/living/carbon/newmob)
 	for(var/obj/item/weapon/implant/I in src)
@@ -625,7 +624,7 @@
 
 /mob/living/carbon/movement_tally_multiplier()
 	. = ..()
-	if(!istype(loc, /turf/space) && !reagents.has_any_reagents(list(HYPERZINE,COCAINE)))
+	if(!istype(loc, /turf/space))
 		for(var/obj/item/I in get_clothing_items())
 			if(I.slowdown <= 0)
 				testing("[I] HAD A SLOWDOWN OF <=0 OH DEAR")
@@ -635,6 +634,11 @@
 		for(var/obj/item/I in held_items)
 			if(I.flags & SLOWDOWN_WHEN_CARRIED)
 				. *= I.slowdown
+
+		if(reagents.has_any_reagents(list(HYPERZINE,COCAINE)))
+			. *= 0.4
+			if(. < 1)//we don't want to move faster than the base speed
+				. = 1
 
 /mob/living/carbon/base_movement_tally()
 	. = ..()
@@ -664,23 +668,23 @@
 	if((temp_turf.z != our_turf.z) || M.stat!=CONSCIOUS) //Not on the same zlevel as us or they're dead.
 //		to_chat(world, "[(temp_turf.z != our_turf.z) ? "not on the same zlevel as [M]" : "[M] is not concious"]")
 		if(temp_turf.z != map.zCentcomm)
-			to_chat(src, "The mind of [M] is too faint...")//Prevent "The mind of Admin is too faint..."
+			to_chat(src, "The target mind is too faint...")//Prevent "The mind of Admin is too faint..."
 
 		return 0
 	if(M_PSY_RESIST in M.mutations)
 //		to_chat(world, "[M] has psy resist")
-		to_chat(src, "The mind of [M] is resisting!")
+		to_chat(src, "The target mind is resisting!")
 		return 0
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(H.head && istype(H.head,/obj/item/clothing/head/tinfoil))
-			to_chat(src, "Interference is disrupting the connection with the mind of [M].")
+			to_chat(src, "Interference is disrupting the connection with the target mind.")
 			return 0
 	if(ismartian(M))
-		var/mob/living/carbon/martian/MR = M
+		var/mob/living/carbon/complex/martian/MR = M
 		if(MR.head)
 			if(istype(MR.head, /obj/item/clothing/head/helmet/space/martian) || istype(MR.head,/obj/item/clothing/head/tinfoil))
-				to_chat(src, "Interference is disrupting the connection with the mind of [M].")
+				to_chat(src, "Interference is disrupting the connection with the target mind.")
 				return 0
 	return 1
 

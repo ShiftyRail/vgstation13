@@ -115,7 +115,7 @@
 	//Send the warning that SPC is homing in
 	target_turf = get_turf(target)
 	if(!scare_played) //Let's minimize the spam
-		playsound(get_turf(src), pick(scare_sound), 100, 1, -1)
+		playsound(src, pick(scare_sound), 100, 1, -1)
 		scare_played = 1
 		spawn(50)
 			scare_played = 0
@@ -252,7 +252,7 @@
 			snap_neck(M)
 			break
 
-/mob/living/simple_animal/scp_173/forceMove(atom/destination, var/no_tp = 0)
+/mob/living/simple_animal/scp_173/forceMove(atom/destination, no_tp=0, harderforce = FALSE, glide_size_override = 0)
 
 	..()
 	check_snap_neck()

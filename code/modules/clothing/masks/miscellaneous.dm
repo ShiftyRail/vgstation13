@@ -36,7 +36,10 @@
 	desc = "Warning: moustache is fake."
 	icon_state = "fake-moustache"
 	flags = FPRINT
-	body_parts_covered = FACE //totally intentional
+	body_parts_covered = BEARD
+
+/obj/item/clothing/mask/fakemoustache/is_hidden_identity()
+	return TRUE
 
 //scarves (fit in in mask slot)
 /obj/item/clothing/mask/scarf
@@ -73,9 +76,17 @@
 	icon_state = "balaclava"
 	item_state = "balaclava"
 	flags = FPRINT
-	body_parts_covered = FACE
+	body_parts_covered = HEAD|MOUTH|EARS
 	w_class = W_CLASS_SMALL
 	species_fit = list(VOX_SHAPED, GREY_SHAPED)
+
+/obj/item/clothing/mask/balaclava/is_hidden_identity()
+	return TRUE
+
+/obj/item/clothing/mask/balaclava/skimask
+	heat_conductivity = INS_MASK_HEAT_CONDUCTIVITY
+	name = "ski mask"
+	desc = "This NT-brand skimask is sure to keep you warm."
 
 /obj/item/clothing/mask/neorussian
 	name = "neo-Russian mask"
@@ -83,6 +94,7 @@
 	icon_state = "nr_mask"
 	item_state = "nr_mask"
 	body_parts_covered = FACE
+	heat_conductivity = INS_MASK_HEAT_CONDUCTIVITY
 
 /obj/item/clothing/mask/pig
 	name = "pig mask"
@@ -199,3 +211,21 @@ obj/item/clothing/mask/joy
 		glowy_fangs = TRUE
 		icon_state = "fangs_glow"
 		wearer.overlays += glow_fangs
+
+
+/obj/item/clothing/mask/goldface
+	name = "golden mask"
+	desc = "Previously used in strange pantomimes, after one of the actors went mad on stage these masks have avoided use. You swear its face contorts when you're not looking."
+	icon_state = "goldenmask"
+	item_state = "goldenmask"
+
+/obj/item/clothing/mask/goldface/equipped()
+	..()
+	update_icon()
+
+/obj/item/clothing/mask/goldface/unequipped()
+	..()
+	update_icon()
+
+/obj/item/clothing/mask/goldface/update_icon()
+	icon_state = pick("goldenmask","goldenmask_anger","goldenmask_joy","goldenmask_despair")

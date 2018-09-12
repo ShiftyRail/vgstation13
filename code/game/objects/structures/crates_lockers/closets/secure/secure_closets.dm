@@ -83,7 +83,7 @@
 			O.show_message("<span class='warning'>The locker has been broken by [user] with an electromagnetic card!</span>", 1, "You hear a faint electrical spark.", 2)
 		update_icon()
 	else
-		if(istype(W, /obj/item/weapon/weldingtool))
+		if(iswelder(W))
 			var/obj/item/weapon/weldingtool/WT = W
 			if(!WT.remove_fuel(0,user))
 				to_chat(user, "<span class='notice'>You need more welding fuel to complete this task.</span>")
@@ -110,7 +110,7 @@
 		src.icon_state = src.icon_opened
 		src.opened = 1
 		setDensity(FALSE)
-		playsound(get_turf(src), 'sound/machines/click.ogg', 15, 1, -3)
+		playsound(src, 'sound/machines/click.ogg', 15, 1, -3)
 	else
 		if(!can_open())
 			to_chat(user, "<span class='notice'>It won't budge!</span>")

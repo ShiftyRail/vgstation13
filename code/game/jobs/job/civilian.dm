@@ -134,6 +134,7 @@
 				H.equip_or_collect(new /obj/item/clothing/under/rank/botany(H), slot_w_uniform)
 			if("Beekeeper")
 				H.equip_or_collect(new /obj/item/clothing/under/rank/beekeeper(H), slot_w_uniform)
+				H.equip_or_collect(new /obj/item/queen_bee(H), slot_l_store)
 			if("Gardener")
 				H.equip_or_collect(new /obj/item/clothing/under/rank/gardener(H), slot_w_uniform)
 
@@ -372,7 +373,7 @@
 			H.equip_or_collect(new /obj/item/weapon/reagent_containers/food/drinks/bottle/bottleofnothing(H), slot_in_backpack)
 		H.add_spell(new /spell/aoe_turf/conjure/forcewall/mime, "grey_spell_ready")
 		H.add_spell(new /spell/targeted/oathbreak/)
-		H.miming = 1
+		H.mind.miming = MIMING_OUT_OF_CHOICE
 		H.rename_self("mime")
 		return 1
 
@@ -396,12 +397,12 @@
 		var/response = alert(M, "Are you -sure- you want to break your oath of silence?\n(This removes your ability to create invisible walls and cannot be undone!)","Are you sure you want to break your oath?","Yes","No")
 		if(response != "Yes")
 			return
-		M.miming=0
+		M.mind.miming=0
 		for(var/spell/aoe_turf/conjure/forcewall/mime/spell in M.spell_list)
 			M.remove_spell(spell)
 		for(var/spell/targeted/oathbreak/spell in M.spell_list)
 			M.remove_spell(spell)
-		message_admins("[M.name] ([M.ckey]) has broken their oath of silence. (<A HREF='?_src_=holder;adminplayerobservejump=\ref[src]'>JMP</a>)")
+		message_admins("[M.name] ([M.ckey]) has broken their oath of silence. (<A HREF='?_src_=holder;adminplayerobservejump=\ref[M]'>JMP</a>)")
 		to_chat(M, "<span class = 'notice'>An unsettling feeling surrounds you...</span>")
 		return
 
@@ -508,7 +509,7 @@
 	spawn_positions = 2
 	supervisors = "Nanotrasen Law, CentComm Officals, and the station's captain."
 	selection_color = "#dddddd"
-	access = list(access_lawyer, access_court, access_heads, access_RC_announce, access_sec_doors, access_maint_tunnels, access_cargo, access_medical,  access_bar, access_kitchen, access_hydroponics)
+	access = list(access_lawyer, access_court, access_heads, access_RC_announce, access_sec_doors, access_cargo, access_medical, access_bar, access_kitchen, access_hydroponics)
 	minimal_access = list(access_lawyer, access_court, access_heads, access_RC_announce, access_sec_doors, access_cargo,  access_bar, access_kitchen)
 	alt_titles = list("Lawyer", "Bridge Officer")
 

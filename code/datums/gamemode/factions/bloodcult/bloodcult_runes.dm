@@ -10,7 +10,6 @@
 
 //NULLROD CHECK
 
-
 var/list/rune_list = list()//all runes currently in the world
 var/list/uristrune_cache = list()//icon cache, so the whole blending process is only done once per rune.
 
@@ -23,6 +22,7 @@ var/list/uristrune_cache = list()//icon cache, so the whole blending process is 
 	layer = RUNE_LAYER
 	plane = ABOVE_TURF_PLANE
 
+	//Whether the rune is pulsating
 	var/animated = 0
 
 	//A rune is made of up to 3 words
@@ -39,11 +39,14 @@ var/list/uristrune_cache = list()//icon cache, so the whole blending process is 
 	var/datum/reagent/blood/blood3
 	var/list/datum/disease2/disease/virus2 = list()
 
-	//Used when a nullrod is preventing a rune's activation
+	//Used when a nullrod is preventing a rune's activation TODO: REWORK NULL ROD INTERACTIONS
 	var/nullblock = 0
 
-
+	//The spell currently triggered by the rune. Prevents a rune from being used by different cultists at the same time.
 	var/datum/rune_spell/active_spell = null
+
+	//Prevents the same rune from being concealed/revealed several times on a row.
+	var/conceal_cooldown = 0
 
 /obj/effect/rune/New()
 	..()
@@ -57,7 +60,6 @@ var/list/uristrune_cache = list()//icon cache, so the whole blending process is 
 	rune_list.Add(src)
 
 /obj/effect/rune/Destroy()
-
 	for(var/mob/living/silicon/ai/AI in player_list)
 		if (AI.client)
 			AI.client.images -= blood_image
@@ -85,7 +87,7 @@ var/list/uristrune_cache = list()//icon cache, so the whole blending process is 
 
 	//cultists can read the words, and be informed if it calls a spell
 	if (iscultist(user))
-		to_chat(user, "<span class='info'>It reads: <i>[word1.rune] [word2.rune] [word3.rune]</i>.[rune_name ? " That's a <b>[initial(rune_name.name)]</b> rune." : "It doesn't match any rune spells."]</span>")
+		to_chat(user, "<span class='info'>It reads: <i>[word1 ? "[word1.rune]" : ""] [word2 ? "[word2.rune]" : ""] [word3 ? "[word3.rune]" : ""]</i>.[rune_name ? " That's a <b>[initial(rune_name.name)]</b> rune." : "It doesn't match any rune spells."]</span>")
 	if (rune_name)
 		if (initial(rune_name.Act_restriction) <= 1000)//TODO: SET TO CURRENT CULT FACTION ACT
 			to_chat(user, initial(rune_name.desc))
@@ -145,11 +147,11 @@ var/list/uristrune_cache = list()//icon cache, so the whole blending process is 
 
 	var/lookup = ""
 	if (word1)
-		lookup += "[word1.icon_state]-[animated]-[blood1.data["blood_colour"]]-"
+		lookup += "[word1.icon_state]-[animated]-[blood1.data["blood_colour"]]"
 	if (word2)
-		lookup += "[word2.icon_state]-[animated]-[blood2.data["blood_colour"]]-"
+		lookup += "-[word2.icon_state]-[animated]-[blood2.data["blood_colour"]]"
 	if (word3)
-		lookup += "[word3.icon_state]-[animated]-[blood3.data["blood_colour"]]"
+		lookup += "-[word3.icon_state]-[animated]-[blood3.data["blood_colour"]]"
 
 	if (lookup in uristrune_cache)
 		icon = uristrune_cache[lookup]
@@ -169,6 +171,7 @@ var/list/uristrune_cache = list()//icon cache, so the whole blending process is 
 		I.Blend(I2, ICON_OVERLAY)
 		I.Blend(I3, ICON_OVERLAY)
 		icon = I
+		uristrune_cache[lookup] = I
 
 	if(animated)
 		idle_pulse()
@@ -213,17 +216,11 @@ var/list/uristrune_cache = list()//icon cache, so the whole blending process is 
 		else
 			animate(src)
 
-/obj/effect/rune/proc/quick_pulse()
-	animate(src, color = list(2,0.67,0.27,0,0.27,2,0.67,0,0.67,0.27,2,0,0,0,0,1,0,0,0,0), time = 5, loop = -1)
-	animate(color = list(1.875,0.56,0.19,0,0.19,1.875,0.56,0,0.56,0.19,1.875,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.75,0.45,0.12,0,0.12,1.75,0.45,0,0.45,0.12,1.75,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.625,0.35,0.06,0,0.06,1.625,0.35,0,0.35,0.06,1.625,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.75,0.45,0.12,0,0.12,1.75,0.45,0,0.45,0.12,1.75,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.875,0.56,0.19,0,0.19,1.875,0.56,0,0.56,0.19,1.875,0,0,0,0,1,0,0,0,0), time = 1)
-
 
 /obj/effect/rune/proc/make_uristword(var/datum/cultword/word, var/datum/reagent/blood/blood, var/animated)
 	var/icon/I = icon('icons/effects/uristrunes.dmi', "")
+	if (!blood)
+		blood = new
 	var/lookupword = "[word.icon_state]-[animated]-[blood.data["blood_colour"]]"
 	if(lookupword in uristrune_cache)
 		I = uristrune_cache[lookupword]
@@ -275,7 +272,16 @@ var/list/uristrune_cache = list()//icon cache, so the whole blending process is 
 		to_chat(user, "<span class='notice'>You disrupt the vile magic with the deadening field of \the [I]!</span>")
 		qdel(src)
 		return
+	if(istype(I, /obj/item/weapon/tome))
+		trigger(user)
+	if(istype(I, /obj/item/weapon/talisman))
+		var/obj/item/weapon/talisman/T = I
+		T.imbue(user,src)
 	return
+
+/obj/effect/rune/Uncrossed(var/atom/movable/mover)
+	if (active_spell && ismob(mover))
+		active_spell.Removed(mover)
 
 /proc/write_rune_word(var/turf/T,var/datum/reagent/blood/source,var/word = null)
 	if (!word)
@@ -358,8 +364,9 @@ var/list/uristrune_cache = list()//icon cache, so the whole blending process is 
 		rune.blood3 = null
 		rune.update_icon()
 		if (rune.active_spell)
-			rune.active_spell.abort()
+			rune.active_spell.abort(RITUALABORT_ERASED)
 			rune.active_spell = null
+			rune.overlays.len = 0
 	else if (rune.word2)
 		word_erased = rune.word2.rune
 		rune.word2 = null
@@ -389,12 +396,9 @@ var/list/uristrune_cache = list()//icon cache, so the whole blending process is 
 /obj/effect/rune/attack_hand(var/mob/living/user)
 	trigger(user)
 
-/obj/effect/rune/proc/trigger(var/mob/living/user)
-	if (active_spell)
-		active_spell.midcast(user)
-		return
-
+/obj/effect/rune/proc/trigger(var/mob/living/user,var/talisman_trigger=0)
 	user.delayNextAttack(5)
+
 	if(!iscultist(user))
 		to_chat(user, "<span class='danger'>You can't mouth the arcane scratchings without fumbling over them.</span>")
 		return
@@ -409,14 +413,28 @@ var/list/uristrune_cache = list()//icon cache, so the whole blending process is 
 		to_chat(user, "<span class='danger'>You are unable to speak the words of the rune because of \the [user.wear_mask].</span>")//TODO; SILENT CASTING ALLOWS MUZZLED CAST
 		return
 
+	if(user.is_mute())
+		to_chat(user, "<span class='danger'>You don't have the ability to perform rituals without voicing the incantations, there has to be some way...</span>")
+		return
+
 	if(!word1 || !word2 || !word3 || prob(user.getBrainLoss()))
 		return fizzle(user)
+
+	if (active_spell)//rune is already channeling a spell? let's see if we can interact with it somehow.
+		if (talisman_trigger)
+			active_spell.midcast_talisman(user)
+		else
+			active_spell.midcast(user)
+		return
+
+	reveal()//concealed rune get automatically revealed upon use (either through using Seer or an attuned talisman). Placed after midcast: exception for Path talismans.
 
 	active_spell = get_rune_spell(user, src, "ritual" , word1, word2, word3)
 
 	if (!active_spell)
 		return fizzle(user)
-
+	else if (active_spell.destroying_self)
+		active_spell = null
 
 /obj/effect/rune/proc/fizzle(var/mob/living/user)
 	user.say(pick("B'ADMINES SP'WNIN SH'T","IC'IN O'OC","RO'SHA'M I'SA GRI'FF'N ME'AI","TOX'IN'S O'NM FI'RAH","IA BL'AME TOX'IN'S","FIR'A NON'AN RE'SONA","A'OI I'RS ROUA'GE","LE'OAN JU'STA SP'A'C Z'EE SH'EF","IA PT'WOBEA'RD, IA A'DMI'NEH'LP"))
@@ -424,3 +442,24 @@ var/list/uristrune_cache = list()//icon cache, so the whole blending process is 
 	visible_message("<span class='warning'>The markings pulse with a small burst of light, then fall dark.</span>",\
 	"<span class='warning'>The markings pulse with a small burst of light, then fall dark.</span>",\
 	"<span class='warning'>You hear a faint fizzle.</span>")
+
+/obj/effect/rune/proc/conceal()
+	if (active_spell && !active_spell.can_conceal)
+		active_spell.abort(RITUALABORT_CONCEAL)
+	animate(src, alpha = 0, time = 5)
+	spawn(6)
+		invisibility=INVISIBILITY_OBSERVER
+		alpha = 127
+
+/obj/effect/rune/proc/reveal()
+	if (invisibility != 0)
+		alpha = 0
+		invisibility=0
+		animate(src, alpha = 255, time = 5)
+		one_pulse()
+		conceal_cooldown = 1
+		spawn (100)
+			if (src && loc)
+				conceal_cooldown = 0
+		return 1
+	return 0

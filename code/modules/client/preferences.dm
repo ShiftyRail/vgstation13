@@ -6,40 +6,42 @@
 var/list/preferences_datums = list()
 
 var/global/list/special_roles = list(
-	ROLE_ALIEN        = 1, //always show
-	ROLE_BLOB         = 1,
-	ROLE_BORER        = 1,
-	ROLE_CHANGELING   = 1,
-	ROLE_CULTIST      = 1,
-	ROLE_PLANT        = 1,
-//	"infested monkey" = IS_MODE_COMPILED("monkey"),
-	ROLE_MALF         = 1,
+	ROLE_ALIEN        	= 1, //always show
+	ROLE_BLOB         	= 1,
+	ROLE_BORER        	= 1,
+	ROLE_CHANGELING   	= 1,
+	ROLE_CULTIST      	= 1,
+	ROLE_LEGACY_CULTIST = 1,
+	ROLE_PLANT        	= 1,
+//	"infested monkey" 	= IS_MODE_COMPILED("monkey"),
+	ROLE_MALF         	= 1,
 	//ROLE_NINJA        = 1,
-	ROLE_OPERATIVE    = 1,
-	ROLE_PAI          = 1, // -- TLE
-	ROLE_POSIBRAIN    = 1,
-	ROLE_REV          = 1,
-	ROLE_TRAITOR      = 1,
-	ROLE_VAMPIRE      = 1,
-	ROLE_VOXRAIDER    = 1,
-	ROLE_WIZARD       = 1,
-	ROLE_COMMANDO	  = 1,
+	ROLE_OPERATIVE    	= 1,
+	ROLE_PAI          	= 1, // -- TLE
+	ROLE_POSIBRAIN    	= 1,
+	ROLE_REV          	= 1,
+	ROLE_TRAITOR      	= 1,
+	ROLE_VAMPIRE      	= 1,
+	ROLE_VOXRAIDER    	= 1,
+	ROLE_WIZARD       	= 1,
+	ROLE_COMMANDO	  	= 1,
 )
 
 var/list/antag_roles = list(
-	ROLE_ALIEN        = 1,
-	ROLE_BLOB         = 1,
-	ROLE_CHANGELING   = 1,
-	ROLE_CULTIST      = 1,
-	ROLE_MALF         = 1,
-	ROLE_OPERATIVE    = 1,
-	ROLE_REV          = 1,
-	ROLE_TRAITOR      = 1,
-	ROLE_VAMPIRE      = 1,
-	ROLE_VOXRAIDER    = 1,
-	ROLE_WIZARD       = 1,
-	ROLE_COMMANDO	  = 1,
-//	"infested monkey" = IS_MODE_COMPILED("monkey"),
+	ROLE_ALIEN        	= 1,
+	ROLE_BLOB         	= 1,
+	ROLE_CHANGELING   	= 1,
+	ROLE_CULTIST      	= 1,
+	ROLE_LEGACY_CULTIST = 1,
+	ROLE_MALF         	= 1,
+	ROLE_OPERATIVE    	= 1,
+	ROLE_REV          	= 1,
+	ROLE_TRAITOR      	= 1,
+	ROLE_VAMPIRE      	= 1,
+	ROLE_VOXRAIDER    	= 1,
+	ROLE_WIZARD       	= 1,
+	ROLE_COMMANDO	  	= 1,
+//	"infested monkey" 	= IS_MODE_COMPILED("monkey"),
 )
 
 var/list/nonantag_roles = list(
@@ -50,21 +52,22 @@ var/list/nonantag_roles = list(
 )
 
 var/list/role_wiki=list(
-	ROLE_ALIEN		= "Xenomorph",
-	ROLE_BLOB		= "Blob",
-	ROLE_BORER		= "Cortical_Borer",
-	ROLE_CHANGELING	= "Changeling",
-	ROLE_CULTIST	= "Cult",
-	ROLE_PLANT		= "Dionaea",
-	ROLE_MALF		= "Guide_to_Malfunction",
-	ROLE_OPERATIVE	= "Nuclear_Agent",
-	ROLE_PAI		= "Personal_AI",
-	ROLE_POSIBRAIN	= "Guide_to_Silicon_Laws",
-	ROLE_REV		= "Revolution",
-	ROLE_TRAITOR	= "Traitor",
-	ROLE_VAMPIRE	= "Vampire",
-	ROLE_VOXRAIDER	= "Vox_Raider",
-	ROLE_WIZARD		= "Wizard",
+	ROLE_ALIEN			= "Xenomorph",
+	ROLE_BLOB			= "Blob",
+	ROLE_BORER			= "Cortical_Borer",
+	ROLE_CHANGELING		= "Changeling",
+	ROLE_CULTIST		= "Cult 3.0",
+	ROLE_LEGACY_CULTIST = "Cult", // To change ! In the future we'll have a new page for Cult 3, and this one will go down in history
+	ROLE_PLANT			= "Dionaea",
+	ROLE_MALF			= "Guide_to_Malfunction",
+	ROLE_OPERATIVE		= "Nuclear_Agent",
+	ROLE_PAI			= "Personal_AI",
+	ROLE_POSIBRAIN		= "Guide_to_Silicon_Laws",
+	ROLE_REV			= "Revolution",
+	ROLE_TRAITOR		= "Traitor",
+	ROLE_VAMPIRE		= "Vampire",
+	ROLE_VOXRAIDER		= "Vox_Raider",
+	ROLE_WIZARD			= "Wizard",
 )
 
 var/const/MAX_SAVE_SLOTS = 8
@@ -167,6 +170,8 @@ var/const/MAX_SAVE_SLOTS = 8
 	var/disabilities = 0 // NOW A BITFIELD, SEE ABOVE
 
 	var/nanotrasen_relation = "Neutral"
+	var/bank_security = 1			//for bank accounts, 0-2, no-pin,pin,pin&card
+	
 
 	// 0 = character settings, 1 = game preferences
 	var/current_tab = 0
@@ -190,6 +195,8 @@ var/const/MAX_SAVE_SLOTS = 8
 	var/usenanoui = 1 //Whether or not this client will use nanoUI, this doesn't do anything other than objects being able to check this.
 
 	var/progress_bars = 1 //Whether to show progress bars when doing delayed actions.
+
+	var/pulltoggle = 1 //If 1, the "pull" verb toggles between pulling/not pulling. If 0, the "pull" verb will always try to pull, and do nothing if already pulling.
 	var/client/client
 	var/saveloaded = 0
 
@@ -202,12 +209,12 @@ var/const/MAX_SAVE_SLOTS = 8
 			if(!IsGuestKey(thekey))
 				var/load_pref = load_preferences_sqlite(theckey)
 				if(load_pref)
-					while(!speciesinit)
+					while(!SS_READY(SShumans))
 						sleep(1)
 					try_load_save_sqlite(theckey, C, default_slot)
 					return
 
-			while(!speciesinit)
+			while(!SS_READY(SShumans))
 				sleep(1)
 			randomize_appearance_for()
 			real_name = random_name(gender, species)
@@ -251,13 +258,16 @@ var/const/MAX_SAVE_SLOTS = 8
 	<b>Species:</b> <a href='?_src_=prefs;preference=species;task=input'>[species]</a><BR>
 	<b>Secondary Language:</b> <a href='byond://?src=\ref[user];preference=language;task=input'>[language]</a><br>
 	<b>Skin Tone:</b> <a href='?_src_=prefs;preference=s_tone;task=input'>[species == "Human" ? "[-s_tone + 35]/220" : "[s_tone]"]</a><br><BR>
-	<b>Handicaps:</b> <a href='byond://?src=\ref[user];task=input;preference=disabilities'><b>Set</a></b><br>
+	<b>Handicaps:</b> <a href='byond://?src=\ref[user];task=input;preference=disabilities'>Set</a><br>
 	<b>Limbs:</b> <a href='byond://?src=\ref[user];preference=limbs;task=input'>Set</a><br>
 	<b>Organs:</b> <a href='byond://?src=\ref[user];preference=organs;task=input'>Set</a><br>
-	<b>Underwear:</b> [gender == MALE ? "<a href ='?_src_=prefs;preference=underwear;task=input'><b>[underwear_m[underwear]]</a>" : "<a href ='?_src_=prefs;preference=underwear;task=input'><b>[underwear_f[underwear]]</a>"]<br>
-	<b>Backpack:</b> <a href ='?_src_=prefs;preference=bag;task=input'><b>[backbaglist[backbag]]</a><br>
-	<b>Nanotrasen Relation</b>:<br><a href ='?_src_=prefs;preference=nt_relation;task=input'><b>[nanotrasen_relation]</b></a><br>
+	<b>Underwear:</b> [gender == MALE ? "<a href ='?_src_=prefs;preference=underwear;task=input'>[underwear_m[underwear]]</a>" : "<a href ='?_src_=prefs;preference=underwear;task=input'>[underwear_f[underwear]]</a>"]<br>
+	<b>Backpack:</b> <a href ='?_src_=prefs;preference=bag;task=input'>[backbaglist[backbag]]</a><br>
+	<b>Nanotrasen Relation</b>:<br><a href ='?_src_=prefs;preference=nt_relation;task=input'>[nanotrasen_relation]</a><br>
 	<b>Flavor Text:</b><a href='byond://?src=\ref[user];preference=flavor_text;task=input'>Set</a><br>
+	<b>Character records:</b>
+	[jobban_isbanned(user, "Records") ? "Banned" : "<a href=\"byond://?src=\ref[user];preference=records;record=1\">Set</a>"]<br>
+	<b>Bank account security preference:</b><a href ='?_src_=prefs;preference=bank_security;task=input'>[bank_security_num2text(bank_security)]</a> <br>
 	</td><td valign='top' width='21%'>
 	<h3>Hair Style</h3>
 	<a href='?_src_=prefs;preference=h_style;task=input'>[h_style]</a><BR>
@@ -333,6 +343,8 @@ var/const/MAX_SAVE_SLOTS = 8
 	<a href='?_src_=prefs;preference=progbar'><b>[(progress_bars) ? "Yes" : "No"]</b></a><br>
 	<b>Pause after first step:</b>
 	<a href='?_src_=prefs;preference=stumble'><b>[(stumble) ? "Yes" : "No"]</b></a><br>
+	<b>Pulling action:</b>
+	<a href='?_src_=prefs;preference=pulltoggle'><b>[(pulltoggle) ? "Toggle Pulling" : "Always Pull"]</b></a><br>
   </div>
   <div id="rightDiv" style="width:50%;height:100%;float:right;">
 	<b>Randomized Character Slot:</b>
@@ -355,8 +367,6 @@ var/const/MAX_SAVE_SLOTS = 8
 	<a href='?_src_=prefs;preference=tooltips'><b>[(tooltips) ? "Yes" : "No"]</b></a><br>
 	<b>Adminhelp Special Tab:</b>
 	<a href='?_src_=prefs;preference=special_popup'><b>[special_popup ? "Yes" : "No"]</b></a><br>
-	<b>Character Records:<b>
-	[jobban_isbanned(user, "Records") ? "Banned" : "<a href=\"byond://?src=\ref[user];preference=records;record=1\">Set</a></b><br>"]
 	<b>Attack Animations:<b>
 	<a href='?_src_=prefs;preference=attack_animation'><b>[attack_animation ? (attack_animation == ITEM_ANIMATION? "Item Anim." : "Person Anim.") : "No"]</b></a><br>
   </div>
@@ -637,6 +647,8 @@ var/const/MAX_SAVE_SLOTS = 8
 	HTML += ShowDisabilityState(user,DISABILITY_FLAG_BLIND,      "Blind")
 	HTML += ShowDisabilityState(user,DISABILITY_FLAG_MUTE,       "Mute")
 	HTML += ShowDisabilityState(user,DISABILITY_FLAG_VEGAN,      "Vegan")
+	HTML += ShowDisabilityState(user,DISABILITY_FLAG_ASTHMA,      "Asthma")
+	HTML += ShowDisabilityState(user,DISABILITY_FLAG_LACTOSE,     "Lactose Intolerant")
 	/*HTML += ShowDisabilityState(user,DISABILITY_FLAG_COUGHING,   "Coughing")
 	HTML += ShowDisabilityState(user,DISABILITY_FLAG_TOURETTES,   "Tourettes") Still working on it! -Angelite*/
 
@@ -1146,24 +1158,12 @@ NOTE:  The change will take effect AFTER any current recruiting periods."}
 									SetDepartmentFlags(job, i, F)
 
 				if("language")
-					var/languages_available
 					var/list/new_languages = list("None")
 
-					if(config.usealienwhitelist)
-						for(var/L in all_languages)
-							var/datum/language/lang = all_languages[L]
-							if((!(lang.flags & RESTRICTED)) && (is_alien_whitelisted(user, L)||(!( lang.flags & WHITELISTED ))))
-								new_languages += lang.name
-
-								languages_available = 1
-
-						if(!(languages_available))
-							alert(user, "There are not currently any available secondary languages.")
-					else
-						for(var/L in all_languages)
-							var/datum/language/lang = all_languages[L]
-							if(!(lang.flags & RESTRICTED))
-								new_languages += lang.name
+					for(var/L in all_languages)
+						var/datum/language/lang = all_languages[L]
+						if(lang.flags & CAN_BE_SECONDARY_LANGUAGE)
+							new_languages += lang.name
 
 					language = input("Please select a secondary language", "Character Generation", null) in new_languages
 
@@ -1258,6 +1258,11 @@ NOTE:  The change will take effect AFTER any current recruiting periods."}
 					if(new_relation)
 						nanotrasen_relation = new_relation
 
+				if("bank_security")
+					var/new_bank_security = input(user, BANK_SECURITY_EXPLANATION, "Character Preference")  as null|anything in bank_security_text2num_associative
+					if(!isnull(new_bank_security))
+						bank_security = bank_security_text2num_associative[new_bank_security]
+						
 				if("flavor_text")
 					flavor_text = input(user,"Set the flavor text in your 'examine' verb. This can also be used for OOC notes and preferences!","Flavor Text",html_decode(flavor_text)) as message
 
@@ -1474,6 +1479,8 @@ NOTE:  The change will take effect AFTER any current recruiting periods."}
 					progress_bars = !progress_bars
 				if("stumble")
 					stumble = !stumble
+				if("pulltoggle")
+					pulltoggle = !pulltoggle
 
 				if("ghost_deadchat")
 					toggles ^= CHAT_DEAD

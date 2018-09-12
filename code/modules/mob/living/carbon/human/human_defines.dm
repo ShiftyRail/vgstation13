@@ -60,7 +60,6 @@
 	var/icon/stand_icon = null
 	var/icon/lying_icon = null
 
-	var/miming = null //Toggle for the mime's abilities.
 	var/special_voice = "" // For changing our voice. Used by a symptom.
 	var/said_last_words=0
 
@@ -85,8 +84,6 @@
 
 	var/obj/item/organ/external/head/decapitated = null //to keep track of a decapitated head, for debug and soulstone purposes
 
-	var/datum/component_container/NPC_brain
-
 	fire_dmi = 'icons/mob/OnFire.dmi'
 	fire_sprite = "Standing"
 	plane = HUMAN_PLANE
@@ -94,3 +91,4 @@
 	var/show_client_status_on_examine = TRUE //If false, don't display catatonic/braindead messages to non-admins
 
 	var/become_zombie_after_death = FALSE
+	var/times_cloned = 0 //How many times this person has been cloned

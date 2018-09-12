@@ -10,6 +10,7 @@ var/global/next_account_number = 0
 var/global/obj/machinery/account_database/centcomm_account_db
 var/global/datum/money_account/vendor_account
 var/global/list/all_money_accounts = list()
+var/global/datum/money_account/trader_account
 
 /proc/create_station_account()
 	if(!station_account)
@@ -63,8 +64,7 @@ var/global/list/all_money_accounts = list()
 //the current ingame time (hh:mm) can be obtained by calling:
 //worldtime2text()
 
-/proc/create_account(var/new_owner_name = "Default user", var/starting_funds = 0, var/obj/machinery/account_database/source_db, var/wage_payout = 0)
-
+/proc/create_account(var/new_owner_name = "Default user", var/starting_funds = 0, var/obj/machinery/account_database/source_db, var/wage_payout = 0, var/security_pref = 1)
 
 	//create a new account
 	var/datum/money_account/M = new()
@@ -72,6 +72,7 @@ var/global/list/all_money_accounts = list()
 	M.remote_access_pin = rand(1111, 9999)
 	M.money = starting_funds
 	M.wage_gain = wage_payout
+	M.security_level = security_pref
 
 	//create an entry in the account transaction log for when it was created
 	var/datum/transaction/T = new()
@@ -134,6 +135,10 @@ var/global/list/all_money_accounts = list()
 							//2 - require card and manual login
 	var/virtual = 0
 	var/wage_gain = 0 // How much an account gains per 'wage' tick.
+	var/disabled = 0
+	// 0 Unlocked
+	// 1 User locked
+	// 2 Admin locked
 
 /datum/transaction
 	var/target_name = ""
@@ -160,8 +165,6 @@ var/global/list/all_money_accounts = list()
 	var/activated = 1
 
 	machine_flags = EMAGGABLE | WRENCHMOVE | FIXED2WORK | EJECTNOTDEL
-	ghost_read=0
-	ghost_write=0
 
 /obj/machinery/account_database/New(loc)
 	..(loc)
@@ -203,12 +206,12 @@ var/global/list/all_money_accounts = list()
 	. = ..()
 	if(.)
 		return
-	if(ishuman(user) && !user.stat && get_dist(src,user) <= 1)
+	if(isAdminGhost(user) || (ishuman(user) && !user.stat && get_dist(src,user) <= 1))
 		var/dat = "<b>Accounts Database</b><br>"
 
 		dat += {"<i>[machine_id]</i><br>
 			Confirm identity: <a href='?src=\ref[src];choice=insert_card'>[held_card ? held_card : "-----"]</a><br>"}
-		if(access_level > 0)
+		if(access_level > 0 || isAdminGhost(user))
 
 			dat += {"<a href='?src=\ref[src];toggle_activated=1'>[activated ? "Disable" : "Enable"] remote access</a><br>
 				You may not edit accounts at this terminal, only create and view them.<br>"}
@@ -234,6 +237,18 @@ var/global/list/all_money_accounts = list()
 						<b>Account holder:</b> [detailed_account_view.owner_name]<br>
 						<b>Account balance:</b> $[detailed_account_view.money]<br>
 						<b>Assigned wage payout:</b> $[detailed_account_view.wage_gain]<br>
+						<b>Account status:</b> "}
+					switch(detailed_account_view.disabled)
+						if(0)
+							dat += "Enabled"
+						if(1)
+							dat += "User Disabled"
+						if(2)
+							dat += "Administratively Disabled"
+						else
+							dat += "???ERROR???"
+					dat += {"<br>
+						<a href='?src=\ref[src];choice=toggle_account;'>Administratively [detailed_account_view.disabled ? "enable" : "disable"] account</a><br>
 						<table border=1 style='width:100%'>
 						<tr>
 						<td><b>Date</b></td>
@@ -362,11 +377,14 @@ var/global/list/all_money_accounts = list()
 			if("view_accounts_list")
 				detailed_account_view = null
 				creating_new_account = 0
+			if("toggle_account")
+				if(detailed_account_view)
+					detailed_account_view.disabled = detailed_account_view.disabled ? 0 : 2
 
 	src.attack_hand(usr)
 
 /obj/machinery/account_database/proc/charge_to_account(var/attempt_account_number, var/source_name, var/purpose, var/terminal_id, var/amount)
-	if(!activated)
+	if(!activated || !attempt_account_number)
 		return 0
 	for(var/datum/money_account/D in all_money_accounts)
 		if(D.account_number == attempt_account_number)
@@ -391,7 +409,7 @@ var/global/list/all_money_accounts = list()
 
 //this returns the first account datum that matches the supplied accnum/pin combination, it returns null if the combination did not match any account
 /obj/machinery/account_database/proc/attempt_account_access(var/attempt_account_number, var/attempt_pin_number, var/security_level_passed = 0,var/pin_needed=1)
-	if(!activated)
+	if(!activated || !attempt_account_number)
 		return 0
 	for(var/datum/money_account/D in all_money_accounts)
 		if(D.account_number == attempt_account_number)
@@ -399,6 +417,9 @@ var/global/list/all_money_accounts = list()
 				return D
 
 /obj/machinery/account_database/proc/get_account(var/account_number)
+	if(!account_number)
+		// Don't bother searching if there's no account number.
+		return null
 	for(var/datum/money_account/D in all_money_accounts)
 		if(D.account_number == account_number)
 			return D

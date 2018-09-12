@@ -122,12 +122,7 @@
 		if(!gas)
 			return null
 		var/datum/gas_mixture/newgas = new/datum/gas_mixture()
-		newgas.oxygen = gas.oxygen
-		newgas.carbon_dioxide = gas.carbon_dioxide
-		newgas.nitrogen = gas.nitrogen
-		newgas.toxins = gas.toxins
-		newgas.volume = gas.volume
-		newgas.temperature = gas.temperature
+		newgas.copy_from(gas)
 		if(newgas.temperature <= target_temp)
 			return
 
@@ -135,6 +130,7 @@
 			newgas.temperature -= cooling_power
 		else
 			newgas.temperature = target_temp
+		newgas.update_values()
 		return newgas
 
 /obj/structure/closet/crate/freezer/surgery
@@ -271,6 +267,22 @@
 	locked = 1
 	health = 1000
 
+/obj/structure/closet/crate/secure/anti_tamper
+	name = "Extra-secure crate"
+
+/obj/structure/closet/crate/secure/anti_tamper/Destroy()
+	if(locked)
+		visible_message("<span class = 'warning'>Something bursts open from within \the [src]!</span>")
+		var/datum/effect/effect/system/smoke_spread/chem/S = new //Surprise!
+		S.attach(get_turf(src))
+		S.chemholder.reagents.add_reagent(CAPSAICIN, 40)
+		S.chemholder.reagents.add_reagent(CONDENSEDCAPSAICIN, 16)
+		S.chemholder.reagents.add_reagent(SACID, 12)
+		S.set_up(src, 10, 0, loc)
+		spawn(0)
+			S.start()
+	..()
+
 /obj/structure/closet/crate/large
 	name = "large crate"
 	desc = "A hefty metal crate."
@@ -341,6 +353,15 @@
 	icon_opened = "engisecurecrateopen"
 	icon_closed = "engisecurecrate"
 
+/obj/structure/closet/crate/secure/medsec
+	desc = "A secure medical crate."
+	name = "secure medical crate"
+	icon = 'icons/obj/storage/storage.dmi'
+	icon_state = "medicalsecurecrate"
+	density = 1
+	icon_opened = "medicalsecurecrateopen"
+	icon_closed = "medicalsecurecrate"
+
 /obj/structure/closet/crate/secure/plasma/prefilled
 	var/count=10
 /obj/structure/closet/crate/secure/plasma/prefilled/New()
@@ -399,7 +420,7 @@
 		return 0
 	if(!src.can_open())
 		return 0
-	playsound(get_turf(src), sound_effect_open, 15, 1, -3)
+	playsound(src, sound_effect_open, 15, 1, -3)
 
 	dump_contents()
 
@@ -413,7 +434,7 @@
 		return 0
 	if(!src.can_close())
 		return 0
-	playsound(get_turf(src), sound_effect_close, 15, 1, -3)
+	playsound(src, sound_effect_close, 15, 1, -3)
 
 	take_contents()
 
@@ -488,7 +509,7 @@
 		overlays += emag
 		overlays += sparks
 		spawn(6) overlays -= sparks //Tried lots of stuff but nothing works right. so i have to use this *sadface*
-		playsound(get_turf(src), "sparks", 60, 1)
+		playsound(src, "sparks", 60, 1)
 		src.locked = 0
 		src.broken = 1
 		to_chat(user, "<span class='notice'>You unlock \the [src].</span>")
@@ -541,7 +562,7 @@
 			overlays += emag
 			overlays += sparks
 			spawn(6) overlays -= sparks //Tried lots of stuff but nothing works right. so i have to use this *sadface*
-			playsound(get_turf(src), 'sound/effects/sparks4.ogg', 75, 1)
+			playsound(src, 'sound/effects/sparks4.ogg', 75, 1)
 			src.locked = 0
 	if(!opened && prob(20/severity))
 		if(!locked)
@@ -653,3 +674,22 @@
 
 /obj/structure/closet/crate/secure/weapon/experimental/gravitywell
 	chosen_set = "gravitywell"
+
+/obj/structure/closet/crate/medical/surgeonloot //Loot crate from killing the surgeon boss
+	name = "old medical crate"
+	desc = "I wonder what could be inside it?"
+	var/possible_loot = null //major loot from killing the boss
+	var/possible_potion = null //random potion from killing the boss
+
+/obj/structure/closet/crate/medical/surgeonloot/New()
+	..()
+	if(!possible_loot) //at the moment there is only one major reward, but more will be created eventually.
+		possible_loot = pick(/obj/item/clothing/mask/morphing/skelegiant)
+
+	if(!possible_potion)
+		possible_potion = pick(/obj/item/potion/transform, /obj/item/potion/stoneskin, /obj/item/potion/invisibility, /obj/item/potion/speed/major, /obj/item/potion/zombie)
+
+	new possible_loot(src)
+	new possible_potion(src)
+	new /obj/item/potion/healing(src) //you always get a guarnteed healing potion
+

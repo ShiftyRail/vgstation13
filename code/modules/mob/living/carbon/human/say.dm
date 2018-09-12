@@ -46,7 +46,7 @@
 					temp_message[H] = "HONK"
 					pick_list -= H //Make sure that you dont HONK the same word twice
 				speech.message = jointext(temp_message, " ")
-	if(iscultist(src))
+	if(isanycultist(src))
 		var/obj/effect/cult_ritual/cult_communication/comms = locate() in loc
 		if (comms && comms.caster == src)
 			speech.language = all_languages[LANGUAGE_CULT]
@@ -80,7 +80,7 @@
 
 /mob/living/carbon/human/IsVocal()
 	if(mind)
-		return !miming
+		return !(issilent(src))
 	return 1
 
 /mob/living/carbon/human/proc/SetSpecialVoice(var/new_voice)

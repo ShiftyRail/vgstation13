@@ -50,21 +50,25 @@
 	if (!istype(the_target, /mob/living))
 		return ..()
 	var/mob/living/L = the_target
-	if (L.mind && L.mind.faction == vamp_fac)
-		return FALSE
+	if (L.mind)
+		for (var/R in L.mind.antag_roles)
+			if (L.mind.antag_roles[R] in vamp_fac.members)
+				return FALSE
 	return ..()
 
 /mob/living/simple_animal/hostile/scarybat/FindTarget()
 	. = ..()
 	if(.)
-		emote("flutters towards [.]")
+		emote("me",, "flutters towards [.]!")
 
 /mob/living/simple_animal/hostile/scarybat/Found(var/atom/A) //This is here as a potential override to pick a specific target if available
 	if(!istype(A, /mob/living))
 		return FALSE
 	var/mob/living/L = A
-	if (L.mind && L.mind.faction == vamp_fac)
-		return FALSE
+	if (L.mind)
+		for (var/R in L.mind.antag_roles)
+			if (L.mind.antag_roles[R] in vamp_fac.members)
+				return FALSE
 	return ..()
 
 /mob/living/simple_animal/hostile/scarybat/AttackingTarget()
@@ -82,11 +86,21 @@
 
 	supernatural = 1
 
+
+/mob/living/simple_animal/hostile/scarybat/cult/Found(var/atom/the_target)
+	//IF WE ARE CULT MONSTERS (those who spawn after Nar-Sie has risen) THEN WE DON'T ATTACK CULTISTS
+	if(ismob(the_target))
+		var/mob/M = the_target
+		if(isanycultist(M))
+			return 0
+	return ..(the_target)
+
+
 /mob/living/simple_animal/hostile/scarybat/cult/CanAttack(var/atom/the_target)
 	//IF WE ARE CULT MONSTERS (those who spawn after Nar-Sie has risen) THEN WE DON'T ATTACK CULTISTS
 	if(ismob(the_target))
 		var/mob/M = the_target
-		if(iscultist(M))
+		if(isanycultist(M))
 			return 0
 	return ..(the_target)
 

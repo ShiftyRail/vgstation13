@@ -33,7 +33,7 @@
 	maxbodytemp = 323	//Above 50 Degrees Celcius
 	universal_speak = 0
 	treadmill_speed = 0.2 //You can still do it, but you're not going to generate much power.
-	speak_override = TRUE
+	speak_override = FALSE
 
 	size = SIZE_TINY
 	holder_type = /obj/item/weapon/holder/animal/mouse
@@ -45,11 +45,6 @@
 
 	var/list/datum/disease2/disease/virus2 = list() //For disease carrying
 	var/antibodies = 0
-
-/mob/living/simple_animal/mouse/New()
-	..()
-	create_reagents(100)
-
 
 /mob/living/simple_animal/mouse/Life()
 	if(timestopped)
@@ -72,7 +67,7 @@
 			wander = 1
 			speak_chance = initial(speak_chance)
 		else if(prob(5))
-			emote("snuffles")
+			emote("me", EMOTE_AUDIBLE, "snuffles")
 
 	if(nutrition >= MOUSETFAT)
 		visible_message("<span class = 'warning'>\The [src] explodes!</span>")
@@ -189,7 +184,7 @@
 			to_chat(user, "<span class = 'danger'>It seems a bit hungry.</span>")
 
 /mob/living/simple_animal/mouse/proc/splat()
-	Die()
+	death()
 	src.icon_dead = "mouse_[_color]_splat"
 	src.icon_state = "mouse_[_color]_splat"
 	if(client)
@@ -262,10 +257,10 @@
 			M << 'sound/effects/mousesqueek.ogg'
 	..()
 
-/mob/living/simple_animal/mouse/Die()
+/mob/living/simple_animal/mouse/death(var/gibbed = FALSE)
 	if(client)
 		client.time_died_as_mouse = world.time
-	..()
+	..(gibbed)
 
 /*
  * Mouse types

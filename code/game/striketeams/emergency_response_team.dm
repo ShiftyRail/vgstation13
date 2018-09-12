@@ -1,7 +1,6 @@
 //ERT
 
 var/list/response_team_members = list()
-var/list/distributed_ert_suits = list()
 
 /datum/striketeam/ert
 	striketeam_name = TEAM_ERT
@@ -127,12 +126,11 @@ var/list/distributed_ert_suits = list()
 	if(!(M.mind in ticker.minds))
 		ticker.minds += M.mind//Adds them to regular mind list.
 
-	var/datum/faction/ert = find_active_faction(ERT)
+	var/datum/faction/ert = find_active_faction_by_type(/datum/faction/strike_team/ert)
 	if(ert)
 		ert.HandleRecruitedMind(M.mind)
 	else
-		ticker.mode.CreateFaction(/datum/faction/strike_team/ert)
-		ert = find_active_faction(ERT)
+		ert = ticker.mode.CreateFaction(/datum/faction/strike_team/ert)
 		if(ert)
 			ert.HandleNewMind(M.mind) //First come, first served
 	M.equip_response_team(leader_selected)

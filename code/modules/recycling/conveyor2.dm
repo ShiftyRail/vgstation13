@@ -10,6 +10,7 @@
 	name = "conveyor belt"
 	desc = "A conveyor belt.\
 	<br><span class='info'>It can be pried into a different direction using a crowbar, but cannot be moved without welding it apart.</span>"
+	layer = BELOW_TABLE_LAYER
 	anchored = 1
 
 	var/operating = 0	// 1 if running forward, -1 if backwards, 0 if off
@@ -259,22 +260,20 @@
 /obj/machinery/conveyor/attackby(obj/item/W, mob/user)
 	if(iswelder(W))
 		var/obj/item/weapon/weldingtool/WT = W
-		if(WT.remove_fuel(0,user))
-			playsound(get_turf(src), 'sound/items/Welder2.ogg', 50, 1)
-			if(do_after(user, src, 30))
-				user.visible_message("<span class='warning'>Plates of metal are cut off \the [src] by [user.name] with the welding tool.</span>", \
-				"<span class='warning'>You cut the metal plates off \the [src] with the welding tool.</span>", \
-				"<span class='warning'>You hear welding.</span>")
-				new /obj/structure/conveyor_assembly(loc,dir)
-				getFromPool(/obj/item/stack/sheet/metal, loc, 3)
-				qdel(src)
+		if(WT.do_weld(user, src, 30, 0))
+			user.visible_message("<span class='warning'>Plates of metal are cut off \the [src] by [user.name] with the welding tool.</span>", \
+			"<span class='warning'>You cut the metal plates off \the [src] with the welding tool.</span>", \
+			"<span class='warning'>You hear welding.</span>")
+			new /obj/structure/conveyor_assembly(loc,dir)
+			getFromPool(/obj/item/stack/sheet/metal, loc, 3)
+			qdel(src)
 			return 1
 	. = ..()
 	if(.)
 		return .
 	user.drop_item(W, src.loc)
 
-/obj/machinery/conveyor/MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
+/obj/machinery/conveyor/MouseDropFrom(over_object,src_location,over_location,src_control,over_control,params)
 	var/mob/user = usr
 	if(user.incapacitated() || user.lying)
 		return
@@ -283,7 +282,7 @@
 	var/obj/O = user.get_active_hand()
 	if(iscrowbar(O))
 		update_dir(get_dir(src, over_location))
-		playsound(get_turf(src), 'sound/items/Crowbar.ogg', 25, 1)
+		playsound(src, 'sound/items/Crowbar.ogg', 25, 1)
 		to_chat(user, "You change the direction of \the [src] using \the [O].")
 		return
 	return ..()
@@ -534,7 +533,7 @@
 		return .
 	if(iswrench(W))
 		to_chat(user, "<span class='notice'>Deconstructing \the [src]...</span>")
-		playsound(get_turf(src), 'sound/items/Ratchet.ogg', 100, 1)
+		playsound(src, 'sound/items/Ratchet.ogg', 100, 1)
 		if(do_after(user, src,50))
 			to_chat(user, "<span class='notice'>You disassemble \the [src].</span>")
 			var/turf/T=get_turf(src)

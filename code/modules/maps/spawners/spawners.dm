@@ -115,7 +115,7 @@
 		/obj/item/weapon/gun/energy/ionrifle,
 		/obj/item/weapon/gun/energy/laser,
 		/obj/item/weapon/gun/energy/laser/cannon,
-		/obj/item/weapon/gun/projectile/automatic/mini_uzi,
+		/obj/item/weapon/gun/projectile/automatic/uzi,
 		/obj/item/weapon/gun/projectile/automatic,
 		/obj/item/weapon/gun/projectile/automatic/l6_saw,
 		/obj/item/weapon/gun/projectile/deagle,
@@ -207,7 +207,6 @@
 		/obj/machinery/vending/sovietsoda,
 		/obj/structure/AIcore,
 		/obj/structure/piano,
-		/obj/structure/displaycase_frame,
 		/obj/structure/particle_accelerator/fuel_chamber,
 		/obj/structure/reagent_dispensers/fueltank,
 		/obj/structure/reagent_dispensers/water_cooler,
@@ -604,6 +603,7 @@
 		/obj/item/device/powersink,
 		/obj/item/weapon/gun/projectile/flamethrower/full,
 		/obj/item/weapon/gun/projectile/deagle/gold,
+		/obj/item/clothing/shoes/magboots/magnificent,
 		/obj/item/weapon/gun/projectile/russian,
 	)
 
@@ -853,7 +853,7 @@
 	icon_state = "mob_lizard"
 	amount = 2
 	chance = 50
-	to_spawn = list(/mob/living/simple_animal/lizard)
+	to_spawn = list(/mob/living/simple_animal/hostile/lizard)
 
 /obj/abstract/map/spawner/mobs/mouse
 	name = "mouse spawner"
@@ -904,13 +904,51 @@
 /obj/abstract/map/spawner/mobs/medivault
 	name = "medivault spawner"
 	icon_state = "mob_medivault"
-	chance = 50
+	chance = 60
 	to_spawn = list(
-		/mob/living/simple_animal/hostile/monster/cyber_horror/Tajaran,
-		/mob/living/simple_animal/hostile/monster/cyber_horror,
 		/mob/living/simple_animal/hostile/necro/skeleton,
+		/mob/living/simple_animal/hostile/necro/skeleton,
+		/mob/living/simple_animal/hostile/necro/skeleton,
+		/mob/living/simple_animal/hostile/necro/zombie/leatherman,
+		/mob/living/simple_animal/hostile/necro/zombie/ghoul,
+		/mob/living/simple_animal/hostile/necro/zombie/ghoul,
+		/mob/living/simple_animal/hostile/necro/zombie/ghoul,
+		/mob/living/simple_animal/hostile/necro/zombie,
+		/mob/living/simple_animal/hostile/necro/zombie,
+		/mob/living/simple_animal/hostile/necro/zombie,
 		/mob/living/simple_animal/hostile/necro/zombie,
 		)
+
+/obj/abstract/map/spawner/misc/medivault
+	name = "medivault loot spawner"
+	icon_state = "loot_medivault"
+	chance = 80
+	amount = 1
+	jiggle = 5
+	to_spawn = list(/obj/item/weapon/dnainjector/nofail/polymorph,
+	/obj/item/weapon/dnainjector/nofail/polymorph,
+	/obj/item/weapon/dnainjector/nofail/telemut,
+	/obj/item/weapon/dnainjector/nofail/telemut,
+	/obj/item/weapon/dnainjector/nofail/randompower,
+	/obj/item/weapon/dnainjector/nofail/randompower,
+	/obj/item/weapon/dnainjector/nofail/randompower,
+	/obj/item/weapon/dnainjector/nofail/hulkmut,
+	/obj/item/weapon/dnainjector/nofail/nobreath,
+	/obj/item/weapon/dnainjector/nofail/nobreath,
+	/obj/item/weapon/storage/firstaid/adv,
+	/obj/item/weapon/storage/firstaid/adv,
+	/obj/item/weapon/storage/firstaid/adv,
+	/obj/item/weapon/storage/pill_bottle/hyperzine,
+	/obj/item/weapon/storage/pill_bottle/hyperzine,
+	/obj/item/weapon/reagent_containers/glass/beaker/mednanobots,
+	/obj/item/weapon/reagent_containers/glass/beaker/mednanobots,
+	/obj/item/weapon/gun/energy/laser/smart,
+	/obj/item/weapon/gun/energy/laser/pistol,
+	/obj/item/weapon/gun/energy/laser/pistol,
+	/obj/item/weapon/gun/projectile/shotgun/pump/combat,
+
+
+)
 
 // Robutts /////////////////////////////////////////////////////
 
@@ -1100,6 +1138,7 @@
 		/obj/item/mounted/frame/painting
 )
 
+
 /obj/abstract/map/spawner/safe/medical
 	name = "safe medical spawner"
 	icon_state = "safe"
@@ -1140,7 +1179,7 @@
 	/obj/item/weapon/gun/projectile/deagle/gold,
 	/obj/item/weapon/bikehorn,
 	/obj/item/weapon/storage/box/emps,
-	/obj/item/weapon/gun/projectile/automatic/mini_uzi,
+	/obj/item/weapon/gun/projectile/automatic/uzi,
 	/obj/item/weapon/melee/energy/axe/rusty,
 	/obj/item/weapon/gun/projectile/russian,
 	/obj/item/weapon/gun/mahoguny,

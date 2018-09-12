@@ -32,7 +32,7 @@
 
 	if(usr.stat == DEAD)
 		usr.emote_dead(message)
-	else
+	else if(message)
 		usr.emote("me",usr.emote_type,message)
 
 /mob/proc/say_dead(var/message)
@@ -76,11 +76,13 @@
 			if(B.brain_dead_chat())
 				to_chat(M, rendered2)
 
+/*
 /mob/proc/emote(var/act, var/type, var/message, var/auto)
 	if(timestopped)
 		return //under effects of time magick
 	if(act == "me")
 		return custom_emote(type, message)
+*/
 
 /mob/proc/get_ear()
 	// returns an atom representing a location on the map from which this

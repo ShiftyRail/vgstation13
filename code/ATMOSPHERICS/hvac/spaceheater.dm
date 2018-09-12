@@ -127,12 +127,12 @@
 	..()
 	var/turf/T = get_turf(src)
 	var/datum/gas_mixture/env = T.return_air()
-	if(env.oxygen < 5)
+	if(env.molar_density("oxygen") < 5 / CELL_VOLUME)
 		to_chat(user, "<span class='notice'>You try to light \the [name], but it won't catch on fire!")
 		return
 	if(!on && cell.charge > 0)
 	//Items with special messages go first - yes, this is all stolen from cigarette code. sue me.
-		if(istype(I, /obj/item/weapon/weldingtool))
+		if(iswelder(I))
 			var/obj/item/weapon/weldingtool/WT = I
 			if(WT.is_hot()) //Badasses dont get blinded while lighting their !!campfire!! with a welding tool
 				light("<span class='notice'>[user] casually lights \the [name] with \his [I], what a badass.</span>")
@@ -282,9 +282,7 @@
 				var/datum/gas_mixture/env = L.return_air()
 				if(env.temperature != set_temperature + T0C)
 
-					var/transfer_moles = 0.25 * env.total_moles() / env.volume * CELL_VOLUME
-
-					var/datum/gas_mixture/removed = env.remove(transfer_moles)
+					var/datum/gas_mixture/removed = env.remove_volume(0.25 * CELL_VOLUME)
 
 //					to_chat(world, "got [transfer_moles] moles at [removed.temperature]")
 
@@ -325,7 +323,7 @@
 		return
 	lastcharge = Floor(cell.charge/10)
 	if(on)
-		playsound(get_turf(src), pick(comfyfire), (cell.charge/250)*5, 1, -1,channel = 124)
+		playsound(src, pick(comfyfire), (cell.charge/250)*5, 1, -1,channel = 124)
 
 
 /obj/machinery/space_heater/campfire/Crossed(mob/user as mob)

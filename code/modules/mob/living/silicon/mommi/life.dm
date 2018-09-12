@@ -16,7 +16,7 @@
 
 	if(client)
 		handle_regular_hud_updates()
-		update_action_buttons()
+		update_action_buttons_icon()
 		update_items()
 	if (src.stat != DEAD) //still using power
 		use_power()
@@ -117,6 +117,8 @@
 
 	if (src.ear_deaf > 0)
 		src.ear_deaf--
+	if (say_mute > 0)
+		say_mute--
 	if (src.ear_damage < 25)
 		src.ear_damage -= 0.05
 		src.ear_damage = max(src.ear_damage, 0)
@@ -135,6 +137,9 @@
 	if (src.druggy > 0)
 		src.druggy--
 		src.druggy = max(0, src.druggy)
+
+	handle_dizziness()
+	handle_jitteriness()
 
 	return 1
 

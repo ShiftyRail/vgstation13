@@ -38,7 +38,7 @@ var/list/LOGGED_SPLASH_REAGENTS = list(FUEL, THERMITE)
 		return
 	if(isturf(usr.loc))
 		if(reagents.total_volume > 10) //Beakersplashing only likes to do this sound when over 10 units
-			playsound(get_turf(src), 'sound/effects/slosh.ogg', 25, 1)
+			playsound(src, 'sound/effects/slosh.ogg', 25, 1)
 		usr.investigation_log(I_CHEMS, "has emptied \a [src] ([type]) containing [reagents.get_reagent_ids(1)] onto \the [usr.loc].")
 		reagents.reaction(usr.loc)
 		spawn()
@@ -56,7 +56,7 @@ var/list/LOGGED_SPLASH_REAGENTS = list(FUEL, THERMITE)
 	if(src.is_empty())
 		to_chat(usr, "<span class='warning'>\The [src] is empty.</span>")
 		return
-	playsound(get_turf(src), 'sound/effects/slosh.ogg', 25, 1)
+	playsound(src, 'sound/effects/slosh.ogg', 25, 1)
 	spawn()
 		src.reagents.clear_reagents()
 	to_chat(user, "<span class='notice'>You flush \the [src] down \the [where].</span>")
@@ -97,7 +97,7 @@ var/list/LOGGED_SPLASH_REAGENTS = list(FUEL, THERMITE)
 	if(user.a_intent != I_HELP)
 		if(src.reagents)
 			transfer(M, user, splashable_units = -1)
-			playsound(get_turf(M), 'sound/effects/slosh.ogg', 25, 1)
+			playsound(M, 'sound/effects/slosh.ogg', 25, 1)
 			return 1
 
 
@@ -343,14 +343,20 @@ var/list/LOGGED_SPLASH_REAGENTS = list(FUEL, THERMITE)
 
 	if(isrobot(user))
 		reagents.remove_any(amount_per_imbibe)
+		reagents.reaction(user, TOUCH)
 		return 1
 	if(reagents.total_volume)
 		if(can_drink(user))
 			reagents.reaction(user, INGEST)
 			spawn(5)
 				if(reagents)
-					reagents.trans_to(user, amount_per_imbibe)
-
+					if(user.get_stomach())
+						var/datum/organ/internal/stomach/S = user.get_stomach()
+						reagents.trans_to(S.get_reagents(), amount_per_imbibe) // transfer to stomach
+					else if(istype(user, /mob/living/carbon/human))
+						reagents.trans_to(user, amount_per_imbibe / 4) // greatly reduced reagent absorption without a stomach
+					else
+						reagents.trans_to(user, amount_per_imbibe)
 	return 1
 
 /obj/item/weapon/reagent_containers/proc/can_drink(mob/user)

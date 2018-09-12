@@ -212,7 +212,7 @@ turf/simulated/floor/update_icon()
 		if("bananium")
 			if(!spam_flag)
 				spam_flag = 1
-				playsound(get_turf(src), 'sound/items/bikehorn.ogg', 50, 1)
+				playsound(src, 'sound/items/bikehorn.ogg', 50, 1)
 				spawn(20)
 					spam_flag = 0
 	..()
@@ -310,7 +310,7 @@ turf/simulated/floor/update_icon()
 			return //you can't break legos
 		if(material=="phazon") //Phazon shatters
 			spawn(rand(2,10))
-				playsound(get_turf(src), "shatter", 70, 1)
+				playsound(src, "shatter", 70, 1)
 				make_plating()
 			return
 
@@ -624,8 +624,6 @@ turf/simulated/floor/update_icon()
 				new to_spawn(src)
 				to_chat(user, "<span class='notice'>Something falls out of the grass!</span>")
 			make_plating()
-		else
-			to_chat(user, "<span class='warning'>You cannot shovel this.</span>")
 	else if(iswelder(C))
 		var/obj/item/weapon/weldingtool/welder = C
 		if(welder.isOn() && (is_plating()))
@@ -647,7 +645,7 @@ turf/simulated/floor/update_icon()
 			if("bananium")
 				if(!spam_flag)
 					spam_flag = 1
-					playsound(get_turf(src), "clownstep", 50, 1)
+					playsound(src, "clownstep", 50, 1)
 					spawn(20)
 						spam_flag = 0
 			if("uranium")

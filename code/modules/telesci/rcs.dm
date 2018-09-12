@@ -34,7 +34,7 @@
 			playsound(src, 'sound/items/Screwdriver.ogg', 50, 1)
 			to_chat(user, "<span class = 'caution'>You screw in the telepad's tracking beacon.</span>")
 			stage = 0
-	if(istype(W, /obj/item/weapon/weldingtool) && stage == 1)
+	if(iswelder(W) && stage == 1)
 		playsound(src, 'sound/items/Welder.ogg', 50, 1)
 		to_chat(user, "<span class = 'caution'>You disassemble the telepad.</span>")
 		var/obj/item/stack/sheet/metal/M = getFromPool(/obj/item/stack/sheet/metal, get_turf(src))
@@ -98,7 +98,7 @@
 /obj/item/weapon/rcs/attack_self(mob/user)
 	if(emagged)
 		mode = !mode
-		playsound(get_turf(src), 'sound/effects/pop.ogg', 50, 0)
+		playsound(src, 'sound/effects/pop.ogg', 50, 0)
 		if(mode == MODE_NORMAL)
 			to_chat(user, "<span class = 'caution'>You calibrate the telepad locator.</span>")
 		else
@@ -150,7 +150,7 @@
 	else if (mode == MODE_RANDOM)
 		teleport_target = locate(rand(50, 450), rand(50, 450), 6)
 
-	playsound(get_turf(src), 'sound/machines/click.ogg', 50, 1)
+	playsound(src, 'sound/machines/click.ogg', 50, 1)
 	to_chat(user, "<span class='notic'>Teleporting \the [target]...</span>")
 	teleporting = TRUE
 	if (!do_after(user, target, 50))

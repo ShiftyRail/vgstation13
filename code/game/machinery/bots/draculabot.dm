@@ -145,6 +145,7 @@
 				to_chat(user, "<span class='warning'>ERROR</span>")
 			else
 				to_chat(user, "<span class='warning'>Access denied.</span>")
+		return
 
 	if(istype(W,/obj/item/weapon/reagent_containers/blood))
 		var/obj/item/weapon/reagent_containers/blood/B = W
@@ -157,9 +158,10 @@
 			speak("Thanks, nurse! Now I've got [contained_bags.len]!")
 			update_icon()
 			updateUsrDialog()
-	if(health < maxhealth && !isscrewdriver(W) && W.force && !emagged) //Retreat if we're not hostile and we're under attack
-		step_to(src, get_step_away(src,user))
-	..()
+		return
+	. = ..()
+	if(. && !emagged) //Retreat if we're not hostile and we're under attack
+		step_away(src,user)
 
 /obj/machinery/bot/bloodbot/Emag(mob/user as mob)
 	if(!locked)
@@ -178,6 +180,7 @@
 		if(!quiet && prob(5))
 			speak(pick("Donate blood here!","I'm going to want another blood sample.","Give blood so others may live.","Share life. Donate blood.","C'mon! We know you've got it in you!","Hey -- you're somebody's type!"))
 		if(!currently_drawing_blood && prob(5)) //Wander
+			set_glide_size(DELAY2GLIDESIZE(SS_WAIT_MACHINERY))
 			Move(get_step(src, pick(cardinal)))
 	else //First priority: drink an adjacent target. Otherwise, pick a target and move toward it if we have none.
 		if(prob(5))
@@ -193,12 +196,12 @@
 			for(var/mob/living/carbon/human/H in view(7,src))
 				if(H.vessel.get_reagent_amount(BLOOD) && !(H.species.anatomy_flags & NO_BLOOD))
 					possible_targets += H
-			if(possible_targets)
+			if(possible_targets.len)
 				target = pick(possible_targets)
 			else
 				return
 		if(target)
-			walk_to(src,get_turf(target),1,0,1)
+			start_walk_to(get_turf(target),1,0,1)
 
 /obj/machinery/bot/bloodbot/proc/drink(mob/living/carbon/human/H)
 	if(!on || !istype(H))
@@ -241,7 +244,7 @@
 			return
 		H.vessel.remove_reagent(BLOOD,DANGER_DRINK_RATE)
 		getFromPool(/obj/effect/decal/cleanable/blood, get_turf(src))
-		playsound(get_turf(src), 'sound/effects/splat.ogg', 50, 1)
+		playsound(src, 'sound/effects/splat.ogg', 50, 1)
 		spawn(1 SECONDS)
 			drink(H)
 

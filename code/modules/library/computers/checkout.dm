@@ -49,7 +49,7 @@
 			dat += "</ol>"
 
 			if(src.arcanecheckout)
-				new /obj/item/weapon/tome(src.loc)
+				new /obj/item/weapon/tome_legacy(src.loc)
 				to_chat(user, "<span class='warning'>Your sanity barely endures the seconds spent in the vault's browsing window. The only thing to remind you of this when you stop browsing is a dusty old tome sitting on the desk. You don't really remember printing it.</span>")
 				user.visible_message("[user] stares at the blank screen for a few moments, his expression frozen in fear. When he finally awakens from it, he looks a lot older.", 2)
 				src.arcanecheckout = 0
@@ -315,14 +315,29 @@
 			if("6")
 				if(!bibledelay)
 
-					var/obj/item/weapon/storage/bible/B = new /obj/item/weapon/storage/bible(src.loc)
-					if(ticker && ( ticker.Bible_icon_state && ticker.Bible_item_state) )
+					bibledelay = 1
+
+					var/obj/item/weapon/storage/bible/B = new
+					B = new(src.loc)
+					if (usr.mind && usr.mind.faith) // The user has a faith
+						var/datum/religion/R = usr.mind.faith
+						var/obj/item/weapon/storage/bible/HB = R.holy_book
+						if (!HB)
+							B = chooseBible(R, usr)
+						else
+							B.icon_state = HB.icon_state
+							B.item_state = HB.item_state
+						B.name = R.bible_name
+						B.my_rel = R
+
+					else if (ticker && (ticker.Bible_icon_state && ticker.Bible_item_state)) // No faith
 						B.icon_state = ticker.Bible_icon_state
 						B.item_state = ticker.Bible_item_state
 						B.name = ticker.Bible_name
-						B.my_rel.deity_name = ticker.Bible_deity_name
+						B.my_rel = ticker.chap_rel
 
-					bibledelay = 1
+					B.forceMove(src.loc)
+
 					spawn(60)
 						bibledelay = 0
 

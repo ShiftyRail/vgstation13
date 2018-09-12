@@ -154,7 +154,7 @@
 		to_chat(usr, "<span class='warning'>We must be in human form before activating Horror Form.</span>")
 		return
 
-	var/datum/role/changeling/changeling = changeling_power(0,0,100)
+	var/datum/role/changeling/changeling = changeling_power(30, 0, 100, deny_horror = TRUE)
 	if(!changeling)
 		return
 
@@ -162,6 +162,12 @@
 
 	for(var/obj/item/slot in H.get_all_slots())
 		u_equip(slot, 1)
+
+	H.maxHealth = 800 /* Gonna need more than one egun to kill one of these bad boys*/
+	H.health = 800
+	H.set_species("Horror")
+	H.client.verbs |= H.species.abilities // Force ability equip.
+	H.update_icons()
 
 	monkeyizing = 1
 	canmove = 0
@@ -185,11 +191,6 @@
 	delayNextAttack(0)
 	icon = null
 	invisibility = initial(invisibility)
-	H.maxHealth = 800 /* Gonna need more than one egun to kill one of these bad boys*/
-	H.health = 800
-	H.set_species("Horror")
-	H.client.verbs |= H.species.abilities // Force ability equip.
-	H.update_icons()
 
 //removes our changeling verbs
 /mob/proc/remove_changeling_powers()
@@ -284,7 +285,7 @@
 		to_chat(src, "<span class='warning'>This creature's DNA is useless to us!</span>")
 		return
 
-	if(!G.state == GRAB_KILL)
+	if(!(G.state == GRAB_KILL))
 		to_chat(src, "<span class='warning'>We must have a tighter grip to absorb this creature.</span>")
 		return
 
@@ -300,12 +301,12 @@
 			if(2)
 				to_chat(src, "<span class='notice'>We extend a proboscis.</span>")
 				src.visible_message("<span class='warning'>[src] extends a proboscis!</span>")
-				playsound(get_turf(src), 'sound/effects/lingextends.ogg', 50, 1)
+				playsound(src, 'sound/effects/lingextends.ogg', 50, 1)
 			if(3)
 				to_chat(src, "<span class='notice'>We stab [T] with the proboscis.</span>")
 				src.visible_message("<span class='danger'>[src] stabs [T] with the proboscis!</span>")
 				to_chat(T, "<span class='danger'>You feel a sharp stabbing pain!</span>")
-				playsound(get_turf(src), 'sound/effects/lingstabs.ogg', 50, 1)
+				playsound(src, 'sound/effects/lingstabs.ogg', 50, 1)
 				var/datum/organ/external/affecting = T.get_organ(src.zone_sel.selecting)
 				if(affecting.take_damage(39,0,1,"large organic needle"))
 					T:UpdateDamageIcon(1)
@@ -320,7 +321,7 @@
 	to_chat(src, "<span class='notice'>We have absorbed [T]!</span>")
 	src.visible_message("<span class='danger'>[src] sucks the fluids from [T]!</span>")
 	to_chat(T, "<span class='danger'>You have been absorbed by the changeling!</span>")
-	playsound(get_turf(src), 'sound/effects/lingabsorbs.ogg', 50, 1)
+	playsound(src, 'sound/effects/lingabsorbs.ogg', 50, 1)
 	add_attacklogs(src, T, "absorbed")
 
 	T.dna.real_name = T.real_name //Set this again, just to be sure that it's properly set.
@@ -352,31 +353,32 @@
 	if(T.mind)
 		var/datum/role/changeling/Tchangeling = T.mind.GetRole(CHANGELING)
 
-		if(Tchangeling && Tchangeling.absorbed_dna)
-			for(var/dna_data in Tchangeling.absorbed_dna)	//steal all their loot
-				if(dna_data in changeling.absorbed_dna)
-					continue
-				changeling.absorbed_dna += dna_data
-				changeling.absorbedcount++
-			Tchangeling.absorbed_dna.len = 1
+		if(Tchangeling)
+			if(Tchangeling.absorbed_dna)
+				for(var/dna_data in Tchangeling.absorbed_dna)	//steal all their loot
+					if(dna_data in changeling.absorbed_dna)
+						continue
+					changeling.absorbed_dna += dna_data
+					changeling.absorbedcount++
+				Tchangeling.absorbed_dna.len = 1
 
-		if(Tchangeling.purchasedpowers)
-			for(var/datum/power/changeling/Tp in Tchangeling.purchasedpowers)
-				if(Tp in changeling.purchasedpowers)
-					continue
-				else
-					changeling.purchasedpowers += Tp
-
-					if(!Tp.isVerb)
-						call(Tp.verbpath)()
+			if(Tchangeling.purchasedpowers)
+				for(var/datum/power/changeling/Tp in Tchangeling.purchasedpowers)
+					if(Tp in changeling.purchasedpowers)
+						continue
 					else
-						src.make_changeling()
+						changeling.purchasedpowers += Tp
 
-		changeling.chem_charges += Tchangeling.chem_charges
-		changeling.geneticpoints += Tchangeling.geneticpoints
-		Tchangeling.chem_charges = 0
-		Tchangeling.geneticpoints = 0
-		Tchangeling.absorbedcount = 0
+						if(!Tp.isVerb)
+							call(Tp.verbpath)()
+						else
+							src.make_changeling()
+
+			changeling.chem_charges += Tchangeling.chem_charges
+			changeling.geneticpoints += Tchangeling.geneticpoints
+			Tchangeling.chem_charges = 0
+			Tchangeling.geneticpoints = 0
+			Tchangeling.absorbedcount = 0
 
 	changeling.absorbedcount++
 	changeling.isabsorbing = 0
@@ -643,8 +645,9 @@
 
 	C.emote("deathgasp")
 	C.tod = worldtime2text()
-
-	spawn(rand(800,1200))
+	var/time_to_take = rand(800, 1200)
+	to_chat(C, "<span class='notice'>This will take [round((time_to_take/10))] seconds.</span>")
+	spawn(time_to_take)
 		to_chat(src, "<span class='warning'>We are now ready to regenerate.</span>")
 		add_changeling_verb(/obj/item/verbs/changeling/proc/changeling_returntolife)
 
@@ -949,8 +952,10 @@ var/list/datum/dna/hivemind_bank = list()
 	for(var/mob/living/carbon/C in oview(changeling.sting_range))
 		victims += C
 	var/mob/living/carbon/T
-	if (victims)
+	if (victims.len)
 		T = victims[1]
+		if (is_pacified(VIOLENCE_DEFAULT,T))
+			return
 		if (victims.len > 1)
 			T = input(src, "Who will we sting?") as null|anything in victims
 	if(!T)
@@ -1062,9 +1067,9 @@ var/list/datum/dna/hivemind_bank = list()
 		return
 
 	to_chat(target, "<span class='notice'>The world around you suddenly becomes quiet.</span>")
-	target.disabilities |= DEAF
+	target.sdisabilities |= DEAF
 	spawn(300)
-		target.disabilities &= ~DEAF
+		target.sdisabilities &= ~DEAF
 
 	feedback_add_details("changeling_powers", "DS")
 	return 1
