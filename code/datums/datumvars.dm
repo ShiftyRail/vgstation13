@@ -774,6 +774,7 @@ function loadPage(list) {
 			return
 
 		var/turf/T = get_turf(usr)
+		log_admin("[key_name(usr)] has teleported [A] at ([T.x], [T.y], [T.z]).")
 		if(istype(A,/mob))
 			var/mob/M = A
 			M.teleport_to(T)
