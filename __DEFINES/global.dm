@@ -12,6 +12,8 @@
 
 #define UNDEAD_SHAPED "Skellington","Undead","Plasmaman"
 
+#define MUSHROOM_SHAPED "Mushroom"
+
 //Content of the Round End Information window
 var/round_end_info = ""
 
@@ -239,6 +241,7 @@ var/list/score=list(
 	"foodeaten"     = 0, //How much food was consumed
 	"clownabuse"    = 0, //How many times a clown was punched, struck or otherwise maligned
 	"slips"			= 0, //How many people have slipped during this round
+	"gunsspawned"	= 0, //Guns spawned by the Summon Guns spell. Only guns, not other artifacts.
 	"richestname"   = null, //This is all stuff to show who was the richest alive on the shuttle
 	"richestjob"    = null,  //Kinda pointless if you dont have a money system i guess
 	"richestcash"   = 0,
@@ -248,6 +251,7 @@ var/list/score=list(
 	"dmgestdamage"  = 0,
 	"dmgestkey"     = null,
 	"explosions"	= 0, //How many explosions happened total
+	"deadpets"		= 0, //Only counts 'special' simple_mobs, like Ian, Poly, Runtime, Sasha etc
 
 	"arenafights"   = 0,
 	"arenabest"		= null,
@@ -390,6 +394,7 @@ var/list/boss_mobs = list(
 	/mob/living/simple_animal/hostile/asteroid/rockernaut/boss, 	// Angie
 	/mob/living/simple_animal/hostile/humanoid/surgeon/boss, 		// First stage of Doctor Placeholder
 	/mob/living/simple_animal/hostile/humanoid/surgeon/skeleton,	// Second stage of Doctor Placeholder
+	/mob/living/simple_animal/hostile/roboduck,						// The bringer of the end times
 	)
 
 // Set by traitor item, affects cargo supplies

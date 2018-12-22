@@ -483,6 +483,11 @@ Turf and target are seperate in case you want to teleport some distance from a t
 		M = whom
 		C = M.client
 		key = M.key
+	else if(istype(whom, /datum/mind))
+		var/datum/mind/D = whom
+		M = D.current
+		key = M.key
+		C = M.client
 	else if(istype(whom, /datum))
 		var/datum/D = whom
 		return "*invalid:[D.type]*"
@@ -1631,7 +1636,7 @@ Game Mode config tags:
 	if (!T || !U)
 		return
 	if(ispath(projectile))
-		projectile = new(T)
+		projectile = new projectile(T)
 	else
 		projectile.forceMove(T)
 	var/fire_sound
