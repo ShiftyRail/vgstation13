@@ -13,5 +13,5 @@
 	var/datum/faction/vox_shoal/vox = faction
 	if (!istype(vox))
 		return
-	var/dat = "Vox raid time left: [(vox.time_left / 2*60) % 60]:[add_zero(num2text(vox.time_left/2 % 60), 2)]"
+	var/dat = "Vox raid time left: [add_zero(num2text((vox.time_left / (2*60)) % 60),2)]:[add_zero(num2text(vox.time_left/2 % 60), 2)]"
 	return dat
