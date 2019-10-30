@@ -66,7 +66,7 @@
 	var/outfit_datum = null
 
 /datum/job/proc/get_total_positions()
-	return Clamp(total_positions + xtra_positions, 0, 99)
+	return clamp(total_positions + xtra_positions, 0, 99)
 
 /datum/job/proc/set_total_positions(var/nu)
 	total_positions = nu
