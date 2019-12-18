@@ -221,7 +221,7 @@
 	role_category = /datum/role/cultist
 	restricted_from_jobs = list("Merchant","AI", "Cyborg", "Mobile MMI", "Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Chaplain", "Head of Personnel", "Internal Affairs Agent")
 	enemy_jobs = list("Security Officer","Warden", "Detective","Head of Security", "Captain")
-	required_enemies = list(3,3,2,2,2,2,2,1,1,0)
+	required_enemies = list(3,3,3,3,3,3,3,2,2,0)
 	required_candidates = 4
 	weight = 2
 	cost = 30
