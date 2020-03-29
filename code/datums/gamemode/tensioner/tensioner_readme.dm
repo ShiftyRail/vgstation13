@@ -13,6 +13,26 @@
 
 	Here is a list of existing "round monitors" :
 
-		- ...
+	I. Mechanical modifications independant of round progression
+	- Tension slowly decreases over time
+
+	II. Count antagonists
+	- Increases tension if there are active antags, depending on type, how long they've been here, where they are, etc.
+
+	III. Job counters
+	- Counts how many people there are on station who belong to a given departement.
+	- Retruns tension if there's not enough jobs for a given thing
+
+	IV. Prisonners
+	- Increases tension if the brig cells are full
+
+	V. Shootouts
+	- Increases tension if people are shooting each other
+
+	VI. Dead players count
+	- Decreases tension if there's plenty of people in deadchat
+
+	VII. Admin intervention
+	- Periodically asks admins if there's not enoguh or too much tension
 
 */
