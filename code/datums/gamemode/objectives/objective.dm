@@ -68,7 +68,7 @@
 				[admin_edit ? " - <a href='?src=\ref[M];obj_delete=\ref[O];obj_holder=\ref[src]'>(remove)</a> - <a href='?src=\ref[M];obj_completed=\ref[O];obj_holder=\ref[src]'>(toggle:[current_completion ? "<font color='green'>SUCCESS</font>" : "<font color='red'>FAILURE" ]</font>)</a>" : ""]
 				<br>"}
 			if(check_success)
-				dat += {"<BR>[current_completion ? "Success" : "Failed"]"}
+				dat += {"<BR>[current_completion ? "Success" : "<span class='danger'>Failed</span>"]"}
 	if(admin_edit)
 		if (owner)
 			dat += "<a href='?src=\ref[M];obj_add=1;obj_holder=\ref[src]'>(add personal objective)</a> <br/>"
