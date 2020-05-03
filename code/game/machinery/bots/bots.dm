@@ -142,16 +142,16 @@
 		return // Stay in the closet, little bot. The world isn't ready to accept you yet ;_;
 	var/turf/T = get_turf(src)
 	set_glide_size(DELAY2GLIDESIZE(SS_WAIT_BOTS/steps_per))
-	if(!path.len) //It is assumed we gain a path through process_bot()
-		if(target)
-			calc_path(target, .proc/get_path)
-			return 1
-		return  0
-	
-	patrol_path = list() //Kill any patrols we're using
 
 	for (var/i = 1 to steps_per)
 		log_astar_bot("Step [i] of [steps_per]")
+		if(!path.len) //It is assumed we gain a path through process_bot()
+			if(target)
+				calc_path(target, .proc/get_path)
+				return 1
+			return  0
+
+		patrol_path = list() //Kill any patrols we're using
 		if(loc == get_turf(target))
 			return at_path_target()
 		var/turf/next = path[1]
@@ -206,11 +206,10 @@
 /obj/machinery/bot/proc/process_patrol()
 	astar_debug("process patrol called [src] [patrol_path.len]")
 	set_glide_size(DELAY2GLIDESIZE(SS_WAIT_BOTS/steps_per))
-	if(!patrol_path.len)
-		return find_patrol_path()
-
 	for (var/i = 1 to steps_per)
 		log_astar_bot("Step [i] of [steps_per]")
+		if(!patrol_path.len)
+			return find_patrol_path()
 		if(loc == patrol_target)
 			patrol_path = list()
 			return at_patrol_target()
