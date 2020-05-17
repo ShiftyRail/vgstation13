@@ -29,9 +29,9 @@
 	to_chat(user, "<span class = 'notice'>You flick \the [src] [state ? "down" : "up"].</span>")
 	switch(state)
 		if(1) //FACE COVERED
-			body_parts_covered = FULL_HEAD
+			body_parts_covered = FULL_HEAD|MASKHEADHAIR
 		if(0) //VISOR UP
-			body_parts_covered = HEAD|EARS
+			body_parts_covered = HEAD|EARS|MASKHEADHAIR
 	update_icon(user)
 
 /obj/item/clothing/head/helmet/visor/update_icon(mob/user)
@@ -113,7 +113,7 @@
 	armor = list(melee = 20, bullet = 0, laser = 20, energy = 10, bomb = 10, bio = 0, rad = 0)
 	icon_state = "roman"
 	item_state = "roman"
-	body_parts_covered = HEAD|EARS
+	body_parts_covered = HEAD|EARS|MASKHEADHAIR
 
 /obj/item/clothing/head/helmet/roman/legionaire
 	name = "roman legionaire helmet"
@@ -121,7 +121,7 @@
 	armor = list(melee = 25, bullet = 0, laser = 25, energy = 10, bomb = 10, bio = 0, rad = 0)
 	icon_state = "roman_c"
 	item_state = "roman_c"
-	body_parts_covered = HEAD|EARS
+	body_parts_covered = HEAD|EARS|MASKHEADHAIR
 
 /obj/item/clothing/head/helmet/samurai
 	name = "samurai helmet"
@@ -129,7 +129,7 @@
 	armor = list(melee = 40, bullet = 0, laser = 10, energy = 10, bomb = 10, bio = 0, rad = 0)
 	icon_state = "kabuto"
 	item_state = "kabuto"
-	body_parts_covered = HEAD|EARS
+	body_parts_covered = HEAD|EARS|MASKHEADHAIR
 
 /obj/item/clothing/head/helmet/hopcap
 	name = "Head of Personnel's Cap"
