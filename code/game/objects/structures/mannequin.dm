@@ -443,8 +443,8 @@
 	var/image/I = new()
 	I.appearance = O.appearance
 	I.plane = FLOAT_PLANE
-	I.pixel_x = clothing_offset_x
-	I.pixel_y = clothing_offset_y
+	I.pixel_x = 2*clothing_offset_x
+	I.pixel_y = 2*clothing_offset_y
 	overlays += I
 	returnToPool(O)
 

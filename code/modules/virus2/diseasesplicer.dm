@@ -134,8 +134,8 @@
 			alert_noise("ping")
 			spawn(10)
 				d.forceMove(loc)
-				d.pixel_x = -6
-				d.pixel_y = 3
+				d.pixel_x = -12
+				d.pixel_y = 6
 
 
 /obj/machinery/computer/diseasesplicer/update_icon()
@@ -145,13 +145,13 @@
 	if (dish)
 		var/image/dish_outline = image(icon,"smalldish2-outline")
 		dish_outline.alpha = 128
-		dish_outline.pixel_x = -1
-		dish_outline.pixel_y = -13
+		dish_outline.pixel_x = -2
+		dish_outline.pixel_y = -26
 		overlays += dish_outline
 		var/image/dish_content = image(icon,"smalldish2-empty")
 		dish_content.alpha = 128
-		dish_content.pixel_x = -1
-		dish_content.pixel_y = -13
+		dish_content.pixel_x = -2
+		dish_content.pixel_y = -26
 		if (dish.contained_virus)
 			dish_content.icon_state = "smalldish2-color"
 			dish_content.color = dish.contained_virus.color

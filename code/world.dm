@@ -1,5 +1,7 @@
-#define WORLD_ICON_SIZE 32
+#define WORLD_ICON_SIZE 64
 #define PIXEL_MULTIPLIER WORLD_ICON_SIZE/32
+#define MAP_ICON_MULTIPLIER 2
+
 /world
 	mob = /mob/new_player
 	turf = /turf/space
