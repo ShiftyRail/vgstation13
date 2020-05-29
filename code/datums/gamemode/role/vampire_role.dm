@@ -294,6 +294,7 @@
 			O.status &= ~ORGAN_SPLINTED
 			O.status &= ~ORGAN_BLEEDING
 	nullified = max(0, nullified - 1)
+	update_vamp_hud()
 
 /datum/role/vampire/proc/handle_cloak(var/mob/living/carbon/human/H)
 	var/turf/T = get_turf(H)
@@ -355,6 +356,7 @@
 		nullified = max(5, nullified + 2)
 		if(prob(35))
 			to_chat(H, "<span class='sinister'>You feel yourself growing weaker.</span>")
+		update_vamp_hud()
 		/*smitetemp += (vampcoat ? 5 : 15)
 		if(prob(35))
 			to_chat(src, "<span class='sinister'>Burn, wretch.</span>")
@@ -512,7 +514,15 @@
 			//hud_used.human_hud(hud_used.ui_style)
 		M.hud_used.vampire_blood_display.maptext_width = WORLD_ICON_SIZE*2
 		M.hud_used.vampire_blood_display.maptext_height = WORLD_ICON_SIZE
-		M.hud_used.vampire_blood_display.maptext = "<div align='left' valign='top' style='position:relative; top:0px; left:6px'>U:<font color='#33FF33'>[blood_usable]</font><br> T:<font color='#FFFF00'>[blood_total]</font></div>"
+		var/text = list()
+		text += "<div align='left' valign='top' style='position:relative; top:0px; left:6px'><font size='[PIXEL_MULTIPLIER]'>"
+		text += "U:<font color='#33FF33'>[blood_usable]</font><br>"
+		text += "T:<font color='#FFFF00'>[blood_total]</font><br>"
+		text += "Thralls: <font color='#FF0000'>[faction.members.len - 1]</font>"
+		if (nullified)
+			text += "<br/>NULLIFIED"
+		text += "</font></div>"
+		M.hud_used.vampire_blood_display.maptext = jointext(text, "")
 
 /mob/living/carbon/human/proc/check_sun()
 	var/ax = x

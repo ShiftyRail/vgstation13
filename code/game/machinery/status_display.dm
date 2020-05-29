@@ -1,5 +1,9 @@
-#define CHARS_PER_LINE 5
-#define FONT_SIZE "5pt"
+#define CHARS_PER_LINE 10
+#if PIXEL_MULTIPLIER == 2
+	#define FONT_SIZE "8pt"
+#else
+	#define FONT_SIZE "5pt"
+#endif
 #define FONT_COLOR "#09f"
 #define FONT_STYLE "Arial Black"
 #define SCROLL_SPEED 2
@@ -16,6 +20,8 @@
 #define MODE_MESSAGE			2
 #define MODE_IMAGE				3
 #define MODE_CARGO_TIMER		4
+
+var/short_shuttle_message = ""
 
 var/global/list/status_displays = list() //This list contains both normal status displays, and AI status dispays
 
@@ -136,14 +142,14 @@ var/global/list/status_displays = list() //This list contains both normal status
 		if(MODE_SHUTTLE_TIMER)				//emergency shuttle timer
 			if(emergency_shuttle.online)
 				var/line1
-				var/line2 = get_shuttle_timer()
 				if(emergency_shuttle.location == 1)
-					line1 = "-ETD-"
+					line1 = "ETD: "
 				else
-					line1 = "-ETA-"
-				if(length(line2) > CHARS_PER_LINE)
-					line2 = "Error!"
-				update_display(line1, line2)
+					line1 = "ETA: "
+				line1 += get_shuttle_timer()
+				if(length(line1) > CHARS_PER_LINE)
+					line1 = "Error!"
+				update_display(line1, short_shuttle_message)
 			else
 				remove_display()
 		if(MODE_MESSAGE)				//custom messages
