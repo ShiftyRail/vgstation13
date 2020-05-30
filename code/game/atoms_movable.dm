@@ -45,6 +45,10 @@
 	var/throwpass = 0
 	var/level = 2
 
+	// Change of z-level.
+	var/event/on_z_transition
+	var/event/post_z_transition
+
 	// When this object moves. (args: loc)
 	var/event/on_moved
 	// When the object is qdel'd
@@ -59,8 +63,6 @@
 
 	var/last_explosion_push = 0
 
-	var/list/datum/tracker/trackers = list()
-
 /atom/movable/New()
 	. = ..()
 	if((flags & HEAR) && !ismob(src))
@@ -73,6 +75,8 @@
 
 	on_destroyed = new("owner"=src)
 	on_moved = new("owner"=src)
+	on_z_transition = new("owner"=src)
+	post_z_transition = new("owner"=src)
 
 /atom/movable/Destroy()
 	var/turf/T = loc
@@ -83,6 +87,14 @@
 		returnToPool(materials)
 		materials = null
 
+	if(on_z_transition)
+		on_z_transition.holder = null
+		qdel(on_z_transition)
+		on_z_transition = null
+	if(post_z_transition)
+		post_z_transition.holder = null
+		qdel(post_z_transition)
+		post_z_transition = null
 	if(on_moved)
 		on_moved.holder = null
 		on_moved = null
@@ -655,11 +667,44 @@
 //Overlays
 /atom/movable/overlay
 	var/atom/master = null
+	var/follow_proc = /atom/movable/overlay/proc/move_to_turf_or_null
+	var/master_moved_key
+	var/master_destroyed_key
 	anchored = 1
 
 /atom/movable/overlay/New()
 	. = ..()
+	if(!loc)
+		CRASH("[type] created in nullspace.")
+		qdel(src)
+		return
+
+	master = loc
+	name = master.name
+	dir = master.dir
+
+	if(istype(master, /atom/movable))
+		var/atom/movable/AM = master
+		master_moved_key = AM.on_moved.Add(src, follow_proc)
+		SetInitLoc()
+	if (istype(master, /atom/movable))
+		var/atom/movable/AM = master
+		master_destroyed_key = AM.on_destroyed.Add(src, .proc/qdel_self)
 	verbs.len = 0
+
+/atom/movable/overlay/proc/qdel_self()
+	qdel(src) // Rest in peace
+
+/atom/movable/overlay/Destroy()
+	if(istype(master, /atom/movable))
+		var/atom/movable/AM = master
+		AM.on_moved.Remove(master_moved_key)
+		AM.on_destroyed.Remove(master_destroyed_key)
+	master = null
+	return ..()
+
+/atom/movable/overlay/proc/SetInitLoc()
+	forceMove(master.loc)
 
 /atom/movable/overlay/blob_act()
 	return
@@ -678,6 +723,13 @@
 	if (src.master)
 		return src.master.attack_hand(a, b, c)
 	return
+
+/atom/movable/overlay/proc/move_to_turf_or_null(var/list/event_args, var/mob/holder)
+	var/new_loc = event_args["loc"]
+	var/turf/T = get_turf(new_loc)
+	var/atom/movable/AM = master // the proc is only called if the master has a "on_moved" event.
+	if(T != loc)
+		forceMove(T, glide_size_override = DELAY2GLIDESIZE(AM.move_speed))
 
 /atom/movable/proc/attempt_to_follow(var/atom/movable/A,var/turf/T)
 	if(anchored)

@@ -429,18 +429,18 @@
 	for (var/obj/item/weapon/disk/disk in contents)
 		var/image/disk_image = image('icons/obj/storage/datadisks.dmi',src,disk.icon_state)
 		if (icon_alt)
-			disk_image.pixel_x -= 6
+			disk_image.pixel_x -= 3*PIXEL_MULTIPLIER
 			if ((i % 2) != 0)
-				disk_image.pixel_x += 14
-			disk_image.pixel_x -= 2*round(i/2)
-			disk_image.pixel_y -= 2*round(i/2)
+				disk_image.pixel_x += 7*PIXEL_MULTIPLIER
+			disk_image.pixel_x -= PIXEL_MULTIPLIER*round(i/2)
+			disk_image.pixel_y -= PIXEL_MULTIPLIER*round(i/2)
 			if (i >= 12)
-				disk_image.pixel_y -= 2
+				disk_image.pixel_y -= 1*PIXEL_MULTIPLIER
 		else
-			disk_image.pixel_x -= 2
-			disk_image.pixel_y -= 2
+			disk_image.pixel_x -= 1*PIXEL_MULTIPLIER
+			disk_image.pixel_y -= 1*PIXEL_MULTIPLIER
 			if (i >= 6)
-				disk_image.pixel_y -= 2
+				disk_image.pixel_y -= 1*PIXEL_MULTIPLIER
 		overlays += disk_image
 		i++
 

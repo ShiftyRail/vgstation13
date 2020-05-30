@@ -21,7 +21,6 @@
 #define MODE_IMAGE				3
 #define MODE_CARGO_TIMER		4
 
-var/short_shuttle_message = ""
 
 var/global/list/status_displays = list() //This list contains both normal status displays, and AI status dispays
 
@@ -142,14 +141,15 @@ var/global/list/status_displays = list() //This list contains both normal status
 		if(MODE_SHUTTLE_TIMER)				//emergency shuttle timer
 			if(emergency_shuttle.online)
 				var/line1
+				var/line2
 				if(emergency_shuttle.location == 1)
 					line1 = "ETD: "
 				else
 					line1 = "ETA: "
-				line1 += get_shuttle_timer()
+				line2 += get_shuttle_timer()
 				if(length(line1) > CHARS_PER_LINE)
 					line1 = "Error!"
-				update_display(line1, short_shuttle_message)
+				update_display(line1, line2)
 			else
 				remove_display()
 		if(MODE_MESSAGE)				//custom messages

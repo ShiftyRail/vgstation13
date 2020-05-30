@@ -515,12 +515,9 @@
 		M.hud_used.vampire_blood_display.maptext_width = WORLD_ICON_SIZE*2
 		M.hud_used.vampire_blood_display.maptext_height = WORLD_ICON_SIZE
 		var/text = list()
-		text += "<div align='left' valign='top' style='position:relative; top:0px; left:6px'><font size='[PIXEL_MULTIPLIER]'>"
+		text += "<div align='left' valign='top' style='position:relative; top:0px; left:6px'><font size='[PIXEL_MULTIPLIER_SQUARE]'>"
 		text += "U:<font color='#33FF33'>[blood_usable]</font><br>"
 		text += "T:<font color='#FFFF00'>[blood_total]</font><br>"
-		text += "Thralls: <font color='#FF0000'>[faction.members.len - 1]</font>"
-		if (nullified)
-			text += "<br/>NULLIFIED"
 		text += "</font></div>"
 		M.hud_used.vampire_blood_display.maptext = jointext(text, "")
 

@@ -210,10 +210,9 @@ var/list/shuttle_log = list()
 				var/justification = stripped_input(usr, "Please input a concise justification for the shuttle call. Note that failure to properly justify a shuttle call may lead to recall or termination.", "Nanotrasen Anti-Comdom Systems")
 				if(!justification || !(usr in view(1,src)))
 					return
-				var/short_message = stripped_input(usr, "What message should the station screen display?", "Status Display Message", "NODATA", 10)
 				var/response = alert("Are you sure you wish to call the shuttle?", "Confirm", "Yes", "Cancel")
 				if(response == "Yes")
-					call_shuttle_proc(usr, justification, short_message)
+					call_shuttle_proc(usr, justification)
 					if(emergency_shuttle.online)
 						post_status("shuttle")
 			setMenuState(usr,COMM_SCREEN_MAIN)
@@ -520,7 +519,7 @@ var/list/shuttle_log = list()
 	for(var/obj/machinery/computer/prison_shuttle/PS in machines)
 		PS.allowedtocall = !(PS.allowedtocall)
 
-/proc/call_shuttle_proc(var/mob/user, var/justification, var/short_message)
+/proc/call_shuttle_proc(var/mob/user, var/justification)
 	if ((!(ticker) || emergency_shuttle.location))
 		return
 
@@ -559,7 +558,6 @@ var/list/shuttle_log = list()
 		justification = "#??!7E/_1$*/ARR-CON�FAIL!!*$^?" //Can happen for reasons, let's deal with it IC
 	if(!isobserver(user))
 		shuttle_log += "\[[worldtime2text()]] Called from [get_area(user)]."
-	short_shuttle_message = short_message
 	log_game("[key_name(user)] has called the shuttle. Justification given : '[justification]'")
 	message_admins("[key_name_admin(user)] has called the shuttle. Justification given : '[justification]'.", 1)
 	captain_announce("The emergency shuttle has been called. It will arrive in [round(emergency_shuttle.timeleft()/60)] minutes. Justification : '[justification]'")
@@ -621,7 +619,6 @@ var/list/shuttle_log = list()
 
 	if(emergency_shuttle.direction != -1 && emergency_shuttle.online) //check that shuttle isn't already heading to centcomm
 		emergency_shuttle.recall()
-		short_shuttle_message = ""
 		log_game("[key_name(user)] has recalled the shuttle.")
 		message_admins("[key_name_admin(user)] has recalled the shuttle - [formatJumpTo(user)].", 1)
 	return

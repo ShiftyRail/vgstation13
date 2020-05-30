@@ -260,7 +260,6 @@ var/list/factions_with_hud_icons = list()
 		return
 	emergency_shuttle.incall()
 	captain_announce("The emergency shuttle has been called. It will arrive in [round(emergency_shuttle.timeleft()/60)] minutes. Justification: Recovery of assets.")
-	short_shuttle_message = "RCVERY"
 
 /datum/faction/proc/check_win()
 	return
