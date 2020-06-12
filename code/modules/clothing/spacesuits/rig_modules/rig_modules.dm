@@ -7,6 +7,7 @@
 	var/requires_component = TRUE //This module needs a removable component(helmet,gloves,boot,tank) and should be activated before they're deployed from the suit.
 	var/activated = FALSE
 	var/active_power_usage = 0 //Energy consumption per tick
+	var/mob/wearer
 
 /obj/item/rig_module/Destroy()
 	rig = null
@@ -15,10 +16,13 @@
 /obj/item/rig_module/proc/examine_addition(mob/user)
 	return
 
-/obj/item/rig_module/proc/activate(var/mob/user)//We do not set activated to TRUE in the default activate() proc.
-	activated = TRUE
+/obj/item/rig_module/proc/activate(var/mob/user,var/obj/item/clothing/suit/space/rig/R)//We do not set activated to TRUE in the default activate() proc.
+	wearer = user
+	rig = R
 
 /obj/item/rig_module/proc/deactivate()
+	wearer = null
+	rig = null
 	activated = FALSE
 
 /obj/item/rig_module/proc/do_process()
@@ -37,6 +41,9 @@
 	say_to_wearer("Speed module engaged.")
 	rig.slowdown = max(1, slowdown/1.25)
 	..()
+	say_to_wearer("Speed module engaged.")
+	rig.slowdown = max(1, slowdown/1.25)
+	activated = TRUE
 
 /obj/item/rig_module/speed_boost/deactivate()
 	rig.slowdown = initial(rig.slowdown)
@@ -75,7 +82,7 @@
 		deactivate()
 
 /obj/item/rig_module/tank_refiller/do_process()
-	if(!ishuman(rig.wearer))
+	if(!wearer || !ishuman(wearer))
 		deactivate()
 		return
 
@@ -119,6 +126,12 @@
 	if(rig.H)
 		rig.H.clothing_flags |= PLASMAGUARD
 	..()
+	if(rig.cell && rig.cell.use(250))
+		say_to_wearer("Plasma seal initialized.")
+		rig.clothing_flags |= PLASMAGUARD
+		if(rig.H)
+			rig.H.clothing_flags |= PLASMAGUARD
+		activated = TRUE
 
 /obj/item/rig_module/plasma_proof/deactivate()
 	say_to_wearer("Plasma seal disengaged.")
@@ -142,7 +155,7 @@
 	rig.canremove = FALSE
 	say_to_wearer("Safety lock enabled.")
 	..()
-	
+
 
 /obj/item/rig_module/muscle_tissue/deactivate()
 	if(!ishuman(rig.wearer))

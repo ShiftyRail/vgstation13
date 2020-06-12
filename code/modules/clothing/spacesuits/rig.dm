@@ -56,7 +56,7 @@ var/list/all_hardsuit_pieces = list(HARDSUIT_HEADGEAR,HARDSUIT_GLOVES,HARDSUIT_B
 		actions_types |= /datum/action/item_action/toggle_rig_light //Make sure we restore the action button
 
 /obj/item/clothing/head/helmet/space/rig/process() //Helmets are directly linked to the suit's power cell, they don't need it to be activated at all.
-	if(on && rig)	
+	if(on && rig)
 		if(!rig.cell.use(1) || rig.loc != loc)
 			toggle_light()
 
@@ -238,7 +238,7 @@ var/list/all_hardsuit_pieces = list(HARDSUIT_HEADGEAR,HARDSUIT_GLOVES,HARDSUIT_B
 		if(R.activated && R.active_power_usage)
 			if(!cell.use(R.active_power_usage))
 				R.say_to_wearer("Not enough power available in [src]!")
-				R.deactivate()	
+				R.deactivate()
 				continue
 			R.do_process()
 
@@ -271,7 +271,7 @@ var/list/all_hardsuit_pieces = list(HARDSUIT_HEADGEAR,HARDSUIT_GLOVES,HARDSUIT_B
 				wearer.toggle_internals(wearer, T)
 		for(var/obj/item/rig_module/module in modules)
 			if(!module.activated) //Skip what is already activated.
-				module.activate()
+				module.activate(wearer,src)
 		activated = TRUE
 
 /obj/item/clothing/suit/space/rig/proc/deactivate_suit(var/unequip_all = TRUE, var/unequip_single_piece = null)
@@ -343,7 +343,7 @@ var/list/all_hardsuit_pieces = list(HARDSUIT_HEADGEAR,HARDSUIT_GLOVES,HARDSUIT_B
 	set src = usr.contents
 
 	if(!wearer || !wearer.is_wearing_item(src, slot_wear_suit))
-		to_chat(usr,"<span class='warning'>\The [src] is not being worn.</span>") 
+		to_chat(usr,"<span class='warning'>\The [src] is not being worn.</span>")
 		return
 
 	toggle_piece(HARDSUIT_HEADGEAR,wearer)
@@ -357,7 +357,7 @@ var/list/all_hardsuit_pieces = list(HARDSUIT_HEADGEAR,HARDSUIT_GLOVES,HARDSUIT_B
 	set src = usr.contents
 
 	if(!wearer || !wearer.is_wearing_item(src, slot_wear_suit))
-		to_chat(usr,"<span class='warning'>\The [src] is not being worn.</span>") 
+		to_chat(usr,"<span class='warning'>\The [src] is not being worn.</span>")
 		return
 
 	toggle_piece(HARDSUIT_BOOTS,wearer)
@@ -371,7 +371,7 @@ var/list/all_hardsuit_pieces = list(HARDSUIT_HEADGEAR,HARDSUIT_GLOVES,HARDSUIT_B
 	set src = usr.contents
 
 	if(!wearer || !wearer.is_wearing_item(src, slot_wear_suit))
-		to_chat(usr,"<span class='warning'>\The [src] is not being worn.</span>") 
+		to_chat(usr,"<span class='warning'>\The [src] is not being worn.</span>")
 		return
 
 	toggle_piece(HARDSUIT_GLOVES,wearer)
