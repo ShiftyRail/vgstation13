@@ -159,7 +159,7 @@ var/global/datum/controller/radio/radio_controller
 	var/list/list/obj/devices = list()
 
 /datum/radio_frequency/proc/post_signal(obj/source as obj|null, datum/signal/signal, var/filter = null as text|null, var/range = null as num|null)
-	if (istype(source, /obj/machinery/bot))
+	if (istype(source, /obj/machinery/bot) || istype(source,/obj/machinery/navbeacon))
 		message_admins("DEBUG \[[world.timeofday]\]: post_signal {source=\"[source]\", [signal.debug_print()], filter=[filter]}")
 	//var/N_f=0
 	//var/N_nf=0

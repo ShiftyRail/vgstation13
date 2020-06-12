@@ -409,7 +409,7 @@
 	// -- Patrol signal --
 	var/recv = signal.data["beacon"]
 	if (recv)
-		log_astar_beacon("recieved patrol signal : [recv]")
+		to_chat(world, "recieved patrol signal : [recv]")
 		if(recv == new_destination)	// if the recvd beacon location matches the set destination, then we will navigate there
 			handle_recieved_destination(signal, recv)
 			return 1
