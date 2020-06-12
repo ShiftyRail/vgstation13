@@ -87,7 +87,7 @@ var/list/navbeacons = list()
 /obj/machinery/navbeacon/receive_signal(datum/signal/signal)
 	var/request = signal.data["findbeacon"]
 	if(request && ((request in codes) || request == "any" || request == location))
-		spawn(1)
+		spawn(1.5 SECONDS)
 			post_signal(request)
 
 	// return a signal giving location and transponder codes
