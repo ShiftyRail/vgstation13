@@ -85,7 +85,6 @@ var/list/navbeacons = list()
 	// or one of the set transponder keys
 	// if found, return a signal
 /obj/machinery/navbeacon/receive_signal(datum/signal/signal)
-	message_admins("Concrete message recieved.")
 	var/request = signal.data["findbeacon"]
 	if(request && ((request in codes) || request == "any" || request == location))
 		spawn(1)
@@ -110,7 +109,6 @@ var/list/navbeacons = list()
 		signal.data[key] = codes[key]
 
 	astar_debug("navbeacon [location] posted signal with request [request] on freq [freq].")
-	message_admins("Concrete message posted: [location] posted signal with request [request].")
 	frequency.post_signal(src, signal, filter = RADIO_NAVBEACONS)
 
 /obj/machinery/navbeacon/attackby(var/obj/item/I, var/mob/user)
