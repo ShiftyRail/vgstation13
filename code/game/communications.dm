@@ -173,6 +173,7 @@ var/global/datum/controller/radio/radio_controller
 
 	if (filter) //here goes some copypasta. It is for optimisation. -rastaf0
 		for(var/obj/device in devices[filter])
+			message_admins("device [device] for filter [filter]")
 			if(device == source)
 				continue
 			if(range)
