@@ -174,7 +174,7 @@ var/global/datum/controller/radio/radio_controller
 
 	if (filter) //here goes some copypasta. It is for optimisation. -rastaf0
 		for(var/obj/device in devices[filter])
-			if (istype(source, /obj/machinery/bot))
+			if (istype(device, /obj/machinery/bot))
 				message_admins("device [device] for filter [filter]")
 			if(device == source)
 				continue
@@ -204,7 +204,6 @@ var/global/datum/controller/radio/radio_controller
 			//var/list/obj/DDD = devices[next_filter]
 			//Nt+=DDD.len
 			for(var/obj/device in devices[next_filter])
-				message_admins("device [device]")
 				if(device == source)
 					continue
 				if(range)
