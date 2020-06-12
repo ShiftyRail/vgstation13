@@ -174,7 +174,7 @@ var/global/datum/controller/radio/radio_controller
 
 	if (filter) //here goes some copypasta. It is for optimisation. -rastaf0
 		for(var/obj/device in devices[filter])
-			if (istype(device, /obj/machinery/bot))
+			if (istype(device, /obj/machinery/bot) || istype(source,/obj/machinery/navbeacon))
 				message_admins("device [device] for filter [filter]")
 			if(device == source)
 				continue

@@ -34,9 +34,9 @@ var/list/navbeacons = list()
 
 	navbeacons.Add(src)
 
-	spawn(5)	// must wait for map loading to finish
-		if(radio_controller)
-			radio_controller.add_object(src, freq, RADIO_NAVBEACONS)
+/obj/machinery/navbeacon/initialize()
+	if(radio_controller)
+		radio_controller.add_object(src, freq, RADIO_NAVBEACONS)
 
 /obj/machinery/navbeacon/Destroy()
 	navbeacons.Remove(src)
@@ -85,9 +85,10 @@ var/list/navbeacons = list()
 	// or one of the set transponder keys
 	// if found, return a signal
 /obj/machinery/navbeacon/receive_signal(datum/signal/signal)
+	message_admins("Concrete message recieved.")
 	var/request = signal.data["findbeacon"]
 	if(request && ((request in codes) || request == "any" || request == location))
-		spawn(1.5 SECONDS)
+		spawn(1)
 			post_signal(request)
 
 	// return a signal giving location and transponder codes
@@ -109,6 +110,7 @@ var/list/navbeacons = list()
 		signal.data[key] = codes[key]
 
 	astar_debug("navbeacon [location] posted signal with request [request] on freq [freq].")
+	message_admins("Concrete message posted: [location] posted signal with request [request].")
 	frequency.post_signal(src, signal, filter = RADIO_NAVBEACONS)
 
 /obj/machinery/navbeacon/attackby(var/obj/item/I, var/mob/user)
