@@ -159,7 +159,8 @@ var/global/datum/controller/radio/radio_controller
 	var/list/list/obj/devices = list()
 
 /datum/radio_frequency/proc/post_signal(obj/source as obj|null, datum/signal/signal, var/filter = null as text|null, var/range = null as num|null)
-	message_admins("DEBUG \[[world.timeofday]\]: post_signal {source=\"[source]\", [signal.debug_print()], filter=[filter]}")
+	if (istype(source, /obj/machinery/bot))
+		message_admins("DEBUG \[[world.timeofday]\]: post_signal {source=\"[source]\", [signal.debug_print()], filter=[filter]}")
 	//var/N_f=0
 	//var/N_nf=0
 	//var/Nt=0
@@ -173,7 +174,8 @@ var/global/datum/controller/radio/radio_controller
 
 	if (filter) //here goes some copypasta. It is for optimisation. -rastaf0
 		for(var/obj/device in devices[filter])
-			message_admins("device [device] for filter [filter]")
+			if (istype(source, /obj/machinery/bot))
+				message_admins("device [device] for filter [filter]")
 			if(device == source)
 				continue
 			if(range)
