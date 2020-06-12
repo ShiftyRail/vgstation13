@@ -119,9 +119,7 @@
 		return
 	if (awaiting_beacon)
 		total_awaiting_beacon++
-		to_chat(world, "Beacon: [total_awaiting_beacon]")
 		if (total_awaiting_beacon > BEACON_TIMEOUT)
-			to_chat(world, "BEACON TIMEOUT")
 			auto_patrol = 0
 			awaiting_beacon = 0
 	else
@@ -412,7 +410,6 @@
 	var/recv = signal.data["beacon"]
 	if (recv)
 		log_astar_beacon("recieved patrol signal : [recv]")
-		to_chat(world, "beacon signal!")
 		if(recv == new_destination)	// if the recvd beacon location matches the set destination, then we will navigate there
 			handle_recieved_destination(signal, recv)
 			return 1

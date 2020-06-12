@@ -159,7 +159,7 @@ var/global/datum/controller/radio/radio_controller
 	var/list/list/obj/devices = list()
 
 /datum/radio_frequency/proc/post_signal(obj/source as obj|null, datum/signal/signal, var/filter = null as text|null, var/range = null as num|null)
-	//log_admin("DEBUG \[[world.timeofday]\]: post_signal {source=\"[source]\", [signal.debug_print()], filter=[filter]}")
+	message_admins("DEBUG \[[world.timeofday]\]: post_signal {source=\"[source]\", [signal.debug_print()], filter=[filter]}")
 	//var/N_f=0
 	//var/N_nf=0
 	//var/Nt=0
@@ -167,6 +167,7 @@ var/global/datum/controller/radio/radio_controller
 	if(range)
 		start_point = get_turf(source)
 		if(!start_point)
+			message_admins("no start point")
 			returnToPool(signal)
 			return 0
 
@@ -200,6 +201,7 @@ var/global/datum/controller/radio/radio_controller
 			//var/list/obj/DDD = devices[next_filter]
 			//Nt+=DDD.len
 			for(var/obj/device in devices[next_filter])
+				message_admins("device [device]")
 				if(device == source)
 					continue
 				if(range)
