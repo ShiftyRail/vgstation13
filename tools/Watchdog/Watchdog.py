@@ -12,7 +12,7 @@ import cPickle
 import HTMLParser
 
 MONITOR = ('127.0.0.1', 1336)  # IP, port.
-RESTART_COMMAND = "/home/gmod/byond/ss13.sh"  # What shell script restarts SS13?
+RESTART_COMMAND = "C:\Scripts\ss13.bat"  # What shell script restarts SS13?
 COMPILE_COMMAND = "/home/gmod/byond/compile_ss13.sh"  # What shell script should be run to compile SS13?
 STATS_FILE = '/home/gmod/stats.json'  # Where do you want stats.json placed?
 
@@ -35,12 +35,12 @@ NUDGE_KEY = ''              # PASSCODE USED ON THE BOT!
 def send_nudge(message):
 	try:
 		data = {}
-		
+
 		data['key'] = NUDGE_KEY
 		data['id'] = NUDGE_ID
 		data['channel'] = 'nudges'
 		data['data'] = message
-		
+
 		pickled = cPickle.dumps(data)
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		s.connect((NUDGE_IP, NUDGE_PORT))
@@ -69,12 +69,12 @@ def git_branch():
 		print(e)
 		pass
 	return '[UNKNOWN]'
-	
+
 def Compile(serverState):
 	global waiting_for_next_commit
 	currentCommit = git_commit()
 	currentBranch = git_branch()
-	
+
 	# Compile
 	log.info('Code is at {0} ({1}).  Triggering compile.'.format(currentCommit, currentBranch))
 	stdout, stderr = subprocess.Popen(COMPILE_COMMAND, shell=True, stdout=subprocess.PIPE).communicate()
@@ -87,7 +87,7 @@ def Compile(serverState):
 				logging.error(line)
 			else:
 				logging.info(line)
-				
+
 	if failed:
 		send_nudge('Compile failed. Waiting for next commit.')
 		log.info('Compile failed. Waiting for next commit.')
@@ -111,12 +111,12 @@ def Compile(serverState):
 	if serverState:
 		send_nudge(next_nudge)
 		log.info(next_nudge)
-	
+
 	# Recheck in a bit to be sure
 	lastState = False
-	
-	subprocess.call(RESTART_COMMAND, shell=True)
-	
+
+	subprocess.Popen(RESTART_COMMAND, shell=True)
+
 def PerformServerReadyCheck(serverState):
 	global waiting_on_server_response
 	global last_response
@@ -124,7 +124,7 @@ def PerformServerReadyCheck(serverState):
 		return
 	currentCommit = git_commit()
 	currentBranch = git_branch()
-	
+
 	updatereadyfile = os.path.join(GAMEPATH, 'data', 'UPDATE_READY.txt')
 	serverreadyfile = os.path.join(GAMEPATH, 'data', 'SERVER_READY.txt')
 	srf_exists = os.path.isfile(serverreadyfile)
@@ -158,13 +158,13 @@ def checkForUpdate(serverState):
 	os.chdir(GAMEPATH)
 	# subprocess.call('git pull -q -s recursive -X theirs {0} {1}'.format(GIT_REMOTE,GIT_BRANCH),shell=True)
 	subprocess.call('git fetch -q {0}'.format(GIT_REMOTE), shell=True)
-	subprocess.call('git checkout -q {0}/{1}'.format(GIT_REMOTE, GIT_BRANCH), shell=True) 
+	subprocess.call('git checkout -q {0}/{1}'.format(GIT_REMOTE, GIT_BRANCH), shell=True)
 	currentCommit = git_commit()
 	currentBranch = git_branch()
 	if currentCommit != lastCommit and lastCommit is not None:
 		lastCommit = currentCommit
 		send_nudge('Updating server to {GIT_REMOTE}/{GIT_COMMIT}!'.format(GIT_REMOTE=GIT_REMOTE, GIT_COMMIT=currentCommit))
-		subprocess.call('git reset --hard {0}/{1}'.format(GIT_REMOTE, GIT_BRANCH), shell=True) 
+		subprocess.call('git reset --hard {0}/{1}'.format(GIT_REMOTE, GIT_BRANCH), shell=True)
 		subprocess.call('cp -a {0} {1}'.format(CONFIGPATH, GAMEPATH), shell=True)
 
 		# Copy gamemode, if it exists.
@@ -176,11 +176,11 @@ def checkForUpdate(serverState):
 				log.warn('rm {0}'.format(botConfigDest))
 			shutil.move(botConfigSource, botConfigDest)
 			log.warn('mv {0} {1}'.format(botConfigSource, botConfigDest))
-	
+
 		if waiting_for_next_commit:
 			Compile(serverState)
 			return
-			
+
 		if WAIT_FOR_SERVER_RESPONSE:
 			# if not waiting_on_server_response:
 			waiting_on_server_response = True
@@ -202,7 +202,7 @@ def open_socket():
 	# 30-second timeout
 	s.settimeout(TIMEOUT)
 	return s
-	
+
 # Snippet below from http://pastebin.com/TGhPBPGp
 def decode_packet(packet):
 	if packet != "":
@@ -217,7 +217,7 @@ def decode_packet(packet):
 			elif packet[4] == b'\x06':  # ASCII string
 				unpackstr = ''  # result string
 				index = 5  # string index
-							   
+
 				while (size > 0):  # loop through the entire ASCII string
 					size -= 1
 					unpackstr = unpackstr + packet[index]  # add the string position to return string
@@ -225,7 +225,7 @@ def decode_packet(packet):
 				return unpackstr.replace('\x00', '')
 	log.error('UNKNOWN PACKET: {0}'.format(repr(packet)))
 	return b''
-				
+
 def ping_server(request):
 	global last_response
 	try:
@@ -234,9 +234,9 @@ def ping_server(request):
 		# All queries must begin with a question mark (ie "?players")
 		if request[0] != b'?':
 			request = b'?' + request
-		   
-		# --- Prepare a packet to send to the server (based on a reverse-engineered packet structure) --- 
-		query = b'\x00\x83' 
+
+		# --- Prepare a packet to send to the server (based on a reverse-engineered packet structure) ---
+		query = b'\x00\x83'
 		query += struct.pack('>H', len(request) + 6)  # Rob: BIG-endian
 		query += b'\x00\x00\x00\x00\x00'
 		query += request
@@ -246,7 +246,7 @@ def ping_server(request):
 		s = open_socket()
 		if s is None:
 			return False
-		
+
 		# print 'Sending query packet...'
 		s.sendall(query)
 		# print 'Receiving response...'
@@ -259,13 +259,13 @@ def ping_server(request):
 			if szbuf < 1024:
 				break
 		s.close()
-		
+
 		response = decode_packet(data)
-		
+
 		if response is not None:
 			response = response.replace('\x00', '')
 			# print 'Received: ', response
-		
+
 			parsed_response = {}
 			reserved_keys = ['ai', 'respawn', 'admins', 'players', 'host', 'version', 'mode', 'enter', 'vote', 'playerlist']
 			for chunk in response.split('&'):
@@ -296,7 +296,7 @@ def ping_server(request):
 
 if not os.path.isdir(LOGPATH):
 	os.makedirs(LOGPATH)
-	
+
 logFormatter = logging.Formatter(fmt='%(asctime)s [%(levelname)-8s]: %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')  # , level=logging.INFO, filename='crashlog.log', filemode='a+')
 log = logging.getLogger()
 log.setLevel(logging.INFO)
@@ -345,7 +345,7 @@ while True:
 		else:
 			log.error("Detected a problem, attempting restart ({0}/{1}).".format(failChain, MAX_FAILURES))
 			send_nudge('Attempting restart ({0}/{1})...'.format(failChain, MAX_FAILURES))
-		subprocess.call(RESTART_COMMAND, shell=True)
+	    subprocess.Popen(RESTART_COMMAND, shell=True)
 		time.sleep(50)  # Sleep 50 seconds for a total of almost 2 minutes before we ping again.
 		lastState = False
 	else:
@@ -357,7 +357,7 @@ while True:
 			send_nudge('Server is online and responding to queries.')
 		else:
 			checkForUpdate(True)
-		
+
 		lastState = True
 		failChain = 0
 	firstRun = False
