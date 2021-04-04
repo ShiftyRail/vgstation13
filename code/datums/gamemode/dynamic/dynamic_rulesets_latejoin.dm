@@ -114,10 +114,10 @@
 	name = "Space Ninja Attack"
 	role_category = /datum/role/ninja
 	enemy_jobs = list("Security Officer","Detective", "Warden", "Head of Security", "Captain")
-	required_pop = list(15,15,10,10,10,10,10,0,0,0)
+	required_pop = list(30,30,20,20,20,20,20,5,5,5)
 	required_candidates = 1
 	weight = 10
-	cost = 20
+	cost = 30
 	requirements = list(90,90,60,20,10,10,10,10,10,10)
 	high_population_requirement = 20
 	logo = "ninja-logo"
