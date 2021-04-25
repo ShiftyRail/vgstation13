@@ -277,6 +277,10 @@
 		P.relaymove(Dir)
 		return
 
+	if(istype(mob, /mob/living/simple_animal/hostile))
+		var/mob/living/simple_animal/hostile/H = mob
+		return H.simple_animal_clientmove(NewLoc, Dir)
+
 	if(mob.monkeyizing)
 		return//This is sota the goto stop mobs from moving var
 

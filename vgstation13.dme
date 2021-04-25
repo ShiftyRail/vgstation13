@@ -2003,6 +2003,7 @@
 #include "code\modules\mob\living\simple_animal\hostile\mimic.dm"
 #include "code\modules\mob\living\simple_animal\hostile\mining_mobs.dm"
 #include "code\modules\mob\living\simple_animal\hostile\monster.dm"
+#include "code\modules\mob\living\simple_animal\hostile\movment.dm"
 #include "code\modules\mob\living\simple_animal\hostile\mushroom.dm"
 #include "code\modules\mob\living\simple_animal\hostile\necro.dm"
 #include "code\modules\mob\living\simple_animal\hostile\necromorph.dm"
