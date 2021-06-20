@@ -151,6 +151,7 @@
 #define BLACKCOLOR 			"blackcolor"
 #define FROSTOIL 			"frostoil"
 #define SODIUMCHLORIDE 			"sodiumchloride"
+#define HOLYSALTS 			"holysalts"
 #define CREATINE 			"creatine"
 #define CARPPHEROMONES 			"carppheromones"
 #define BLACKPEPPER 			"blackpepper"
@@ -393,6 +394,7 @@
 #define ROACHSHELL		"roach_shell"
 #define GREYVODKA		"grey_vodka"
 #define MEDCORES		"medium cores"
+#define SOFTCORES		"softcores"
 #define LITHOTORCRAZINE "lithotorcrazine"
 #define HEMOSCYANINE	"hemoscyanine"
 #define ANTHRACENE		"anthracene"
@@ -451,7 +453,6 @@
 #define ANALYSIS_SAMPLE 			"analysis_sample"
 #define CHEMICAL_WASTE 			"chemical_waste"
 #define TRINITRINE		"trinitrine"
-#define MIDAZOLINE		"midazoline"
 #define LOCUTOGEN		"locutogen"
 
 //Plant-specific reagents
@@ -485,6 +486,7 @@
 #define TOMATO_SOUP		"tomato_soup"
 #define LUMINOL			"luminol"
 #define CAFFEINE		"caffeine"
+#define MIDAZOLINE		"midazoline"
 
 // How many units of reagent are consumed per tick, by default.
 #define REAGENTS_METABOLISM 0.2
@@ -530,6 +532,7 @@ var/list/cheartstopper = list(/*"potassium_chloride",*/ CHEESYGLOOP) //this stop
 #define DEXALINS list(DEXALIN, THYMOL)
 #define PETRITRICINCURES list(SACID, PACID, FORMIC_ACID, PACID, PHENOL, ACIDSPIT, ACIDTEA)
 #define WATERS list(WATER, HOLYWATER)
+#define CORES list(SOFTCORES, MEDCORES)
 
 #define INCENSE_HAREBELLS	"harebells"
 #define INCENSE_POPPIES		"poppies"

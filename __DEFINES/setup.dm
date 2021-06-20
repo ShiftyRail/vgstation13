@@ -817,6 +817,9 @@ SEE_PIXELS	256
 #define ORGAN_PEG			4096 // ROB'S MAGICAL PEGLEGS v2
 #define ORGAN_MALFUNCTIONING 8192
 
+#define SURGERY_SUCCESS_NORMAL 0
+#define SURGERY_SUCCESS_ALWAYS 1
+#define SURGERY_SUCCESS_NEVER  2
 
 //Admin Permissions
 //Please don't edit these values without speaking to [current /vg/ host here] first
@@ -1246,9 +1249,6 @@ var/default_colour_matrix = list(1,0,0,0,\
 //////////////////////////////////
 
 
-//COMMENT IF YOUR DREAMDAEMON VERSION IS BELOW 507.1248
-#define BORDER_USE_TURF_EXIT 1
-
 ////////////////////////
 ////PDA APPS DEFINES////
 ////////////////////////
@@ -1616,11 +1616,15 @@ var/proccalls = 1
 #define DNA2_BUF_UE 2
 #define DNA2_BUF_SE 4
 
-#define DEFAULT_BLOOD "#A10808"
-#define DEFAULT_FLESH "#FFC896"
-#define ALIEN_BLOOD "#05EE05"
-#define ALIEN_FLESH "#34334B"
-#define ROBOT_OIL "#030303"
+#define DEFAULT_BLOOD	"#A10808"
+#define DEFAULT_FLESH	"#FFC896"
+#define ALIEN_BLOOD		"#05EE05"
+#define ALIEN_FLESH		"#34334B"
+#define ROBOT_OIL		"#030303"
+#define VOX_BLOOD		"#2299FC"
+#define MUSHROOM_BLOOD	"#D3D3D3"
+#define INSECT_BLOOD	"#EBECE6"
+#define PALE_BLOOD		"#272727"//Seek Paleblood to transcend the hunt.
 
 //Return values for /obj/machinery/proc/npc_tamper_act(mob/living/L)
 #define NPC_TAMPER_ACT_FORGET 1 //Don't try to tamper with this again
@@ -1650,6 +1654,8 @@ var/proccalls = 1
 #define VIOLENCE_SILENT		0
 #define VIOLENCE_DEFAULT	1
 #define VIOLENCE_GUN		2
+
+#define MAX_SHEET_STACK_AMOUNT	50
 
 // Used to determine which HUD is in use
 #define HUD_NONE 0

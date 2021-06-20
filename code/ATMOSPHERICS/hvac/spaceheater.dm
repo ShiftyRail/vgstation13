@@ -12,7 +12,7 @@
 	var/base_state = "sheater"
 	var/nocell = 0
 	var/intake_rate = 0.25
-	light_power_on = 0.75
+	light_power_on = 2
 	light_range_on = 2
 	light_color = LIGHT_COLOR_ORANGE
 
@@ -55,9 +55,10 @@
 	icon_state = "campfire0"
 	base_state = "campfire"
 	desc = "Warning: May attract Space Bears."
-	light_power_on = 1.5
+	light_power_on = 2
 	light_range_on = 2
 	light_color = LIGHT_COLOR_FIRE
+	light_type = LIGHT_SOFT_FLICKER
 	set_temperature = 35
 	nocell = 1
 	anchored = 1
@@ -316,27 +317,28 @@
 			var/turf/simulated/L = loc
 			if(istype(L))
 				var/datum/gas_mixture/env = L.return_air()
-				if(env.temperature != set_temperature + T0C)
+				if (env.total_moles > 0)//we cannot manipulate temperature in a vacuum
+					if(env.temperature != set_temperature + T0C)
 
-					var/datum/gas_mixture/removed = env.remove_volume(intake_rate * CELL_VOLUME)
+						var/datum/gas_mixture/removed = env.remove_volume(intake_rate * CELL_VOLUME)
 
-//					to_chat(world, "got [transfer_moles] moles at [removed.temperature]")
+	//					to_chat(world, "got [transfer_moles] moles at [removed.temperature]")
 
-					if(removed)
+						if(removed)
 
-						var/heat_capacity = removed.heat_capacity()
-//						to_chat(world, "heating ([heat_capacity])")
-						if(heat_capacity) // Added check to avoid divide by zero (oshi-) runtime errors -- TLE
-							if(removed.temperature < set_temperature + T0C)
-								removed.temperature = min(removed.temperature + heating_power/heat_capacity, 1000) // Added min() check to try and avoid wacky superheating issues in low gas scenarios -- TLE
-							else
-								removed.temperature = max(removed.temperature - heating_power/heat_capacity, TCMB)
-							drain_powersource(heating_power)
+							var/heat_capacity = removed.heat_capacity()
+	//						to_chat(world, "heating ([heat_capacity])")
+							if(heat_capacity) // Added check to avoid divide by zero (oshi-) runtime errors -- TLE
+								if(removed.temperature < set_temperature + T0C)
+									removed.temperature = min(removed.temperature + heating_power/heat_capacity, 1000) // Added min() check to try and avoid wacky superheating issues in low gas scenarios -- TLE
+								else
+									removed.temperature = max(removed.temperature - heating_power/heat_capacity, TCMB)
+								drain_powersource(heating_power)
 
-//						to_chat(world, "now at [removed.temperature]")
+	//						to_chat(world, "now at [removed.temperature]")
 
-					env.merge(removed)
-					afterheat(L.return_air())
+						env.merge(removed)
+						afterheat(L.return_air())
 
 			 if(!istype(loc,/turf/space))
 			 	for (var/mob/living/carbon/M in view(src,light_range_on))

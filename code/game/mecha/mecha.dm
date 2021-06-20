@@ -718,7 +718,7 @@
 
 /obj/mecha/emp_act(severity)
 	if(get_charge())
-		use_power((cell.charge/2)/severity)
+		cell.emp_act(severity*1.25)
 		take_damage(50 / severity,"energy")
 	src.log_message("EMP detected",1)
 	check_for_internal_damage(list(MECHA_INT_FIRE,MECHA_INT_TEMP_CONTROL,MECHA_INT_CONTROL_LOST,MECHA_INT_SHORT_CIRCUIT),1)
@@ -1379,7 +1379,7 @@
 		occupant = null
 		icon_state = initial_icon+"-open"
 		if(!lights) //if the lights are off, turn off the cabin lights
-			set_light(0)
+			kill_light()
 		dir = dir_in
 		if(G)
 			G.hud_off()

@@ -4,7 +4,6 @@
 
 	var/last_eating = 0 	//Not sure what this does... I found it hidden in food.dm
 
-	var/life_tick = 0      // The amount of life ticks that have processed on this mob.
 	// total amount of wounds on mob, used to spread out healing and the like over all wounds
 	var/number_wounds = 0
 
@@ -27,11 +26,15 @@
 	status_flags = CANSTUN|CANKNOCKDOWN|CANPARALYSE|CANPUSH
 	var/obj/item/device/station_map/displayed_holomap = null
 
+	var/target_zone = null
+
 /mob/living/carbon/New(var/new_loc, var/new_species_name = null, var/delay_ready_dna=0)
 	..()
 	hud_list[CONVERSION_HUD] = image('icons/mob/hud.dmi', src, "hudblank")
+	lazy_register_event(/lazy_event/on_after_move, src, /mob/living/carbon/proc/update_holomaps)
 
 /mob/living/carbon/Destroy()
+	lazy_unregister_event(/lazy_event/on_after_move, src, /mob/living/carbon/proc/update_holomaps)
 	if (mutual_handcuffs && mutual_handcuffed_to)
 		mutual_handcuffs.remove_mutual_cuff_events(mutual_handcuffed_to)
 	. = ..()

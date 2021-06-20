@@ -112,7 +112,7 @@ var/global/list/turf/simulated/floor/phazontiles = list()
 	if(!(locate(/obj/effect/decal/cleanable/dirt) in contents))
 		new /obj/effect/decal/cleanable/dirt(src)
 
-turf/simulated/floor/update_icon()
+/turf/simulated/floor/update_icon()
 
 	if(lava)
 		return
@@ -134,7 +134,7 @@ turf/simulated/floor/update_icon()
 			overlays += floor_overlay
 			light_color = floor_overlay.color
 		else
-			set_light(0)
+			kill_light()
 			icon_state = "light_off"
 	else if(is_grass_floor())
 		if(!broken && !burnt)
@@ -386,7 +386,7 @@ turf/simulated/floor/update_icon()
 		//qdel(floor_tile)
 		qdel(floor_tile)
 	icon_plating = "plating"
-	set_light(0)
+	kill_light()
 	floor_tile = null
 	intact = 0
 	broken = 0
@@ -655,7 +655,7 @@ turf/simulated/floor/update_icon()
 						L.apply_radiation(3,RAD_EXTERNAL)
 					flick("uranium_active",src)
 					spawn(20)
-						set_light(0)
+						kill_light()
 					spawn(200)
 						spam_flag = 0
 						update_icon()
@@ -680,16 +680,13 @@ turf/simulated/floor/update_icon()
 			return
 		qdel(P)
 
-
-/turf/simulated/floor/attack_construct(mob/user as mob)
+/turf/simulated/floor/attack_construct(var/mob/user)
 	if(istype(src,/turf/simulated/floor/carpet))
 		return//carpets are cool
 	if(istype(user,/mob/living/simple_animal/construct/builder))
 		if((icon_state != "cult")&&(icon_state != "cult-narsie"))
 			var/spell/aoe_turf/conjure/floor/S = locate() in user.spell_list
 			S.perform(user, 0, list(src))
-			//var/obj/abstract/screen/spell/SS = S.connected_button
-			//SS.update_charge(1)
 			return 1
 	return 0
 

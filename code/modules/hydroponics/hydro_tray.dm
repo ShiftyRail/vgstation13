@@ -56,6 +56,9 @@
 	// Seed details/line data.
 	var/datum/seed/seed = null // The currently planted seed
 
+/obj/machinery/portable_atmospherics/hydroponics/loose
+	anchored = FALSE
+
 /obj/machinery/portable_atmospherics/hydroponics/New()
 	..()
 	create_reagents(200)
@@ -118,7 +121,7 @@
 	improper_light = 0
 	improper_kpa = 0
 	improper_heat = 0
-	set_light(0)
+	kill_light()
 	update_icon()
 
 //Harvests the product of a plant.
@@ -485,7 +488,7 @@
 
 			var/light_available = 5
 			if(T.dynamic_lighting)
-				light_available = T.get_lumcount() * 10
+				light_available = T.get_lumcount()
 
 			to_chat(user, "The tray's sensor suite is reporting a light level of [round(light_available, 0.1)] lumens and a temperature of [environment.temperature]K.")
 

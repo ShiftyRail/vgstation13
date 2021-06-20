@@ -12,6 +12,7 @@
 	possible_transfer_amounts = list(5, 10, 25)
 	volume = 50
 	log_reagents = 1
+	light_range = 3
 	//Merged from bottle.dm - Hinaichigo
 	var/const/duration = 13 //Directly relates to the 'weaken' duration. Lowered by armor (i.e. helmets)
 	var/isGlass = 0 //Whether the 'bottle' is made of glass or not so that milk cartons dont shatter when someone gets hit by it
@@ -19,13 +20,13 @@
 	//Molotov and smashing variables
 	var/molotov = 0 //-1 = can be made into molotov, 0 = can't, 1 = has had rag stuffed into it
 	var/lit = 0
-	var/brightness_lit = 3
 	var/bottleheight = 23 //To offset the molotov rag and fire - beer and ale are 23
 	var/smashtext = "bottle of " //To handle drinking glasses and the flask of holy water
 	var/smashname = "broken bottle" //As above
 	var/flammable = 0
 	var/flammin = 0
 	var/flammin_color = null
+	var/base_icon_state = "glassbottle"
 
 /obj/item/weapon/reagent_containers/food/drinks/on_reagent_change()
 	if(gulp_size < 5)
@@ -235,6 +236,7 @@
 
 /obj/item/weapon/reagent_containers/food/drinks/New()
 	..()
+	base_icon_state = icon_state
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Drinks. END
@@ -973,27 +975,22 @@
 /obj/item/weapon/reagent_containers/food/drinks/soda_cans/cannedcopcoffee/New()
 	..()
 	reagents.add_reagent(SECCOFFEE, 50)
-
 /obj/item/weapon/reagent_containers/food/drinks/soda_cans/lifeline_white
 	name = "Picomed: White edition"
 	desc = "Good for the body and good for the bones."
 	icon_state = "lifeline_white"
-
 /obj/item/weapon/reagent_containers/food/drinks/soda_cans/lifeline_white/New()
 	..()
 	reagents.add_reagent(MEDCOFFEE, 48)
 	reagents.add_reagent(MILK, 2)
-
 /obj/item/weapon/reagent_containers/food/drinks/soda_cans/lifeline_red
 	name = "Picomed: Red edition"
 	desc = "I need 50ccs of coffee, stat!"
 	icon_state = "lifeline_red"
-
 /obj/item/weapon/reagent_containers/food/drinks/soda_cans/lifeline_red/New()
 	..()
 	reagents.add_reagent(MEDCOFFEE, 48)
 	reagents.add_reagent(REDTEA, 2)
-
 /obj/item/weapon/reagent_containers/food/drinks/soda_cans/lifeline_cryo
 	name = "Picomed: Cryo edition"
 	desc = "Remember to strip before consuming."
@@ -1009,7 +1006,6 @@
 	var/image/status_overlay = image("icon" = 'icons/obj/drinks.dmi', "icon_state" = "cryoverlay_[remaining]")
 	overlays += status_overlay
 	tubeoverlay += status_overlay
-
 /obj/item/weapon/reagent_containers/food/drinks/soda_cans/lifeline_cryo/New()
 	..()
 	reagents.add_reagent(MEDCOFFEE, 48)
@@ -1170,21 +1166,117 @@
 	..()
 	reagents.add_reagent(KARMOTRINE, 15)
 
-/obj/item/weapon/reagent_containers/food/drinks/britcup
+/obj/item/weapon/reagent_containers/food/drinks/flagmug
+	name = "mug"
+	desc = "A simple mug."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "mug_empty"
+	isGlass = 0
+	amount_per_transfer_from_this = 10
+	volume = 30
+	starting_materials = list(MAT_IRON = 500)
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/on_reagent_change()
+	if (reagents.reagent_list.len > 0)
+		mug_reagent_overlay()
+	else
+		overlays.len = 0
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/britcup
 	name = "\improper cup"
 	desc = "A cup with the British flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
 	icon_state = "britcup"
 	volume = 30
 
-/obj/item/weapon/reagent_containers/food/drinks/americup
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/americup
 	name = "\improper cup"
 	desc = "A cup with the American flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
 	icon_state = "americup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/francecup
+	name = "\improper cup"
+	desc = "A cup with the French flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "francecup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/italycup
+	name = "\improper cup"
+	desc = "A cup with the Italian flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "italycup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/germancup
+	name = "\improper cup"
+	desc = "A cup with the German flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "germancup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/spanishcup
+	name = "\improper cup"
+	desc = "A cup with the Spanish flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "spanishcup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/irelandcup
+	name = "\improper cup"
+	desc = "A cup with the Irish flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "irelandcup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/uruguaycup
+	name = "\improper cup"
+	desc = "A cup with the Uruguayan flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "uruguaycup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/argentinacup
+	name = "\improper cup"
+	desc = "A cup with the Argentine flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "argentinacup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/brasilcup
+	name = "\improper cup"
+	desc = "A cup with the Brasilian flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "brasilcup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/chilecup
+	name = "\improper cup"
+	desc = "A cup with the Chilean flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "chilecup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/uncup
+	name = "\improper cup"
+	desc = "A cup with the United Nations flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "uncup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/eucup
+	name = "\improper cup"
+	desc = "A cup with the European flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "eucup"
 	volume = 30
 
 /obj/item/weapon/reagent_containers/food/drinks/gromitmug
 	name = "\improper Gromit Mug"
 	desc = "Gromit Mug."
+	icon = 'icons/obj/cafe.dmi'
 	icon_state = "gromitmug"
 	volume = 30
 
@@ -1673,9 +1765,9 @@
 
 /obj/item/weapon/reagent_containers/food/drinks/proc/update_brightness(var/mob/user = null)
 	if(lit)
-		set_light(src.brightness_lit)
+		set_light()
 	else
-		set_light(0)
+		kill_light()
 
 //todo: can light cigarettes with
 //todo: is force = 15 overwriting the force? //Yes, of broken bottles, but that's been fixed now

@@ -72,6 +72,7 @@
 
 	if(client)
 		handle_regular_hud_updates()
+		standard_damage_overlay_updates()
 
 	// Grabbing
 	for(var/obj/item/weapon/grab/G in src)
@@ -479,7 +480,7 @@
 		if(isturf(loc)) //else, there's considered to be no light
 			var/turf/T = loc
 			if(T.dynamic_lighting)
-				light_amount = (T.get_lumcount() * 10) - 5
+				light_amount = (T.get_lumcount()) - 5
 			else
 				light_amount = 5
 		nutrition += light_amount
@@ -616,6 +617,8 @@
 		change_sight(adding = SEE_TURFS|SEE_MOBS|SEE_OBJS)
 		see_in_dark = 8
 		see_invisible = SEE_INVISIBLE_LEVEL_TWO
+		seedarkness = FALSE
+		update_darkness()
 	else if (stat != 2)
 		change_sight(removing = SEE_TURFS|SEE_MOBS|SEE_OBJS)
 		see_in_dark = 2

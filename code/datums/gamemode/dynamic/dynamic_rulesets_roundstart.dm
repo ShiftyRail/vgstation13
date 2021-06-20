@@ -41,6 +41,9 @@
 		// Above 3 traitors, we start to cost a bit more.
 	return 1
 
+/datum/dynamic_ruleset/roundstart/traitor/previous_rounds_odds_reduction(var/result)
+	return result
+
 //////////////////////////////////////////////
 //                                          //
 //               CHALLENGERS                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,11 +54,11 @@
 	name = "Syndicate Challengers"
 	role_category = /datum/role/traitor/challenger
 	role_category_override = TRAITOR
-	protected_from_jobs = list("Security Officer", "Merchant", "Warden", "Head of Personnel", "Cyborg", "Detective",
+	protected_from_jobs = list("Security Officer", "Merchant", "Warden", "Head of Personnel", "Detective",
 							"Head of Security", "Captain", "Chief Engineer", "Chief Medical Officer", "Research Director", "Brig Medic")
 	restricted_from_jobs = list("AI","Cyborg","Mobile MMI")
 	required_candidates = 2
-	weight = 1
+	weight = BASE_RULESET_WEIGHT
 	cost = 15
 	var/traitor_threshold = 3
 	var/additional_cost = 5
@@ -591,7 +594,7 @@ Assign your candidates in choose_candidates() instead.
 	role_category = null
 	restricted_from_jobs = list()
 	enemy_jobs = list()
-	required_pop = list(0,0,0,0,0,0,0,0,0,0)
+	required_pop = list(30,30,30,30,30,30,30,30,30,30)
 	required_candidates = 0
 	weight = 0.5*BASE_RULESET_WEIGHT
 	cost = 0
@@ -602,6 +605,9 @@ Assign your candidates in choose_candidates() instead.
 /datum/dynamic_ruleset/roundstart/extended/acceptable(population, threat_level)
 	var/probability = clamp(threat_level, 30, 100)
 	return !prob(probability)
+
+/datum/dynamic_ruleset/roundstart/extended/choose_candidates()
+	return TRUE
 
 /datum/dynamic_ruleset/roundstart/extended/execute()
 	message_admins("Starting a round of extended.")

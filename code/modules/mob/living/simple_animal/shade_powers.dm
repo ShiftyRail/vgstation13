@@ -17,7 +17,7 @@
 		return
 	if (client)
 		client.CAN_MOVE_DIAGONALLY = 1
-		if(!gui_icons.soulblade_bgLEFT)
+		if(hud_used && !gui_icons.soulblade_bgLEFT)
 			hud_used.shade_hud()
 		client.screen += list(
 			gui_icons.soulblade_bgLEFT,
@@ -149,7 +149,7 @@
 	for (var/atom/A in T)
 		if (A == SB)
 			continue
-		if (istype(A,/atom/movable/lighting_overlay))
+		if (islightingoverlay(A))
 			continue
 		if (ismob(A))
 			var/mob/M = A
@@ -160,7 +160,7 @@
 			if (!istype(A, /obj/item/weapon/storage))
 				my_targets += A
 	for (var/atom/A in get_step(T,dir))
-		if (istype(A,/atom/movable/lighting_overlay))
+		if (islightingoverlay(A))
 			continue
 		if (ismob(A))
 			var/mob/M = A

@@ -48,7 +48,7 @@
 						var/list/allturfcontents = currentturf.contents.Copy()
 
 						//Remove the following line to allow lighting to be considered, if you do this it must be blended with BLEND_MULTIPLY instead of ICON_OVERLAY
-						allturfcontents -= locate(/atom/movable/lighting_overlay) in allturfcontents
+						allturfcontents -= locate(/atom/movable/light) in allturfcontents
 
 						for(var/atom/movable/A in allturfcontents)
 							if(A.locs.len > 1) //Fix for multitile objects I wish I didn't have to do this its probably slow
@@ -70,7 +70,7 @@
 							continue
 
 						//Preparing to blend get flat icon of
-						for(var/A in plane_layer_sort(allturfcontents))
+						for(var/A in allturfcontents)
 							var/icon/icontoblend = getFlatIcon(A,A:dir, cache = 0)
 							map_icon.Blend(icontoblend, ICON_OVERLAY, ((a-1)*WORLD_ICON_SIZE)+1, ((b-1)*WORLD_ICON_SIZE)+1)
 						sleep(-1)

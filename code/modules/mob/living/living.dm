@@ -98,13 +98,14 @@
 			mutations.Remove(M_HARDCORE)
 			to_chat(src, "<span class='notice'>You feel like a pleb.</span>")
 	handle_beams()
+	lazy_invoke_event(/lazy_event/on_life, list("L" = src, "life_tick" = life_tick))
 	return 1
 
 // Apply connect damage
 /mob/living/beam_connect(var/obj/effect/beam/B)
 	..()
 	last_beamchecks["\ref[B]"]=world.time
-
+lazy_invoke_event
 /mob/living/beam_disconnect(var/obj/effect/beam/B)
 	..()
 	apply_beam_damage(B)
@@ -626,6 +627,8 @@ Thanks.
 	// make the icons look correct
 	regenerate_icons()
 	update_canmove()
+
+	clear_fullscreens()
 
 	hud_updateflag |= 1 << HEALTH_HUD
 	hud_updateflag |= 1 << STATUS_HUD
@@ -1250,6 +1253,8 @@ Thanks.
 /mob/living/proc/rest_action()
 	delayNextMove(1)
 	resting = !resting
+	// MUST do it immediately! because else it breaks
+	update_transform()
 	update_canmove()
 	to_chat(src, "<span class='notice'>You are now [resting ? "resting" : "getting up"]</span>")
 

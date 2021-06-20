@@ -52,6 +52,16 @@ var/global/list/ghdel_profiling = list()
 	/// The chat color var, without alpha.
 	var/chat_color_hover
 
+	// Lighting flags
+	var/lighting_flags
+	var/moody_light_type
+
+/atom/New()
+	. = ..()
+	// Light effects
+	if (moody_light_type || lighting_flags & IS_LIGHT_SOURCE)
+		set_light()
+
 /atom/proc/beam_connect(var/obj/effect/beam/B)
 	if(!last_beamchecks)
 		last_beamchecks = list()
@@ -164,6 +174,12 @@ var/global/list/ghdel_profiling = list()
 				B.master.target = null
 		beams.len = 0
 	*/
+	if(light_obj)
+		qdel(light_obj)
+		light_obj = null
+	if(shadow_obj)
+		qdel(shadow_obj)
+		shadow_obj = null
 	..()
 
 /atom/proc/assume_air(datum/gas_mixture/giver)
@@ -251,6 +267,9 @@ var/global/list/ghdel_profiling = list()
 
 /atom/proc/bullet_act(var/obj/item/projectile/Proj)
 	return PROJECTILE_COLLISION_DEFAULT
+
+/atom/proc/photography_act(var/obj/item/device/camera/camera) //Called when this atom has its picture taken by a camera
+	return
 
 /atom/proc/in_contents_of(container)//can take class or object instance as argument
 	if(ispath(container))
@@ -808,6 +827,12 @@ its easier to just keep the beam vertical.
 
 /atom/proc/isacidhardened()
 	return FALSE
+
+/atom/proc/salt_act()
+	return
+
+/atom/proc/acid_melt()
+	return
 
 /atom/proc/get_inaccuracy(var/atom/target, var/spread, var/obj/mecha/chassis)
 	var/turf/curloc = get_turf(src)

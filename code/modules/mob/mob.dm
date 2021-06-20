@@ -435,6 +435,7 @@
 	set waitfor = FALSE
 	if(timestopped)
 		return 0 //under effects of time magick
+	check_dark_vision()
 	if(spell_masters && spell_masters.len)
 		for(var/obj/abstract/screen/movable/spell_master/spell_master in spell_masters)
 			spell_master.update_spells(0, src)
@@ -1461,7 +1462,7 @@ Use this proc preferably at the end of an equipment loadout
 			stat("Location:", "([x], [y], [z])")
 			stat("CPU:", "[world.cpu]")
 			stat("Instances:", "[world.contents.len]")
-			stat("Internal tick usage:", "[internal_tick_usage]")
+			stat("Map CPU:", "[world.map_cpu]")
 
 			stat(null)
 			if(Master)
@@ -1523,7 +1524,7 @@ Use this proc preferably at the end of an equipment loadout
 	return 1
 
 /mob/proc/isKnockedDown() //Check if the mob is knocked down
-	return isUnconscious() || knockdown || paralysis
+	return knockdown || paralysis
 
 /mob/proc/isJustStunned() //Some ancient coder (as of 2021) made it so that it checks directly for whether the variable has a positive number, and I'm too afraid of unintended consequences down the line to just change it to isStunned(), so instead you have this half-baked abomination of a barely-used proc just so that player simple_animal mobs can move. You're welcome!
 	return stunned
@@ -1536,7 +1537,7 @@ Use this proc preferably at the end of an equipment loadout
 			canmove = 0
 			lying = (category.flags & LOCKED_SHOULD_LIE) ? TRUE : FALSE //A lying value that !=1 will break this
 
-	else if(resting || !can_stand || isKnockedDown())
+	else if(resting || !can_stand || isKnockedDown() || isUnconscious())
 		stop_pulling()
 		lying = 1
 		canmove = 0
@@ -1603,6 +1604,24 @@ Use this proc preferably at the end of an equipment loadout
 /mob/verb/southface()
 	set hidden = 1
 	return directionface(SOUTH)
+
+/mob/proc/check_dark_vision()
+	if (dark_plane && dark_plane.alphas.len)
+		var/max_alpha = 0
+		for (var/key in dark_plane.alphas)
+			max_alpha = max(dark_plane.alphas[key], max_alpha)
+		dark_plane.alpha = max_alpha
+	else
+		dark_plane?.alpha = initial(dark_plane.alpha)
+
+	if (self_vision)
+		if (isturf(loc))
+			var/turf/T = loc
+			if (T.get_lumcount() > 0)
+				if (self_vision.alpha == self_vision.target_alpha)
+					self_vision.alpha = 0
+			else
+				self_vision.alpha = self_vision.target_alpha
 
 //Like forceMove(), but for dirs! used in atoms_movable.dm, mainly with chairs and vehicles
 /mob/change_dir(new_dir, var/changer)
@@ -2192,6 +2211,9 @@ mob/proc/on_foot()
 
 /mob/proc/canMouseDrag()//used mostly to check if the mob can drag'and'drop stuff in/out of various other stuff, such as disposals, cryo tubes, etc.
 	return TRUE
+
+/mob/proc/turn_into_mannequin(var/material = "marble")
+	return FALSE
 
 /mob/proc/get_personal_ambience()
 	return list()

@@ -69,6 +69,11 @@
 	desc = "It's got an awful lot of protein for a vegetable."
 	icon_state = "diona_meat"
 
+/obj/item/weapon/reagent_containers/food/snacks/meat/nymphmeat // Can also be used to make veggie burgers like normal diona meat.
+	name = "nymph meat"
+	desc = "A chunk of meat from a diona nymph. It looks dense and fibrous."
+	icon_state = "nymphmeat"
+
 /obj/item/weapon/reagent_containers/food/snacks/meat/rawchicken/vox
 	name = "vox meat"
 	desc = "Considering its Avian origin, tastes unsurprisingly like chicken."
@@ -231,8 +236,8 @@ var/global/list/valid_random_food_types = existing_typesof(/obj/item/weapon/reag
 
 	return ..()
 
-/obj/item/weapon/reagent_containers/food/snacks/meat/mimic/forceMove(atom/destination, no_tp=0, harderforce = FALSE, glide_size_override = 0)
-	if(transformed && istype(destination, /obj/machinery/cooking))
+/obj/item/weapon/reagent_containers/food/snacks/meat/mimic/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0)
+	if(transformed && istype(NewLoc, /obj/machinery/cooking))
 		revert()
 
 	return ..()
