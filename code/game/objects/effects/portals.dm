@@ -59,6 +59,8 @@
 		return ..()
 
 /obj/effect/portal/New(turf/loc,var/lifespan=300)
+	if (locate(/obj/effect/portal) in loc)
+		visible_message("<span class='notice'>\The [src] dissipates into thin air.</span>")
 	..()
 	playsound(loc,open_sound,60,1)
 
