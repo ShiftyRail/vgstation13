@@ -390,16 +390,21 @@ obj/item/clothing/suit/cassock
 	body_parts_covered = FULL_TORSO|FEET
 	species_fit = list(INSECT_SHAPED)
 
-
 /obj/item/clothing/suit/chickensuit
-	name = "Chicken Suit"
+	name = "chicken suit"
 	desc = "A suit made long ago by the ancient empire KFC."
 	icon_state = "chickensuit"
 	item_state = "chickensuit"
+	inhand_states = list("left_hand" = 'icons/mob/in-hand/left/clothing.dmi', "right_hand" = 'icons/mob/in-hand/right/clothing.dmi')
 	species_fit = list(INSECT_SHAPED)
 	body_parts_covered = FULL_TORSO|LEGS|FEET|ARMS
 	siemens_coefficient = 2.0
 
+/obj/item/clothing/suit/chickensuit/white
+	name = "white chicken suit"
+	desc = "Silky smooth. The feathers of legend...could it be..."
+	icon_state = "chickensuit_white"
+	item_state = "chickensuit_white"
 
 /obj/item/clothing/suit/monkeysuit
 	name = "Monkey Suit"
@@ -812,6 +817,12 @@ obj/item/clothing/suit/cassock
 	item_state = "mino"
 	body_parts_covered = ARMS|FULL_TORSO|IGNORE_INV
 	species_fit = list(VOX_SHAPED, INSECT_SHAPED)
+
+/obj/item/clothing/suit/mino/vinesafe
+	mech_flags = MECH_SCAN_ILLEGAL
+
+/obj/item/clothing/suit/mino/vinesafe/vine_protected()
+	return TRUE
 
 /obj/item/clothing/suit/kimono
 	name = "kimono"

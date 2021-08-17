@@ -106,15 +106,15 @@ Any-Mode: (hotkey doesn't need to be on)
 \tPGDN = activate held object
 \tEND = throw
 \tSHIFT+MMB = point-at
-\tNUMPAD8 = target head
-\tNUMPAD7 = target mouth
-\tNUMPAD9 = target eyes
-\tNUMPAD5 = target chest
-\tNUMPAD2 = target groin
-\tNUMPAD4 = target left arm
-\tNUMPAD6 = target right arm
-\tNUMPAD1 = target left leg
-\tNUMPAD3 = target right leg
+\tAlt+NUMPAD8 = target head
+\tAlt+NUMPAD7 = target mouth
+\tAlt+NUMPAD9 = target eyes
+\tAlt+NUMPAD5 = target chest
+\tAlt+NUMPAD2 = target groin
+\tAlt+NUMPAD4 = target left arm
+\tAlt+NUMPAD6 = target right arm
+\tAlt+NUMPAD1 = target left leg
+\tAlt+NUMPAD3 = target right leg
 \tCtrl+NUMPAD4 = target left hand
 \tCtrl+NUMPAD6 = target right hand
 \tCtrl+NUMPAD1 = target left foot
@@ -148,4 +148,13 @@ Admin:
 	set desc = "Open the Round End Information window."
 	set hidden = 1
 
-	src << browse(round_end_info, "window=roundstats;size=1000x600")
+	if (round_end_info)
+		var/datum/browser/popup = new(src, "roundstats", "Round End Summary", 1000, 600)
+		popup.set_content(round_end_info)
+		popup.open()
+	else if (last_round_end_info)
+		var/datum/browser/popup = new(src, "roundstats", "Last Round Summary", 1000, 600)
+		popup.set_content(last_round_end_info)
+		popup.open()
+	else
+		to_chat(usr, "<span class='warning'>no Round End Summary found.</span>")

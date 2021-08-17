@@ -68,6 +68,7 @@ var/global/list/animal_count = list() //Stores types, and amount of animals of t
 	mob_bump_flag = SIMPLE_ANIMAL
 	mob_swap_flags = MONKEY|SLIME|SIMPLE_ANIMAL
 	mob_push_flags = MONKEY|SLIME|SIMPLE_ANIMAL
+	status_flags = CANPUSH //They cannot be conventionally stunned. AIs normally ignore this but stuns used to be able to disable player-controlled ones
 
 	//LETTING SIMPLE ANIMALS ATTACK? WHAT COULD GO WRONG. Defaults to zero so Ian can still be cuddly
 	var/melee_damage_lower = 0
@@ -394,7 +395,7 @@ var/global/list/animal_count = list() //Stores types, and amount of animals of t
 				someone_in_earshot=1
 				break
 
-	if(someone_in_earshot)
+	if(someone_in_earshot && !istype(loc, /obj/item/device/mobcapsule))
 		if(rand(0,200) < speak_chance)
 			var/mode = pick(
 			speak.len;      1,
@@ -564,12 +565,12 @@ var/global/list/animal_count = list() //Stores types, and amount of animals of t
 	setDensity(FALSE)
 
 	animal_count[src.type]--
-	if(!src.butchering_drops && animal_butchering_products[src.species_type]) //If we already created a list of butchering drops, don't create another one
-		var/list/L = animal_butchering_products[src.species_type]
-		src.butchering_drops = list()
+	var/list/animal_butchering_products = get_butchering_products()
+	if(!src.butchering_drops && animal_butchering_products.len > 0) //If we already created a list of butchering drops, don't create another one
+		butchering_drops = list()
 
-		for(var/butchering_type in L)
-			src.butchering_drops += new butchering_type
+		for(var/butchering_type in animal_butchering_products)
+			butchering_drops += new butchering_type
 
 	..(gibbed)
 
@@ -595,6 +596,8 @@ var/global/list/animal_count = list() //Stores types, and amount of animals of t
 
 	if(lazy_invoke_event(/lazy_event/on_damaged, list("kind" = BRUTE, "amount" = damage)))
 		return 0
+	if (damage > 0)
+		damageoverlaytemp = 20
 	if(skinned())
 		damage = damage * 2
 	if(purge)
@@ -835,20 +838,5 @@ var/global/list/animal_count = list() //Stores types, and amount of animals of t
 		gib(meat = 0) //"meat" argument only exists for mob/living/simple_animal/gib()
 	else
 		qdel(src)
-
-/mob/living/simple_animal/isStunned() //Used so that it allows clients to attack in code/_onclick/click.dm
-	if(client)
-		return 0
-	return ..()
-
-/mob/living/simple_animal/isJustStunned() //Used so that it allows clients to move in code/mobules/mob/mob.dm
-	if(client)
-		return 0
-	return ..()
-
-/mob/living/simple_animal/isKnockedDown() //Ditto
-	if(client)
-		return 0
-	return ..()
 
 /datum/locking_category/simple_animal

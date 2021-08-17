@@ -13,7 +13,7 @@
 
 var/list/beam_master = list()
 
-#define MAX_BEAM_DISTANCE 100
+#define MAX_BEAM_DISTANCE 50
 
 #define RAY_CAST_REBOUND 1.5
 
@@ -27,6 +27,7 @@ var/list/beam_master = list()
 /ray/beam_ray/New(var/vector/p_origin, var/vector/p_direction, var/obj/item/projectile/beam/fired_beam)
 	..(p_origin, p_direction, fired_beam.starting.z)
 	src.fired_beam = fired_beam
+	original_damage = fired_beam.damage
 
 /ray/beam_ray/Destroy()
 	fired_beam = null
@@ -45,6 +46,8 @@ var/list/beam_master = list()
 
 	if(isnull(A))
 		return new /rayCastHit(info, RAY_CAST_NO_HIT_CONTINUE)
+
+	T.last_beam_damage = fired_beam.damage
 
 	if(!A.Cross(fired_beam, T) || (!isturf(fired_beam.original) && A == fired_beam.original))
 		var/ret = fired_beam.to_bump(A)
@@ -68,8 +71,8 @@ var/list/beam_master = list()
 	invisibility = 101
 	animate_movement = 2
 	linear_movement = 0 //this will set out icon_state to ..._pixel if 1
-	layer = PROJECTILE_LAYER
-	plane = LIGHTING_PLANE
+	layer = ABOVE_LIGHTING_LAYER
+	plane = ABOVE_LIGHTING_PLANE
 	pass_flags = PASSTABLE | PASSGLASS | PASSGRILLE
 	damage = 30
 	damage_type = BURN
@@ -237,6 +240,7 @@ var/list/beam_master = list()
 				M.LAssailant = null
 			else
 				M.LAssailant = firer_mob
+				M.assaulted_by(firer_mob)
 		else
 			log_attack("<font color='red'>[key_name(firer_mob)] shot [key_name(M)] with a [type]</font>")
 			M.attack_log += "\[[time_stamp()]\] <b>[key_name(firer_mob)]</b> shot <b>[key_name(M)]</b> with a <b>[type]</b>"
@@ -247,6 +251,7 @@ var/list/beam_master = list()
 				M.LAssailant = null
 			else
 				M.LAssailant = firer_mob
+				M.assaulted_by(firer_mob)
 	else
 		..()
 
@@ -764,7 +769,7 @@ var/list/laser_tag_vests = list(/obj/item/clothing/suit/tag/redtag, /obj/item/cl
 		if(count >= kill_count)
 			break
 		count++
-		var/obj/effect/overlay/beam/X=new /obj/effect/overlay/beam(T, current_timer, 1)
+		var/obj/effect/overlay/beam/X=new /obj/effect/overlay/beam(T, current_timer, 1, base_damage = 1)
 		X.BeamSource=src
 		current_timer += increment
 		if((N+64>(length+16)) && (N+WORLD_ICON_SIZE<=(length+16)))
@@ -849,6 +854,7 @@ var/list/laser_tag_vests = list(/obj/item/clothing/suit/tag/redtag, /obj/item/cl
 				M.LAssailant = null
 			else
 				M.LAssailant = firer
+				M.assaulted_by(firer)
 		else
 			M.attack_log += "\[[time_stamp()]\] <b>UNKNOWN/(no longer exists)</b> shot <b>[key_name(M)]</b> with a <b>[type]</b>"
 			msg_admin_attack("UNKNOWN/(no longer exists) shot [key_name(M)] with a [type] (<A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[firer.x];Y=[firer.y];Z=[firer.z]'>JMP</a>)") //BS12 EDIT ALG
@@ -953,7 +959,7 @@ var/list/laser_tag_vests = list(/obj/item/clothing/suit/tag/redtag, /obj/item/cl
 	..()
 	var/turf/T = get_turf(A)
 	explosion(T,0,0,5)
-	var/datum/effect/effect/system/smoke_spread/smoke = new /datum/effect/effect/system/smoke_spread()
+	var/datum/effect/system/smoke_spread/smoke = new /datum/effect/system/smoke_spread()
 	smoke.set_up(3, 0, T)
 	smoke.start()
 	return 1

@@ -192,16 +192,6 @@ emp_act
 	if (crit)
 		power *= CRIT_MULTIPLIER
 
-	var/target_zone = null
-	if(def_zone)
-		target_zone = def_zone
-	else if(originator)
-		if(ismob(originator))
-			var/mob/M = originator
-			target_zone = get_zone_with_miss_chance(M.zone_sel.selecting, src)
-	else
-		target_zone = get_zone_with_miss_chance(user.zone_sel.selecting, src)
-
 	var/datum/organ/external/affecting = get_organ(target_zone)
 	if (!affecting)
 		return FALSE
@@ -335,6 +325,10 @@ emp_act
 	return TRUE
 
 /mob/living/carbon/human/proc/bloody_hands(var/mob/living/source, var/amount = 2)
+	if (ishuman(source))
+		var/mob/living/carbon/human/H = source
+		if (H.species.anatomy_flags & NO_BLOOD)
+			return
 	//we're getting splashed with blood, so let's check for viruses
 	var/block = check_contact_sterility(HANDS)
 	var/bleeding = check_bodypart_bleeding(HANDS)
@@ -353,6 +347,10 @@ emp_act
 	update_inv_gloves()		//updates on-mob overlays for bloody hands and/or bloody gloves
 
 /mob/living/carbon/human/proc/bloody_body(var/mob/living/source,var/update = 0)
+	if (ishuman(source))
+		var/mob/living/carbon/human/H = source
+		if (H.species.anatomy_flags & NO_BLOOD)
+			return
 	//we're getting splashed with blood, so let's check for viruses
 	var/block = check_contact_sterility(FULL_TORSO)
 	var/bleeding = check_bodypart_bleeding(FULL_TORSO)

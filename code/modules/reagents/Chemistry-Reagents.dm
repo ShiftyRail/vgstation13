@@ -61,7 +61,7 @@
 	src = null
 
 	//If the chemicals are in a smoke cloud, do not let the chemicals "penetrate" into the mob's system (balance station 13) -- Doohl
-	if(self.holder && !istype(self.holder.my_atom, /obj/effect/effect/smoke/chem))
+	if(self.holder && !istype(self.holder.my_atom, /obj/effect/smoke/chem))
 		if(method == TOUCH)
 
 			var/chance = 1
@@ -228,10 +228,6 @@
 
 	reset_vars_after_duration(resettable_vars, duration, TRUE)
 
-	spawn(duration + 1)
-		var/datum/reagents/R = holder
-		R.reagent_list.Add(src)
-
 /datum/reagent/Destroy()
 	if(istype(holder))
 		holder.reagent_list -= src
@@ -395,6 +391,27 @@
 		"virus2" = null,
 		"immunity" = null,
 		)
+
+/datum/reagent/blood/handle_special_behavior(var/obj/item/weapon/reagent_containers/food/drinks/drinkingglass/D)
+	var/totally_not_blood = "Tomato Juice"
+
+	switch(color)
+		if (VOX_BLOOD)//#2299FC
+			totally_not_blood = "Space Lube"
+		if (INSECT_BLOOD)//#EBECE6
+			totally_not_blood = "Milk"
+		if (MUSHROOM_BLOOD)//#D3D3D3
+			totally_not_blood = "Milk"
+		if (PALE_BLOOD)//#272727
+			totally_not_blood = "Carbon"
+		if (GHOUL_BLOOD)//#7FFF00
+			totally_not_blood = "Piccolyn"
+
+	glass_name = "glass of [totally_not_blood]"
+	glass_desc = "Are you sure this is [totally_not_blood]?"
+	mug_name = "mug of [totally_not_blood]"
+	mug_desc = "Are you sure this is [totally_not_blood]?"
+
 
 /datum/reagent/blood/reaction_mob(var/mob/living/M, var/method = TOUCH, var/volume)
 
@@ -1090,9 +1107,10 @@
 	id = HOLYWATER
 	description = "An ashen-obsidian-water mix, this solution will alter certain sections of the brain's rationality."
 	reagent_state = REAGENT_STATE_LIQUID
-	color = "#0064C8" //rgb: 0, 100, 200
-	custom_metabolism = 2 //High metabolism to prevent extended uncult rolls. Approx 5 units per roll
+	color = "#8497A9" //rgb: 52, 59, 63
+	custom_metabolism = 2
 	specheatcap = 4.183
+	alpha = 128
 
 /datum/reagent/holywater/reaction_obj(var/obj/O, var/volume)
 
@@ -1118,6 +1136,58 @@
 			C.purge = 3
 			C.adjustBruteLoss(5)
 			C.visible_message("<span class='danger'>The holy water erodes \the [src].</span>")
+
+/datum/reagent/holysalts
+	name = "Holy Salts"
+	id = HOLYSALTS
+	description = "Blessed salts have been used for centuries as a sacramental. Pouring it on the floor in large enough quantity will offer protection from sources of evil and mend boundaries."
+	reagent_state = REAGENT_STATE_SOLID
+	color = "#C1CCD7" //rgb: 80, 80, 84
+	density = 2.09
+	specheatcap = 1.65
+
+/datum/reagent/holysalts/reaction_obj(var/obj/O, var/volume)
+	if(..())
+		return 1
+	if(volume >= 1)
+		O.bless()
+
+/datum/reagent/holysalts/reaction_turf(var/turf/simulated/T, var/volume)
+	if(..())
+		return 1
+	if(!T.has_dense_content() && volume >= 10 && !(locate(/obj/effect/decal/cleanable/salt/holy) in T))
+		if(!T.density)
+			T.bless()
+			new /obj/effect/decal/cleanable/salt/holy(T)
+
+/datum/reagent/holysalts/on_mob_life(var/mob/living/M)
+	if(..())
+		return 1
+	var/list/borers = M.get_brain_worms()
+	if(borers)
+		for(var/mob/living/simple_animal/borer/B in borers)
+			B.health -= 1
+			to_chat(B, "<span class='warning'>Something in your host's bloodstream burns you!</span>")
+
+/datum/reagent/holysalts/reaction_animal(var/mob/living/simple_animal/M, var/method=TOUCH, var/volume)
+	..()
+	if(volume >= 5)
+		if(istype(M,/mob/living/simple_animal/construct) || istype(M,/mob/living/simple_animal/shade))
+			var/mob/living/simple_animal/C = M
+			C.purge = 3
+			C.adjustBruteLoss(5)
+			C.visible_message("<span class='danger'>The holy salts erode \the [src].</span>")
+
+/datum/reagent/holysalts/on_plant_life(obj/machinery/portable_atmospherics/hydroponics/T)
+	..()
+	T.adjust_water(-3)
+	T.adjust_nutrient(-0.3)
+	T.toxins += 8
+	T.weedlevel -= 2
+	T.pestlevel -= 1
+	if(T.seed && !T.dead)
+		T.health -= 2
+
 
 /datum/reagent/serotrotium
 	name = "Serotrotium"
@@ -1673,10 +1743,8 @@
 		return
 
 	if((istype(O,/obj/item) || istype(O,/obj/effect/glowshroom)))
-		var/obj/effect/decal/cleanable/molten_item/I = new/obj/effect/decal/cleanable/molten_item(get_turf(O))
-		I.desc = "Looks like this was \an [O] some time ago."
 		O.visible_message("<span class='warning'>\The [O] melts.</span>")
-		qdel(O)
+		O.acid_melt()
 	else if(istype(O,/obj/effect/plantsegment))
 		var/obj/effect/decal/cleanable/molten_item/I = new/obj/effect/decal/cleanable/molten_item(get_turf(O))
 		I.desc = "Looks like these were some [O.name] some time ago."
@@ -2013,7 +2081,7 @@
 
 	if(T.is_wet())
 		T.dry(TURF_WET_LUBE) //Cleans water or lube
-		var/obj/effect/effect/smoke/S = new /obj/effect/effect/smoke(T)
+		var/obj/effect/smoke/S = new /obj/effect/smoke(T)
 		S.time_to_live = 10 //unusually short smoke
 		//We don't need to start up the system because we only want to smoke one tile.
 
@@ -4541,8 +4609,7 @@
 /datum/reagent/sodiumchloride/reaction_turf(var/turf/simulated/T, var/volume)
 	if(..())
 		return 1
-
-	if(volume >= 50 && !(locate(/obj/effect/decal/cleanable/salt) in T))
+	if(!T.has_dense_content() && volume >= 10 && !(locate(/obj/effect/decal/cleanable/salt) in T))
 		if(!T.density)
 			new /obj/effect/decal/cleanable/salt(T)
 
@@ -4702,7 +4769,14 @@
 	id = BLACKPEPPER
 	description = "A powder ground from peppercorns. *AAAACHOOO*"
 	reagent_state = REAGENT_STATE_SOLID
-	//rgb: 0, 0, 0
+	color = "#664C3E" //rgb: 40, 30, 24
+
+
+/datum/reagent/blackpepper/reaction_turf(var/turf/simulated/T, var/volume)
+	if(..())
+		return 1
+	if(!T.has_dense_content() && volume >= 10 && !(locate(/obj/effect/decal/cleanable/pepper) in T))
+		new /obj/effect/decal/cleanable/pepper(T)
 
 /datum/reagent/cinnamon
 	name = "Cinnamon Powder"
@@ -5104,7 +5178,8 @@
 	reagent_state = REAGENT_STATE_LIQUID
 	color = "#6F884F" //rgb: 111, 136, 79
 	data = 1 //Used as a tally
-
+	nutriment_factor = 4 * REAGENTS_METABOLISM
+	
 /datum/reagent/discount/New()
 	..()
 	density = rand(12,48)
@@ -5151,6 +5226,15 @@
 	description = "You can almost taste the lead sheet behind it!"
 	reagent_state = REAGENT_STATE_LIQUID
 	color = "#6F884F" //rgb: 255,255,255 //to-do
+	nutriment_factor = 1 * REAGENTS_METABOLISM
+	
+/datum/reagent/irradiatedbeans/on_mob_life(var/mob/living/M)
+
+	if(..())
+		return 1
+
+	if(prob(5))
+		M.apply_radiation(2, RAD_INTERNAL)
 
 /datum/reagent/toxicwaste
 	name = "Toxic Waste"
@@ -5160,6 +5244,14 @@
 	color = "#6F884F" //rgb: 255,255,255 //to-do
 	density = 5.59
 	specheatcap = 2.71
+	
+/datum/reagent/toxicwaste/on_mob_life(var/mob/living/M)
+
+	if(..())
+		return 1
+
+	if(prob(20))
+		M.adjustToxLoss(1)
 
 /datum/reagent/refriedbeans
 	name = "Re-Fried Beans"
@@ -5167,6 +5259,7 @@
 	description = "Mmm.."
 	reagent_state = REAGENT_STATE_LIQUID
 	color = "#6F884F" //rgb: 255,255,255 //to-do
+	nutriment_factor = 1 * REAGENTS_METABOLISM
 
 /datum/reagent/mutatedbeans
 	name = "Mutated Beans"
@@ -5174,6 +5267,15 @@
 	description = "Mutated flavor."
 	reagent_state = REAGENT_STATE_LIQUID
 	color = "#6F884F" //rgb: 255,255,255 //to-do
+	nutriment_factor = 1 * REAGENTS_METABOLISM
+	
+/datum/reagent/mutatedbeans/on_mob_life(var/mob/living/M)
+
+	if(..())
+		return 1
+
+	if(prob(10))
+		M.adjustToxLoss(1)
 
 /datum/reagent/beff
 	name = "Beff"
@@ -5181,6 +5283,7 @@
 	description = "What's beff? Find out!"
 	reagent_state = REAGENT_STATE_LIQUID
 	color = "#6F884F" //rgb: 255,255,255 //to-do
+	nutriment_factor = 2 * REAGENTS_METABOLISM
 
 /datum/reagent/horsemeat
 	name = "Horse Meat"
@@ -5188,6 +5291,7 @@
 	description = "Tastes excellent in lasagna."
 	reagent_state = REAGENT_STATE_LIQUID
 	color = "#6F884F" //rgb: 255,255,255 //to-do
+	nutriment_factor = 3 * REAGENTS_METABOLISM
 
 /datum/reagent/moonrocks
 	name = "Moon Rocks"
@@ -5195,6 +5299,14 @@
 	description = "We don't know much about it, but we damn well know that it hates the human skeleton."
 	reagent_state = REAGENT_STATE_LIQUID
 	color = "#6F884F" //rgb: 255,255,255 //to-do
+	
+/datum/reagent/moonrocks/on_mob_life(var/mob/living/M)
+
+	if(..())
+		return 1
+
+	if(prob(15))
+		M.adjustBruteLoss(2) //Brute damage since it hates the human skeleton
 
 /datum/reagent/offcolorcheese
 	name = "Off-Color Cheese"
@@ -5202,6 +5314,7 @@
 	description = "American Cheese."
 	reagent_state = REAGENT_STATE_LIQUID
 	color = "#6F884F" //rgb: 255,255,255 //to-do
+	nutriment_factor = REAGENTS_METABOLISM
 
 /datum/reagent/bonemarrow
 	name = "Bone Marrow"
@@ -5209,13 +5322,26 @@
 	description = "Looks like a skeleton got stuck in the production line."
 	reagent_state = REAGENT_STATE_LIQUID
 	color = "#6F884F" //rgb: 255,255,255 //to-do
-
+	nutriment_factor = REAGENTS_METABOLISM
+	
 /datum/reagent/greenramen
 	name = "Greenish Ramen Noodles"
 	id = GREENRAMEN
 	description = "That green isn't organic."
 	reagent_state = REAGENT_STATE_LIQUID
 	color = "#6F884F" //rgb: 255,255,255 //to-do
+	nutriment_factor = 2 * REAGENTS_METABOLISM
+
+/datum/reagent/greenramen/on_mob_life(var/mob/living/M)
+
+	if(..())
+		return 1
+
+	if(prob(5))
+		M.adjustToxLoss(1)
+	
+	if(prob(5))
+		M.apply_radiation(1, RAD_INTERNAL) //Call it uranium contamination so heavy metal poisoning for the tox and the uranium radiation for the radiation damage 
 
 /datum/reagent/glowingramen
 	name = "Glowing Ramen Noodles"
@@ -5223,6 +5349,15 @@
 	description = "That glow 'aint healthy."
 	reagent_state = REAGENT_STATE_LIQUID
 	color = "#6F884F" //rgb: 255,255,255 //to-do
+	nutriment_factor = 2 * REAGENTS_METABOLISM
+
+/datum/reagent/glowingramen/on_mob_life(var/mob/living/M)
+
+	if(..())
+		return 1
+	
+	if(prob(10))
+		M.apply_radiation(1, RAD_INTERNAL)
 
 /datum/reagent/deepfriedramen
 	name = "Deep Fried Ramen Noodles"
@@ -5230,6 +5365,7 @@
 	description = "Ramen, deep fried."
 	reagent_state = REAGENT_STATE_LIQUID
 	color = "#6F884F" //rgb: 255,255,255 //to-do
+	nutriment_factor = 2 * REAGENTS_METABOLISM
 
 /datum/reagent/peptobismol
 	name = "Peptobismol"
@@ -7643,7 +7779,7 @@
 	if(..())
 		return 1
 
-	M.stunned = 4
+	M.AdjustStunned(4)
 
 /datum/reagent/ethanol/drink/neurotoxin
 	name = "Neurotoxin"
@@ -8451,6 +8587,14 @@ var/global/list/tonio_doesnt_remove=list("tonio", "blood")
 	color = "#FFA500"
 	custom_metabolism = 0.1
 
+/datum/reagent/softcores
+	name = "softcores"
+	id = SOFTCORES
+	description = "Lesser known than its cheaper cousin in the popular snack 'mag-bites', softcores have all the benefits of chemical magnetism without the heart-stopping side effects."
+	reagent_state = REAGENT_STATE_SOLID
+	color = "#ff5100"
+	custom_metabolism = 0.1
+
 //Plant-specific reagents
 
 /datum/reagent/kelotane/tannic_acid
@@ -8644,7 +8788,18 @@ var/global/list/tonio_doesnt_remove=list("tonio", "blood")
 
 	if(istype(O, /obj/structure/closet/statue))
 		var/obj/structure/closet/statue/statue = O
+		statue.dissolve()
+	if(istype(O, /obj/structure/mannequin))
+		var/obj/structure/mannequin/statue = O
+		statue.dissolve()
 
+
+/datum/reagent/apetrine/reaction_mob(var/mob/living/M, var/method = TOUCH, var/volume)
+	if(..())
+		return 1
+
+	if(istype(M, /mob/living/simple_animal/hostile/mannequin))
+		var/mob/living/simple_animal/hostile/mannequin/statue = M
 		statue.dissolve()
 
 /datum/reagent/hemoscyanine
@@ -9314,7 +9469,7 @@ var/global/list/tonio_doesnt_remove=list("tonio", "blood")
 	custom_metabolism = 0.25
 
 /datum/reagent/incense/dense/OnDisperse(var/turf/location)
-	var/datum/effect/effect/system/smoke_spread/smoke = new /datum/effect/effect/system/smoke_spread()
+	var/datum/effect/system/smoke_spread/smoke = new /datum/effect/system/smoke_spread()
 	smoke.set_up(2, 0, location) //Make 2 drifting clouds of smoke, direction
 	smoke.start()
 
@@ -9342,3 +9497,12 @@ var/global/list/tonio_doesnt_remove=list("tonio", "blood")
 	if(prob(5))
 		to_chat(M,"<span class='warning'>[pick("You feel fuller.", "You no longer feel snackish.")]</span>")
 		M.reagents.add_reagent(NUTRIMENT, 2)
+
+/datum/reagent/dsyrup
+	name = "Delightful Mix"
+	id = DSYRUP
+	description = "This syrupy stuff is everyone's favorite tricord additive."
+	reagent_state = REAGENT_STATE_LIQUID
+	color = "#571212" //like a dark red
+	density = 1.00 //basically water
+	specheatcap = 4.184

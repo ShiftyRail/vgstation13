@@ -1464,7 +1464,7 @@
 /obj/structure/window/reinforced{
 	dir = 8
 	},
-/turf/simulated/floor/carpet/floor_tile,
+/turf/simulated/floor/carpet,
 /area/bridge)
 "acu" = (
 /turf/simulated/floor,
@@ -3654,7 +3654,7 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/turf/simulated/floor/carpet/floor_tile,
+/turf/simulated/floor/carpet,
 /area/bridge)
 "agk" = (
 /obj/machinery/computer/shuttle,
@@ -3663,7 +3663,7 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/turf/simulated/floor/carpet/floor_tile,
+/turf/simulated/floor/carpet,
 /area/bridge)
 "agl" = (
 /obj/structure/closet/jcloset,
@@ -4544,7 +4544,7 @@
 /obj/structure/window/reinforced{
 	dir = 4
 	},
-/turf/simulated/floor/carpet/floor_tile,
+/turf/simulated/floor/carpet,
 /area/bridge)
 "ahH" = (
 /obj/machinery/atmospherics/pipe/manifold4w/supply/hidden/layered,
@@ -4822,7 +4822,7 @@
 	},
 /area/bridge)
 "aih" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /turf/simulated/floor{
 	dir = 1;
 	icon_state = "darkyellow";
@@ -4977,7 +4977,7 @@
 /area/storage/nuke_storage)
 "aiu" = (
 /obj/structure/displaycase/captains_laser,
-/turf/simulated/floor/carpet/floor_tile,
+/turf/simulated/floor/carpet,
 /area/crew_quarters/captain)
 "aiv" = (
 /obj/structure/table/woodentable,
@@ -5235,7 +5235,7 @@
 /turf/space/transit/horizon,
 /area)
 "aiS" = (
-/turf/simulated/floor/carpet/floor_tile,
+/turf/simulated/floor/carpet,
 /area/crew_quarters/captain)
 "aiT" = (
 /obj/structure/reagent_dispensers/silicate,
@@ -8809,7 +8809,7 @@
 /turf/simulated/floor,
 /area/engineering/supermatter_room)
 "aox" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /turf/simulated/floor/plating,
 /area/maintenance/fpmaint)
 "aoy" = (
@@ -11048,7 +11048,7 @@
 	pixel_y = 24;
 	req_one_access = list(24,11,47)
 	},
-/turf/simulated/floor/carpet/floor_tile,
+/turf/simulated/floor/carpet,
 /area/crew_quarters/hop)
 "arR" = (
 /obj/machinery/power/apc{
@@ -11566,7 +11566,7 @@
 	},
 /area/engineering/ce)
 "asD" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/item/device/radio/intercom{
 	name = "Common Channel";
 	pixel_y = 25
@@ -14010,7 +14010,7 @@
 /turf/simulated/floor,
 /area/engineering/engine_smes)
 "awi" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/machinery/camera{
 	dir = 1;
 	name = "Engineering Supermatter Monitoring";
@@ -33094,7 +33094,7 @@
 /area/turret_protected/ai)
 "baS" = (
 /obj/machinery/door/airlock/glass_research{
-	name = "Borer Devolopment";
+	name = "Borer Development";
 	req_access_txt = "47"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layered,
@@ -37917,7 +37917,7 @@
 /obj/structure/bed/chair/comfy/brown{
 	dir = 4
 	},
-/turf/simulated/floor/carpet/floor_tile,
+/turf/simulated/floor/carpet,
 /area/crew_quarters/captain)
 "biS" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layered,
@@ -38098,7 +38098,7 @@
 	dir = 1;
 	name = "Firelock North"
 	},
-/turf/simulated/floor/carpet/floor_tile,
+/turf/simulated/floor/carpet,
 /area/crew_quarters/captain)
 "bji" = (
 /turf/simulated/wall/r_wall,
@@ -38187,7 +38187,7 @@
 "bjn" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layered,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layered,
-/turf/simulated/floor/carpet/floor_tile,
+/turf/simulated/floor/carpet,
 /area/crew_quarters/captain)
 "bjo" = (
 /obj/machinery/door/airlock/glass_engineering{
@@ -38395,7 +38395,7 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layered,
-/turf/simulated/floor/carpet/floor_tile,
+/turf/simulated/floor/carpet,
 /area/crew_quarters/captain)
 "bjH" = (
 /obj/machinery/atmospherics/pipe/layer_adapter/scrubbers/hidden{
@@ -38415,7 +38415,7 @@
 /obj/structure/painting/random{
 	pixel_x = 32
 	},
-/turf/simulated/floor/carpet/floor_tile,
+/turf/simulated/floor/carpet,
 /area/crew_quarters/captain)
 "bjJ" = (
 /obj/machinery/suit_storage_unit/captain,
@@ -38492,7 +38492,7 @@
 	dir = 1
 	},
 /obj/machinery/light,
-/turf/simulated/floor/carpet/floor_tile,
+/turf/simulated/floor/carpet,
 /area/crew_quarters/captain)
 "bjP" = (
 /obj/structure/cable{
@@ -38603,7 +38603,7 @@
 	},
 /area/bridge)
 "bjX" = (
-/turf/simulated/floor/carpet/floor_tile,
+/turf/simulated/floor/carpet,
 /area/bridge)
 "bjY" = (
 /obj/structure/bed/chair/comfy/black{
@@ -38614,7 +38614,7 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/turf/simulated/floor/carpet/floor_tile,
+/turf/simulated/floor/carpet,
 /area/bridge)
 "bjZ" = (
 /turf/simulated/floor{
@@ -39499,11 +39499,11 @@
 	dir = 1
 	},
 /mob/living/simple_animal/corgi/Ian,
-/turf/simulated/floor/carpet/floor_tile,
+/turf/simulated/floor/carpet,
 /area/crew_quarters/hop)
 "bly" = (
 /obj/machinery/atmospherics/unary/vent_pump/on/layered,
-/turf/simulated/floor/carpet/floor_tile,
+/turf/simulated/floor/carpet,
 /area/crew_quarters/hop)
 "blz" = (
 /obj/machinery/light_switch{
@@ -45347,7 +45347,7 @@
 	on = 1
 	},
 /obj/structure/table,
-/obj/item/weapon/reagent_containers/food/drinks/americup,
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/americup,
 /obj/structure/sign/poster{
 	icon_state = "poster7";
 	pixel_y = 32
@@ -46817,7 +46817,7 @@
 	name = "Firelock East"
 	},
 /obj/machinery/door/airlock/silver{
-	name = "Dormatories";
+	name = "Dormitories";
 	req_access_txt = "140"
 	},
 /turf/simulated/floor/vox{
@@ -47010,7 +47010,7 @@
 /area/vox_trading_post/dorms)
 "byg" = (
 /obj/machinery/door/airlock/silver{
-	name = "Dormatories";
+	name = "Dormitories";
 	req_access_txt = "140"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
@@ -47939,7 +47939,7 @@
 /area/vox_trading_post/hallway)
 "bzR" = (
 /obj/machinery/door/airlock/silver{
-	name = "Dormatories";
+	name = "Dormitories";
 	req_access_txt = "140"
 	},
 /obj/structure/cable{
@@ -49203,8 +49203,7 @@
 /area/vox_trading_post/hallway)
 "bCn" = (
 /obj/machinery/mineral/unloading_machine{
-	in_dir = 2;
-	out_dir = 1
+	dir = 1
 	},
 /turf/unsimulated/floor/airless,
 /area/mine/explored)
@@ -56584,9 +56583,8 @@
 	},
 /area/centcom/suppy)
 "bRK" = (
-/obj/machinery/turret{
-	dir = 8;
-	lasertype = /obj/item/projectile/beam/heavylaser
+/obj/machinery/turret/centcomm{
+	dir = 8
 	},
 /turf/unsimulated/floor{
 	dir = 5;
@@ -56864,9 +56862,8 @@
 	},
 /area/centcom/suppy)
 "bSs" = (
-/obj/machinery/turret{
-	dir = 8;
-	lasertype = /obj/item/projectile/beam/heavylaser
+/obj/machinery/turret/centcomm{
+	dir = 8
 	},
 /turf/unsimulated/floor{
 	dir = 6;
@@ -69228,7 +69225,7 @@
 /obj/machinery/keycard_auth{
 	pixel_y = 26
 	},
-/turf/simulated/floor/carpet/floor_tile,
+/turf/simulated/floor/carpet,
 /area/crew_quarters/hop)
 "cuK" = (
 /obj/structure/grille,
@@ -72418,7 +72415,7 @@
 	d2 = 8;
 	icon_state = "0-8"
 	},
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /turf/simulated/floor/plating,
 /area/djstation)
 "czL" = (
@@ -73846,7 +73843,7 @@
 	icon_state = "0-2"
 	},
 /obj/structure/cable,
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /turf/simulated/floor,
 /area/derelict/solar_control)
 "cCT" = (
@@ -82889,6 +82886,12 @@
 /obj/structure/table,
 /obj/item/weapon/reagent_containers/glass/bottle/toxin,
 /obj/item/weapon/reagent_containers/dropper,
+/obj/machinery/requests_console{
+	department = "Xenoarchaeology";
+	departmentType = 2;
+	name = "Xenoarchaeology Requests Console";
+	pixel_x = 30
+	},
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -83862,15 +83865,15 @@
 /area/science/xenobiology)
 "cXK" = (
 /obj/machinery/atmospherics/unary/vent_pump,
-/obj/machinery/requests_console{
-	department = "Science";
-	departmentType = 2;
-	name = "Science Requests Console";
-	pixel_y = 30
-	},
 /obj/structure/closet/l3closet/scientist,
 /obj/machinery/light{
 	dir = 1
+	},
+/obj/machinery/requests_console{
+	department = "Xenobiology";
+	departmentType = 2;
+	name = "Xenobiology Requests Console";
+	pixel_y = 30
 	},
 /turf/simulated/floor{
 	icon_state = "white"

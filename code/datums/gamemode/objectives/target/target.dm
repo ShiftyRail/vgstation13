@@ -58,8 +58,8 @@
 		return TRUE
 	return FALSE
 
-/datum/objective/target/proc/set_target(var/datum/mind/possible_target)
-	if(is_valid_target(possible_target))
+/datum/objective/target/proc/set_target(var/datum/mind/possible_target,var/override = FALSE)
+	if(override || is_valid_target(possible_target))
 		target = possible_target
 		explanation_text = format_explanation()
 		return TRUE
@@ -75,5 +75,5 @@
 		explanation_text = format_explanation()
 		return TRUE
 
-/datum/objective/target/proc/format_explanation()
+/datum/objective/target/format_explanation()
 	return "Somebody didn't override the format explanation text here. Objective type is [type]. Target is [target.name], have fun."

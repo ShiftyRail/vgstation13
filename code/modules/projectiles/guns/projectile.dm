@@ -259,7 +259,7 @@
 		return ..()
 	if (loaded.len || stored_magazine || refuse.len)
 		if (load_method == SPEEDLOADER)
-			if(!gun_flags & CHAMBERSPENT)
+			if(!(gun_flags & CHAMBERSPENT))
 				var/obj/item/ammo_casing/AC = loaded[1]
 				loaded -= AC
 				AC.forceMove(user.loc)
@@ -380,3 +380,11 @@
 		RemoveAttach(usr)
 	else
 		to_chat(usr, "<span class='rose'>There are no attachments to remove!</span>")
+
+/obj/item/weapon/gun/projectile/send_to_past(var/duration)
+	..()
+	var/static/list/resettable_vars = list(
+		"chambered",
+		"stored_magazine",
+		"loaded")
+	reset_vars_after_duration(resettable_vars, duration)

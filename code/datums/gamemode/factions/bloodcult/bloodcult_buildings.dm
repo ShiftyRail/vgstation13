@@ -885,7 +885,7 @@ var/list/cult_spires = list()
 	I_base.layer = BELOW_PROJECTILE_LAYER
 	I_base.appearance_flags |= RESET_COLOR//we don't want the stone to pulse
 	var/image/I_spire = image('icons/obj/cult_64x64.dmi',"spire[stage]-light")
-	I_spire.plane = LIGHTING_PLANE
+	I_spire.plane = ABOVE_LIGHTING_PLANE
 	I_spire.layer = NARSIE_GLOW
 	overlays += I_base
 	overlays += I_spire
@@ -969,14 +969,14 @@ var/list/cult_spires = list()
 			var/datum/cult_tattoo/new_tattoo = T
 			C.tattoos[new_tattoo.name] = new_tattoo
 
-			anim(target = loc, a_icon = 'icons/effects/32x96.dmi', flick_anim = "tattoo_send", lay = NARSIE_GLOW, plane = LIGHTING_PLANE)
+			anim(target = loc, a_icon = 'icons/effects/32x96.dmi', flick_anim = "tattoo_send", lay = NARSIE_GLOW, plane = ABOVE_LIGHTING_PLANE)
 			spawn (3)
 				C.update_cult_hud()
 				new_tattoo.getTattoo(H)
-				anim(target = H, a_icon = 'icons/effects/32x96.dmi', flick_anim = "tattoo_receive", lay = NARSIE_GLOW, plane = LIGHTING_PLANE)
+				anim(target = H, a_icon = 'icons/effects/32x96.dmi', flick_anim = "tattoo_receive", lay = NARSIE_GLOW, plane = ABOVE_LIGHTING_PLANE)
 				sleep(1)
 				H.update_mutations()
-				var/atom/movable/overlay/tattoo_markings = anim(target = H, a_icon = 'icons/mob/cult_tattoos.dmi', flick_anim = "[new_tattoo.icon_state]_mark", sleeptime = 30, lay = NARSIE_GLOW, plane = LIGHTING_PLANE)
+				var/atom/movable/overlay/tattoo_markings = anim(target = H, a_icon = 'icons/mob/cult_tattoos.dmi', flick_anim = "[new_tattoo.icon_state]_mark", sleeptime = 30, lay = NARSIE_GLOW, plane = ABOVE_LIGHTING_PLANE)
 				animate(tattoo_markings, alpha = 0, time = 30)
 
 			available_tattoos -= "tier[new_tattoo.tier]"
@@ -1061,7 +1061,7 @@ var/list/cult_spires = list()
 	I_base.layer = BELOW_PROJECTILE_LAYER
 	I_base.appearance_flags |= RESET_ALPHA //we don't want the stone to pulse
 	var/image/I_lave = image('icons/obj/cult_64x64.dmi',"forge-lightmask")
-	I_lave.plane = LIGHTING_PLANE
+	I_lave.plane = ABOVE_LIGHTING_PLANE
 	I_lave.layer = NARSIE_GLOW
 	I_lave.blend_mode = BLEND_ADD
 	overlays += I_base
@@ -1074,14 +1074,15 @@ var/list/cult_spires = list()
 		if(istype(L))
 			L.hotspot_expose(TEMPERATURE_FLAME, 125, surfaces = 1)//we start fires in plasma atmos
 			var/datum/gas_mixture/env = L.return_air()
-			if(env.temperature != set_temperature + T0C)
-				var/datum/gas_mixture/removed = env.remove_volume(0.5 * CELL_VOLUME)
-				if(removed)
-					var/heat_capacity = removed.heat_capacity()
-					if(heat_capacity)
-						if(removed.temperature < set_temperature + T0C)
-							removed.temperature = min(removed.temperature + heating_power/heat_capacity, 1000)
-				env.merge(removed)
+			if (env.total_moles > 0)//we cannot manipulate temperature in a vacuum
+				if(env.temperature != set_temperature + T0C)
+					var/datum/gas_mixture/removed = env.remove_volume(0.5 * CELL_VOLUME)
+					if(removed)
+						var/heat_capacity = removed.heat_capacity()
+						if(heat_capacity)
+							if(removed.temperature < set_temperature + T0C)
+								removed.temperature = min(removed.temperature + heating_power/heat_capacity, 1000)
+					env.merge(removed)
 		if(!istype(loc,/turf/space))
 			for (var/mob/living/carbon/M in view(src,3))
 				M.bodytemperature += (6-round(M.get_cult_power()/30))/((get_dist(src,M)+1))//cult gear reduces the heat buildup
@@ -1111,11 +1112,11 @@ var/list/cult_spires = list()
 						forger = null
 						template = null
 					else
-						anim(target = loc, a_icon = 'icons/obj/cult_64x64.dmi', flick_anim = "forge-work", lay = NARSIE_GLOW, plane = LIGHTING_PLANE)
+						anim(target = loc, a_icon = 'icons/obj/cult_64x64.dmi', flick_anim = "forge-work", lay = NARSIE_GLOW, plane = ABOVE_LIGHTING_PLANE)
 						playsound(L, 'sound/effects/forge.ogg', 50, 0, -4)
 						forging.overlays.len = 0
 						var/image/I = image('icons/obj/cult_64x64.dmi',"[forging.icon_state]-mask")
-						I.plane = LIGHTING_PLANE
+						I.plane = ABOVE_LIGHTING_PLANE
 						I.layer = NARSIE_GLOW
 						I.blend_mode = BLEND_ADD
 						I.alpha = (timeleft/timetotal)*255
@@ -1160,7 +1161,7 @@ var/list/cult_spires = list()
 		I_base.layer = BELOW_PROJECTILE_LAYER
 		I_base.appearance_flags |= RESET_ALPHA //we don't want the stone to pulse
 		var/image/I_lave = image('icons/obj/cult_64x64.dmi',"forge-lightmask")
-		I_lave.plane = LIGHTING_PLANE
+		I_lave.plane = ABOVE_LIGHTING_PLANE
 		I_lave.layer = NARSIE_GLOW
 		I_lave.blend_mode = BLEND_ADD
 		overlays += I_base
@@ -1261,7 +1262,7 @@ var/list/cult_spires = list()
 	..()
 	icon_state = i_forge
 	var/image/I = image('icons/obj/cult_64x64.dmi',"[i_forge]-mask")
-	I.plane = LIGHTING_PLANE
+	I.plane = ABOVE_LIGHTING_PLANE
 	I.layer = NARSIE_GLOW
 	I.blend_mode = BLEND_ADD
 	overlays += I
@@ -1652,7 +1653,7 @@ var/list/bloodstone_list = list()
 /obj/structure/cult/proc/dance_start()
 	while(timeleft > 0)
 		for (var/mob/M in contributors)
-			if (!iscultist(M) || get_dist(src,M) > 1 || (M.stat != CONSCIOUS))
+			if (!iscultist(M) || get_dist(src,M) > 1 || M.incapacitated() || M.occult_muted())
 				if (M.client)
 					M.client.images -= progbar
 				contributors.Remove(M)
@@ -1679,6 +1680,7 @@ var/list/bloodstone_list = list()
 	switch(dance_move)
 		if ("clock")
 			for (var/mob/M in contributors)
+				M.lazy_invoke_event(/lazy_event/on_before_move)
 				switch (get_dir(src,M))
 					if (NORTHWEST,NORTH)
 						M.forceMove(get_step(M,EAST))
@@ -1692,8 +1694,11 @@ var/list/bloodstone_list = list()
 					if (SOUTHWEST,WEST)
 						M.forceMove(get_step(M,NORTH))
 						M.dir = NORTH
+				M.lazy_invoke_event(/lazy_event/on_after_move)
+				M.lazy_invoke_event(/lazy_event/on_moved, list("mover" = M))
 		if ("counter")
 			for (var/mob/M in contributors)
+				M.lazy_invoke_event(/lazy_event/on_before_move)
 				switch (get_dir(src,M))
 					if (NORTHEAST,NORTH)
 						M.forceMove(get_step(M,WEST))
@@ -1707,15 +1712,22 @@ var/list/bloodstone_list = list()
 					if (NORTHWEST,WEST)
 						M.forceMove(get_step(M,SOUTH))
 						M.dir = SOUTH
+				M.lazy_invoke_event(/lazy_event/on_after_move)
+				M.lazy_invoke_event(/lazy_event/on_moved, list("mover" = M))
 		if ("spin")
 			for (var/mob/M in contributors)
 				spawn()
 					M.dir = SOUTH
+					M.lazy_invoke_event(/lazy_event/on_face)
 					sleep(0.75)
 					M.dir = EAST
+					M.lazy_invoke_event(/lazy_event/on_face)
 					sleep(0.75)
 					M.dir = NORTH
+					M.lazy_invoke_event(/lazy_event/on_face)
 					sleep(0.75)
 					M.dir = WEST
+					M.lazy_invoke_event(/lazy_event/on_face)
 					sleep(0.75)
 					M.dir = SOUTH
+					M.lazy_invoke_event(/lazy_event/on_face)

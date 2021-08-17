@@ -16053,7 +16053,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 9
 	},
-/turf/simulated/floor,
+/turf/simulated/floor{
+	dir = 1;
+	icon_state = "neutralcorner"
+	},
 /area/crew_quarters/sleep)
 "aAW" = (
 /turf/simulated/wall,
@@ -17583,9 +17586,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/simulated/floor{
 	dir = 1;
-	icon_state = "neutralcorner"
+	icon_state = "neutral"
 	},
-/area/crew_quarters/sleep)
+/area/crew_quarters/fitness)
 "aEv" = (
 /obj/machinery/door/firedoor/border_only{
 	name = "Firelock South"
@@ -17697,12 +17700,15 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/turf/simulated/floor,
+/turf/simulated/floor{
+	dir = 1;
+	icon_state = "neutral"
+	},
 /area/crew_quarters/fitness)
 "aEH" = (
 /obj/structure/closet/lasertag/red,
 /turf/simulated/floor{
-	dir = 5;
+	dir = 1;
 	icon_state = "neutral"
 	},
 /area/crew_quarters/fitness)
@@ -17713,7 +17719,7 @@
 	pixel_y = 20
 	},
 /turf/simulated/floor{
-	dir = 4;
+	dir = 5;
 	icon_state = "red"
 	},
 /area/crew_quarters/fitness)
@@ -18220,7 +18226,7 @@
 	dir = 4
 	},
 /turf/simulated/floor{
-	dir = 8;
+	dir = 9;
 	icon_state = "neutral"
 	},
 /area/crew_quarters/sleep)
@@ -18251,7 +18257,10 @@
 	dir = 1;
 	initialize_directions = 11
 	},
-/turf/simulated/floor,
+/turf/simulated/floor{
+	dir = 1;
+	icon_state = "neutral"
+	},
 /area/crew_quarters/sleep)
 "aFV" = (
 /turf/simulated/floor/wood,
@@ -21678,7 +21687,7 @@
 	icon_state = "pipe-c"
 	},
 /turf/simulated/floor{
-	dir = 8;
+	dir = 10;
 	icon_state = "neutral"
 	},
 /area/crew_quarters/fitness)
@@ -21698,19 +21707,6 @@
 /obj/machinery/light,
 /turf/simulated/floor{
 	icon_state = "neutral"
-	},
-/area/crew_quarters/fitness)
-"aNQ" = (
-/obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/simulated/floor{
-	icon_state = "neutralcorner"
 	},
 /area/crew_quarters/fitness)
 "aNR" = (
@@ -21777,13 +21773,15 @@
 "aNV" = (
 /obj/structure/flora/pottedplant/random,
 /turf/simulated/floor{
-	dir = 4;
+	dir = 6;
 	icon_state = "green"
 	},
 /area/crew_quarters/fitness)
 "aNW" = (
 /obj/machinery/light,
-/turf/simulated/floor,
+/turf/simulated/floor{
+	icon_state = "neutral"
+	},
 /area/crew_quarters/fitness)
 "aNX" = (
 /obj/structure/grille,
@@ -24277,7 +24275,7 @@
 	d2 = 2;
 	icon_state = "0-2"
 	},
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /turf/simulated/floor{
 	icon_state = "dark"
 	},
@@ -31285,7 +31283,7 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/cable/yellow{
 	d2 = 2;
 	icon_state = "0-2";
@@ -42119,6 +42117,7 @@
 /area/bridge/meeting_room)
 "bCI" = (
 /obj/structure/closet/firecloset,
+/obj/item/weapon/tank/oxygen,
 /turf/simulated/floor/plating,
 /area/maintenance/maintcentral)
 "bCJ" = (
@@ -44094,12 +44093,16 @@
 /turf/simulated/wall/r_wall,
 /area/crew_quarters/hop)
 "bGj" = (
-/obj/structure/rack{
-	dir = 8
+/obj/machinery/door/firedoor/border_only{
+	name = "Firelock South"
 	},
-/obj/item/weapon/tank/oxygen,
-/turf/simulated/floor/plating,
-/area/maintenance/maintcentral)
+/obj/item/device/radio/intercom{
+	dir = 4;
+	name = "Station Intercom (General)";
+	pixel_x = 27
+	},
+/turf/simulated/floor,
+/area/hallway/primary/central)
 "bGk" = (
 /obj/structure/cable/yellow{
 	d1 = 1;
@@ -45099,11 +45102,6 @@
 /turf/simulated/floor,
 /area/hallway/primary/central)
 "bHR" = (
-/obj/item/device/radio/intercom{
-	dir = 4;
-	name = "Station Intercom (General)";
-	pixel_x = 27
-	},
 /turf/simulated/floor{
 	icon_state = "redcorner"
 	},
@@ -45129,9 +45127,9 @@
 	},
 /area/crew_quarters/hop)
 "bHU" = (
-/obj/structure/sign/poster,
-/turf/simulated/wall,
-/area/maintenance/maintcentral)
+/obj/machinery/photobooth,
+/turf/simulated/floor,
+/area/crew_quarters/hop)
 "bHV" = (
 /obj/machinery/power/apc{
 	dir = 1;
@@ -47706,6 +47704,9 @@
 	dir = 1;
 	icon_state = "warning";
 	tag = "icon-warning (NORTH)"
+	},
+/obj/effect/landmark/start{
+	name = "Scientist"
 	},
 /turf/simulated/floor{
 	icon_state = "white"
@@ -53415,6 +53416,9 @@
 	dir = 1;
 	pixel_y = -24
 	},
+/obj/effect/landmark/start{
+	name = "Xenoarchaeologist"
+	},
 /turf/simulated/floor{
 	dir = 4;
 	icon_state = "whitebluecorner"
@@ -53434,6 +53438,9 @@
 /obj/machinery/alarm{
 	dir = 1;
 	pixel_y = -22
+	},
+/obj/effect/landmark/start{
+	name = "Xenoarchaeologist"
 	},
 /turf/simulated/floor{
 	icon_state = "cmo"
@@ -54087,7 +54094,7 @@
 	dir = 8
 	},
 /obj/effect/landmark/start{
-	name = "Scientist"
+	name = "Xenoarchaeologist"
 	},
 /turf/simulated/floor/mineral/plasma,
 /area/science/breakroom)
@@ -54763,7 +54770,7 @@
 	dir = 1
 	},
 /obj/effect/landmark/start{
-	name = "Scientist"
+	name = "Xenoarchaeologist"
 	},
 /obj/machinery/alarm{
 	dir = 4;
@@ -60097,7 +60104,7 @@
 /area/science/hallway)
 "ciJ" = (
 /obj/machinery/door/airlock/glass_research{
-	name = "Borer Devolopment";
+	name = "Borer Development";
 	req_access_txt = "47"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -60572,7 +60579,7 @@
 	pixel_y = -22
 	},
 /obj/structure/table,
-/obj/item/weapon/reagent_containers/food/drinks/britcup,
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/britcup,
 /obj/item/stack/package_wrap,
 /obj/item/stack/package_wrap,
 /obj/item/stack/package_wrap,
@@ -60952,7 +60959,7 @@
 /area/science/hallway)
 "cke" = (
 /obj/machinery/door/airlock/glass_research{
-	name = "Borer Devolopment";
+	name = "Borer Development";
 	req_access_txt = "47"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -63227,6 +63234,7 @@
 	})
 "coP" = (
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	dir = 4;
 	on = 1
 	},
@@ -68617,6 +68625,7 @@
 /area/science/xenobiology/specimen_1)
 "cyW" = (
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	dir = 8;
 	external_pressure_bound = 100;
 	on = 1
@@ -68641,9 +68650,9 @@
 /area/science/xenobiology)
 "cyZ" = (
 /obj/machinery/requests_console{
-	department = "Science";
+	department = "Xenobiology";
 	departmentType = 2;
-	name = "Science Requests Console";
+	name = "Xenobiology Requests Console";
 	pixel_y = 30
 	},
 /obj/machinery/camera{
@@ -68705,6 +68714,7 @@
 	pixel_y = 32
 	},
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	dir = 8;
 	on = 1
 	},
@@ -69295,6 +69305,7 @@
 /area/medical/virology_break)
 "cAa" = (
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	dir = 8;
 	on = 1
 	},
@@ -70693,7 +70704,7 @@
 	dir = 8
 	},
 /obj/effect/landmark/start{
-	name = "Scientist"
+	name = "Xenobiologist"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /turf/simulated/floor{
@@ -71022,6 +71033,7 @@
 /area/medical/virology)
 "cCZ" = (
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	on = 1
 	},
 /obj/machinery/light/small{
@@ -71079,6 +71091,7 @@
 /area/science/xenobiology/specimen_2)
 "cDe" = (
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	dir = 8;
 	external_pressure_bound = 100;
 	on = 1
@@ -71557,6 +71570,7 @@
 	pixel_y = 2
 	},
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	dir = 4;
 	on = 1
 	},
@@ -71759,7 +71773,7 @@
 /turf/simulated/floor,
 /area/engineering/break_room)
 "cEn" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/cable/yellow{
 	d2 = 8;
 	icon_state = "0-8"
@@ -73575,6 +73589,7 @@
 /area/science/xenobiology/specimen_3)
 "cHp" = (
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	dir = 8;
 	external_pressure_bound = 100;
 	on = 1
@@ -74147,6 +74162,7 @@
 /area/medical/virology)
 "cIs" = (
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	dir = 1;
 	on = 1
 	},
@@ -77626,6 +77642,7 @@
 /area/medical/virology)
 "cNQ" = (
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	on = 1
 	},
 /turf/simulated/floor/engine,
@@ -77653,6 +77670,7 @@
 /area/science/xenobiology/specimen_4)
 "cNT" = (
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	on = 1
 	},
 /turf/simulated/floor/engine,
@@ -77680,6 +77698,7 @@
 /area/science/xenobiology/specimen_5)
 "cNW" = (
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	on = 1
 	},
 /turf/simulated/floor/engine,
@@ -81313,7 +81332,7 @@
 /turf/simulated/floor,
 /area/engineering/supermatter_room)
 "cUQ" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/cable/yellow{
 	d2 = 2;
 	icon_state = "0-2";
@@ -81900,6 +81919,7 @@
 /area/engineering/supermatter_room)
 "cVM" = (
 /obj/machinery/atmospherics/unary/vent_pump/siphon/on{
+	canSpawnMice = 0;
 	dir = 1;
 	frequency = 1441;
 	icon_state = "in";
@@ -81914,6 +81934,7 @@
 /area/engineering/supermatter_room)
 "cVN" = (
 /obj/machinery/atmospherics/unary/vent_pump/on{
+	canSpawnMice = 0;
 	dir = 1;
 	frequency = 1441;
 	icon_state = "out";
@@ -85585,9 +85606,8 @@
 	},
 /area/centcom/suppy)
 "ddY" = (
-/obj/machinery/turret{
-	dir = 8;
-	lasertype = /obj/item/projectile/beam/heavylaser
+/obj/machinery/turret/centcomm{
+	dir = 8
 	},
 /turf/unsimulated/floor{
 	dir = 5;
@@ -85852,9 +85872,8 @@
 	},
 /area/centcom/suppy)
 "deG" = (
-/obj/machinery/turret{
-	dir = 8;
-	lasertype = /obj/item/projectile/beam/heavylaser
+/obj/machinery/turret/centcomm{
+	dir = 8
 	},
 /turf/unsimulated/floor{
 	dir = 6;
@@ -97947,7 +97966,7 @@
 	d2 = 8;
 	icon_state = "0-8"
 	},
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /turf/simulated/floor/plating,
 /area/djstation)
 "dHs" = (
@@ -99391,7 +99410,7 @@
 	icon_state = "0-2"
 	},
 /obj/structure/cable,
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /turf/simulated/floor,
 /area/derelict/solar_control)
 "dKC" = (
@@ -103500,11 +103519,14 @@
 	external_pressure_bound = 0;
 	frequency = 1443;
 	icon_state = "in";
-	id_tag = "air_out";
+	id_tag = "o2_out";
 	internal_pressure_bound = 2000;
 	on = 1;
 	pressure_checks = 2;
 	pump_direction = 0
+	},
+/obj/effect/decal/warning_stripes{
+	icon_state = "bot"
 	},
 /turf/simulated/floor/engine{
 	name = "vacuum floor";
@@ -103824,6 +103846,7 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/cyan/visible,
+/obj/machinery/meter,
 /turf/simulated/floor/plating,
 /area/research_outpost/atmos)
 "dWK" = (
@@ -103890,6 +103913,7 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
+/obj/machinery/meter,
 /turf/simulated/floor/plating,
 /area/research_outpost/atmos)
 "dWR" = (
@@ -103975,6 +103999,8 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/simple/filtering/visible,
+/obj/machinery/meter,
 /turf/simulated/floor/plating,
 /area/research_outpost/atmos)
 "dXb" = (
@@ -104096,14 +104122,18 @@
 	},
 /area/research_outpost/hallway)
 "dXq" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
-	dir = 4
-	},
 /obj/machinery/portable_atmospherics/scrubber,
 /obj/structure/cable/yellow{
 	d1 = 4;
 	d2 = 8;
 	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/trinary/filter/mirrored{
+	dir = 8;
+	filter_type = 1;
+	icon_state = "intactm_on";
+	name = "Gas filter (O2)";
+	on = 1
 	},
 /turf/simulated/floor/plating,
 /area/research_outpost/atmos)
@@ -104127,6 +104157,7 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
+/obj/machinery/meter,
 /turf/simulated/floor/plating,
 /area/research_outpost/atmos)
 "dXs" = (
@@ -104177,10 +104208,16 @@
 	icon_state = "2-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/cyan/visible,
+/obj/machinery/computer/general_air_control/large_tank_control{
+	frequency = 1443;
+	input_tag = "o2_in";
+	name = "Oxygen Supply Control";
+	output_tag = "o2_out";
+	sensors = list("o2_sensor" = "Tank")
+	},
 /turf/simulated/floor/plating,
 /area/research_outpost/atmos)
 "dXy" = (
-/obj/machinery/meter,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/visible{
 	dir = 1
 	},
@@ -104666,7 +104703,6 @@
 	pixel_y = 25
 	},
 /obj/structure/table,
-/obj/machinery/reagentgrinder,
 /obj/machinery/reagentgrinder,
 /turf/simulated/floor{
 	dir = 1;
@@ -106558,6 +106594,12 @@
 	pixel_x = -2;
 	pixel_y = 3
 	},
+/obj/machinery/requests_console{
+	department = "Xenoarchaeology";
+	departmentType = 2;
+	name = "Xenoarchaeology Requests Console";
+	pixel_x = -30
+	},
 /turf/simulated/floor{
 	icon_state = "whitepurplecorner"
 	},
@@ -106627,7 +106669,7 @@
 	pixel_y = 8
 	},
 /obj/structure/cable/yellow,
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /turf/simulated/floor/plating,
 /area/research_outpost/power)
 "ecg" = (
@@ -113141,8 +113183,8 @@
 /area/research_outpost/tempstorage)
 "enh" = (
 /obj/machinery/portable_atmospherics/canister/oxygen,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	dir = 5
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden{
+	dir = 8
 	},
 /turf/simulated/floor,
 /area/research_outpost/gearstore)
@@ -113716,15 +113758,11 @@
 /obj/structure/window/reinforced,
 /obj/structure/grille,
 /obj/structure/window/full/reinforced,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 10
-	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /turf/simulated/floor/plating,
 /area/research_outpost/gearstore)
 "eos" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 5
-	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/simulated/wall/r_wall,
 /area/research_outpost/gearstore)
 "eot" = (
@@ -113828,7 +113866,7 @@
 	name = "Firelock East"
 	},
 /obj/machinery/door/airlock/silver{
-	name = "Dormatories";
+	name = "Dormitories";
 	req_access_txt = "140"
 	},
 /turf/simulated/floor/vox{
@@ -114078,7 +114116,10 @@
 	tag_interior_door = "anom_airlock_interior";
 	tag_interior_sensor = "anom_int_airlock_sensor"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/binary/dp_vent_pump/high_volume{
+	frequency = 1331;
+	id_tag = "anom_airlock_pump"
+	},
 /turf/simulated/floor,
 /area/research_outpost/gearstore)
 "epf" = (
@@ -114258,7 +114299,7 @@
 /area/vox_trading_post/dorms)
 "epz" = (
 /obj/machinery/door/airlock/silver{
-	name = "Dormatories";
+	name = "Dormitories";
 	req_access_txt = "140"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
@@ -114552,9 +114593,7 @@
 	icon_state = "warning";
 	tag = "icon-warning"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 5
-	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
 /turf/simulated/floor,
 /area/research_outpost/gearstore)
 "eqc" = (
@@ -115552,7 +115591,7 @@
 /area/vox_trading_post/hallway)
 "esa" = (
 /obj/machinery/door/airlock/silver{
-	name = "Dormatories";
+	name = "Dormitories";
 	req_access_txt = "140"
 	},
 /obj/structure/cable/yellow{
@@ -120128,8 +120167,7 @@
 /area/mine/west_outpost)
 "eBO" = (
 /obj/machinery/mineral/unloading_machine{
-	in_dir = 8;
-	out_dir = 4
+	dir = 4
 	},
 /turf/simulated/floor{
 	icon_state = "floorgrime"
@@ -120386,7 +120424,6 @@
 /obj/machinery/light/small{
 	dir = 1
 	},
-/obj/machinery/portable_atmospherics/canister/oxygen,
 /turf/simulated/floor{
 	icon_state = "floorgrime"
 	},
@@ -120422,12 +120459,10 @@
 /turf/simulated/floor/plating,
 /area/mine/west_outpost)
 "eCs" = (
-/obj/machinery/conveyor{
-	backwards = 2;
-	forwards = 1;
-	id_tag = "mining_west"
-	},
 /obj/structure/plasticflaps/mining,
+/obj/machinery/mineral/unloading_machine{
+	dir = 1
+	},
 /turf/simulated/floor,
 /area/mine/west_outpost)
 "eCt" = (
@@ -120739,6 +120774,9 @@
 /turf/simulated/floor/plating,
 /area/mine/west_outpost)
 "eCY" = (
+/obj/effect/decal/warning_stripes{
+	icon_state = "all-asteroid"
+	},
 /turf/unsimulated/floor/airless{
 	dir = 1;
 	icon_state = "asteroidwarning"
@@ -121500,8 +121538,7 @@
 /area/mine/production)
 "eEz" = (
 /obj/machinery/mineral/unloading_machine{
-	in_dir = 8;
-	out_dir = 4
+	dir = 4
 	},
 /turf/simulated/floor{
 	icon_state = "floorgrime"
@@ -121649,9 +121686,9 @@
 	},
 /area/mine/explored)
 "eEO" = (
-/obj/machinery/conveyor_switch{
-	convdir = -1;
-	id_tag = "mining_external"
+/obj/machinery/conveyor_switch/oneway{
+	id_tag = "mining_internal";
+	name = "mining conveyor"
 	},
 /turf/unsimulated/floor/airless{
 	icon_state = "asteroidplating"
@@ -121761,22 +121798,9 @@
 /obj/structure/disposalpipe/segment,
 /turf/simulated/floor,
 /area/mine/production)
-"eFb" = (
-/obj/machinery/mineral/unloading_machine{
-	icon_state = "unloader-corner"
-	},
-/obj/structure/plasticflaps/mining,
-/obj/machinery/conveyor{
-	dir = 4;
-	id_tag = "mining_external"
-	},
-/turf/simulated/floor{
-	icon_state = "floorgrime"
-	},
-/area/mine/production)
 "eFc" = (
 /obj/machinery/mineral/unloading_machine{
-	icon_state = "unloader-corner"
+	dir = 8
 	},
 /turf/unsimulated/floor/airless{
 	icon_state = "asteroidfloor"
@@ -123105,16 +123129,30 @@
 	icon_state = "whitepurple"
 	},
 /area/research_outpost/anomaly)
-"eUy" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/machinery/light{
+"feV" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
 	dir = 4
 	},
-/turf/simulated/floor{
-	dir = 4;
-	icon_state = "chapel"
+/obj/machinery/computer/general_air_control/large_tank_control{
+	frequency = 1443;
+	input_tag = "n2_in";
+	name = "Nitrogen Supply Control";
+	output_tag = "n2_out";
+	sensors = list("n2_sensor" = "Tank")
 	},
-/area/chapel/main)
+/turf/simulated/floor/plating,
+/area/research_outpost/atmos)
+"gka" = (
+/obj/machinery/air_sensor{
+	frequency = 1443;
+	id_tag = "o2_sensor"
+	},
+/turf/simulated/floor/engine{
+	name = "vacuum floor";
+	nitrogen = 0.01;
+	oxygen = 0.01
+	},
+/area/research_outpost/atmos)
 "gws" = (
 /obj/effect/decal/warning_stripes{
 	icon_state = "radiation"
@@ -123123,12 +123161,22 @@
 	icon_state = "dark vault full"
 	},
 /area/research_outpost/harvesting)
-"gTK" = (
-/obj/machinery/light{
-	dir = 8
+"hvs" = (
+/obj/machinery/atmospherics/unary/outlet_injector{
+	frequency = 1443;
+	icon_state = "on";
+	id_tag = "o2_in";
+	on = 1
 	},
-/turf/simulated/floor/carpet,
-/area/library)
+/obj/effect/decal/warning_stripes{
+	icon_state = "bot"
+	},
+/turf/simulated/floor/engine{
+	name = "vacuum floor";
+	nitrogen = 0.01;
+	oxygen = 0.01
+	},
+/area/research_outpost/atmos)
 "hGd" = (
 /obj/item/beacon,
 /turf/simulated/floor{
@@ -123298,6 +123346,22 @@
 	icon_state = "white"
 	},
 /area/research_outpost/anomaly)
+"pWS" = (
+/obj/machinery/atmospherics/unary/outlet_injector{
+	frequency = 1443;
+	icon_state = "on";
+	id_tag = "n2_in";
+	on = 1
+	},
+/obj/effect/decal/warning_stripes{
+	icon_state = "bot"
+	},
+/turf/simulated/floor/engine{
+	name = "vacuum floor";
+	nitrogen = 0.01;
+	oxygen = 0.01
+	},
+/area/research_outpost/atmos)
 "qar" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced{
@@ -123355,15 +123419,10 @@
 /obj/structure/lattice,
 /turf/simulated/wall/r_wall,
 /area/medical/virology)
-"roJ" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/machinery/light,
-/turf/simulated/floor{
-	icon_state = "green"
-	},
-/area/hallway/primary/starboard)
+"rvk" = (
+/obj/structure/sign/poster,
+/turf/simulated/wall,
+/area/crew_quarters/hop)
 "rEZ" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced,
@@ -123409,6 +123468,12 @@
 	icon_state = "whitegreen"
 	},
 /area/medical/virology)
+"sEN" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 5
+	},
+/turf/simulated/wall/r_wall,
+/area/research_outpost/gearstore)
 "tbd" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
@@ -123442,6 +123507,16 @@
 	},
 /turf/simulated/floor/wood,
 /area/crew_quarters/bar)
+"tGZ" = (
+/obj/machinery/atmospherics/trinary/filter/mirrored{
+	dir = 8;
+	filter_type = 2;
+	icon_state = "intactm_on";
+	name = "Gas filter (N2)";
+	on = 1
+	},
+/turf/simulated/floor/plating,
+/area/research_outpost/atmos)
 "tNv" = (
 /obj/structure/disposalpipe/segment,
 /turf/simulated/floor{
@@ -123461,6 +123536,27 @@
 	},
 /turf/simulated/floor,
 /area/research_outpost/harvesting)
+"uRA" = (
+/obj/machinery/atmospherics/unary/vent_pump/high_volume{
+	canSpawnMice = 0;
+	external_pressure_bound = 0;
+	frequency = 1443;
+	icon_state = "in";
+	id_tag = "n2_out";
+	internal_pressure_bound = 2000;
+	on = 1;
+	pressure_checks = 2;
+	pump_direction = 0
+	},
+/obj/effect/decal/warning_stripes{
+	icon_state = "bot"
+	},
+/turf/simulated/floor/engine{
+	name = "vacuum floor";
+	nitrogen = 0.01;
+	oxygen = 0.01
+	},
+/area/research_outpost/atmos)
 "uVw" = (
 /obj/structure/sign/biohazard,
 /turf/simulated/wall/r_wall,
@@ -123468,6 +123564,18 @@
 	icon_state = "toxlab";
 	name = "Toxins"
 	})
+"vrw" = (
+/obj/structure/bed/chair{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/effect/landmark/start{
+	name = "Xenobiologist"
+	},
+/turf/simulated/floor{
+	icon_state = "white"
+	},
+/area/science/xenobiology)
 "vyQ" = (
 /obj/structure/sign/securearea{
 	desc = "A warning sign which reads 'EXTERNAL AIRLOCK'";
@@ -123487,16 +123595,17 @@
 	icon_state = "white"
 	},
 /area/research_outpost/hallway)
-"vAT" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
+"wbE" = (
+/obj/machinery/air_sensor{
+	frequency = 1443;
+	id_tag = "n2_sensor"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	dir = 4
+/turf/simulated/floor/engine{
+	name = "vacuum floor";
+	nitrogen = 0.01;
+	oxygen = 0.01
 	},
-/obj/machinery/light,
-/turf/simulated/floor,
-/area/hallway/primary/port)
+/area/research_outpost/atmos)
 "xxO" = (
 /obj/structure/disposalpipe/segment{
 	dir = 8;
@@ -123504,6 +123613,22 @@
 	},
 /turf/simulated/floor/wood,
 /area/crew_quarters/bar)
+"xBL" = (
+/obj/structure/bed/chair{
+	dir = 4
+	},
+/obj/structure/cable/yellow{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/obj/effect/landmark/start{
+	name = "Xenobiologist"
+	},
+/turf/simulated/floor{
+	icon_state = "white"
+	},
+/area/science/xenobiology)
 "xRn" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -123544,6 +123669,14 @@
 	icon_state = "grimy"
 	},
 /area/crew_quarters/bar)
+"yfX" = (
+/obj/effect/decal/warning_stripes{
+	icon_state = "all-asteroid"
+	},
+/turf/unsimulated/floor/airless{
+	icon_state = "asteroidfloor"
+	},
+/area/mine/explored)
 
 (1,1,1) = {"
 aaa
@@ -229231,7 +229364,7 @@ byV
 bAK
 boW
 bEi
-bsx
+bGj
 bHR
 bJM
 bLz
@@ -229733,8 +229866,8 @@ bqG
 bqG
 bCE
 bEn
-bCE
-bCE
+bUF
+rvk
 bJQ
 bLD
 bNt
@@ -230235,7 +230368,7 @@ byZ
 bAN
 bCF
 bEl
-bGj
+bGi
 bHU
 bJR
 bLE
@@ -242247,7 +242380,7 @@ ayt
 aAC
 aBY
 aDz
-aEu
+aDz
 aAV
 aFT
 aFT
@@ -247776,7 +247909,7 @@ aIt
 aIt
 aLk
 aGd
-aNQ
+aNS
 aVo
 aPQ
 aSu
@@ -250781,7 +250914,7 @@ aqq
 azT
 azY
 aAm
-aMO
+aEu
 aMO
 aBy
 aMO
@@ -270935,7 +271068,7 @@ cyY
 cAh
 cwR
 cCi
-cDf
+xBL
 cDf
 cwR
 cFY
@@ -272442,7 +272575,7 @@ cAm
 cBw
 cCo
 cDj
-cDj
+vrw
 cEL
 cBw
 cHu
@@ -1259790,8 +1259923,8 @@ elz
 emt
 eni
 eos
-ejp
-ejp
+eos
+sEN
 ejp
 erL
 esp
@@ -1267930,7 +1268063,7 @@ dVB
 dVB
 dVB
 eBc
-eBz
+eBA
 eCl
 eCP
 eDv
@@ -1271311,8 +1271444,8 @@ aaa
 aaj
 dUV
 dWa
-dWK
-dWK
+gka
+hvs
 dXa
 dXq
 dXO
@@ -1272958,7 +1273091,7 @@ eBa
 eBa
 eBa
 eBa
-eFb
+eFN
 eBa
 eBa
 eBa
@@ -1273319,10 +1273452,10 @@ aaa
 aaa
 dVq
 dWa
-dWK
-dWK
+wbE
+pWS
 dXa
-dXw
+tGZ
 dXW
 dWa
 dWa
@@ -1273824,7 +1273957,7 @@ dWa
 dWn
 dWI
 dWZ
-dXw
+feV
 dXW
 dWa
 dVE
@@ -1273962,7 +1274095,7 @@ dVB
 dVB
 dVB
 eEN
-epc
+yfX
 eEN
 dVB
 dVB
@@ -1274324,7 +1274457,7 @@ aaa
 dUV
 dWa
 dWK
-dVU
+uRA
 dWJ
 dXu
 dXC
@@ -1274464,7 +1274597,7 @@ dVB
 dVB
 dVB
 eEO
-epd
+epc
 eav
 dVB
 dVB

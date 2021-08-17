@@ -64,6 +64,13 @@
 	boot_type = /obj/item/clothing/shoes/magboots
 	req_access = list(access_engine_equip)
 
+/obj/machinery/suit_storage_unit/engie/empty
+	isopen = 1
+	suit_type = null
+	helmet_type = null
+	mask_type = null
+	boot_type = null
+
 /obj/machinery/suit_storage_unit/elite
 	name = "Advanced Suit Storage Unit"
 	department = "ce"
@@ -134,6 +141,12 @@
 	mask_type = /obj/item/clothing/mask/gas
 	boot_type = /obj/item/clothing/shoes/jackboots
 
+/obj/machinery/suit_storage_unit/trauma_team
+	name = "Trauma Suit Storage Unit"
+	suit_type = /obj/item/clothing/suit/space/rig/traumateam
+	mask_type = /obj/item/clothing/mask/gas
+	boot_type = /obj/item/clothing/shoes/magboots/trauma
+
 /obj/machinery/suit_storage_unit/New()
 	. = ..()
 	openimage = image(icon,src, "[department]_open")
@@ -194,7 +207,7 @@
 
 /obj/machinery/suit_storage_unit/emag_act(var/mob/user)
 	emagged = TRUE
-	new/obj/effect/effect/sparks(get_turf(src))
+	new/obj/effect/sparks(get_turf(src))
 	playsound(loc,"sparks",50,1)
 	to_chat(user, "<span class='danger'>You short out the locking mechanism, dumping the contents</span>")
 	dump_everything()

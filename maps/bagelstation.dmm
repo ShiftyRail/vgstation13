@@ -21554,6 +21554,9 @@
 /obj/structure/bed/chair/office/light{
 	dir = 8
 	},
+/obj/effect/landmark/start{
+	name = "Scientist"
+	},
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -22297,6 +22300,9 @@
 /area/science/lab)
 "aUj" = (
 /obj/machinery/hologram/holopad,
+/obj/effect/landmark/start{
+	name = "Scientist"
+	},
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -27033,7 +27039,7 @@
 "bcW" = (
 /obj/structure/table/woodentable,
 /obj/machinery/chem_dispenser/brewer/mapping,
-/obj/item/weapon/reagent_containers/food/drinks/britcup,
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/britcup,
 /turf/simulated/floor/wood,
 /area/medical/break_room)
 "bcX" = (
@@ -28773,7 +28779,7 @@
 	dir = 4
 	},
 /obj/effect/landmark/start{
-	name = "Scientist"
+	name = "Xenoarchaeologist"
 	},
 /turf/simulated/floor/carpet,
 /area/science/hallway)
@@ -28787,7 +28793,7 @@
 	dir = 8
 	},
 /obj/effect/landmark/start{
-	name = "Scientist"
+	name = "Xenoarchaeologist"
 	},
 /turf/simulated/floor/carpet,
 /area/science/hallway)
@@ -29475,7 +29481,7 @@
 /area/science/hallway)
 "bhv" = (
 /obj/machinery/door/airlock/glass_research{
-	name = "Borer Devolopment";
+	name = "Borer Development";
 	req_access_txt = "47"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -30321,7 +30327,7 @@
 /area/science/hallway)
 "biM" = (
 /obj/machinery/door/airlock/glass_research{
-	name = "Borer Devolopment";
+	name = "Borer Development";
 	req_access_txt = "47"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -36868,7 +36874,7 @@
 	},
 /area/engineering/engine)
 "bvc" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/cable/yellow{
 	d2 = 4;
 	icon_state = "0-4"
@@ -38678,7 +38684,7 @@
 /turf/simulated/floor,
 /area/engineering/engine)
 "byx" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/cable/yellow,
 /turf/simulated/floor,
 /area/engineering/engine)
@@ -45776,7 +45782,7 @@
 /turf/simulated/floor,
 /area/engineering/engine)
 "bLa" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/cable,
 /obj/structure/cable{
 	d1 = 1;
@@ -49729,7 +49735,7 @@
 /turf/simulated/floor/carpet,
 /area/engineering/ce)
 "bSf" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/cable/yellow{
 	d2 = 4;
 	icon_state = "0-4"
@@ -61553,7 +61559,7 @@
 /obj/item/weapon/cartridge/engineering,
 /obj/item/weapon/cartridge/engineering,
 /obj/item/weapon/cartridge/engineering,
-/obj/item/weapon/reagent_containers/food/drinks/americup,
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/americup,
 /obj/structure/cable/yellow{
 	d1 = 1;
 	d2 = 2;
@@ -62260,7 +62266,7 @@
 	},
 /area/hallway/primary/aft)
 "cox" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/cable/yellow{
 	d2 = 8;
 	icon_state = "0-8"
@@ -66149,7 +66155,7 @@
 /turf/simulated/floor/plating,
 /area/maintenance/asmaint)
 "cvv" = (
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-g";
 	tag = "icon-light_on-g"
 	},
@@ -66848,13 +66854,13 @@
 /turf/simulated/floor/plating,
 /area/maintenance/asmaint)
 "cwD" = (
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
 /area/maintenance/asmaint)
 "cwE" = (
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-y";
 	tag = "icon-light_on-y"
 	},
@@ -67365,7 +67371,7 @@
 /turf/simulated/floor,
 /area/engineering/engineering_auxiliary)
 "cxC" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/cable{
 	d2 = 2;
 	icon_state = "0-2"
@@ -67582,7 +67588,7 @@
 /turf/simulated/floor/plating,
 /area/crew_quarters/kitchen)
 "cxV" = (
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-p";
 	tag = "icon-light_on-p"
 	},
@@ -71833,7 +71839,7 @@
 	},
 /area/engineering/engineering_auxiliary)
 "cGk" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/effect/decal/warning_stripes{
 	icon_state = "unloading"
 	},
@@ -74281,7 +74287,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/effect/decal/warning_stripes{
 	icon_state = "unloading"
 	},
@@ -89611,7 +89617,7 @@
 	d2 = 8;
 	icon_state = "0-8"
 	},
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /turf/simulated/floor/plating,
 /area/djstation)
 "dCI" = (
@@ -91044,7 +91050,7 @@
 	icon_state = "0-2"
 	},
 /obj/structure/cable,
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /turf/simulated/floor,
 /area/derelict/solar_control)
 "dFS" = (
@@ -100857,9 +100863,6 @@
 /turf/simulated/floor/plating/airless,
 /area/prison/hallway/aft)
 "ecu" = (
-/obj/machinery/mineral/unloading_machine{
-	icon_state = "unloader-corner"
-	},
 /obj/structure/plasticflaps/mining,
 /obj/machinery/conveyor{
 	dir = 4;
@@ -100871,7 +100874,7 @@
 /area/prison/hallway/aft)
 "ecv" = (
 /obj/machinery/mineral/unloading_machine{
-	icon_state = "unloader-corner"
+	dir = 8
 	},
 /turf/simulated/floor{
 	icon_state = "floorgrime"
@@ -101140,8 +101143,7 @@
 /area/prison/hallway/aft)
 "ecT" = (
 /obj/machinery/mineral/unloading_machine{
-	in_dir = 8;
-	out_dir = 4
+	dir = 4
 	},
 /turf/simulated/floor{
 	icon_state = "dark brown stripe";
@@ -101181,9 +101183,6 @@
 /turf/simulated/floor/plating/airless,
 /area/prison/hallway/aft)
 "ecY" = (
-/obj/machinery/mineral/unloading_machine{
-	icon_state = "unloader-corner"
-	},
 /obj/structure/plasticflaps/mining,
 /obj/machinery/conveyor{
 	dir = 4;
@@ -101896,7 +101895,7 @@
 "eel" = (
 /obj/effect/decal/warning_stripes{
 	dir = 1;
-	icon_state = "warning";
+	icon_state = "warning-asteroid";
 	tag = "icon-warning (NORTH)"
 	},
 /turf/unsimulated/floor/airless{
@@ -101974,8 +101973,8 @@
 /area/research_outpost/hallway)
 "eez" = (
 /obj/effect/decal/warning_stripes{
-	icon_state = "warning";
-	tag = "icon-warning"
+	icon_state = "warning-asteroid";
+	tag = "icon-warning (NORTH)"
 	},
 /turf/unsimulated/floor/airless{
 	icon_state = "asteroidplating"
@@ -101983,8 +101982,8 @@
 /area/mine/production)
 "eeA" = (
 /obj/effect/decal/warning_stripes{
-	icon_state = "warning";
-	tag = "icon-warning"
+	icon_state = "warning-asteroid";
+	tag = "icon-warning (NORTH)"
 	},
 /turf/unsimulated/floor/asteroid/plating,
 /area/mine/production)
@@ -102011,10 +102010,6 @@
 /area/mine/production)
 "eeE" = (
 /turf/simulated/wall/r_wall,
-/area/research_outpost/hallway)
-"eeF" = (
-/obj/structure/plasticflaps/mining,
-/turf/simulated/floor/plating,
 /area/research_outpost/hallway)
 "eeG" = (
 /obj/structure/dispenser/oxygen,
@@ -102098,9 +102093,9 @@
 /turf/simulated/floor/plating,
 /area/mine/living_quarters)
 "eeQ" = (
-/obj/machinery/mineral/unloading_machine{
-	in_dir = 1;
-	out_dir = 2
+/obj/structure/plasticflaps/mining,
+/obj/machinery/conveyor{
+	id_tag = "mining_internal"
 	},
 /turf/simulated/floor/plating,
 /area/research_outpost/hallway)
@@ -102223,12 +102218,19 @@
 /turf/simulated/floor/plating,
 /area/research_outpost/hallway)
 "efe" = (
-/obj/machinery/conveyor{
-	dir = 8;
-	id_tag = "mining_internal"
+/obj/effect/decal/warning_stripes{
+	dir = 1;
+	icon_state = "warning-asteroid";
+	tag = "icon-warning (NORTH)"
 	},
-/obj/structure/plasticflaps/mining,
-/turf/simulated/floor/plating,
+/obj/effect/decal/warning_stripes{
+	dir = 10;
+	icon_state = "warning-asteroid";
+	tag = "icon-warning (NORTH)"
+	},
+/turf/unsimulated/floor/airless{
+	icon_state = "asteroidplating"
+	},
 /area/research_outpost/hallway)
 "eff" = (
 /obj/machinery/suit_storage_unit/mining,
@@ -102350,6 +102352,7 @@
 /area/mine/living_quarters)
 "eft" = (
 /obj/machinery/mineral/unloading_machine{
+	dir = 1;
 	in_dir = 2;
 	out_dir = 1
 	},
@@ -104372,6 +104375,12 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/disposal/compactor,
+/obj/machinery/requests_console{
+	department = "Xenoarchaeology";
+	departmentType = 2;
+	name = "Xenoarchaeology Requests Console";
+	pixel_x = -30
+	},
 /turf/simulated/floor{
 	icon_state = "dark"
 	},
@@ -108554,7 +108563,7 @@
 /turf/simulated/floor/plating,
 /area/research_outpost/atmos)
 "erB" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/cable{
 	d2 = 2;
 	icon_state = "0-2";
@@ -114971,6 +114980,12 @@
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/machinery/requests_console{
+	department = "Xenobiology";
+	departmentType = 2;
+	name = "Xenobiology Requests Console";
+	pixel_x = 30
+	},
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -115425,8 +115440,8 @@
 /obj/machinery/chem_dispenser/brewer/mapping{
 	pixel_x = -30
 	},
-/obj/item/weapon/reagent_containers/food/drinks/americup,
-/obj/item/weapon/reagent_containers/food/drinks/americup,
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/americup,
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/americup,
 /turf/simulated/floor/vox{
 	icon_state = "bar";
 	tag = "icon-bar"
@@ -119714,8 +119729,8 @@
 /turf/unsimulated/floor/asteroid,
 /area/research_outpost/hallway)
 "eLa" = (
-/obj/structure/plasticflaps/mining,
-/turf/simulated/floor/plating/airless,
+/obj/machinery/mineral/unloading_machine,
+/turf/simulated/floor/plating,
 /area/research_outpost/hallway)
 "eLb" = (
 /obj/item/weapon/bikehorn,
@@ -120079,9 +120094,8 @@
 	},
 /area/centcom/suppy)
 "eLW" = (
-/obj/machinery/turret{
-	dir = 8;
-	lasertype = /obj/item/projectile/beam/heavylaser
+/obj/machinery/turret/centcomm{
+	dir = 8
 	},
 /turf/unsimulated/floor{
 	dir = 5;
@@ -120158,9 +120172,8 @@
 	},
 /area/centcom/suppy)
 "eMf" = (
-/obj/machinery/turret{
-	dir = 8;
-	lasertype = /obj/item/projectile/beam/heavylaser
+/obj/machinery/turret/centcomm{
+	dir = 8
 	},
 /turf/unsimulated/floor{
 	dir = 6;
@@ -121668,6 +121681,15 @@
 /obj/item/weapon/c_tube,
 /turf/simulated/floor/plating,
 /area/maintenance/asmaint)
+"hSE" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/effect/landmark/start{
+	name = "Xenobiologist"
+	},
+/turf/simulated/floor/wood,
+/area/science/hallway)
 "hSY" = (
 /obj/machinery/atmospherics/pipe/manifold/cyan,
 /turf/simulated/floor/plating/airless,
@@ -121797,7 +121819,7 @@
 	d2 = 2;
 	icon_state = "0-2"
 	},
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /turf/simulated/floor{
 	icon_state = "brownold";
 	tag = "icon-brownold"
@@ -121949,6 +121971,14 @@
 	tag = "icon-brownold"
 	},
 /area/engineering/engine)
+"ngS" = (
+/obj/effect/landmark/start{
+	name = "Scientist"
+	},
+/turf/simulated/floor{
+	icon_state = "white"
+	},
+/area/science/lab)
 "npI" = (
 /obj/machinery/atmospherics/pipe/simple/heat_exchanging{
 	dir = 10
@@ -122265,6 +122295,21 @@
 /obj/machinery/atmospherics/pipe/simple/cyan,
 /turf/simulated/floor/plating/airless,
 /area/engineering/engine)
+"uTp" = (
+/obj/effect/decal/warning_stripes{
+	dir = 6;
+	icon_state = "warning-asteroid";
+	tag = "icon-warning (NORTH)"
+	},
+/obj/effect/decal/warning_stripes{
+	dir = 1;
+	icon_state = "warning-asteroid";
+	tag = "icon-warning (NORTH)"
+	},
+/turf/unsimulated/floor/airless{
+	icon_state = "asteroidplating"
+	},
+/area/research_outpost/hallway)
 "vvt" = (
 /obj/structure/particle_accelerator/power_box,
 /turf/simulated/floor/plating,
@@ -122411,6 +122456,18 @@
 /obj/structure/catwalk,
 /turf/space,
 /area/engineering/engine)
+"xLv" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	dir = 4
+	},
+/obj/effect/landmark/start{
+	name = "Xenobiologist"
+	},
+/turf/simulated/floor/wood,
+/area/science/hallway)
 "yho" = (
 /obj/machinery/computer/shuttle_control/bagel,
 /turf/simulated/floor,
@@ -238621,7 +238678,7 @@ aNO
 aPk
 aQt
 aRw
-aSS
+ngS
 aUi
 aVq
 aQt
@@ -239137,7 +239194,7 @@ beo
 bfk
 bgi
 bhp
-biJ
+xLv
 bjJ
 aXw
 aaa
@@ -239639,7 +239696,7 @@ beo
 bfk
 bgj
 bhq
-biJ
+xLv
 bjK
 aXw
 aaa
@@ -241646,7 +241703,7 @@ bdj
 ber
 bfk
 bgn
-bhu
+hSE
 biL
 bjN
 aXw
@@ -1229636,10 +1229693,10 @@ dRu
 eer
 eer
 eer
-eer
-eeF
-eeQ
 efe
+eLa
+eeQ
+efd
 efv
 efO
 egk
@@ -1230138,10 +1230195,10 @@ dRu
 eer
 eer
 eer
-eer
+uTp
 eLa
 eeQ
-efe
+efd
 efw
 efP
 egl

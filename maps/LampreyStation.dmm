@@ -1562,10 +1562,7 @@
 	},
 /area/lamprey/mining)
 "adG" = (
-/obj/machinery/mineral/unloading_machine{
-	in_dir = 1;
-	out_dir = 2
-	},
+/obj/machinery/mineral/unloading_machine,
 /turf/simulated/floor/plating{
 	icon_state = "asteroidfloor"
 	},
@@ -1597,7 +1594,7 @@
 /turf/simulated/floor/plating,
 /area/lamprey/arrivals)
 "adJ" = (
-/turf/simulated/floor/grass/floor_tile,
+/turf/simulated/floor/grass,
 /area/lamprey/darkfarm)
 "adK" = (
 /obj/machinery/conveyor/auto{
@@ -2727,7 +2724,7 @@
 /obj/structure/table/reinforced,
 /obj/item/changeling_vial,
 /obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -5307,7 +5304,7 @@
 	name = "...";
 	wander = 0
 	},
-/turf/simulated/floor/grass/floor_tile,
+/turf/simulated/floor/grass,
 /area/lamprey/darkfarm)
 "alR" = (
 /obj/effect/decal/cleanable/dirt,
@@ -5649,7 +5646,7 @@
 	areaname = "dark farm";
 	dir = 8
 	},
-/turf/simulated/floor/grass/floor_tile,
+/turf/simulated/floor/grass,
 /area/lamprey/darkfarm)
 "amG" = (
 /obj/structure/bed/chair{
@@ -10953,7 +10950,7 @@
 /area/lamprey/bronxmaintenanceblob)
 "ayF" = (
 /obj/machinery/portable_atmospherics/canister/oxygen,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -11043,7 +11040,7 @@
 /turf/space,
 /area)
 "ayQ" = (
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -11964,7 +11961,7 @@
 	},
 /obj/item/weapon/fishtools/fish_tank_brush,
 /obj/structure/table/woodentable/poker,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	color = "blue";
 	light_color = "blue"
 	},
@@ -11979,7 +11976,7 @@
 /area/lamprey/bronxmaintenanceblob)
 "aAQ" = (
 /obj/structure/flora/pottedplant/random,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -12446,7 +12443,7 @@
 "aCa" = (
 /obj/item/trash/syndi_cakes,
 /obj/structure/flora/pottedplant/random,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -12474,7 +12471,7 @@
 	icon_state = "nuclearbomb0";
 	name = "NanoTrasen-brand nuclear fission explosive"
 	},
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -12862,7 +12859,7 @@
 /area/lamprey/foreporthallways)
 "aCW" = (
 /obj/structure/bed,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -13641,7 +13638,7 @@
 /area/lamprey/bronxmaintenanceblob)
 "aEY" = (
 /obj/structure/flora/pottedplant/random,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	color = "blue";
 	light_color = "blue"
 	},
@@ -14030,7 +14027,7 @@
 /obj/structure/table/woodentable/poker,
 /obj/machinery/cell_charger,
 /obj/abstract/map/spawner/assistant/tools,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	color = "blue";
 	light_color = "blue"
 	},
@@ -14038,7 +14035,7 @@
 "aGd" = (
 /obj/machinery/portable_atmospherics/canister/oxygen,
 /obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-p";
 	tag = "icon-light_on-p"
 	},
@@ -14106,7 +14103,7 @@
 /area/lamprey/bronxmaintenanceblob)
 "aGn" = (
 /obj/machinery/vending/offlicence,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -14134,7 +14131,7 @@
 /area/lamprey/bronxmaintenanceblob)
 "aGq" = (
 /obj/machinery/vending/cigarette,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -14652,7 +14649,7 @@
 /area/lamprey/bronxmaintenanceblob)
 "aHH" = (
 /obj/structure/bed/chair/vehicle/wheelchair/multi_people,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -14663,7 +14660,7 @@
 /turf/simulated/floor/plating,
 /area/lamprey/bronxmaintenanceblob)
 "aHJ" = (
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	color = "blue";
 	light_color = "blue"
 	},
@@ -14984,7 +14981,7 @@
 /area/lamprey/voxtradepost)
 "aIy" = (
 /obj/structure/kitchenspike,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -15581,7 +15578,7 @@
 /area/lamprey/bronxmaintenanceblob)
 "aJY" = (
 /obj/machinery/computer/crew,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	color = "blue";
 	light_color = "blue"
 	},
@@ -15596,7 +15593,7 @@
 "aKb" = (
 /obj/structure/flora/tree/dead,
 /obj/effect/decal/cleanable/soot,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -16084,7 +16081,7 @@
 "aLo" = (
 /obj/structure/flora/pottedplant/random,
 /obj/item/weapon/crossbow,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	color = "blue";
 	light_color = "blue"
 	},
@@ -16595,7 +16592,7 @@
 "aMH" = (
 /obj/machinery/computer/arcade,
 /obj/effect/decal/cleanable/greenglow,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	color = "blue";
 	light_color = "blue"
 	},
@@ -17139,7 +17136,7 @@
 /area/lamprey/bronxmaintenanceblob)
 "aNV" = (
 /obj/machinery/computer/arcade/haunted,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -17745,7 +17742,7 @@
 "aPq" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/item/weapon/stool,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	color = "blue";
 	light_color = "blue"
 	},
@@ -17756,7 +17753,7 @@
 /area/lamprey/bronxmaintenanceblob)
 "aPs" = (
 /obj/machinery/vending/sovietsoda,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -19206,7 +19203,7 @@
 /area/lamprey/bronxmaintenanceblob)
 "aSH" = (
 /obj/structure/bed/chair/vehicle/wheelchair/wheelchair_assembly/cannon,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -19222,7 +19219,7 @@
 /area/lamprey/bronxmaintenanceblob)
 "aSJ" = (
 /obj/structure/table/glass,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -19236,7 +19233,7 @@
 "aSL" = (
 /obj/structure/table/reinforced,
 /obj/item/weapon/phone,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -19326,7 +19323,7 @@
 "aSW" = (
 /obj/structure/grille,
 /obj/structure/window/full,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -21315,7 +21312,7 @@
 /obj/structure/bed,
 /obj/effect/landmark/corpse/researchdirector,
 /obj/item/weapon/reagent_containers/glass/bottle/cyanide,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	color = "blue";
 	light_color = "blue"
 	},
@@ -21613,7 +21610,7 @@
 /area/lamprey/bronxmaintenanceblob)
 "aYl" = (
 /obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	color = "blue";
 	light_color = "blue"
 	},
@@ -21819,7 +21816,7 @@
 	dir = 1;
 	name = "Firelock North"
 	},
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -22458,7 +22455,7 @@
 /area/lamprey/bronxmaintenanceblob)
 "baa" = (
 /obj/machinery/vending/dinnerware,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	color = "blue";
 	light_color = "blue"
 	},
@@ -22475,7 +22472,7 @@
 	icon_state = "bsposter16";
 	pixel_x = -32
 	},
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -22487,7 +22484,7 @@
 /area/lamprey/bronxmaintenanceblob)
 "bad" = (
 /obj/structure/bed/chair/folding,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	color = "blue";
 	light_color = "blue"
 	},
@@ -23053,7 +23050,7 @@
 /obj/structure/wizard/altar,
 /obj/structure/curtain/black,
 /obj/item/weapon/kitchen/utensil/knife/large/ritual,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -23281,7 +23278,7 @@
 	icon_state = "animeposter6";
 	pixel_x = 32
 	},
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -23937,7 +23934,7 @@
 /obj/abstract/map/spawner/maint,
 /obj/machinery/vending/snack,
 /obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	color = "blue";
 	light_color = "blue"
 	},
@@ -24533,7 +24530,7 @@
 /obj/structure/bed,
 /obj/effect/decal/cleanable/soot,
 /obj/item/weapon/bedsheet/yellow,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	color = "blue";
 	light_color = "blue"
 	},
@@ -25317,7 +25314,7 @@
 /area/lamprey/bronxmaintenanceblob)
 "bgs" = (
 /obj/machinery/vending/shoedispenser,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	color = "blue";
 	light_color = "blue"
 	},
@@ -28464,7 +28461,7 @@
 /obj/structure/flora/pottedplant/random,
 /obj/structure/flora/pottedplant/random,
 /obj/structure/flora/pottedplant/random,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-g";
 	tag = "icon-light_on-g"
 	},
@@ -28487,7 +28484,7 @@
 /obj/structure/flora/pottedplant/random,
 /obj/structure/flora/pottedplant/random,
 /obj/structure/flora/pottedplant/random,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-g";
 	tag = "icon-light_on-g"
 	},
@@ -30138,7 +30135,7 @@
 /obj/structure/flora/pottedplant/random,
 /obj/structure/flora/pottedplant/random,
 /obj/structure/flora/pottedplant/random,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-g";
 	tag = "icon-light_on-g"
 	},
@@ -32991,7 +32988,7 @@
 /obj/structure/flora/pottedplant/random,
 /obj/structure/flora/pottedplant/random,
 /obj/structure/flora/pottedplant/random,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-g";
 	tag = "icon-light_on-g"
 	},
@@ -33022,7 +33019,7 @@
 /obj/structure/flora/pottedplant/random,
 /obj/structure/flora/pottedplant/random,
 /obj/structure/flora/pottedplant/random,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-g";
 	tag = "icon-light_on-g"
 	},
@@ -38120,10 +38117,7 @@
 	icon_state = "all";
 	tag = "icon-all"
 	},
-/obj/machinery/turret{
-	lasers = 1;
-	lasertype = /obj/item/projectile/beam/heavylaser
-	},
+/obj/machinery/turret/centcomm,
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -38196,10 +38190,7 @@
 	icon_state = "all";
 	tag = "icon-all"
 	},
-/obj/machinery/turret{
-	lasers = 1;
-	lasertype = /obj/item/projectile/beam/heavylaser
-	},
+/obj/machinery/turret/centcomm,
 /obj/machinery/light{
 	dir = 1
 	},
@@ -38826,7 +38817,7 @@
 /area/lamprey/ghettosecuritymaintenanceblob)
 "bJo" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/effect/decal/warning_stripes{
 	icon_state = "bot"
 	},
@@ -46476,7 +46467,7 @@
 /area/lamprey/medbaywarehousemaintenanceblob)
 "cal" = (
 /obj/machinery/replicator,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-g";
 	tag = "icon-light_on-g"
 	},
@@ -55551,7 +55542,7 @@
 /obj/machinery/door/airlock{
 	name = "Fortnite Room"
 	},
-/turf/simulated/floor/arcade/floor_tile,
+/turf/simulated/floor/arcade,
 /area/lamprey/tinyroomzone)
 "cuC" = (
 /obj/item/weapon/pickaxe{
@@ -55564,7 +55555,7 @@
 /obj/machinery/light{
 	dir = 4
 	},
-/turf/simulated/floor/arcade/floor_tile,
+/turf/simulated/floor/arcade,
 /area/lamprey/tinyroomzone)
 "cuE" = (
 /obj/effect/decal/cleanable/dirt,
@@ -60102,7 +60093,7 @@
 "cEH" = (
 /obj/abstract/map/spawner/supermarket/tools,
 /obj/abstract/map/spawner/supermarket/tools,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -60725,7 +60716,7 @@
 /area/lamprey/medbaywarehousemaintenanceblob)
 "cFZ" = (
 /obj/machinery/wish_granter_dark,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -71837,7 +71828,7 @@
 	},
 /area/lamprey/bridge)
 "dev" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /turf/simulated/floor{
 	icon_state = "dark"
 	},
@@ -76565,7 +76556,7 @@
 	pixel_y = -5
 	},
 /obj/effect/decal/cleanable/soot,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-g";
 	tag = "icon-light_on-g"
 	},
@@ -78830,7 +78821,7 @@
 /area/lamprey/barndgo)
 "drb" = (
 /obj/structure/table/glass,
-/obj/item/weapon/reagent_containers/food/drinks/britcup,
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/britcup,
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -80191,7 +80182,7 @@
 	dir = 4
 	},
 /obj/structure/window,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-g";
 	tag = "icon-light_on-g"
 	},
@@ -88973,7 +88964,7 @@
 /turf/simulated/wall,
 /area/lamprey/enginerooms)
 "dKY" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /turf/simulated/floor{
 	dir = 9;
 	icon_state = "darkpurple";
@@ -106466,7 +106457,7 @@
 	d2 = 8;
 	icon_state = "0-8"
 	},
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /turf/simulated/floor/airless,
 /area/lamprey/moon)
 "ewa" = (
@@ -109563,7 +109554,7 @@
 /area/lamprey/arrivals)
 "eBJ" = (
 /obj/structure/bed,
-/turf/simulated/floor/light/floor_tile{
+/turf/simulated/floor/light{
 	icon_state = "light_on-r";
 	tag = "icon-light_on-r"
 	},
@@ -114967,7 +114958,7 @@
 	name = "Firelock North"
 	},
 /obj/machinery/atmospherics/pipe/layer_adapter/scrubbers/hidden,
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/catchall)
 "eMJ" = (
 /obj/effect/step_trigger/thrower{
@@ -121745,9 +121736,8 @@
 	},
 /area/centcom/suppy)
 "faN" = (
-/obj/machinery/turret{
-	dir = 8;
-	lasertype = /obj/item/projectile/beam/heavylaser
+/obj/machinery/turret/centcomm{
+	dir = 8
 	},
 /turf/unsimulated/floor{
 	dir = 5;
@@ -121832,9 +121822,8 @@
 	},
 /area/centcom/suppy)
 "faX" = (
-/obj/machinery/turret{
-	dir = 8;
-	lasertype = /obj/item/projectile/beam/heavylaser
+/obj/machinery/turret/centcomm{
+	dir = 8
 	},
 /turf/unsimulated/floor{
 	dir = 6;
@@ -140170,10 +140159,7 @@
 	},
 /area/tcommsat/computer)
 "fQT" = (
-/obj/machinery/turret{
-	lasers = 1;
-	lasertype = /obj/item/projectile/beam/heavylaser
-	},
+/obj/machinery/turret/centcomm,
 /turf/simulated/floor/plating/airless,
 /area/turret_protected/tcomsat)
 "fQU" = (
@@ -140341,10 +140327,7 @@
 	},
 /area/turret_protected/goonroom)
 "fRj" = (
-/obj/machinery/turret{
-	lasers = 1;
-	lasertype = /obj/item/projectile/beam/heavylaser
-	},
+/obj/machinery/turret/centcomm,
 /obj/effect/decal/warning_stripes{
 	icon_state = "unloading"
 	},
@@ -140413,10 +140396,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/machinery/turret{
-	lasers = 1;
-	lasertype = /obj/item/projectile/beam/heavylaser
-	},
+/obj/machinery/turret/centcomm,
 /obj/effect/decal/warning_stripes{
 	icon_state = "unloading"
 	},
@@ -152990,7 +152970,7 @@
 	d2 = 8;
 	icon_state = "0-8"
 	},
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /turf/simulated/floor/plating,
 /area)
 "grc" = (
@@ -158099,7 +158079,7 @@
 "gAQ" = (
 /obj/structure/table/woodentable,
 /obj/machinery/chem_dispenser/brewer/mapping,
-/obj/item/weapon/reagent_containers/food/drinks/britcup,
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/britcup,
 /turf/space,
 /area)
 "gAR" = (
@@ -164202,7 +164182,7 @@
 /turf/space,
 /area)
 "gMq" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/cable/yellow{
 	d2 = 4;
 	icon_state = "0-4"
@@ -165340,7 +165320,7 @@
 /turf/space,
 /area)
 "gOq" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/cable/yellow,
 /turf/space,
 /area)
@@ -169311,7 +169291,7 @@
 /turf/space,
 /area)
 "gVJ" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/cable,
 /obj/structure/cable{
 	d1 = 1;
@@ -178458,7 +178438,7 @@
 /obj/item/weapon/cartridge/engineering,
 /obj/item/weapon/cartridge/engineering,
 /obj/item/weapon/cartridge/engineering,
-/obj/item/weapon/reagent_containers/food/drinks/americup,
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/americup,
 /obj/structure/cable/yellow{
 	d1 = 1;
 	d2 = 2;
@@ -178837,7 +178817,7 @@
 /turf/space,
 /area)
 "hmy" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/cable/yellow{
 	d2 = 8;
 	icon_state = "0-8"
@@ -181824,7 +181804,7 @@
 /turf/space,
 /area)
 "hrQ" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/cable{
 	d2 = 2;
 	icon_state = "0-2"
@@ -184753,7 +184733,7 @@
 /turf/space,
 /area)
 "hxu" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/effect/decal/warning_stripes{
 	icon_state = "unloading"
 	},
@@ -186459,7 +186439,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 5
 	},
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/effect/decal/warning_stripes{
 	icon_state = "unloading"
 	},
@@ -190004,7 +189984,7 @@
 "hJA" = (
 /obj/structure/filingcabinet,
 /obj/effect/decal/cleanable/cobweb,
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/voxmetaclub)
 "hJB" = (
 /obj/structure/closet/crate/bin,
@@ -190021,7 +190001,7 @@
 /obj/item/stack/sheet/mineral/gold{
 	amount = 50
 	},
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/voxmetaclub)
 "hJC" = (
 /obj/structure/table/reinforced,
@@ -190066,7 +190046,7 @@
 /obj/structure/bed/chair/office{
 	dir = 4
 	},
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/voxmetaclub)
 "hJI" = (
 /obj/structure/table,
@@ -190076,7 +190056,7 @@
 	},
 /area/lamprey/voxmetaclub)
 "hJJ" = (
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/voxmetaclub)
 "hJK" = (
 /obj/structure/table,
@@ -190139,11 +190119,11 @@
 /area/lamprey/voxmetaclub)
 "hJQ" = (
 /obj/machinery/light,
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/voxmetaclub)
 "hJR" = (
 /obj/structure/flora/pottedplant/random,
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/voxmetaclub)
 "hJS" = (
 /obj/machinery/light,
@@ -190189,7 +190169,7 @@
 /obj/structure/table/woodentable,
 /obj/item/device/flashlight/lamp/green,
 /obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/voxmetaclub)
 "hJX" = (
 /obj/structure/table,
@@ -190414,7 +190394,7 @@
 "hKq" = (
 /obj/machinery/computer/security/telescreen/entertainment/wooden_tv,
 /obj/effect/decal/cleanable/cobweb2,
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/voxmetaclub)
 "hKr" = (
 /obj/structure/table,
@@ -191645,7 +191625,7 @@
 /area/lamprey/voxmetaclub)
 "hMv" = (
 /obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/voxmetaclub)
 "hMw" = (
 /obj/machinery/door/window{
@@ -194624,7 +194604,7 @@
 /area/lamprey/combooutpost)
 "hTk" = (
 /obj/machinery/door/airlock/silver{
-	name = "Dormatories";
+	name = "Dormitories";
 	req_access_txt = "140"
 	},
 /obj/structure/cable{
@@ -195823,8 +195803,8 @@
 /obj/machinery/chem_dispenser/booze_dispenser/mapping{
 	pixel_y = 26
 	},
-/obj/item/weapon/reagent_containers/food/drinks/britcup,
-/obj/item/weapon/reagent_containers/food/drinks/americup,
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/britcup,
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/americup,
 /obj/structure/table,
 /obj/machinery/light/small{
 	dir = 8
@@ -196284,7 +196264,7 @@
 	name = "Firelock North"
 	},
 /obj/machinery/atmospherics/pipe/layer_adapter/scrubbers/hidden,
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/combooutpost)
 "hWs" = (
 /obj/structure/closet,
@@ -196480,7 +196460,7 @@
 	req_one_access = null
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/combooutpost)
 "hWK" = (
 /obj/structure/cable{
@@ -196496,7 +196476,7 @@
 	on = 1;
 	scrub_O2 = 1
 	},
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/combooutpost)
 "hWL" = (
 /obj/structure/closet/secure_closet/personal/cabinet,
@@ -196505,7 +196485,7 @@
 /obj/machinery/light_switch{
 	pixel_y = 24
 	},
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/combooutpost)
 "hWM" = (
 /obj/item/mounted/frame/apc_frame,
@@ -196695,7 +196675,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 5
 	},
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/combooutpost)
 "hXd" = (
 /obj/structure/cable{
@@ -196710,7 +196690,7 @@
 	on = 1
 	},
 /obj/item/weapon/card/id/vox/extra,
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/combooutpost)
 "hXe" = (
 /obj/structure/closet/secure_closet/personal/cabinet,
@@ -196724,7 +196704,7 @@
 /obj/machinery/light/small{
 	dir = 4
 	},
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/combooutpost)
 "hXf" = (
 /obj/machinery/door/airlock/glass_medical,
@@ -196858,10 +196838,10 @@
 /obj/effect/landmark/start{
 	name = "Trader"
 	},
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/combooutpost)
 "hXv" = (
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/combooutpost)
 "hXw" = (
 /obj/structure/closet/secure_closet/personal/cabinet,
@@ -196871,7 +196851,7 @@
 	icon_state = "poster10";
 	pixel_x = 32
 	},
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/combooutpost)
 "hXx" = (
 /obj/machinery/sleeper{
@@ -198128,7 +198108,7 @@
 "iax" = (
 /obj/structure/table/woodentable,
 /obj/item/weapon/paper/lamprey/benefactor,
-/turf/simulated/floor/vox/wood/floor_tile,
+/turf/simulated/floor/vox/wood,
 /area/lamprey/voxmetaclub)
 "iay" = (
 /obj/structure/table,

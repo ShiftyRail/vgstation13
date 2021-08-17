@@ -347,6 +347,9 @@
 
 	var/attack_verb_override = "punches"
 
+	var/transfer_blood = 0
+	var/list/bloody_hands_data = list()
+
 /obj/item/clothing/gloves/get_cell()
 	return cell
 
@@ -539,6 +542,9 @@
 	clothing_flags = CANEXTINGUISH
 	sterility = 30
 
+/obj/item/clothing/suit/proc/vine_protected()
+	return FALSE 
+
 //Spacesuit
 //Note: Everything in modules/clothing/spacesuits should have the entire suit grouped together.
 //      Meaning the the suit is defined directly after the corresponding helmet. Just like below!
@@ -698,6 +704,15 @@ var/list/jersey_numbers = list()
 		return
 	for(var/obj/item/clothing/accessory/holomap_chip/HC in T.accessories)
 		HC.togglemap()
+
+/datum/action/item_action/target_appearance/check_watch
+	name = "Check the Time"
+
+/datum/action/item_action/target_appearance/check_watch/Trigger()
+	var/obj/item/clothing/accessory/wristwatch/W = target
+	if(!istype(W))
+		return
+	W.check_watch()
 
 /obj/item/clothing/under/rank/New()
 	. = ..()

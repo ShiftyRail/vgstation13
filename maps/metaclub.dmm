@@ -8447,6 +8447,7 @@
 /area/engineering/supermatter_room)
 "apd" = (
 /obj/machinery/atmospherics/unary/vent_pump/on{
+	canSpawnMice = 0;
 	dir = 1;
 	frequency = 1441;
 	icon_state = "out";
@@ -8464,6 +8465,7 @@
 /area/engineering/supermatter_room)
 "ape" = (
 /obj/machinery/atmospherics/unary/vent_pump/siphon/on{
+	canSpawnMice = 0;
 	dir = 1;
 	frequency = 1441;
 	icon_state = "in";
@@ -14001,7 +14003,7 @@
 /turf/simulated/floor,
 /area/engineering/supermatter_room)
 "ayy" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/effect/decal/warning_stripes{
 	icon_state = "unloading"
 	},
@@ -28647,7 +28649,7 @@
 /obj/effect/decal/warning_stripes{
 	icon_state = "unloading"
 	},
-/obj/machinery/power/monitor{
+/obj/machinery/computer/powermonitor{
 	name = "Engineering Power Monitoring Console"
 	},
 /obj/structure/cable/yellow{
@@ -34730,7 +34732,7 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/power/monitor{
+/obj/machinery/computer/powermonitor{
 	name = "Bridge Power Monitoring Console"
 	},
 /obj/machinery/camera/flawless{
@@ -48543,14 +48545,6 @@
 	name = "\improper Command Hallway"
 	})
 "bHq" = (
-/obj/structure/window/reinforced,
-/obj/structure/window/reinforced{
-	dir = 1
-	},
-/obj/structure/grille,
-/obj/structure/window/reinforced{
-	dir = 4
-	},
 /obj/structure/cable/yellow{
 	d2 = 4;
 	icon_state = "0-4"
@@ -48559,7 +48553,8 @@
 	d2 = 8;
 	icon_state = "0-8"
 	},
-/turf/simulated/floor/plating,
+/obj/machinery/photobooth,
+/turf/simulated/floor,
 /area/bridge/meeting_room{
 	name = "\improper Command Hallway"
 	})
@@ -49243,6 +49238,7 @@
 	tag = "icon-warning"
 	},
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	on = 1
 	},
 /turf/simulated/floor/engine,
@@ -73088,6 +73084,9 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/effect/landmark/start{
+	name = "Xenoarchaeologist"
+	},
 /turf/simulated/floor{
 	dir = 6;
 	icon_state = "arrival"
@@ -73125,6 +73124,9 @@
 /obj/structure/bed/chair,
 /obj/machinery/alarm{
 	pixel_y = 23
+	},
+/obj/effect/landmark/start{
+	name = "Xenoarchaeologist"
 	},
 /turf/simulated/floor{
 	dir = 6;
@@ -78923,6 +78925,7 @@
 /area/medical/virology)
 "cGC" = (
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	on = 1
 	},
 /turf/simulated/floor{
@@ -80168,6 +80171,7 @@
 /area/medical/virology)
 "cIH" = (
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	on = 1
 	},
 /turf/simulated/floor{
@@ -81510,6 +81514,7 @@
 /area/medical/medbay)
 "cKN" = (
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	dir = 1;
 	on = 1
 	},
@@ -82387,6 +82392,7 @@
 /area/maintenance/aft)
 "cMg" = (
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	external_pressure_bound = 140;
 	on = 1;
 	pressure_checks = 0
@@ -83256,6 +83262,7 @@
 	})
 "cNA" = (
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	dir = 1;
 	external_pressure_bound = 120;
 	initialize_directions = 1;
@@ -83316,6 +83323,7 @@
 /area/maintenance/virology_maint)
 "cNH" = (
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	dir = 1;
 	on = 1
 	},
@@ -83341,6 +83349,7 @@
 	pixel_x = -1
 	},
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	dir = 1;
 	on = 1
 	},
@@ -83835,6 +83844,7 @@
 /area/medical/virology)
 "cOD" = (
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	dir = 8;
 	on = 1
 	},
@@ -87092,18 +87102,18 @@
 /turf/simulated/floor/plating,
 /area/hallway/secondary/exit)
 "cUH" = (
-/obj/machinery/requests_console{
-	department = "Science";
-	departmentType = 2;
-	name = "Science Requests Console";
-	pixel_y = 30
-	},
 /obj/structure/closet,
 /obj/item/clothing/mask/gas,
 /obj/item/clothing/mask/gas,
 /obj/item/clothing/glasses/science,
 /obj/item/clothing/glasses/science,
 /obj/item/clothing/gloves/latex,
+/obj/machinery/requests_console{
+	department = "Xenobiology";
+	departmentType = 2;
+	name = "Xenobiology Requests Console";
+	pixel_y = 30
+	},
 /turf/simulated/floor{
 	dir = 1;
 	icon_state = "whitepurple"
@@ -87352,7 +87362,7 @@
 	dir = 1
 	},
 /obj/effect/landmark/start{
-	name = "Scientist"
+	name = "Xenobiologist"
 	},
 /turf/simulated/floor{
 	icon_state = "white"
@@ -87605,6 +87615,7 @@
 /area/science/xenobiology)
 "cVG" = (
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	dir = 4;
 	on = 1
 	},
@@ -87661,6 +87672,9 @@
 	dir = 4
 	},
 /obj/structure/bed/chair/office/light,
+/obj/effect/landmark/start{
+	name = "Xenobiologist"
+	},
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -88784,6 +88798,7 @@
 /area/science/xenobiology)
 "cXu" = (
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	dir = 1;
 	on = 1
 	},
@@ -88939,7 +88954,7 @@
 	icon_state = "1-2"
 	},
 /obj/effect/landmark/start{
-	name = "Scientist"
+	name = "Xenobiologist"
 	},
 /obj/machinery/hologram/holopad,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
@@ -89612,6 +89627,7 @@
 	icon_state = "bot"
 	},
 /obj/machinery/atmospherics/unary/vent_pump{
+	canSpawnMice = 0;
 	dir = 1;
 	on = 1
 	},
@@ -92713,9 +92729,8 @@
 	},
 /area/centcom/suppy)
 "dfR" = (
-/obj/machinery/turret{
-	dir = 8;
-	lasertype = /obj/item/projectile/beam/heavylaser
+/obj/machinery/turret/centcomm{
+	dir = 8
 	},
 /turf/unsimulated/floor{
 	dir = 5;
@@ -92856,9 +92871,8 @@
 	},
 /area/centcom/suppy)
 "dgk" = (
-/obj/machinery/turret{
-	dir = 8;
-	lasertype = /obj/item/projectile/beam/heavylaser
+/obj/machinery/turret/centcomm{
+	dir = 8
 	},
 /turf/unsimulated/floor{
 	dir = 6;
@@ -105689,7 +105703,7 @@
 /turf/simulated/floor/plating,
 /area/djstation)
 "dKw" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/cable,
 /turf/simulated/floor/plating,
 /area/djstation)
@@ -107109,7 +107123,7 @@
 	icon_state = "0-2"
 	},
 /obj/structure/cable,
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /turf/simulated/floor,
 /area/derelict/solar_control)
 "dNG" = (
@@ -113705,8 +113719,7 @@
 /area/mine/north_outpost)
 "eeG" = (
 /obj/machinery/mineral/unloading_machine{
-	in_dir = 8;
-	out_dir = 4
+	dir = 4
 	},
 /turf/simulated/floor{
 	icon_state = "floorgrime"
@@ -116613,6 +116626,12 @@
 /obj/item/weapon/lighter/random{
 	pixel_x = -2;
 	pixel_y = 3
+	},
+/obj/machinery/requests_console{
+	department = "Xenoarchaeology";
+	departmentType = 2;
+	name = "Xenoarchaeology Requests Console";
+	pixel_x = -30
 	},
 /turf/simulated/floor{
 	icon_state = "whitepurplecorner"
@@ -119817,10 +119836,7 @@
 /turf/simulated/floor/plating,
 /area/research_outpost/maint)
 "eqs" = (
-/obj/machinery/mineral/unloading_machine{
-	in_dir = 1;
-	out_dir = 2
-	},
+/obj/machinery/mineral/unloading_machine,
 /turf/simulated/floor{
 	icon_state = "floorgrime"
 	},
@@ -120163,8 +120179,8 @@
 /area/research_outpost/gearstore)
 "erj" = (
 /obj/machinery/portable_atmospherics/canister/oxygen,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	dir = 5
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden{
+	dir = 8
 	},
 /turf/simulated/floor,
 /area/research_outpost/gearstore)
@@ -120332,9 +120348,7 @@
 /obj/structure/window/reinforced,
 /obj/structure/grille,
 /obj/structure/window/full/reinforced,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 10
-	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /turf/simulated/floor/plating,
 /area/research_outpost/gearstore)
 "erF" = (
@@ -120362,9 +120376,7 @@
 /turf/simulated/floor/plating,
 /area/research_outpost/gearstore)
 "erH" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 5
-	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/simulated/wall/r_wall,
 /area/research_outpost/gearstore)
 "erI" = (
@@ -120424,7 +120436,10 @@
 	tag_interior_door = "anom_airlock_interior";
 	tag_interior_sensor = "anom_int_airlock_sensor"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/binary/dp_vent_pump/high_volume{
+	frequency = 1331;
+	id_tag = "anom_airlock_pump"
+	},
 /turf/simulated/floor,
 /area/research_outpost/gearstore)
 "erN" = (
@@ -120503,9 +120518,7 @@
 	icon_state = "warning";
 	tag = "icon-warning"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 5
-	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
 /turf/simulated/floor,
 /area/research_outpost/gearstore)
 "erV" = (
@@ -121270,11 +121283,7 @@
 /turf/simulated/wall/r_wall,
 /area/prison)
 "etZ" = (
-/obj/machinery/mineral/unloading_machine{
-	icon_state = "unloader-corner";
-	in_dir = 1;
-	out_dir = 2
-	},
+/obj/machinery/mineral/unloading_machine,
 /turf/unsimulated/floor/airless{
 	icon_state = "asteroidfloor"
 	},
@@ -121404,9 +121413,8 @@
 /area/prison)
 "euk" = (
 /obj/structure/plasticflaps/mining,
-/obj/effect/decal/warning_stripes{
-	icon_state = "loading_area";
-	tag = "icon-loading_area"
+/obj/machinery/conveyor{
+	id_tag = "pmining_external2"
 	},
 /turf/simulated/floor/plating,
 /area/prison)
@@ -122911,7 +122919,7 @@
 	},
 /area/prison)
 "exd" = (
-/obj/machinery/porta_turret{
+/obj/machinery/turret/portable{
 	name = "security turret";
 	stun_all = 1
 	},
@@ -125090,9 +125098,7 @@
 /turf/simulated/wall,
 /area/mine/living_quarters)
 "eAT" = (
-/obj/machinery/mineral/unloading_machine{
-	icon_state = "unloader-corner"
-	},
+/obj/machinery/mineral/unloading_machine,
 /obj/structure/plasticflaps/mining,
 /turf/simulated/floor{
 	icon_state = "floorgrime"
@@ -125840,6 +125846,7 @@
 /obj/machinery/conveyor/auto{
 	dir = 4
 	},
+/obj/structure/plasticflaps/mining,
 /turf/simulated/floor/plating,
 /area/mine/living_quarters)
 "eCB" = (
@@ -125852,10 +125859,8 @@
 /turf/simulated/floor/plating,
 /area/mine/living_quarters)
 "eCD" = (
-/obj/structure/plasticflaps/mining,
 /obj/machinery/mineral/unloading_machine{
-	in_dir = 8;
-	out_dir = 4
+	dir = 4
 	},
 /turf/simulated/floor/plating,
 /area/mine/living_quarters)
@@ -126358,8 +126363,9 @@
 /turf/simulated/floor,
 /area/mine/production)
 "eDH" = (
-/obj/machinery/mineral/unloading_machine,
-/obj/structure/plasticflaps/mining,
+/obj/machinery/mineral/unloading_machine{
+	dir = 8
+	},
 /turf/simulated/floor/plating,
 /area/mine/production)
 "eDI" = (
@@ -126375,6 +126381,7 @@
 /obj/machinery/conveyor/auto{
 	dir = 8
 	},
+/obj/structure/plasticflaps/mining,
 /turf/simulated/floor/plating,
 /area/mine/production)
 "eDK" = (
@@ -129833,6 +129840,14 @@
 /area/maintenance/fpmaint2{
 	name = "Port Maintenance"
 	})
+"kqS" = (
+/obj/effect/landmark/start{
+	name = "Xenoarchaeologist"
+	},
+/turf/simulated/floor{
+	icon_state = "arrival"
+	},
+/area/science/shuttlebay)
 "kvb" = (
 /obj/structure/cable/orange{
 	d1 = 4;
@@ -129981,6 +129996,12 @@
 	icon_state = "white"
 	},
 /area/science/hallway)
+"pjR" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 5
+	},
+/turf/simulated/wall/r_wall,
+/area/research_outpost/gearstore)
 "plB" = (
 /obj/structure/cable/orange{
 	d2 = 2;
@@ -130061,6 +130082,27 @@
 	},
 /turf/simulated/floor/plating,
 /area/prison/rec_room)
+"rRm" = (
+/obj/structure/window/reinforced,
+/obj/structure/window/reinforced{
+	dir = 1
+	},
+/obj/structure/grille,
+/obj/structure/cable/yellow{
+	d2 = 4;
+	icon_state = "0-4"
+	},
+/obj/structure/cable/yellow{
+	d2 = 8;
+	icon_state = "0-8"
+	},
+/obj/structure/window/reinforced{
+	dir = 4
+	},
+/turf/simulated/floor/plating,
+/area/bridge/meeting_room{
+	name = "\improper Command Hallway"
+	})
 "sJp" = (
 /obj/structure/lattice,
 /obj/item/stack/sheet/wood{
@@ -130068,6 +130110,12 @@
 	},
 /turf/space,
 /area)
+"sUR" = (
+/obj/effect/decal/warning_stripes{
+	icon_state = "all-asteroid"
+	},
+/turf/unsimulated/floor/asteroid,
+/area/mine/explored)
 "tva" = (
 /obj/structure/grille,
 /obj/structure/window/full/reinforced,
@@ -236389,7 +236437,7 @@ bzW
 bBM
 bDp
 bFu
-bHn
+rRm
 bIX
 bKK
 bMA
@@ -262527,7 +262575,7 @@ brM
 cwW
 cxR
 cxR
-czM
+kqS
 cAX
 aaa
 aam
@@ -1211730,8 +1211778,8 @@ eqn
 eqS
 erm
 erH
-epg
-epg
+erH
+pjR
 epg
 esb
 esf
@@ -1246453,7 +1246501,7 @@ eBw
 ezq
 eeb
 eeb
-eeb
+sUR
 eCO
 eeb
 eaQ

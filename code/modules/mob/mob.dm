@@ -62,7 +62,6 @@
 	attack_delayer = null
 	special_delayer = null
 	throw_delayer = null
-	gui_icons = null
 	qdel(hud_used)
 	hud_used = null
 	for(var/atom/movable/leftovers in src)
@@ -230,24 +229,6 @@
 			if(client)
 				client.screen -= hud_used.cult_tattoo_display
 			hud_used.cult_tattoo_display = null
-		if (isshade(src) && gui_icons)
-			if(gui_icons.soulblade_bgLEFT)
-				qdel(gui_icons.soulblade_bgLEFT)
-				if(client)
-					client.screen -= gui_icons.soulblade_bgLEFT
-				gui_icons.soulblade_bgLEFT = null
-			if(gui_icons.soulblade_bloodbar)
-				qdel(gui_icons.soulblade_bloodbar)
-				if(client)
-					client.screen -= gui_icons.soulblade_bloodbar
-				gui_icons.soulblade_bloodbar = null
-			if(gui_icons.soulblade_coverLEFT)
-				qdel(gui_icons.soulblade_coverLEFT)
-				if(client)
-					client.screen -= gui_icons.soulblade_coverLEFT
-				gui_icons.soulblade_coverLEFT = null
-
-
 
 /mob/proc/cultify()
 	return
@@ -433,6 +414,9 @@
 
 /mob/proc/Life()
 	set waitfor = FALSE
+
+	update_perception()
+
 	if(timestopped)
 		return 0 //under effects of time magick
 	check_dark_vision()
@@ -443,7 +427,6 @@
 	for (var/time in crit_rampup)
 		if (world.time > num2text(time) + 20 SECONDS) // clear out the items older than 20 seconds
 			crit_rampup -= time
-	return
 
 /mob/proc/see_narsie(var/obj/machinery/singularity/narsie/large/N, var/dir)
 	if(N.chained)
@@ -460,7 +443,7 @@
 			narsimage.mouse_opacity = 0
 		if(!narglow) //Create narglow
 			narglow = image('icons/obj/narsie.dmi',narsimage.loc,"glow-narsie", NARSIE_GLOW, 1)
-			narglow.plane = LIGHTING_PLANE
+			narglow.plane = ABOVE_LIGHTING_PLANE
 			narglow.mouse_opacity = 0
 /* Animating narsie works like shit thanks to fucking byond
 		if(!N.old_x || !N.old_y)
@@ -525,7 +508,7 @@
 	if((R.z == T_mob.z) && (get_dist(R,T_mob) <= (R.consume_range+10)) && !(R in view(T_mob)))
 		if(!riftimage)
 			riftimage = image('icons/obj/rift.dmi',T_mob,"rift", SUPER_PORTAL_LAYER, 1)
-			riftimage.plane = LIGHTING_PLANE
+			riftimage.plane = ABOVE_LIGHTING_PLANE
 			riftimage.mouse_opacity = 0
 
 		var/new_x = WORLD_ICON_SIZE * (R.x - T_mob.x) + R.pixel_x
@@ -1074,6 +1057,7 @@ Use this proc preferably at the end of an equipment loadout
 				M.LAssailant = null
 			else
 				M.LAssailant = usr
+				M.assaulted_by(usr, TRUE)
 
 /mob/verb/stop_pulling()
 	set name = "Stop Pulling"
@@ -1462,7 +1446,7 @@ Use this proc preferably at the end of an equipment loadout
 			stat("Location:", "([x], [y], [z])")
 			stat("CPU:", "[world.cpu]")
 			stat("Instances:", "[world.contents.len]")
-			stat("Internal tick usage:", "[internal_tick_usage]")
+			stat("Map CPU:", "[world.map_cpu]")
 
 			stat(null)
 			if(Master)
@@ -1524,20 +1508,23 @@ Use this proc preferably at the end of an equipment loadout
 	return 1
 
 /mob/proc/isKnockedDown() //Check if the mob is knocked down
-	return isUnconscious() || knockdown || paralysis
+	return knockdown || paralysis
 
 /mob/proc/isJustStunned() //Some ancient coder (as of 2021) made it so that it checks directly for whether the variable has a positive number, and I'm too afraid of unintended consequences down the line to just change it to isStunned(), so instead you have this half-baked abomination of a barely-used proc just so that player simple_animal mobs can move. You're welcome!
 	return stunned
 
 //Updates canmove, lying and icons. Could perhaps do with a rename but I can't think of anything to describe it.
 /mob/proc/update_canmove()
+	if (timestopped)
+		return 0 // update_canmove() is called on all affected mobs right as the timestop ends
+
 	if (locked_to)
 		var/datum/locking_category/category = locked_to.get_lock_cat_for(src)
 		if (category && ~category.flags & LOCKED_CAN_LIE_AND_STAND)
 			canmove = 0
 			lying = (category.flags & LOCKED_SHOULD_LIE) ? TRUE : FALSE //A lying value that !=1 will break this
 
-	else if(resting || !can_stand || isKnockedDown())
+	else if(resting || !can_stand || isKnockedDown() || isUnconscious())
 		stop_pulling()
 		lying = 1
 		canmove = 0
@@ -1947,6 +1934,9 @@ mob/proc/on_foot()
 	if(see_invisible_override)
 		see_invisible = see_invisible_override
 
+/mob/proc/update_perception()
+	return
+
 /mob/actual_send_to_future(var/duration)
 	var/init_blinded = blinded
 	var/init_eye_blind = eye_blind
@@ -2139,6 +2129,12 @@ mob/proc/on_foot()
 				alphas.Remove(source_define)
 
 /mob/proc/is_pacified(var/message = VIOLENCE_SILENT,var/target,var/weapon)
+	if (runescape_pvp)
+		var/area/A = get_area(src)
+		if (!istype(A, /area/maintenance) && !is_type_in_list(A,non_standard_maint_areas))
+			to_chat(src, "<span class='danger'>You must enter maintenance to attack other players!</span>")
+			return TRUE
+
 	if(status_flags & UNPACIFIABLE)
 		return FALSE
 
@@ -2212,6 +2208,9 @@ mob/proc/on_foot()
 
 /mob/proc/canMouseDrag()//used mostly to check if the mob can drag'and'drop stuff in/out of various other stuff, such as disposals, cryo tubes, etc.
 	return TRUE
+
+/mob/proc/turn_into_mannequin(var/material = "marble")
+	return FALSE
 
 /mob/proc/get_personal_ambience()
 	return list()

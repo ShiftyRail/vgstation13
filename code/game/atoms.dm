@@ -216,9 +216,6 @@ var/global/list/ghdel_profiling = list()
 		if(T)
 			T.densityChanged()
 
-/atom/proc/bumped_by_firebird(var/obj/structure/bed/chair/vehicle/firebird/F)
-	return Bumped(F)
-
 // Convenience proc to see if a container is open for chemistry handling
 // returns true if open
 // false if closed
@@ -261,6 +258,9 @@ var/global/list/ghdel_profiling = list()
 
 /atom/proc/bullet_act(var/obj/item/projectile/Proj)
 	return PROJECTILE_COLLISION_DEFAULT
+
+/atom/proc/photography_act(var/obj/item/device/camera/camera) //Called when this atom has its picture taken by a camera
+	return
 
 /atom/proc/in_contents_of(container)//can take class or object instance as argument
 	if(ispath(container))
@@ -532,6 +532,9 @@ its easier to just keep the beam vertical.
 	return
 
 /atom/proc/emag_act()
+	return
+
+/atom/proc/slime_act()
 	return
 
 /atom/proc/supermatter_act(atom/source, severity)
@@ -818,6 +821,12 @@ its easier to just keep the beam vertical.
 
 /atom/proc/isacidhardened()
 	return FALSE
+
+/atom/proc/salt_act()
+	return
+
+/atom/proc/acid_melt()
+	return
 
 /atom/proc/get_inaccuracy(var/atom/target, var/spread, var/obj/mecha/chassis)
 	var/turf/curloc = get_turf(src)

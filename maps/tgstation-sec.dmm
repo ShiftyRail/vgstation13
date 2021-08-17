@@ -19099,7 +19099,7 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/cable{
 	d2 = 2;
 	icon_state = "0-2";
@@ -35379,6 +35379,9 @@
 	icon_state = "warning";
 	tag = "icon-warning (NORTH)"
 	},
+/obj/effect/landmark/start{
+	name = "Scientist"
+	},
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -40248,6 +40251,9 @@
 	dir = 1;
 	pixel_y = -24
 	},
+/obj/effect/landmark/start{
+	name = "Xenoarchaeologist"
+	},
 /turf/simulated/floor{
 	dir = 4;
 	icon_state = "whitebluecorner"
@@ -40267,6 +40273,9 @@
 /obj/machinery/alarm{
 	dir = 1;
 	pixel_y = -22
+	},
+/obj/effect/landmark/start{
+	name = "Xenoarchaeologist"
 	},
 /turf/simulated/floor{
 	icon_state = "cmo"
@@ -40847,7 +40856,7 @@
 	dir = 8
 	},
 /obj/effect/landmark/start{
-	name = "Scientist"
+	name = "Xenoarchaeologist"
 	},
 /turf/simulated/floor/mineral/plasma,
 /area/science/breakroom)
@@ -41539,7 +41548,7 @@
 	dir = 1
 	},
 /obj/effect/landmark/start{
-	name = "Scientist"
+	name = "Xenoarchaeologist"
 	},
 /obj/machinery/alarm{
 	dir = 4;
@@ -46857,7 +46866,7 @@
 /area/science/hallway)
 "bOT" = (
 /obj/machinery/door/airlock/glass_research{
-	name = "Borer Devolopment";
+	name = "Borer Development";
 	req_access_txt = "47"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -47330,7 +47339,7 @@
 	pixel_y = -22
 	},
 /obj/structure/table,
-/obj/item/weapon/reagent_containers/food/drinks/britcup,
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/britcup,
 /obj/item/stack/package_wrap,
 /obj/item/stack/package_wrap,
 /obj/item/stack/package_wrap,
@@ -47710,7 +47719,7 @@
 /area/science/hallway)
 "bQn" = (
 /obj/machinery/door/airlock/glass_research{
-	name = "Borer Devolopment";
+	name = "Borer Development";
 	req_access_txt = "47"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -55643,12 +55652,6 @@
 	},
 /area/science/xenobiology)
 "cft" = (
-/obj/machinery/requests_console{
-	department = "Science";
-	departmentType = 2;
-	name = "Science Requests Console";
-	pixel_y = 30
-	},
 /obj/machinery/camera{
 	name = "Xenobiology Module North"
 	},
@@ -55657,6 +55660,12 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 4
+	},
+/obj/machinery/requests_console{
+	department = "Xenobiology";
+	departmentType = 2;
+	name = "Xenobiology Requests Console";
+	pixel_y = 30
 	},
 /turf/simulated/floor{
 	icon_state = "white"
@@ -57472,7 +57481,7 @@
 	dir = 8
 	},
 /obj/effect/landmark/start{
-	name = "Scientist"
+	name = "Xenobiologist"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /turf/simulated/floor{
@@ -58669,7 +58678,7 @@
 /turf/simulated/floor,
 /area/engineering/break_room)
 "ckE" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/cable{
 	d2 = 8;
 	icon_state = "0-8"
@@ -67847,7 +67856,7 @@
 /turf/simulated/floor,
 /area/engineering/supermatter_room)
 "cAR" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/cable{
 	d2 = 2;
 	icon_state = "0-2";
@@ -72877,9 +72886,8 @@
 	},
 /area/centcom/suppy)
 "cLY" = (
-/obj/machinery/turret{
-	dir = 8;
-	lasertype = /obj/item/projectile/beam/heavylaser
+/obj/machinery/turret/centcomm{
+	dir = 8
 	},
 /turf/unsimulated/floor{
 	dir = 5;
@@ -73144,9 +73152,8 @@
 	},
 /area/centcom/suppy)
 "cMG" = (
-/obj/machinery/turret{
-	dir = 8;
-	lasertype = /obj/item/projectile/beam/heavylaser
+/obj/machinery/turret/centcomm{
+	dir = 8
 	},
 /turf/unsimulated/floor{
 	dir = 6;
@@ -84962,7 +84969,7 @@
 	d2 = 8;
 	icon_state = "0-8"
 	},
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /turf/simulated/floor/plating,
 /area/djstation)
 "duj" = (
@@ -86384,7 +86391,7 @@
 	icon_state = "0-2"
 	},
 /obj/structure/cable,
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /turf/simulated/floor,
 /area/derelict/solar_control)
 "dxr" = (
@@ -93992,6 +93999,12 @@
 	pixel_x = -2;
 	pixel_y = 3
 	},
+/obj/machinery/requests_console{
+	department = "Xenoarchaeology";
+	departmentType = 2;
+	name = "Xenoarchaeology Requests Console";
+	pixel_x = -30
+	},
 /turf/simulated/floor{
 	icon_state = "whitepurplecorner"
 	},
@@ -94058,7 +94071,7 @@
 	pixel_y = 8
 	},
 /obj/structure/cable/yellow,
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /turf/simulated/floor/plating,
 /area/research_outpost/power)
 "dQe" = (
@@ -101212,7 +101225,7 @@
 	name = "Firelock East"
 	},
 /obj/machinery/door/airlock/silver{
-	name = "Dormatories";
+	name = "Dormitories";
 	req_access_txt = "140"
 	},
 /turf/simulated/floor/vox{
@@ -101640,7 +101653,7 @@
 /area/vox_trading_post/dorms)
 "edv" = (
 /obj/machinery/door/airlock/silver{
-	name = "Dormatories";
+	name = "Dormitories";
 	req_access_txt = "140"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
@@ -102943,7 +102956,7 @@
 /area/vox_trading_post/hallway)
 "efW" = (
 /obj/machinery/door/airlock/silver{
-	name = "Dormatories";
+	name = "Dormitories";
 	req_access_txt = "140"
 	},
 /obj/structure/cable{
@@ -107399,8 +107412,7 @@
 /area/mine/west_outpost)
 "epB" = (
 /obj/machinery/mineral/unloading_machine{
-	in_dir = 8;
-	out_dir = 4
+	dir = 4
 	},
 /turf/simulated/floor{
 	icon_state = "floorgrime"
@@ -107752,12 +107764,10 @@
 /turf/simulated/floor/plating,
 /area/mine/west_outpost)
 "eqk" = (
-/obj/machinery/conveyor{
-	backwards = 2;
-	forwards = 1;
-	id_tag = "mining_west"
-	},
 /obj/structure/plasticflaps/mining,
+/obj/machinery/mineral/unloading_machine{
+	dir = 1
+	},
 /turf/simulated/floor,
 /area/mine/west_outpost)
 "eql" = (
@@ -108069,6 +108079,9 @@
 /turf/simulated/floor/plating,
 /area/mine/west_outpost)
 "eqQ" = (
+/obj/effect/decal/warning_stripes{
+	icon_state = "all-asteroid"
+	},
 /turf/unsimulated/floor/airless{
 	dir = 1;
 	icon_state = "asteroidwarning"
@@ -108830,8 +108843,7 @@
 /area/mine/production)
 "esr" = (
 /obj/machinery/mineral/unloading_machine{
-	in_dir = 8;
-	out_dir = 4
+	dir = 4
 	},
 /turf/simulated/floor{
 	icon_state = "floorgrime"
@@ -109000,9 +109012,9 @@
 	},
 /area/mine/explored)
 "esI" = (
-/obj/machinery/conveyor_switch{
-	convdir = -1;
-	id_tag = "mining_external"
+/obj/machinery/conveyor_switch/oneway{
+	id_tag = "mining_internal";
+	name = "mining conveyor"
 	},
 /turf/unsimulated/floor/airless{
 	icon_state = "asteroidplating"
@@ -109102,24 +109114,19 @@
 /turf/simulated/floor/plating,
 /area/mine/production)
 "esT" = (
-/obj/machinery/mineral/unloading_machine{
-	icon_state = "unloader-corner"
+/obj/effect/decal/warning_stripes{
+	icon_state = "all-asteroid"
 	},
-/obj/structure/plasticflaps/mining,
-/obj/machinery/conveyor{
-	dir = 4;
-	id_tag = "mining_external"
+/turf/unsimulated/floor/airless{
+	icon_state = "asteroidfloor"
 	},
-/turf/simulated/floor{
-	icon_state = "floorgrime"
-	},
-/area/mine/production)
+/area/mine/explored)
 "esU" = (
 /obj/machinery/mineral/unloading_machine{
-	icon_state = "unloader-corner"
+	dir = 8
 	},
-/turf/simulated/floor{
-	icon_state = "floorgrime"
+/turf/unsimulated/floor/airless{
+	icon_state = "asteroidfloor"
 	},
 /area/mine/production)
 "esW" = (
@@ -110522,6 +110529,18 @@
 /obj/structure/reagent_dispensers/beerkeg,
 /turf/simulated/floor/wood,
 /area/crew_quarters/bar)
+"qUM" = (
+/obj/structure/bed/chair{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/effect/landmark/start{
+	name = "Xenobiologist"
+	},
+/turf/simulated/floor{
+	icon_state = "white"
+	},
+/area/science/xenobiology)
 "rnp" = (
 /obj/machinery/atmospherics/unary/vent_scrubber/on{
 	dir = 8
@@ -110594,6 +110613,22 @@
 /obj/item/toy/cards,
 /turf/simulated/floor/wood,
 /area/crew_quarters/bar)
+"vqA" = (
+/obj/structure/bed/chair{
+	dir = 4
+	},
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/obj/effect/landmark/start{
+	name = "Xenobiologist"
+	},
+/turf/simulated/floor{
+	icon_state = "white"
+	},
+/area/science/xenobiology)
 "wtW" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
@@ -258001,7 +258036,7 @@ cfs
 cgE
 cdg
 cis
-cjs
+vqA
 cjs
 cdg
 cmt
@@ -259508,7 +259543,7 @@ cgG
 chM
 civ
 cjv
-cjv
+qUM
 ckZ
 chM
 cnD
@@ -1260024,7 +1260059,7 @@ eoT
 eoT
 eoT
 eoT
-esT
+etI
 eoT
 eoT
 eoT
@@ -1261028,7 +1261063,7 @@ dNe
 dNe
 dNe
 esH
-eda
+esT
 esH
 dNe
 dNe

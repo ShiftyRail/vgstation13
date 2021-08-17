@@ -9978,6 +9978,7 @@
 /area/tcomms/chamber)
 "arT" = (
 /obj/machinery/atmospherics/unary/vent_pump/on{
+	canSpawnMice = 0;
 	name = "Air Vent (2)"
 	},
 /turf/simulated/floor/server,
@@ -19772,7 +19773,7 @@
 	},
 /area/bridge)
 "aIT" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/cable{
 	d2 = 2;
 	icon_state = "0-2";
@@ -20240,7 +20241,7 @@
 	d2 = 2;
 	icon_state = "0-2"
 	},
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 4
 	},
@@ -25848,7 +25849,7 @@
 	},
 /area/engineering/engine)
 "aSM" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/effect/decal/warning_stripes{
 	dir = 10;
 	icon_state = "unloading";
@@ -31269,9 +31270,6 @@
 /obj/machinery/door/firedoor/border_only{
 	name = "Firelock South"
 	},
-/obj/machinery/media/receiver/boombox/wallmount/muzak{
-	pixel_x = -28
-	},
 /turf/simulated/floor{
 	dir = 5;
 	icon_state = "vault"
@@ -32026,6 +32024,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 6
 	},
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/simulated/floor{
 	dir = 4;
 	icon_state = "bluecorner"
@@ -32041,16 +32042,8 @@
 	},
 /area/hallway/primary/central)
 "bdm" = (
-/obj/machinery/light{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/turf/simulated/floor{
-	dir = 1;
-	icon_state = "blue"
-	},
+/obj/machinery/photobooth,
+/turf/simulated/floor,
 /area/hallway/primary/central)
 "bdn" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
@@ -33813,6 +33806,9 @@
 /area/hallway/primary/central)
 "bfY" = (
 /obj/machinery/light,
+/obj/machinery/media/receiver/boombox/wallmount/muzak{
+	pixel_y = -24
+	},
 /turf/simulated/floor{
 	icon_state = "yellowsiding";
 	tag = "icon-yellowsiding"
@@ -43189,7 +43185,7 @@
 	},
 /area/medical/medbay)
 "bxp" = (
-/obj/item/weapon/reagent_containers/food/drinks/americup,
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/americup,
 /obj/structure/table/reinforced,
 /turf/simulated/floor{
 	dir = 5;
@@ -53231,6 +53227,9 @@
 /obj/structure/bed/chair/office/dark{
 	dir = 4
 	},
+/obj/effect/landmark/start{
+	name = "Scientist"
+	},
 /turf/simulated/floor{
 	dir = 4;
 	icon_state = "whitepurple"
@@ -62634,6 +62633,9 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/effect/landmark/start{
+	name = "Scientist"
+	},
 /turf/simulated/floor{
 	icon_state = "whitepurple"
 	},
@@ -63921,6 +63923,7 @@
 	tag = "icon-warning (NORTHWEST)"
 	},
 /obj/machinery/atmospherics/unary/vent_pump/on{
+	canSpawnMice = 0;
 	dir = 8;
 	name = "Air Vent (8)"
 	},
@@ -64774,7 +64777,7 @@
 /area/science/hallway)
 "cmT" = (
 /obj/machinery/door/airlock/glass_research{
-	name = "Borer Devolopment";
+	name = "Borer Development";
 	req_access_txt = "47"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
@@ -64790,7 +64793,7 @@
 	})
 "cmU" = (
 /obj/machinery/door/airlock/glass_research{
-	name = "Borer Devolopment";
+	name = "Borer Development";
 	req_access_txt = "47"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
@@ -65681,6 +65684,9 @@
 /obj/structure/bed/chair{
 	dir = 8
 	},
+/obj/effect/landmark/start{
+	name = "Xenoarchaeologist"
+	},
 /turf/simulated/floor{
 	dir = 4;
 	icon_state = "whitepurple"
@@ -66169,6 +66175,9 @@
 	dir = 1;
 	name = "Air Scrubber (1)"
 	},
+/obj/effect/landmark/start{
+	name = "Xenoarchaeologist"
+	},
 /turf/simulated/floor{
 	dir = 4;
 	icon_state = "whitepurple"
@@ -66323,6 +66332,7 @@
 /area/medical/virology)
 "cpL" = (
 /obj/machinery/atmospherics/unary/vent_pump/on{
+	canSpawnMice = 0;
 	dir = 4;
 	name = "Air Vent (4)"
 	},
@@ -66378,6 +66388,7 @@
 /area/medical/virology)
 "cpQ" = (
 /obj/machinery/atmospherics/unary/vent_pump/on{
+	canSpawnMice = 0;
 	dir = 8;
 	name = "Air Vent (8)"
 	},
@@ -67019,6 +67030,9 @@
 "cqT" = (
 /obj/structure/bed/chair{
 	dir = 4
+	},
+/obj/effect/landmark/start{
+	name = "Xenoarchaeologist"
 	},
 /turf/simulated/floor{
 	icon_state = "white"
@@ -68162,6 +68176,7 @@
 /area/medical/virology)
 "csN" = (
 /obj/machinery/atmospherics/unary/vent_pump/on{
+	canSpawnMice = 0;
 	dir = 1;
 	name = "Air Vent (1)"
 	},
@@ -68360,9 +68375,9 @@
 	name = "Slime Extractor"
 	},
 /obj/machinery/requests_console{
-	department = "Science";
+	department = "Xenobiology";
 	departmentType = 2;
-	name = "Science Requests Console";
+	name = "Xenobiology Requests Console";
 	pixel_y = 30
 	},
 /turf/simulated/floor{
@@ -68596,6 +68611,7 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/unary/vent_pump/on{
+	canSpawnMice = 0;
 	dir = 4;
 	name = "Air Vent (4)"
 	},
@@ -69451,6 +69467,7 @@
 /area/science/xenobiology/specimen_1)
 "cvd" = (
 /obj/machinery/atmospherics/unary/vent_pump/on{
+	canSpawnMice = 0;
 	dir = 4;
 	name = "Air Vent (4)"
 	},
@@ -69572,6 +69589,7 @@
 /area/science/xenobiology/specimen_4)
 "cvn" = (
 /obj/machinery/atmospherics/unary/vent_pump/on{
+	canSpawnMice = 0;
 	dir = 8;
 	name = "Air Vent (8)"
 	},
@@ -70196,6 +70214,7 @@
 /area/science/xenobiology/specimen_2)
 "cwq" = (
 /obj/machinery/atmospherics/unary/vent_pump/on{
+	canSpawnMice = 0;
 	dir = 4;
 	name = "Air Vent (4)"
 	},
@@ -70289,6 +70308,7 @@
 /area/science/xenobiology/specimen_5)
 "cwx" = (
 /obj/machinery/atmospherics/unary/vent_pump/on{
+	canSpawnMice = 0;
 	dir = 8;
 	name = "Air Vent (8)"
 	},
@@ -70897,6 +70917,7 @@
 /area/science/xenobiology/specimen_3)
 "cxA" = (
 /obj/machinery/atmospherics/unary/vent_pump/on{
+	canSpawnMice = 0;
 	dir = 4;
 	name = "Air Vent (4)"
 	},
@@ -70990,6 +71011,7 @@
 /area/science/xenobiology/specimen_6)
 "cxH" = (
 /obj/machinery/atmospherics/unary/vent_pump/on{
+	canSpawnMice = 0;
 	dir = 8;
 	name = "Air Vent (8)"
 	},
@@ -71238,6 +71260,7 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/unary/vent_pump/on{
+	canSpawnMice = 0;
 	dir = 4;
 	name = "Air Vent (4)"
 	},
@@ -71691,6 +71714,7 @@
 /area/science/xenobiology/specimen_0)
 "cyQ" = (
 /obj/machinery/atmospherics/unary/vent_pump/on{
+	canSpawnMice = 0;
 	dir = 1;
 	name = "Air Vent (1)"
 	},
@@ -75052,9 +75076,8 @@
 	},
 /area/centcom/suppy)
 "cGS" = (
-/obj/machinery/turret{
-	dir = 8;
-	lasertype = /obj/item/projectile/beam/heavylaser
+/obj/machinery/turret/centcomm{
+	dir = 8
 	},
 /turf/unsimulated/floor{
 	dir = 5;
@@ -75204,9 +75227,8 @@
 	},
 /area/centcom/suppy)
 "cHo" = (
-/obj/machinery/turret{
-	dir = 8;
-	lasertype = /obj/item/projectile/beam/heavylaser
+/obj/machinery/turret/centcomm{
+	dir = 8
 	},
 /turf/unsimulated/floor{
 	dir = 6;
@@ -86716,7 +86738,7 @@
 	d2 = 8;
 	icon_state = "0-8"
 	},
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /turf/simulated/floor/plating,
 /area/djstation)
 "dib" = (
@@ -87956,7 +87978,7 @@
 /turf/simulated/floor,
 /area/derelict/solar_control)
 "dkM" = (
-/obj/machinery/power/monitor,
+/obj/machinery/computer/powermonitor,
 /obj/structure/window/reinforced{
 	dir = 4
 	},
@@ -92201,8 +92223,7 @@
 /area/vox_trading_post/kitchen)
 "duT" = (
 /obj/machinery/mineral/unloading_machine{
-	in_dir = 2;
-	out_dir = 1
+	dir = 1
 	},
 /turf/unsimulated/floor/airless,
 /area/mine/explored)
@@ -93373,7 +93394,7 @@
 /area/vox_trading_post/dorms)
 "dxc" = (
 /obj/machinery/door/airlock/silver{
-	name = "Dormatories";
+	name = "Dormitories";
 	req_access_txt = "140"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
@@ -93801,7 +93822,7 @@
 /area/vox_trading_post/dorms)
 "dxY" = (
 /obj/machinery/door/airlock/silver{
-	name = "Dormatories";
+	name = "Dormitories";
 	req_access_txt = "140"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -94083,9 +94104,7 @@
 /area/mine/explored)
 "dyJ" = (
 /obj/machinery/mineral/unloading_machine{
-	icon_state = "unloader-corner";
-	in_dir = 8;
-	out_dir = 4
+	dir = 4
 	},
 /turf/simulated/floor{
 	dir = 4;
@@ -94190,8 +94209,7 @@
 /area/mine/explored)
 "dyW" = (
 /obj/machinery/mineral/unloading_machine{
-	in_dir = 2;
-	out_dir = 1
+	dir = 1
 	},
 /turf/simulated/floor{
 	icon_state = "floorgrime"
@@ -99559,10 +99577,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/simulated/wall/r_wall,
 /area/research_outpost/sample)
-"dJp" = (
-/obj/machinery/anomaly/hyperspectral,
-/turf/simulated/wall/r_wall,
-/area/research_outpost/sample)
 "dJq" = (
 /turf/simulated/wall/r_wall,
 /area/research_outpost/anomaly)
@@ -100808,6 +100822,12 @@
 "dLD" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/machinery/requests_console{
+	department = "Xenoarchaeology";
+	departmentType = 2;
+	name = "Xenoarchaeology Requests Console";
+	pixel_x = -30
 	},
 /turf/simulated/floor{
 	dir = 10;
@@ -103812,7 +103832,7 @@
 	dir = 4
 	},
 /obj/effect/landmark/start{
-	name = "Scientist"
+	name = "Xenobiologist"
 	},
 /turf/simulated/floor{
 	icon_state = "white"
@@ -103878,6 +103898,17 @@
 /obj/machinery/hologram/holopad,
 /turf/simulated/floor,
 /area/hallway/primary/central)
+"kIl" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/effect/landmark/start{
+	name = "Xenobiologist"
+	},
+/turf/simulated/floor{
+	icon_state = "white"
+	},
+/area/science/xenobiology)
 "lzr" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
@@ -103919,6 +103950,22 @@
 /obj/item/weapon/table_parts,
 /turf/simulated/floor/wood,
 /area/crew_quarters/bar)
+"ojo" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	dir = 4
+	},
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/obj/effect/landmark/start{
+	name = "Xenobiologist"
+	},
+/turf/simulated/floor{
+	icon_state = "white"
+	},
+/area/science/xenobiology)
 "olS" = (
 /obj/item/clothing/accessory/storage/bandolier,
 /obj/item/weapon/gun/projectile/shotgun/doublebarrel,
@@ -217896,7 +217943,7 @@ bTr
 bTr
 csH
 csW
-ctz
+kIl
 ctR
 cuj
 cuE
@@ -222414,7 +222461,7 @@ cqZ
 cqZ
 csH
 ctf
-ctD
+ojo
 ctY
 cup
 cuM
@@ -225362,8 +225409,8 @@ aWC
 aYi
 aZB
 baK
-aTy
 bdm
+bdl
 aAp
 bfY
 bhg
@@ -1183243,7 +1183290,7 @@ dGS
 dHn
 dHS
 dID
-dJp
+dJm
 dJQ
 dKw
 dLd

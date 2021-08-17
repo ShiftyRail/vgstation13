@@ -336,7 +336,17 @@
 	name = "chicken suit head"
 	desc = "Bkaw!"
 	icon_state = "chickenhead"
-	item_state = "chickensuit"
+	item_state = "chickenhead"
+	inhand_states = list("left_hand" = 'icons/mob/in-hand/left/clothing.dmi', "right_hand" = 'icons/mob/in-hand/right/clothing.dmi')
+	species_fit = list(INSECT_SHAPED)
+	body_parts_covered = FULL_HEAD|BEARD|HIDEHAIR
+	siemens_coefficient = 2.0
+
+/obj/item/clothing/head/chicken/white
+	name = "white chicken suit head"
+	desc = "Caw!"
+	icon_state = "chickenhead_white"
+	item_state = "chickenhead_white"
 	species_fit = list(INSECT_SHAPED)
 	body_parts_covered = FULL_HEAD|BEARD|HIDEHAIR
 	siemens_coefficient = 2.0
@@ -387,6 +397,12 @@
 	desc = "For those polar chills."
 	icon_state = "polarbearpelt"
 	item_state = "polarbearpelt"
+
+/obj/item/clothing/head/bearpelt/panda
+	name = "panda pelt hat"
+	desc = "Makes you want to chew on bamboo sticks."
+	icon_state = "pandbearpelt"
+	item_state = "pandbearpelt"
 
 /obj/item/clothing/head/wolfpelt
 	name = "wolf pelt hat"

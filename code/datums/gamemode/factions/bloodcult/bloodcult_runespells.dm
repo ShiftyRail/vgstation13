@@ -41,7 +41,7 @@
 			newangle += 360
 	var/matrix/M1 = matrix()
 	var/matrix/M2 = turn(M1.Scale(1,sqrt(distx*distx+disty*disty)),newangle)
-	return anim(target = C, a_icon = 'icons/effects/96x96.dmi', flick_anim = sprite, lay = NARSIE_GLOW, offX = -WORLD_ICON_SIZE, offY = -WORLD_ICON_SIZE, plane = LIGHTING_PLANE, trans = M2)
+	return anim(target = C, a_icon = 'icons/effects/96x96.dmi', flick_anim = sprite, lay = NARSIE_GLOW, offX = -WORLD_ICON_SIZE, offY = -WORLD_ICON_SIZE, plane = ABOVE_LIGHTING_PLANE, trans = M2)
 
 
 /datum/rune_spell //Abstract base. Includes channeled and instant use runes.
@@ -196,6 +196,9 @@
 		qdel(spell_holder)
 	else
 		qdel(src)
+
+/datum/rune_spell/proc/salt_act(var/turf/T)
+	return
 
 /datum/rune_spell/proc/missing_ingredients_count()
 	var/list/missing_ingredients = ingredients.Copy()
@@ -557,7 +560,6 @@
 
 /obj/effect/cult_ritual/cult_communication
 	anchored = 1
-	icon = 'icons/effects/effects.dmi'
 	icon_state = "rune_communication"
 	pixel_y = 8
 	alpha = 200
@@ -809,6 +811,8 @@
 		to_chat(activator, "<span class='warning'>This tome cannot contain any more talismans.</span>")
 	qdel(src)
 
+var/list/converted_minds = list()
+
 //RUNE V
 /datum/rune_spell/blood_cult/conversion
 	name = "Conversion"
@@ -1016,6 +1020,9 @@
 				for(var/obj/item/weapon/implant/loyalty/I in victim)
 					if(I.implanted)
 						acceptance = "Implanted"
+		else if (!victim.mind)
+			acceptance = "Mindless"
+
 		if (jobban_isbanned(victim, CULTIST) || isantagbanned(victim))
 			acceptance = "Banned"
 
@@ -1061,6 +1068,10 @@
 				to_chat(activator, "<span class='sinister'>Given how unstable the ritual is becoming, \The [victim] will surely be consumed entirely by it. They weren't meant to become one of us.</span>")
 				to_chat(victim, "<span class='danger'>Except your past actions have displeased us. You will be our snack before the feast begins. \[You are banned from this role\]</span>")
 				success = CONVERSION_BANNED
+			if ("Mindless")
+				conversion.icon_state = "rune_convert_bad"
+				to_chat(activator, "<span class='sinister'>This mindless creature will be sacrificed.</span>")
+				success = CONVERSION_MINDLESS
 
 		//since we're no longer checking for the cultist's adjacency, let's finish this ritual without a loop
 		sleep(conversion_delay)
@@ -1081,7 +1092,8 @@
 
 		//No matter the end result, counts as progress toward the cult's goals, as long as the victim was an actual player
 		var/datum/faction/bloodcult/cult = find_active_faction_by_type(/datum/faction/bloodcult)
-		if (victim.mind)
+		if (victim.mind && !(victim.mind in converted_minds))
+			converted_minds += victim.mind
 			if (cult)
 				spawn(5)//waiting half a second to make sure that the sacrifice objective won't designate a victim that just refused conversion
 					cult.stage(CULT_ACT_II)
@@ -1183,6 +1195,14 @@
 				victim.boxify(TRUE, FALSE, "cult")
 				abort(RITUALABORT_SACRIFICE)
 
+			if (CONVERSION_MINDLESS)
+
+				conversion.icon_state = ""
+				flick("rune_convert_failure",conversion)
+
+				victim.boxify(TRUE, FALSE, "cult")
+				abort(RITUALABORT_SACRIFICE)
+
 /datum/rune_spell/blood_cult/conversion/proc/convert(var/mob/M, var/mob/converter)
 	var/datum/role/cultist/newCultist = new
 	newCultist.AssignToRole(M.mind,1)
@@ -1221,7 +1241,7 @@
 	pixel_x = -WORLD_ICON_SIZE/2
 	pixel_y = -WORLD_ICON_SIZE/2
 	layer = NARSIE_GLOW
-	plane = LIGHTING_PLANE
+	plane = ABOVE_LIGHTING_PLANE
 	mouse_opacity = 0
 
 /obj/effect/cult_ritual/conversion/proc/Die()
@@ -1274,7 +1294,7 @@
 	qdel(src)
 
 /datum/rune_spell/blood_cult/stun/cast_touch(var/mob/M)
-	anim(target = M, a_icon = 'icons/effects/64x64.dmi', flick_anim = "touch_stun", lay = NARSIE_GLOW, offX = -WORLD_ICON_SIZE/2, offY = -WORLD_ICON_SIZE/2, plane = LIGHTING_PLANE)
+	anim(target = M, a_icon = 'icons/effects/64x64.dmi', flick_anim = "touch_stun", lay = NARSIE_GLOW, offX = -WORLD_ICON_SIZE/2, offY = -WORLD_ICON_SIZE/2, plane = ABOVE_LIGHTING_PLANE)
 
 	playsound(spell_holder, 'sound/effects/stun_talisman.ogg', 25, 0, -5)
 	if (prob(15))//for old times' sake
@@ -1310,7 +1330,7 @@
 	pixel_x = -WORLD_ICON_SIZE/2
 	pixel_y = -WORLD_ICON_SIZE/2
 	layer = NARSIE_GLOW
-	plane = LIGHTING_PLANE
+	plane = ABOVE_LIGHTING_PLANE
 	mouse_opacity = 0
 	var/stun_duration = 5
 
@@ -1384,7 +1404,7 @@ var/list/blind_victims = list()
 	pixel_x = -WORLD_ICON_SIZE/2
 	pixel_y = -WORLD_ICON_SIZE/2
 	layer = NARSIE_GLOW
-	plane = LIGHTING_PLANE
+	plane = ABOVE_LIGHTING_PLANE
 	mouse_opacity = 0
 	var/duration = 5
 	var/hallucination_radius=25
@@ -1429,7 +1449,7 @@ var/list/blind_victims = list()
 				continue
 			to_chat(C, "<span class='danger'>Your vision goes dark, panic and paranoia take their toll on your mind.</span>")
 			shadow(C,T)//shadow trail moving from the spell_holder to the victim
-			anim(target = C, a_icon = 'icons/effects/effects.dmi', flick_anim = "rune_blind", lay = NARSIE_GLOW, plane = LIGHTING_PLANE)
+			anim(target = C, a_icon = 'icons/effects/effects.dmi', flick_anim = "rune_blind", lay = NARSIE_GLOW, plane = ABOVE_LIGHTING_PLANE)
 			if (!(C in blind_victims))
 				C.overlay_fullscreen("blindborder", /obj/abstract/screen/fullscreen/confusion_border)//victims DO still get blinded for a second
 				C.overlay_fullscreen("blindblack", /obj/abstract/screen/fullscreen/black)//which will allow us to subtly reveal the surprise
@@ -1493,7 +1513,7 @@ var/list/blind_victims = list()
 							C.clear_fullscreen("blindblack", animate = 0)
 							C.clear_fullscreen("blindborder", animate = 0)
 							C.clear_fullscreen("blindblind", animate = 0)
-							anim(target = C, a_icon = 'icons/effects/effects.dmi', flick_anim = "rune_blind_remove", lay = NARSIE_GLOW, plane = LIGHTING_PLANE)
+							anim(target = C, a_icon = 'icons/effects/effects.dmi', flick_anim = "rune_blind_remove", lay = NARSIE_GLOW, plane = ABOVE_LIGHTING_PLANE)
 							C.client.images.Remove(my_hallucinated_stuff)//removing images caused by every blind rune used consecutively on that mob
 							sleep(15)
 							C.clear_fullscreen("blindwhite", animate = 0)
@@ -1562,7 +1582,7 @@ var/list/blind_victims = list()
 
 /datum/rune_spell/blood_cult/hide/cast(var/effect_range = rune_effect_range,var/size='icons/effects/480x480.dmi')
 	var/turf/T = get_turf(spell_holder)
-	var/atom/movable/overlay/animation = anim(target = T, a_icon = size, a_icon_state = "rune_conceal", lay = NARSIE_GLOW, offX = -WORLD_ICON_SIZE*effect_range, offY = -WORLD_ICON_SIZE*effect_range, plane = LIGHTING_PLANE)
+	var/atom/movable/overlay/animation = anim(target = T, a_icon = size, a_icon_state = "rune_conceal", lay = NARSIE_GLOW, offX = -WORLD_ICON_SIZE*effect_range, offY = -WORLD_ICON_SIZE*effect_range, plane = ABOVE_LIGHTING_PLANE)
 	animation.alpha = 0
 	animate(animation, alpha = 255, time = 2)
 	animate(alpha = 0, time = 3)
@@ -1632,7 +1652,7 @@ var/list/blind_victims = list()
 	for(var/obj/structure/cult/concealed/S in range(effect_range,T))//only concealed structures trigger the effect
 		var/dist = cheap_pythag(S.x - T.x, S.y - T.y)
 		if (dist <= effect_range+0.5)
-			anim(target = S, a_icon = 'icons/effects/224x224.dmi', flick_anim = "rune_reveal", lay = NARSIE_GLOW, offX = -WORLD_ICON_SIZE*shock_range, offY = -WORLD_ICON_SIZE*shock_range, plane = LIGHTING_PLANE)
+			anim(target = S, a_icon = 'icons/effects/224x224.dmi', flick_anim = "rune_reveal", lay = NARSIE_GLOW, offX = -WORLD_ICON_SIZE*shock_range, offY = -WORLD_ICON_SIZE*shock_range, plane = ABOVE_LIGHTING_PLANE)
 			for(var/mob/living/L in viewers(S))
 				if (iscultist(L))
 					continue
@@ -1650,7 +1670,7 @@ var/list/blind_victims = list()
 		var/dist = cheap_pythag(R.x - T.x, R.y - T.y)
 		if (dist <= effect_range+0.5)
 			if (R.reveal())//only hidden runes trigger the effect
-				anim(target = R, a_icon = 'icons/effects/224x224.dmi', flick_anim = "rune_reveal", lay = NARSIE_GLOW, offX = -WORLD_ICON_SIZE*shock_range, offY = -WORLD_ICON_SIZE*shock_range, plane = LIGHTING_PLANE)
+				anim(target = R, a_icon = 'icons/effects/224x224.dmi', flick_anim = "rune_reveal", lay = NARSIE_GLOW, offX = -WORLD_ICON_SIZE*shock_range, offY = -WORLD_ICON_SIZE*shock_range, plane = ABOVE_LIGHTING_PLANE)
 				for(var/mob/living/L in viewers(R))
 					if (iscultist(L))
 						continue
@@ -1724,18 +1744,16 @@ var/list/blind_victims = list()
 
 /obj/effect/cult_ritual/reveal
 	anchored = 1
-	icon = 'icons/effects/effects.dmi'
 	icon_state = "rune_reveal"
 	layer = NARSIE_GLOW
-	plane = LIGHTING_PLANE
-	mouse_opacity = 0
+	plane = ABOVE_LIGHTING_PLANE
 	flags = PROXMOVE
 	var/mob/living/victim = null
 	var/duration = 2
 
 /obj/effect/cult_ritual/reveal/Destroy()
 	victim = null
-	anim(target = loc, a_icon = 'icons/effects/effects.dmi', flick_anim = "rune_reveal-stop", lay = NARSIE_GLOW, plane = LIGHTING_PLANE)
+	anim(target = loc, a_icon = 'icons/effects/effects.dmi', flick_anim = "rune_reveal-stop", lay = NARSIE_GLOW, plane = ABOVE_LIGHTING_PLANE)
 	..()
 
 /obj/effect/cult_ritual/reveal/New(var/turf/loc,var/mob/living/vic=null,var/dur=2)
@@ -1923,7 +1941,7 @@ var/list/blind_victims = list()
 		qdel(src)
 		return
 
-	anim(target = activator, a_icon = 'icons/effects/64x64.dmi', flick_anim = "rune_robes", lay = NARSIE_GLOW, offX = -WORLD_ICON_SIZE/2, offY = -WORLD_ICON_SIZE/2, plane = LIGHTING_PLANE)
+	anim(target = activator, a_icon = 'icons/effects/64x64.dmi', flick_anim = "rune_robes", lay = NARSIE_GLOW, offX = -WORLD_ICON_SIZE/2, offY = -WORLD_ICON_SIZE/2, plane = ABOVE_LIGHTING_PLANE)
 
 	var/obj/item/weapon/blood_tesseract/BT = new(get_turf(activator))
 	if (istype (spell_holder,/obj/item/weapon/talisman))
@@ -1944,6 +1962,13 @@ var/list/blind_victims = list()
 		if(istype(user_slot, /obj/item/weapon/storage))
 			var/obj/item/weapon/storage/S = user_slot
 			S.close(activator)
+		if(istype(user_slot, /obj/item/clothing/suit/storage))
+			var/obj/item/clothing/suit/storage/S = user_slot
+			S.hold.close(activator)
+		if(istype(user_slot, /obj/item/clothing/under))
+			var/obj/item/clothing/under/U = user_slot
+			for (var/obj/item/clothing/accessory/storage/S in U.accessories)
+				S.hold.close(activator)
 		activator.u_equip(user_slot)
 		user_slot.forceMove(BT)
 
@@ -2029,7 +2054,7 @@ var/list/blind_victims = list()
 					continue
 			if(L.stat != DEAD && iscultist(L))
 				playsound(L, 'sound/effects/fervor.ogg', 50, 0, -2)
-				anim(target = L, a_icon = 'icons/effects/effects.dmi', flick_anim = "rune_fervor", lay = NARSIE_GLOW, plane = LIGHTING_PLANE, direction = L.dir)
+				anim(target = L, a_icon = 'icons/effects/effects.dmi', flick_anim = "rune_fervor", lay = NARSIE_GLOW, plane = ABOVE_LIGHTING_PLANE, direction = L.dir)
 				L.oxyloss = 0
 				L.halloss = 0
 				L.paralysis = 0
@@ -2276,12 +2301,10 @@ var/list/blind_victims = list()
 
 /obj/effect/cult_ritual/feet_portal
 	anchored = 1
-	icon = 'icons/effects/effects.dmi'
 	icon_state = "rune_rejoin"
 	pixel_y = -10
 	layer = ABOVE_OBJ_LAYER
 	plane = OBJ_PLANE
-	mouse_opacity = 0
 	flags = PROXMOVE
 	var/mob/living/caster = null
 	var/turf/source = null
@@ -2396,6 +2419,15 @@ var/list/blind_victims = list()
 
 /datum/rune_spell/blood_cult/portalentrance/midcast_talisman(var/mob/add_cultist)
 	midcast(add_cultist)
+
+/datum/rune_spell/blood_cult/portalentrance/salt_act(var/turf/T)
+	var/turf/destination = null
+	for (var/datum/rune_spell/blood_cult/portalexit/P in bloodcult_exitportals)
+		if (P.network == network)
+			destination = get_turf(P.spell_holder)
+			new /obj/effect/bloodcult_jaunt/traitor(T,null,destination,null)
+			break
+
 
 //RUNE XVII
 var/list/bloodcult_exitportals = list()
@@ -2517,6 +2549,15 @@ var/list/bloodcult_exitportals = list()
 
 	T.attuned_rune = PE.spell_holder
 	T.word_pulse(global_runesets["blood_cult"].words[network])
+
+/datum/rune_spell/blood_cult/portalexit/salt_act(var/turf/T)
+	if (T != spell_holder.loc)
+		var/turf/destination = null
+		for (var/datum/rune_spell/blood_cult/portalexit/P in bloodcult_exitportals)
+			if (P.network == network)
+				destination = get_turf(P.spell_holder)
+			new /obj/effect/bloodcult_jaunt/traitor(T,null,destination,null)
+			break
 
 //RUNE XVIII
 /datum/rune_spell/blood_cult/pulse
@@ -2778,7 +2819,6 @@ var/list/bloodcult_exitportals = list()
 
 /obj/effect/cult_ritual/resurrect
 	anchored = 1
-	icon = 'icons/effects/effects.dmi'
 	icon_state = "rune_resurrect"
 	layer = SHADOW_LAYER
 	plane = ABOVE_HUMAN_PLANE

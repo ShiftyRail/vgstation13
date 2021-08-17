@@ -125,7 +125,7 @@
 				breath = environment.remove_volume(CELL_VOLUME * BREATH_PERCENTAGE)
 
 				// Handle chem smoke effect  -- Doohl
-				for(var/obj/effect/effect/smoke/chem/smoke in view(1, src))
+				for(var/obj/effect/smoke/chem/smoke in view(1, src))
 					if(smoke.reagents.total_volume)
 						smoke.reagents.reaction(src, INGEST)
 						spawn(5)
@@ -424,16 +424,8 @@
 		clear_alert(SCREEN_ALARM_FIRE)
 	//NOTE: the alerts dont reset when youre out of danger. dont blame me,
 	//blame the person who coded them. Temporary fix added.
-	if(client)
-		clear_fullscreens()
-		if(src.eye_blind)
-			overlay_fullscreen("blind", /obj/abstract/screen/fullscreen/blind)
-		if (src.disabilities & NEARSIGHTED)
-			overlay_fullscreen("impaired", /obj/abstract/screen/fullscreen/impaired)
-		if (src.eye_blurry)
-			overlay_fullscreen("blurry", /obj/abstract/screen/fullscreen/blurry)
-		if (src.druggy)
-			overlay_fullscreen("high", /obj/abstract/screen/fullscreen/high)
+
+	standard_damage_overlay_updates()
 
 	if(!isDead())
 		if(machine)

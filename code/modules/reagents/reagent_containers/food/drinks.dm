@@ -26,6 +26,7 @@
 	var/flammable = 0
 	var/flammin = 0
 	var/flammin_color = null
+	var/base_icon_state = "glassbottle"
 
 /obj/item/weapon/reagent_containers/food/drinks/on_reagent_change()
 	if(gulp_size < 5)
@@ -130,6 +131,7 @@
 			M.LAssailant = null
 		else
 			M.LAssailant = user
+			M.assaulted_by(user)
 
 		//The reagents in the bottle splash all over the target, thanks for the idea Nodrak
 		if(src.reagents)
@@ -172,6 +174,7 @@
 			M.LAssailant = null
 		else
 			M.LAssailant = user
+			M.assaulted_by(user)
 
 		if(reagents.total_volume)
 			if (ishuman(M))
@@ -215,16 +218,17 @@
 /obj/item/weapon/reagent_containers/food/drinks/examine(mob/user)
 	..()
 
-	if(!reagents || reagents.total_volume == 0)
-		to_chat(user, "<span class='info'>\The [src] is empty!</span>")
-	else if (reagents.total_volume <= src.volume/4)
-		to_chat(user, "<span class='info'>\The [src] is almost empty!</span>")
-	else if (reagents.total_volume <= src.volume*0.66)
-		to_chat(user, "<span class='info'>\The [src] is about half full, or about half empty!</span>")
-	else if (reagents.total_volume <= src.volume*0.90)
-		to_chat(user, "<span class='info'>\The [src] is almost full!</span>")
-	else
-		to_chat(user, "<span class='info'>\The [src] is full!</span>")
+	if(is_open_container())
+		if(!reagents || reagents.total_volume == 0)
+			to_chat(user, "<span class='info'>\The [src] is empty!</span>")
+		else if (reagents.total_volume <= src.volume/4)
+			to_chat(user, "<span class='info'>\The [src] is almost empty!</span>")
+		else if (reagents.total_volume <= src.volume*0.66)
+			to_chat(user, "<span class='info'>\The [src] is about half full, or about half empty!</span>")
+		else if (reagents.total_volume <= src.volume*0.90)
+			to_chat(user, "<span class='info'>\The [src] is almost full!</span>")
+		else
+			to_chat(user, "<span class='info'>\The [src] is full!</span>")
 
 /obj/item/weapon/reagent_containers/food/drinks/imbibe(mob/user) //Drink the liquid within
 	if(lit)
@@ -235,6 +239,7 @@
 
 /obj/item/weapon/reagent_containers/food/drinks/New()
 	..()
+	base_icon_state = icon_state
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Drinks. END
@@ -564,6 +569,17 @@
 	src.pixel_x = rand(-10, 10) * PIXEL_MULTIPLIER
 	src.pixel_y = rand(-10, 10) * PIXEL_MULTIPLIER
 
+/obj/item/weapon/reagent_containers/food/drinks/zam_nitrofreeze
+	name = "Zam Nitro Freeze"
+	desc = "The mothership has synthesized the coldest of cold drinks! Can your brain handle the freeze?" // It is not wise to chug this whole drink.
+	icon_state = "Zam_NitroFreeze"
+/obj/item/weapon/reagent_containers/food/drinks/zam_nitrofreeze/New()
+	..()
+	reagents.add_reagent(NITROGEN, 25)
+	reagents.add_reagent(FROSTOIL, 15)
+	src.pixel_x = rand(-10, 10) * PIXEL_MULTIPLIER
+	src.pixel_y = rand(-10, 10) * PIXEL_MULTIPLIER
+
 /obj/item/weapon/reagent_containers/food/drinks/soda_cans/mannsdrink
 	name = "Mann's Drink"
 	desc = "The only thing a <B>REAL MAN</B> needs."
@@ -669,14 +685,11 @@
 	//because playsound(user, 'sound/effects/can_open[rand(1,3)].ogg', 50, 1) just wouldn't work. also so badmins can varedit these
 	var/list/open_sounds = list('sound/effects/can_open1.ogg', 'sound/effects/can_open2.ogg', 'sound/effects/can_open3.ogg')
 
+
+
 /obj/item/weapon/reagent_containers/food/drinks/soda_cans/attack_self(var/mob/user)
 	if(!is_open_container())
-		to_chat(user, "You pull back the tab of \the [src] with a satisfying pop.")
-		flags |= OPENCONTAINER
-		src.verbs |= /obj/item/weapon/reagent_containers/verb/empty_contents
-		playsound(user, pick(open_sounds), 50, 1)
-		overlays += image(icon = icon, icon_state = "soda_open")
-		return
+		return pop_open(user)
 	if (reagents.total_volume > 0)
 		return ..()
 	else if (user.a_intent == I_HURT)
@@ -687,6 +700,13 @@
 		user.put_in_active_hand(crushed_can)
 		playsound(user, 'sound/items/can_crushed.ogg', 75, 1)
 		qdel(src)
+
+/obj/item/weapon/reagent_containers/food/drinks/soda_cans/proc/pop_open(var/mob/user)
+	to_chat(user, "You pull back the tab of \the [src] with a satisfying pop.")
+	flags |= OPENCONTAINER
+	src.verbs |= /obj/item/weapon/reagent_containers/verb/empty_contents
+	playsound(user, pick(open_sounds), 50, 1)
+	overlays += image(icon = icon, icon_state = "soda_open")
 
 /obj/item/weapon/reagent_containers/food/drinks/soda_cans/cola
 	name = "Space Cola"
@@ -834,6 +854,19 @@
 	reagents.add_reagent(COCAINE, 1.4)
 	reagents.add_reagent(URANIUM, 3.6)
 	reagents.add_reagent(SPORTDRINK, 20)
+
+/obj/item/weapon/reagent_containers/food/drinks/soda_cans/canned_bread
+	name = "\improper canned bread"
+	desc = "Wow, they have it!"
+	icon_state = "cannedbread"
+	//no actual chemicals in the can
+
+/obj/item/weapon/reagent_containers/food/drinks/soda_cans/canned_bread/pop_open(var/mob/user)
+	. = ..()
+	spawn(0.5 SECONDS)
+		playsound(src, pick('sound/effects/splat_pie1.ogg','sound/effects/splat_pie2.ogg'), 50)
+		var/obj/B = new /obj/item/weapon/reagent_containers/food/snacks/sliceable/bread(get_turf(src))
+		user.put_in_hands(B)
 
 /obj/item/weapon/reagent_containers/food/drinks/coloring
 	name = "\improper vial of food coloring"
@@ -1019,6 +1052,66 @@
 	reagents.add_reagent(BEER, 30)
 	reagents.add_reagent(HYPERZINE, rand(3,5))
 
+// Here be ayy canned drinks
+
+/obj/item/weapon/reagent_containers/food/drinks/soda_cans/zam_sulphuricsplash
+	name = "Zam Sulphuric Splash"
+	desc = "Taste the splashy tang! The flavor will melt your taste buds."
+	icon_state = "Zam_SulphuricSplash"
+/obj/item/weapon/reagent_containers/food/drinks/soda_cans/zam_sulphuricsplash/New()
+	..()
+	reagents.add_reagent(LEMONJUICE, 25)
+	reagents.add_reagent(SACID, 15)
+	src.pixel_x = rand(-10, 10) * PIXEL_MULTIPLIER
+	src.pixel_y = rand(-10, 10) * PIXEL_MULTIPLIER
+
+/obj/item/weapon/reagent_containers/food/drinks/soda_cans/zam_formicfizz
+	name = "Zam Formic Fizz"
+	desc = "Sulphuric Splash is for brainless minions. This is a REAL Grey's drink."
+	icon_state = "Zam_FormicFizz"
+/obj/item/weapon/reagent_containers/food/drinks/soda_cans/zam_formicfizz/New()
+	..()
+	reagents.add_reagent(LIMEJUICE, 25)
+	reagents.add_reagent(FORMIC_ACID, 15)
+	src.pixel_x = rand(-10, 10) * PIXEL_MULTIPLIER
+	src.pixel_y = rand(-10, 10) * PIXEL_MULTIPLIER
+
+/obj/item/weapon/reagent_containers/food/drinks/soda_cans/zam_tannicthunder
+	name = "Zam Tannic Thunder"
+	desc = "Humans and lightweights may find this beverage agreeable if they dislike the stronger acids." // This is supposed to be a way to heal burns caused by consuming the more acidic drinks. But humans take brute damage from ingesting acid for some reason?
+	icon_state = "Zam_TannicThunder"
+/obj/item/weapon/reagent_containers/food/drinks/soda_cans/zam_tannicthunder/New()
+	..()
+	reagents.add_reagent(ORANGEJUICE, 25)
+	reagents.add_reagent(TANNIC_ACID, 15)
+	src.pixel_x = rand(-10, 10) * PIXEL_MULTIPLIER
+	src.pixel_y = rand(-10, 10) * PIXEL_MULTIPLIER
+
+/obj/item/weapon/reagent_containers/food/drinks/soda_cans/zam_trustytea
+	name = "Zam Trusty Tea"
+	desc = "All trusty tea is made with real opok juice. Zam's honor!" // It'll use berry juice until opok juice exists. The tea is a lie...
+	icon_state = "Zam_TrustyTea"
+/obj/item/weapon/reagent_containers/food/drinks/soda_cans/zam_trustytea/New()
+	..()
+	reagents.add_reagent(ACIDTEA, 30)
+	reagents.add_reagent(BERRYJUICE, 5)
+	reagents.add_reagent(CAFFEINE, 5)
+	src.pixel_x = rand(-10, 10) * PIXEL_MULTIPLIER
+	src.pixel_y = rand(-10, 10) * PIXEL_MULTIPLIER
+
+/obj/item/weapon/reagent_containers/food/drinks/soda_cans/zam_polytrinicpalooza
+	name = "Zam Polytrinic Palooza"
+	desc = "This drink has been banned in all mothership controlled territories. Consume at your own risk."
+	icon_state = "Zam_PolytrinicPalooza"
+/obj/item/weapon/reagent_containers/food/drinks/soda_cans/zam_polytrinicpalooza/New()
+	..()
+	reagents.add_reagent(HOOCH, 20)
+	reagents.add_reagent(PACID, 14)
+	reagents.add_reagent(MINDBREAKER, 1)
+	reagents.add_reagent(COCAINE, 5)
+	src.pixel_x = rand(-10, 10) * PIXEL_MULTIPLIER
+	src.pixel_y = rand(-10, 10) * PIXEL_MULTIPLIER
+
 //////////////////////////drinkingglass and shaker//
 //Note by Darem: This code handles the mixing of drinks. New drinks go in three places: In Chemistry-Reagents.dm (for the drink
 //	itself), in Chemistry-Recipes.dm (for the reaction that changes the components into the drink), and here (for the drinking glass
@@ -1164,21 +1257,117 @@
 	..()
 	reagents.add_reagent(KARMOTRINE, 15)
 
-/obj/item/weapon/reagent_containers/food/drinks/britcup
+/obj/item/weapon/reagent_containers/food/drinks/flagmug
+	name = "mug"
+	desc = "A simple mug."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "mug_empty"
+	isGlass = 0
+	amount_per_transfer_from_this = 10
+	volume = 30
+	starting_materials = list(MAT_IRON = 500)
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/on_reagent_change()
+	if (reagents.reagent_list.len > 0)
+		mug_reagent_overlay()
+	else
+		overlays.len = 0
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/britcup
 	name = "\improper cup"
 	desc = "A cup with the British flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
 	icon_state = "britcup"
 	volume = 30
 
-/obj/item/weapon/reagent_containers/food/drinks/americup
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/americup
 	name = "\improper cup"
 	desc = "A cup with the American flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
 	icon_state = "americup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/francecup
+	name = "\improper cup"
+	desc = "A cup with the French flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "francecup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/italycup
+	name = "\improper cup"
+	desc = "A cup with the Italian flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "italycup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/germancup
+	name = "\improper cup"
+	desc = "A cup with the German flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "germancup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/spanishcup
+	name = "\improper cup"
+	desc = "A cup with the Spanish flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "spanishcup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/irelandcup
+	name = "\improper cup"
+	desc = "A cup with the Irish flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "irelandcup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/uruguaycup
+	name = "\improper cup"
+	desc = "A cup with the Uruguayan flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "uruguaycup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/argentinacup
+	name = "\improper cup"
+	desc = "A cup with the Argentine flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "argentinacup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/brasilcup
+	name = "\improper cup"
+	desc = "A cup with the Brasilian flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "brasilcup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/chilecup
+	name = "\improper cup"
+	desc = "A cup with the Chilean flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "chilecup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/uncup
+	name = "\improper cup"
+	desc = "A cup with the United Nations flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "uncup"
+	volume = 30
+
+/obj/item/weapon/reagent_containers/food/drinks/flagmug/eucup
+	name = "\improper cup"
+	desc = "A cup with the European flag emblazoned on it."
+	icon = 'icons/obj/cafe.dmi'
+	icon_state = "eucup"
 	volume = 30
 
 /obj/item/weapon/reagent_containers/food/drinks/gromitmug
 	name = "\improper Gromit Mug"
 	desc = "Gromit Mug."
+	icon = 'icons/obj/cafe.dmi'
 	icon_state = "gromitmug"
 	volume = 30
 

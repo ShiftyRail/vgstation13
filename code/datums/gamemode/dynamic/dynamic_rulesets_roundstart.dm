@@ -41,6 +41,9 @@
 		// Above 3 traitors, we start to cost a bit more.
 	return 1
 
+/datum/dynamic_ruleset/roundstart/traitor/previous_rounds_odds_reduction(var/result)
+	return result
+
 //////////////////////////////////////////////
 //                                          //
 //               CHALLENGERS                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,11 +54,11 @@
 	name = "Syndicate Challengers"
 	role_category = /datum/role/traitor/challenger
 	role_category_override = TRAITOR
-	protected_from_jobs = list("Security Officer", "Merchant", "Warden", "Head of Personnel", "Cyborg", "Detective",
+	protected_from_jobs = list("Security Officer", "Merchant", "Warden", "Head of Personnel", "Detective",
 							"Head of Security", "Captain", "Chief Engineer", "Chief Medical Officer", "Research Director", "Brig Medic")
 	restricted_from_jobs = list("AI","Cyborg","Mobile MMI")
 	required_candidates = 2
-	weight = 1
+	weight = BASE_RULESET_WEIGHT
 	cost = 15
 	var/traitor_threshold = 3
 	var/additional_cost = 5
@@ -65,7 +68,7 @@
 // -- Currently a copypaste of traitors. Could be fixed to be less copy & paste.
 /datum/dynamic_ruleset/roundstart/challengers/choose_candidates()
 	var/traitor_scaling_coeff = 10 - max(0,round(mode.threat_level/10)-5)//above 50 threat level, coeff goes down by 1 for every 10 levels
-	var/num_traitors = min(round(mode.roundstart_pop_ready / traitor_scaling_coeff) + 1, candidates.len)
+	var/num_traitors = clamp(round(mode.roundstart_pop_ready / traitor_scaling_coeff) + 1, required_candidates, candidates.len)
 	for (var/i = 1 to num_traitors)
 		var/mob/M = pick(candidates)
 		assigned += M
@@ -296,16 +299,18 @@
 /datum/dynamic_ruleset/roundstart/cwc/execute()
 	var/datum/faction/wizard/civilwar/wpf/WPF = ticker.mode.CreateFaction(/datum/faction/wizard/civilwar/wpf, null, 1)
 	var/datum/faction/wizard/civilwar/wpf/PFW = ticker.mode.CreateFaction(/datum/faction/wizard/civilwar/pfw, null, 1)
-	for(var/wizards_number = 1 to assigned.len)
-		var/mob/M = pick(assigned)
-		if (M)
-			var/datum/role/wizard/newWizard = new
-			if(wizards_number % 2)
-				WPF.HandleRecruitedRole(newWizard)//this will give the wizard their icon
-			else
-				PFW.HandleRecruitedRole(newWizard)
-			newWizard.AssignToRole(M.mind,1)
-			newWizard.Greet(GREET_MIDROUND)
+	for(var/mob/M in assigned)
+		var/datum/role/wizard/newWizard = new
+		if (WPF.members.len < PFW.members.len)
+			WPF.HandleRecruitedRole(newWizard)
+		else if (WPF.members.len > PFW.members.len)
+			PFW.HandleRecruitedRole(newWizard)
+		else if(prob(50))
+			WPF.HandleRecruitedRole(newWizard)
+		else
+			PFW.HandleRecruitedRole(newWizard)
+		newWizard.AssignToRole(M.mind,1)
+		newWizard.Greet(GREET_MIDROUND)
 	return 1
 
 //////////////////////////////////////////////
@@ -523,7 +528,7 @@ Assign your candidates in choose_candidates() instead.
 /datum/dynamic_ruleset/roundstart/malf/proc/displace_AI(var/mob/new_player/old_AI)
 	old_AI.mind.assigned_role = null
 	var/list/shuffledoccupations = shuffle(job_master.occupations)
-	for(var/level = 1 to 3)
+	for(var/level = 3 to 1 step -1)
 		if(old_AI.mind.assigned_role)
 			break
 		for(var/datum/job/job in shuffledoccupations)
@@ -591,7 +596,7 @@ Assign your candidates in choose_candidates() instead.
 	role_category = null
 	restricted_from_jobs = list()
 	enemy_jobs = list()
-	required_pop = list(0,0,0,0,0,0,0,0,0,0)
+	required_pop = list(30,30,30,30,30,30,30,30,30,30)
 	required_candidates = 0
 	weight = 0.5*BASE_RULESET_WEIGHT
 	cost = 0
@@ -602,6 +607,9 @@ Assign your candidates in choose_candidates() instead.
 /datum/dynamic_ruleset/roundstart/extended/acceptable(population, threat_level)
 	var/probability = clamp(threat_level, 30, 100)
 	return !prob(probability)
+
+/datum/dynamic_ruleset/roundstart/extended/choose_candidates()
+	return TRUE
 
 /datum/dynamic_ruleset/roundstart/extended/execute()
 	message_admins("Starting a round of extended.")
