@@ -174,6 +174,12 @@ var/global/list/ghdel_profiling = list()
 				B.master.target = null
 		beams.len = 0
 	*/
+	if(light_obj)
+		qdel(light_obj)
+		light_obj = null
+	if(shadow_obj)
+		qdel(shadow_obj)
+		shadow_obj = null
 	..()
 
 /atom/proc/assume_air(datum/gas_mixture/giver)

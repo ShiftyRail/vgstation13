@@ -282,11 +282,7 @@
 			A.lazy_invoke_event(/lazy_event/on_post_z_transition, list("user" = A, "from_z" = A.z, "to_z" = move_to_z))
 			for(var/atom/movable/AA in contents_brought)
 				AA.lazy_invoke_event(/lazy_event/on_post_z_transition, list("user" = AA, "from_z" = AA.z, "to_z" = move_to_z))
-/*
-	if(A && A.opacity)
-		has_opaque_atom = TRUE // Make sure to do this before reconsider_lights(), incase we're on instant updates. Guaranteed to be on in this case.
-		reconsider_lights()
-*/
+
 /turf/proc/is_plating()
 	return 0
 /turf/proc/can_place_cables()
@@ -355,16 +351,12 @@
 	var/datum/gas_mixture/env
 
 	var/old_opacity = opacity
-	//var/old_dynamic_lighting = dynamic_lighting
 	var/old_affecting_lights = affecting_lights
-	//var/old_lighting_overlay = lighting_overlay
-	//var/old_corners = corners
 	var/old_density = density
 	var/old_holomap_draw_override = holomap_draw_override
 	var/old_registered_events = registered_events
 
 	var/old_holomap = holomap_data
-//	to_chat(world, "Replacing [src.type] with [N]")
 
 	if(connections)
 		connections.erase_all()

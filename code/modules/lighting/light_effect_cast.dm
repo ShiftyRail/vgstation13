@@ -4,6 +4,7 @@
 #define OFFSET_MULTIPLIER_SIZE 32
 #define CORNER_OFFSET_MULTIPLIER_SIZE 16
 
+// Shadows over light_range 5 haven't been done yet.
 #define MAX_LIGHT_RANGE 5
 
 var/light_power_multiplier = 5
@@ -34,9 +35,13 @@ var/light_power_multiplier = 5
 
 	//cap light range to the max
 	light_range = min(MAX_LIGHT_RANGE, light_range)
-
-	alpha = min(255,max(0,round(light_power*light_power_multiplier*25)))
 	light_color = (holder.light_color || light_color)
+
+	if (light_swallowed > 0)
+		light_range = 1
+		light_power = 1
+		if (light_type != LIGHT_DIRECTIONAL)
+			light_type = LIGHT_SOFT_FLICKER
 
 	if(light_type == LIGHT_SOFT_FLICKER)
 		alpha = initial(alpha)
@@ -134,20 +139,28 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 		pixel_x = -(world.icon_size * light_range)
 		pixel_y = -(world.icon_size * light_range)
 
-	icon_state = "white"
+	// This to avoid TILE_BOUND corner light effects while keeping smooth movement for movable light sources
+	// Basically, for movable lights, we always do white square + masking
+	// But for fixed lights, we wall-shadows-only lights do not cast a white square
+	// Probably not the smartest way around this
+	if (holder.lighting_flags & MOVABLE_LIGHT)
+		icon_state = "white"
+	else
+		icon_state = base_light_color_state
 
-	var/image/I = image(icon)
-	I.layer = HIGHEST_LIGHTING_LAYER
-	I.icon_state = "overlay"
-	if(light_type == LIGHT_DIRECTIONAL)
-		var/turf/next_turf = get_step(src, dir)
-		for(var/i = 1 to 3)
-			if(CheckOcclusion(next_turf))
-				I.icon_state = "[I.icon_state]_[i]"
-				break
-			next_turf = get_step(next_turf, dir)
+	if (icon_state == "white") // This mask only makes sense if we are casting a white light
+		alpha = min(255,max(0,round(light_power*light_power_multiplier*25)))
+		var/image/I = image(icon)
+		I.icon_state = "overlay"
+		if(light_type == LIGHT_DIRECTIONAL)
+			var/turf/next_turf = get_step(src, dir)
+			for(var/i = 1 to 3)
+				if(CheckOcclusion(next_turf))
+					I.icon_state = "[I.icon_state]_[i]"
+					break
+				next_turf = get_step(next_turf, dir)
 
-	temp_appearance += I
+		temp_appearance += I
 
 // On how many turfs do we cast a shadow ?
 /atom/movable/light/proc/cast_shadows()
@@ -158,25 +171,6 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 	for(var/turf/T in view(light_range, src))
 		if(CheckOcclusion(T))
 			CastShadow(T)
-
-// We need to mask the light of this second light atom if it leaks outside of what it is supposed to illuminate.
-// Yes, this is stupid. Having two light atoms makes everything extra complicated.
-/atom/movable/light/shadow/cast_shadows()
-	. = ..()
-	var/list/masked_turfs = range(round((light_range-2)/2)) - view(light_range)
-	var/image/I
-	for (var/turf/T in masked_turfs)
-		// Prevent it from blacking out smooth lighting over walls.
-		if (CheckOcclusion(T))
-			continue
-		var/x_offset = T.x - x
-		var/y_offset = T.y - y
-		I = image('icons/lighting/mask.dmi', loc = get_turf(src))
-		I.icon_state = "default"
-		I.pixel_x = (world.icon_size * light_range) + (x_offset * world.icon_size)
-		I.pixel_y = (world.icon_size * light_range) + (y_offset * world.icon_size)
-		I.layer = ABOVE_LIGHTING_LAYER
-		temp_appearance += I
 
 /atom/movable/light/proc/cast_main_shadow(var/turf/target_turf, var/x_offset, var/y_offset)
 
@@ -296,6 +290,8 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 	for(var/turf/T in affecting_turfs)
 		T.affecting_lights |= src
 
+/atom/movable/light/shadow/cast_main_shadow(var/turf/target_turf, var/x_offset, var/y_offset)
+	return
 
 /atom/movable/light/proc/cast_turf_shadow(var/turf/target_turf, var/x_offset, var/y_offset)
 	var/targ_dir = get_dir(target_turf, src)
@@ -303,7 +299,7 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 	var/blocking_dirs = 0
 	for(var/d in cardinal)
 		var/turf/T = get_step(target_turf, d)
-		if(CheckOcclusion(T))
+		if(CheckOcclusion(T) && (T in view(light_range, src)))
 			blocking_dirs |= d
 
 	// The "edge" of the light, with images consisting of directional sprites from wall_lighting.dmi "pushed" in the correct direction.
@@ -311,14 +307,18 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 	I.icon_state = "[blocking_dirs]-[targ_dir]"
 	I.pixel_x = (world.icon_size * light_range) + (x_offset * world.icon_size)
 	I.pixel_y = (world.icon_size * light_range) + (y_offset * world.icon_size)
-	I.layer = ABOVE_LIGHTING_LAYER
+	I.layer = HIGHEST_LIGHTING_LAYER
 	temp_appearance += I
 
 /atom/movable/light/proc/update_appearance()
 	overlays = temp_appearance
 	temp_appearance = null
-	var/list/RGB = rgb2num(light_color)
-	color = rgb(round(RGB[1]/2), round(RGB[2]/2), round(RGB[3]/2))
+	// Because movable lights do this two-lights-sources thing
+	if (holder.lighting_flags & MOVABLE_LIGHT)
+		var/list/RGB = rgb2num(light_color)
+		color = rgb(round(RGB[1]/2), round(RGB[2]/2), round(RGB[3]/2))
+	else
+		color = light_color
 
 /atom/movable/light/proc/CastShadow(var/turf/target_turf)
 	//get the x and y offsets for how far the target turf is from the light
@@ -336,15 +336,7 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 /atom/movable/light/proc/CheckOcclusion(var/turf/T)
 	if(!istype(T))
 		return 0
-
-	if(T.opacity)
-		return 1
-
-	for(var/obj/machinery/door/D in T)
-		if(D.opacity)
-			return 1
-
-	return 0
+	return T.check_blocks_light()
 
 // -- This is the UGLY part.
 

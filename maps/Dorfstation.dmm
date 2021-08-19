@@ -16002,7 +16002,6 @@
 	desc = "A specially-reinforced camera with a long lasting battery, used to monitor the bomb testing site. An external light is attached to the top.";
 	dir = 8;
 	invuln = 1;
-	light = null;
 	luminosity = 3;
 	name = "Hardened Bomb-Test Camera";
 	network = list("Toxins");

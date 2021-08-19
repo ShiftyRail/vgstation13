@@ -115,7 +115,8 @@
 
 #define SUNGLASSES_TARGET_ALPHA 5
 
-// Lighting flags
+// Lighting flags, see `code/modules/lighting/__lighting_docs.dm`
 #define FOLLOW_PIXEL_OFFSET 1
 #define NO_LUMINOSITY 2
 #define IS_LIGHT_SOURCE 4
+#define MOVABLE_LIGHT 8
