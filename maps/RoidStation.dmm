@@ -26287,7 +26287,7 @@
 	id_tag = "QMLoad2";
 	in_reverse = 1
 	},
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/supply/storage)
 "aXB" = (
 /obj/machinery/disposal/deliveryChute{
@@ -33252,7 +33252,7 @@
 	dir = 4
 	},
 /obj/machinery/hologram/holopad,
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/medical/sleeper)
 "bji" = (
 /obj/structure/cable{
@@ -40490,7 +40490,7 @@
 /obj/structure/window/reinforced{
 	dir = 8
 	},
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/engineering/supermatter_room)
 "bvY" = (
 /obj/effect/decal/warning_stripes{
@@ -40534,7 +40534,7 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/engineering/supermatter_room)
 "bwb" = (
 /obj/effect/decal/cleanable/dirt,
@@ -45862,7 +45862,7 @@
 	dir = 1;
 	scrub_CO2 = 0
 	},
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/hallway/primary/starboard)
 "bFG" = (
 /obj/machinery/light{
@@ -46272,7 +46272,7 @@
 /obj/structure/window/reinforced{
 	dir = 8
 	},
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/engineering/supermatter_room)
 "bGw" = (
 /obj/machinery/atmospherics/pipe/simple/insulated/hidden/blue,
@@ -46305,7 +46305,7 @@
 	dir = 4
 	},
 /obj/structure/window/reinforced,
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/engineering/supermatter_room)
 "bGz" = (
 /turf/simulated/wall/r_wall,
@@ -53953,7 +53953,7 @@
 /obj/machinery/atmospherics/unary/vent_pump{
 	on = 1
 	},
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/hallway/primary/starboard)
 "bTp" = (
 /obj/machinery/door/airlock/command{
@@ -55150,7 +55150,7 @@
 	dir = 1;
 	pixel_y = 1
 	},
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/hallway/primary/starboard)
 "bVs" = (
 /obj/structure/grille,
@@ -55186,7 +55186,7 @@
 	dir = 1;
 	pixel_y = 1
 	},
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/hallway/primary/starboard)
 "bVw" = (
 /obj/structure/closet/emcloset,
@@ -57753,7 +57753,7 @@
 	dir = 4
 	},
 /obj/structure/window/reinforced,
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/hallway/primary/starboard)
 "bZO" = (
 /obj/structure/flora/ausbushes/fullgrass,
@@ -72463,7 +72463,7 @@
 /area/crew_quarters/bar)
 "cyU" = (
 /obj/machinery/hologram/holopad,
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/crew_quarters/bar)
 "cyV" = (
 /obj/machinery/camera{
@@ -81224,7 +81224,7 @@
 	id_tag = "CaptOffice";
 	name = "Privacy Shutters"
 	},
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/crew_quarters/captain)
 "cOZ" = (
 /obj/structure/cable{
@@ -81264,7 +81264,7 @@
 	id_tag = "CaptOffice";
 	name = "Privacy Shutters"
 	},
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/crew_quarters/captain)
 "cPb" = (
 /turf/simulated/floor,
@@ -82875,7 +82875,7 @@
 /area/crew_quarters/sleep)
 "cSo" = (
 /obj/item/weapon/coin/silver,
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/crew_quarters/sleep)
 "cSp" = (
 /obj/structure/window/reinforced{
@@ -149053,7 +149053,7 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/hallway/primary/starboard)
 "fJh" = (
 /obj/effect/decal/cleanable/dirt,
@@ -149166,7 +149166,7 @@
 	id_tag = "CaptOffice";
 	name = "Privacy Shutters"
 	},
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/crew_quarters/captain)
 "hdr" = (
 /obj/machinery/light{
@@ -149753,7 +149753,7 @@
 /obj/structure/window/reinforced{
 	dir = 8
 	},
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/hallway/primary/starboard)
 "pUl" = (
 /turf/simulated/floor{
@@ -149907,7 +149907,7 @@
 	},
 /obj/structure/grille,
 /obj/structure/window/reinforced,
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/science/lab)
 "sER" = (
 /obj/machinery/light/small,
@@ -149958,7 +149958,7 @@
 /obj/structure/window/reinforced{
 	dir = 4
 	},
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/hallway/primary/starboard)
 "toB" = (
 /obj/structure/hanging_lantern{
@@ -150258,7 +150258,7 @@
 /obj/machinery/conveyor{
 	id_tag = "QMLoad"
 	},
-/turf/simulated/floor/light/floor_tile,
+/turf/simulated/floor/light,
 /area/supply/storage)
 
 (1,1,1) = {"
