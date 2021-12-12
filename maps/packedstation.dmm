@@ -5506,6 +5506,9 @@
 /obj/structure/bed/chair/wood/wings{
 	dir = 8
 	},
+/obj/machinery/light/small{
+	dir = 1
+	},
 /turf/simulated/floor/wood,
 /area/crew_quarters/courtroom)
 "ajw" = (
@@ -6939,6 +6942,7 @@
 	dir = 1;
 	pixel_y = -22
 	},
+/obj/machinery/light/small,
 /turf/simulated/floor/wood,
 /area/crew_quarters/courtroom)
 "alU" = (
@@ -8643,6 +8647,9 @@
 	pixel_x = 24;
 	pixel_y = -9
 	},
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/simulated/floor{
 	dir = 9;
 	icon_state = "redfull"
@@ -8733,6 +8740,9 @@
 	frequency = 1475;
 	name = "Station Intercom (Security)";
 	pixel_y = 35
+	},
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/simulated/floor{
 	icon_state = "dark"
@@ -8940,6 +8950,9 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
 	dir = 1;
 	initialize_directions = 11
+	},
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/simulated/floor{
 	dir = 10;
@@ -11737,6 +11750,7 @@
 /obj/machinery/media/receiver/boombox/wallmount/muzak{
 	pixel_y = -24
 	},
+/obj/machinery/light,
 /turf/simulated/floor{
 	icon_state = "brown"
 	},
@@ -11933,6 +11947,13 @@
 /obj/item/weapon/pen,
 /obj/machinery/recharger,
 /obj/item/weapon/stamp/warden,
+/obj/machinery/light{
+	dir = 4
+	},
+/obj/item/weapon/paper_bin/red{
+	pixel_x = -3;
+	pixel_y = 7
+	},
 /turf/simulated/floor{
 	dir = 9;
 	icon_state = "redfull"
@@ -17662,6 +17683,14 @@
 	pixel_x = -2;
 	pixel_y = 4
 	},
+<<<<<<< HEAD
+=======
+/obj/machinery/light/small{
+	dir = 8
+	},
+/obj/item/weapon/folder/purple,
+/obj/item/weapon/stamp/rd,
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 /turf/simulated/floor{
 	dir = 5;
 	icon_state = "cafeteria"
@@ -18235,6 +18264,9 @@
 	d2 = 8;
 	icon_state = "1-8"
 	},
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/simulated/floor{
 	dir = 6;
 	icon_state = "neutralcorner"
@@ -18658,6 +18690,7 @@
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
+/obj/machinery/light/small,
 /turf/simulated/floor{
 	dir = 5;
 	icon_state = "cafeteria"
@@ -21381,6 +21414,7 @@
 	pixel_y = -22
 	},
 /obj/structure/flora/pottedplant/random,
+/obj/machinery/light,
 /turf/simulated/floor,
 /area/hallway/secondary/exit)
 "aKv" = (
@@ -22274,6 +22308,17 @@
 	normaldoorcontrol = 1;
 	pixel_x = -25
 	},
+<<<<<<< HEAD
+=======
+/obj/structure/cable/yellow{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+/obj/machinery/light/small{
+	dir = 8
+	},
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -26350,6 +26395,9 @@
 	icon_state = "warning";
 	tag = "icon-warning (WEST)"
 	},
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/simulated/floor,
 /area/hallway/secondary/entry)
 "aTo" = (
@@ -27309,6 +27357,9 @@
 /obj/structure/mopbucket,
 /obj/item/weapon/mop,
 /obj/effect/decal/cleanable/dirt,
+/obj/machinery/light/small{
+	dir = 4
+	},
 /turf/simulated/floor/plating,
 /area/janitor)
 "aUU" = (
@@ -27805,6 +27856,9 @@
 /obj/item/critter_cage,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 5
+	},
+/obj/machinery/light/small{
+	dir = 8
 	},
 /turf/simulated/floor{
 	dir = 8;
@@ -30363,7 +30417,14 @@
 	d2 = 8;
 	icon_state = "0-8"
 	},
+<<<<<<< HEAD
 /obj/machinery/photocopier,
+=======
+/obj/machinery/light/small{
+	dir = 4;
+	on = 1
+	},
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 /turf/simulated/floor{
 	icon_state = "cmo"
 	},
@@ -31552,6 +31613,7 @@
 /obj/structure/bed/chair/office/dark{
 	dir = 1
 	},
+/obj/machinery/light/small,
 /turf/simulated/floor{
 	dir = 8;
 	icon_state = "barber"
@@ -36087,6 +36149,9 @@
 /obj/machinery/atmospherics/pipe/simple/cyan/visible{
 	dir = 4
 	},
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/simulated/floor,
 /area/engineering/atmos)
 "bjE" = (
@@ -37274,6 +37339,9 @@
 	sensors = list("n2_sensor" = "Tank")
 	},
 /obj/machinery/atmospherics/pipe/simple/filtering/visible{
+	dir = 4
+	},
+/obj/machinery/light{
 	dir = 4
 	},
 /turf/simulated/floor{
@@ -39814,6 +39882,9 @@
 	d1 = 1;
 	d2 = 4;
 	icon_state = "1-4"
+	},
+/obj/machinery/light{
+	dir = 8
 	},
 /turf/simulated/floor{
 	dir = 8;
@@ -42444,6 +42515,9 @@
 	dir = 4;
 	icon_state = "warning";
 	tag = "icon-warning (EAST)"
+	},
+/obj/machinery/light{
+	dir = 8
 	},
 /turf/simulated/floor,
 /area/engineering/engine)
@@ -77058,6 +77132,23 @@
 	icon_state = "asteroidplating"
 	},
 /area/vox_trading_post/trading_floor)
+"diH" = (
+/obj/effect/decal/warning_stripes{
+	dir = 4;
+	icon_state = "warning"
+	},
+/obj/structure/bed/chair{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/simulated/floor{
+	dir = 4;
+	icon_state = "arrival"
+	},
+/area/hallway/secondary/entry)
 "dwV" = (
 /obj/machinery/atmospherics/pipe/layer_adapter/scrubbers/hidden,
 /turf/simulated/floor/vox{
@@ -77209,6 +77300,23 @@
 	icon_state = "showroomfloor"
 	},
 /area/shuttle/trade/start)
+"gKj" = (
+/obj/effect/decal/warning_stripes{
+	icon_state = "bot"
+	},
+/obj/machinery/atmospherics/unary/portables_connector,
+/obj/effect/decal/warning_stripes{
+	icon_state = "warning";
+	tag = "icon-warning"
+	},
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/simulated/floor{
+	dir = 6;
+	icon_state = "dark"
+	},
+/area/engineering/burn_chamber)
 "gMY" = (
 /obj/structure/closet/crate,
 /obj/item/weapon/table_parts,
@@ -77419,6 +77527,21 @@
 	icon_state = "asteroidplating"
 	},
 /area/vox_trading_post/storage_1)
+"mZN" = (
+/obj/structure/cable/yellow{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/simulated/floor{
+	dir = 5;
+	icon_state = "whitehall"
+	},
+/area/science/hallway)
 "nfE" = (
 /obj/effect/step_trigger/teleporter/random{
 	affect_ghosts = 1;
@@ -77524,6 +77647,15 @@
 	icon_state = "showroomfloor"
 	},
 /area/shuttle/trade/start)
+"qVX" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	dir = 4
+	},
+/obj/machinery/light/small,
+/turf/simulated/floor{
+	icon_state = "white"
+	},
+/area/medical/medbay)
 "rgr" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden{
 	dir = 8
@@ -77672,12 +77804,22 @@
 	},
 /turf/space,
 /area/vox_trading_post/solararray)
+<<<<<<< HEAD
 "uvJ" = (
 /obj/structure/shuttle/diag_wall/smooth{
 	dir = 8
 	},
 /turf/space,
 /area/shuttle/escape/centcom)
+=======
+"unb" = (
+/obj/machinery/light/small{
+	dir = 4;
+	on = 1
+	},
+/turf/simulated/floor/plating,
+/area/maintenance/port)
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 "uNL" = (
 /obj/effect/glowshroom/single,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
@@ -77687,10 +77829,29 @@
 	icon_state = "asteroidplating"
 	},
 /area/vox_trading_post/trading_floor)
+<<<<<<< HEAD
 "uVs" = (
 /obj/structure/shuttle/diag_wall/smooth,
 /turf/space,
 /area/shuttle/arrival/station)
+=======
+"vhO" = (
+/obj/effect/decal/warning_stripes{
+	dir = 4;
+	icon_state = "warning";
+	tag = "icon-warning (EAST)"
+	},
+/obj/effect/decal/warning_stripes{
+	dir = 8;
+	icon_state = "warning";
+	tag = "icon-warning (WEST)"
+	},
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/simulated/floor,
+/area/engineering/engine)
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 "vuT" = (
 /obj/structure/table/reinforced,
 /obj/structure/window/reinforced{
@@ -77772,6 +77933,18 @@
 	icon_state = "asteroidplating"
 	},
 /area/vox_trading_post/docking)
+"xdK" = (
+/obj/machinery/atmospherics/pipe/simple/insulated/hidden/blue{
+	dir = 1
+	},
+/obj/effect/decal/warning_stripes/pathmarkers/blue{
+	dir = 1;
+	tag = "icon-pathmarker (NORTH)"
+	},
+/obj/effect/decal/warning_stripes/pathmarkers/blue,
+/obj/machinery/light,
+/turf/simulated/floor,
+/area/engineering/burn_chamber)
 "xnt" = (
 /obj/structure/reagent_dispensers/watertank,
 /turf/simulated/floor/vox{
@@ -172462,7 +172635,7 @@ aNL
 aPh
 aQw
 aRP
-aRP
+diH
 aRP
 aWc
 aXd
@@ -178009,7 +178182,7 @@ aYp
 aYp
 aYp
 aYp
-aYp
+unb
 aYp
 bob
 box
@@ -187058,7 +187231,7 @@ brM
 bsk
 bsG
 btm
-btm
+vhO
 bup
 bun
 buZ
@@ -193580,14 +193753,14 @@ bpX
 bpX
 bpX
 bpX
-brX
+gKj
 bsu
 bsR
 btx
 btZ
 buw
 buS
-bvf
+xdK
 bvm
 bvx
 bvD
@@ -204569,7 +204742,7 @@ atU
 auN
 avM
 awF
-asS
+mZN
 ayv
 azr
 aAD
@@ -204592,7 +204765,7 @@ aHm
 aSP
 aUn
 aMb
-aNm
+qVX
 aXR
 aYR
 baa

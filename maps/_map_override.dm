@@ -62,6 +62,7 @@
 		#undef MAP_OVERRIDE
 		#include "lowfatbagel.dm"
 		#define MAP_OVERRIDE 12
+<<<<<<< HEAD
 	#elif MAP_OVERRIDE == 13
 		#undef MAP_OVERRIDE
 		#include "island.dm"
@@ -70,5 +71,7 @@
 		#undef MAP_OVERRIDE
 		#include "line.dm"
 		#define MAP_OVERRIDE 13
+=======
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 	#endif
 #endif

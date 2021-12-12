@@ -602,6 +602,9 @@
 /area/security/perma)
 "aba" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/simulated/floor{
 	icon_state = "floorgrime"
 	},
@@ -1060,6 +1063,9 @@
 	pixel_x = 24
 	},
 /obj/machinery/atmospherics/unary/vent_scrubber/on,
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/simulated/floor{
 	icon_state = "floorgrime"
 	},
@@ -2006,6 +2012,9 @@
 /area/security/gas_chamber)
 "ads" = (
 /obj/structure/closet/emcloset,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/simulated/floor{
 	icon_state = "floorgrime"
 	},
@@ -2487,9 +2496,6 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/general/hidden,
-/obj/machinery/light{
-	dir = 1
-	},
 /turf/simulated/floor{
 	icon_state = "floorgrime"
 	},
@@ -2532,6 +2538,9 @@
 	pixel_x = 24
 	},
 /obj/structure/bed/chair,
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/simulated/floor{
 	dir = 4;
 	icon_state = "red"
@@ -3122,6 +3131,9 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden{
 	dir = 4;
 	initialize_directions = 11
+	},
+/obj/machinery/light{
+	dir = 4
 	},
 /turf/simulated/floor{
 	dir = 4;
@@ -4069,6 +4081,9 @@
 /obj/machinery/atmospherics/pipe/simple/general/hidden,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 4
+	},
+/obj/machinery/light{
+	dir = 8
 	},
 /turf/simulated/floor{
 	dir = 8;
@@ -6447,6 +6462,7 @@
 /area/security/main)
 "akg" = (
 /obj/structure/table,
+/obj/item/device/flashlight/lamp/green,
 /turf/simulated/floor/carpet{
 	icon_state = "carpetnoconnect"
 	},
@@ -7496,6 +7512,7 @@
 	},
 /obj/structure/table/reinforced,
 /obj/item/weapon/book/manual/security_space_law,
+/obj/item/device/flashlight/lamp/green,
 /turf/simulated/floor{
 	dir = 4;
 	icon_state = "darkred";
@@ -9063,6 +9080,9 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
 	dir = 4
 	},
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/simulated/floor{
 	dir = 1;
 	icon_state = "red"
@@ -9080,6 +9100,9 @@
 "aoG" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden{
 	dir = 8
+	},
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/simulated/floor{
 	dir = 1;
@@ -11140,6 +11163,9 @@
 /obj/item/weapon/stamp/judge{
 	pixel_x = 5;
 	pixel_y = 5
+	},
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/simulated/floor/wood,
 /area/crew_quarters/courtroom)
@@ -15392,6 +15418,7 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
+/obj/machinery/light,
 /turf/simulated/floor{
 	icon_state = "red"
 	},
@@ -15428,8 +15455,15 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
+<<<<<<< HEAD
 /obj/machinery/station_map{
 	dir = 2
+=======
+/obj/structure/cable/yellow{
+	d1 = 1;
+	d2 = 8;
+	icon_state = "1-8"
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 	},
 /turf/simulated/floor{
 	icon_state = "red"
@@ -15569,6 +15603,7 @@
 	dir = 8;
 	on = 1
 	},
+/obj/machinery/light,
 /turf/simulated/floor/wood,
 /area/crew_quarters/courtroom)
 "azE" = (
@@ -19408,6 +19443,9 @@
 	name = "Station Intercom (General)";
 	pixel_x = 31
 	},
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/simulated/floor{
 	dir = 4;
 	icon_state = "redcorner"
@@ -19878,9 +19916,6 @@
 	d1 = 2;
 	d2 = 8;
 	icon_state = "2-8"
-	},
-/obj/machinery/light{
-	dir = 1
 	},
 /obj/structure/cable/yellow{
 	d2 = 2;
@@ -21750,6 +21785,9 @@
 	dir = 8;
 	pixel_x = 24
 	},
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/simulated/floor{
 	icon_state = "bluecorner"
 	},
@@ -21942,6 +21980,7 @@
 	icon_state = "warning";
 	tag = "icon-warning"
 	},
+/obj/machinery/light,
 /turf/simulated/floor,
 /area/hallway/secondary/entry)
 "aOf" = (
@@ -23040,6 +23079,9 @@
 	pixel_y = 30
 	},
 /obj/item/device/assembly/igniter,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/simulated/floor,
 /area/storage/primary)
 "aQG" = (
@@ -25895,6 +25937,7 @@
 "aWi" = (
 /obj/structure/table,
 /obj/item/weapon/storage/belt/slim,
+/obj/machinery/light,
 /turf/simulated/floor,
 /area/storage/primary)
 "aWj" = (
@@ -26353,6 +26396,9 @@
 	name = "Kitchen Cold Room"
 	},
 /obj/structure/closet/secure_closet/freezer/fridge,
+/obj/machinery/light/small{
+	dir = 1
+	},
 /turf/simulated/floor{
 	icon_state = "showroomfloor"
 	},
@@ -26722,6 +26768,15 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
+<<<<<<< HEAD
+=======
+/obj/structure/cable/yellow{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/obj/machinery/light,
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 /turf/simulated/floor{
 	icon_state = "neutralcorner"
 	},
@@ -27512,6 +27567,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 6
 	},
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/simulated/floor,
 /area/hallway/primary/port)
 "aZC" = (
@@ -27559,6 +27617,9 @@
 	},
 /obj/machinery/newscaster{
 	pixel_y = 32
+	},
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/simulated/floor,
 /area/hallway/primary/port)
@@ -28296,6 +28357,9 @@
 /area/hallway/secondary/entry)
 "bbo" = (
 /obj/structure/table/woodentable,
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/simulated/floor{
 	icon_state = "grimy"
 	},
@@ -28918,6 +28982,9 @@
 	dir = 1;
 	icon_state = "warning";
 	tag = "icon-warning (NORTH)"
+	},
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/simulated/floor,
 /area/hallway/secondary/entry)
@@ -30143,12 +30210,16 @@
 /turf/simulated/floor/plating,
 /area/storage/tools)
 "bfb" = (
+/obj/effect/decal/warning_stripes{
+	dir = 8;
+	icon_state = "warning";
+	tag = "icon-warning (WEST)"
+	},
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/simulated/floor,
-/area/hallway/primary/central)
+/area/hallway/secondary/entry)
 "bfc" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/structure/cable/yellow{
@@ -30663,6 +30734,9 @@
 	dir = 4;
 	pixel_x = -22
 	},
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/simulated/floor{
 	icon_state = "dark"
 	},
@@ -30922,6 +30996,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
+	},
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/simulated/floor{
 	dir = 4;
@@ -31481,6 +31558,9 @@
 /obj/machinery/firealarm{
 	pixel_y = 24
 	},
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/simulated/floor{
 	icon_state = "cafeteria"
 	},
@@ -31692,10 +31772,6 @@
 "bie" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
-	},
-/obj/item/device/radio/intercom{
-	name = "Station Intercom (General)";
-	pixel_y = -29
 	},
 /obj/machinery/light,
 /turf/simulated/floor,
@@ -35287,6 +35363,9 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
 	dir = 8
 	},
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/simulated/floor,
 /area/hallway/primary/central)
 "boW" = (
@@ -35584,6 +35663,7 @@
 /obj/item/device/radio/intercom{
 	pixel_y = -30
 	},
+/obj/machinery/light,
 /turf/simulated/floor{
 	dir = 5;
 	icon_state = "cafeteria"
@@ -35614,6 +35694,7 @@
 /obj/structure/disposalpipe/trunk{
 	dir = 8
 	},
+/obj/machinery/light,
 /turf/simulated/floor{
 	dir = 5;
 	icon_state = "cafeteria"
@@ -37137,19 +37218,7 @@
 	icon_state = "whitecorner"
 	},
 /area/hallway/primary/starboard)
-"bsG" = (
-/obj/machinery/camera{
-	name = "Starboard Primary Hallway Kitchen"
-	},
-/turf/simulated/floor{
-	dir = 1;
-	icon_state = "whitecorner"
-	},
-/area/hallway/primary/starboard)
 "bsH" = (
-/obj/item/device/radio/intercom{
-	pixel_y = 25
-	},
 /turf/simulated/floor{
 	dir = 1;
 	icon_state = "whitecorner"
@@ -37760,12 +37829,14 @@
 /turf/simulated/floor,
 /area/hallway/primary/starboard)
 "bua" = (
-/obj/machinery/door/firedoor/border_only{
-	dir = 8;
-	name = "Firelock West"
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/simulated/floor,
-/area/hallway/primary/starboard)
+/area/hallway/primary/port)
 "bub" = (
 /obj/machinery/atmospherics/unary/vent_scrubber/on{
 	dir = 4
@@ -37792,6 +37863,9 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 4;
 	name = "Firelock East"
+	},
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/simulated/floor,
 /area/hallway/primary/starboard)
@@ -37834,6 +37908,9 @@
 	pixel_y = 24
 	},
 /obj/machinery/atmospherics/unary/vent_scrubber/on,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/simulated/floor,
 /area/hallway/primary/starboard)
 "bul" = (
@@ -37927,6 +38004,9 @@
 	pixel_x = -30
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/simulated/floor,
 /area/hallway/secondary/entry)
 "buv" = (
@@ -38205,6 +38285,9 @@
 /obj/structure/painting/random{
 	pixel_x = 32
 	},
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/simulated/floor/wood,
 /area/crew_quarters/captain)
 "bvc" = (
@@ -38235,6 +38318,9 @@
 	pixel_x = -32
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/simulated/floor{
 	dir = 8;
 	icon_state = "bluecorner"
@@ -38893,10 +38979,10 @@
 	},
 /area/hallway/primary/starboard)
 "bwt" = (
-/obj/machinery/light,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
+/obj/machinery/light,
 /turf/simulated/floor,
 /area/hallway/primary/starboard)
 "bwu" = (
@@ -38930,6 +39016,7 @@
 	name = "Station Intercom (General)";
 	pixel_y = -29
 	},
+/obj/machinery/light,
 /turf/simulated/floor{
 	dir = 8;
 	icon_state = "whitecorner"
@@ -38980,6 +39067,7 @@
 	dir = 1;
 	pixel_y = -24
 	},
+/obj/machinery/light,
 /turf/simulated/floor,
 /area/hallway/primary/starboard)
 "bwC" = (
@@ -39145,7 +39233,6 @@
 /turf/simulated/floor,
 /area/hallway/primary/starboard)
 "bwO" = (
-/obj/machinery/light,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
 /obj/structure/cable/yellow{
 	d1 = 4;
@@ -40351,6 +40438,9 @@
 	dir = 8;
 	pixel_x = 24
 	},
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/simulated/floor/wood,
 /area/crew_quarters/captain)
 "bzm" = (
@@ -41286,6 +41376,9 @@
 	},
 /obj/structure/closet/secure_closet/captains,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/light/small{
+	dir = 8
+	},
 /turf/simulated/floor/wood,
 /area/crew_quarters/captain)
 "bAW" = (
@@ -44159,6 +44252,9 @@
 /obj/machinery/door/firedoor/border_only{
 	name = "Firelock South"
 	},
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/simulated/floor{
 	dir = 8;
 	icon_state = "browncorner"
@@ -46802,6 +46898,9 @@
 /obj/item/weapon/stock_parts/scanning_module,
 /obj/machinery/light_switch{
 	pixel_x = 27
+	},
+/obj/machinery/light{
+	dir = 4
 	},
 /turf/simulated/floor{
 	icon_state = "white"
@@ -50351,6 +50450,9 @@
 	icon_state = "warning_corner";
 	tag = "icon-warning_corner (NORTH)"
 	},
+/obj/machinery/light/small{
+	dir = 8
+	},
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -52661,6 +52763,9 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/simulated/floor{
 	dir = 1;
 	icon_state = "whitebluecorner"
@@ -52820,6 +52925,9 @@
 "bVM" = (
 /obj/machinery/firealarm{
 	pixel_y = 24
+	},
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/simulated/floor,
 /area/hallway/primary/central)
@@ -55507,6 +55615,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 4
 	},
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/simulated/floor{
 	dir = 1;
 	icon_state = "whiteblue"
@@ -55912,6 +56023,9 @@
 	pixel_x = 24
 	},
 /obj/structure/clock,
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/simulated/floor{
 	dir = 5;
 	icon_state = "checker";
@@ -56310,6 +56424,9 @@
 /obj/machinery/light_switch{
 	pixel_x = -28
 	},
+/obj/machinery/light/small{
+	dir = 8
+	},
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -56324,6 +56441,9 @@
 "cbX" = (
 /obj/item/device/radio/intercom/medbay{
 	pixel_x = 30
+	},
+/obj/machinery/light/small{
+	dir = 4
 	},
 /turf/simulated/floor{
 	icon_state = "white"
@@ -58000,7 +58120,13 @@
 /obj/structure/disposalpipe/trunk{
 	dir = 1
 	},
+<<<<<<< HEAD
 /obj/machinery/disposal,
+=======
+/obj/machinery/light{
+	dir = 4
+	},
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -61002,6 +61128,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 4
+	},
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/simulated/floor{
 	icon_state = "white"
@@ -65371,6 +65500,9 @@
 	},
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/simulated/floor{
 	dir = 8;
 	icon_state = "cautioncorner"
@@ -103805,6 +103937,15 @@
 	icon_state = "whitegreen"
 	},
 /area/research_outpost/xenobot)
+"dXT" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/simulated/floor{
+	dir = 8;
+	icon_state = "cautioncorner"
+	},
+/area/hallway/primary/aft)
 "dXU" = (
 /obj/structure/cable/yellow{
 	d1 = 1;
@@ -122345,6 +122486,16 @@
 	icon_state = "whitepurple"
 	},
 /area/research_outpost/anomaly)
+"eUy" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/simulated/floor{
+	dir = 4;
+	icon_state = "chapel"
+	},
+/area/chapel/main)
 "feV" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
 	dir = 4
@@ -122358,6 +122509,7 @@
 	},
 /turf/simulated/floor/plating,
 /area/research_outpost/atmos)
+<<<<<<< HEAD
 "fiZ" = (
 /obj/structure/table,
 /turf/simulated/floor{
@@ -122429,6 +122581,31 @@
 	icon_state = "whitegreen"
 	},
 /area/medical/virology)
+=======
+"fgc" = (
+/obj/machinery/light/small{
+	dir = 1
+	},
+/turf/simulated/floor{
+	dir = 1;
+	icon_state = "whiteblue"
+	},
+/area/medical/sleeper)
+"fYQ" = (
+/obj/effect/decal/warning_stripes{
+	dir = 4;
+	icon_state = "warning";
+	tag = "icon-warning (EAST)"
+	},
+/obj/structure/bed/chair{
+	dir = 8
+	},
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/simulated/floor,
+/area/hallway/secondary/exit)
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 "gka" = (
 /obj/machinery/air_sensor{
 	frequency = 1443;
@@ -122448,6 +122625,7 @@
 	icon_state = "dark vault full"
 	},
 /area/research_outpost/harvesting)
+<<<<<<< HEAD
 "gAn" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /turf/simulated/floor{
@@ -122523,6 +122701,14 @@
 	icon_state = "whitegreen"
 	},
 /area/medical/virology_break)
+=======
+"gTK" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/simulated/floor/carpet,
+/area/library)
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 "hvs" = (
 /obj/machinery/atmospherics/unary/outlet_injector{
 	frequency = 1443;
@@ -122545,6 +122731,7 @@
 	icon_state = "blue"
 	},
 /area/research_outpost/entry)
+<<<<<<< HEAD
 "hVM" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced{
@@ -122579,6 +122766,12 @@
 	icon_state = "white"
 	},
 /area/medical/medbay)
+=======
+"iiZ" = (
+/obj/machinery/light,
+/turf/simulated/floor/wood,
+/area/crew_quarters/bar)
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 "ikQ" = (
 /obj/structure/cable/yellow{
 	d1 = 1;
@@ -122587,6 +122780,7 @@
 	},
 /turf/simulated/floor/plating,
 /area/maintenance/fsmaint)
+<<<<<<< HEAD
 "ioQ" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
 	dir = 4
@@ -122609,6 +122803,43 @@
 	icon_state = "floorgrime"
 	},
 /area/maintenance/asmaint)
+=======
+"imo" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/simulated/floor{
+	dir = 8;
+	icon_state = "browncorner"
+	},
+/area/hallway/primary/central)
+"isb" = (
+/obj/structure/cable/yellow{
+	d1 = 2;
+	d2 = 8;
+	icon_state = "2-8"
+	},
+/obj/structure/cable/yellow{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/obj/machinery/light,
+/turf/simulated/floor/carpet,
+/area/crew_quarters/courtroom)
+"ixd" = (
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/simulated/floor{
+	dir = 8;
+	icon_state = "cautioncorner"
+	},
+/area/hallway/primary/aft)
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 "iyy" = (
 /obj/structure/rack{
 	dir = 1
@@ -122671,12 +122902,22 @@
 	},
 /turf/simulated/floor/plating,
 /area/maintenance/fsmaint)
+"jpN" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/light/small{
+	dir = 1
+	},
+/turf/simulated/floor/plating,
+/area/maintenance/fpmaint)
 "jyd" = (
 /obj/machinery/portable_atmospherics/canister/carbon_dioxide,
 /turf/simulated/floor{
 	icon_state = "dark"
 	},
 /area/engineering/engine_storage)
+<<<<<<< HEAD
 "jII" = (
 /obj/structure/cable/yellow{
 	d1 = 1;
@@ -122789,6 +123030,18 @@
 	icon_state = "floorgrime"
 	},
 /area/medical/surgery_ghetto)
+=======
+"kBT" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/machinery/light,
+/turf/simulated/floor{
+	dir = 8;
+	icon_state = "bluecorner"
+	},
+/area/hallway/primary/central)
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 "lqb" = (
 /obj/machinery/light_switch{
 	pixel_y = -25
@@ -122836,6 +123089,7 @@
 	},
 /turf/simulated/floor,
 /area/hallway/primary/central)
+<<<<<<< HEAD
 "mHh" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 4
@@ -122865,6 +123119,12 @@
 	icon_state = "white"
 	},
 /area/medical/storage)
+=======
+"ngu" = (
+/obj/machinery/light,
+/turf/simulated/floor,
+/area/hallway/primary/starboard)
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 "ntY" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
 	dir = 4
@@ -122948,10 +123208,22 @@
 	icon_state = "asteroidplating"
 	},
 /area/vox_trading_post/vault)
+<<<<<<< HEAD
 "ovu" = (
 /obj/structure/lattice,
 /turf/simulated/wall/r_wall,
 /area/medical/virology)
+=======
+"oxE" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/simulated/floor{
+	dir = 1;
+	icon_state = "red"
+	},
+/area/security/brig)
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 "ozb" = (
 /obj/machinery/artifact_analyser,
 /turf/simulated/floor/bluegrid,
@@ -123016,6 +123288,7 @@
 	icon_state = "white"
 	},
 /area/research_outpost/anomaly)
+<<<<<<< HEAD
 "pxo" = (
 /obj/effect/decal/warning_stripes{
 	icon_state = "warning";
@@ -123028,6 +123301,20 @@
 	icon_state = "floorgrime"
 	},
 /area/medical/surgery_ghetto)
+=======
+"pCU" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/simulated/floor{
+	dir = 1;
+	icon_state = "arrival"
+	},
+/area/hallway/secondary/entry)
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 "pWS" = (
 /obj/machinery/atmospherics/unary/outlet_injector{
 	frequency = 1443;
@@ -123127,6 +123414,7 @@
 	},
 /turf/simulated/floor/plating,
 /area/maintenance/fsmaint2)
+<<<<<<< HEAD
 "qOn" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced{
@@ -123164,6 +123452,28 @@
 /turf/space,
 /turf/space,
 /area/shuttle/escape/centcom)
+=======
+"qVH" = (
+/obj/machinery/station_map,
+/turf/simulated/floor{
+	dir = 1;
+	icon_state = "red"
+	},
+/area/hallway/primary/fore)
+"rgv" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	dir = 4
+	},
+/obj/structure/cable/yellow{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/simulated/floor{
+	icon_state = "red"
+	},
+/area/hallway/primary/fore)
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 "rkr" = (
 /obj/structure/table,
 /obj/item/critter_cage/with_mouse{
@@ -123174,6 +123484,15 @@
 	icon_state = "whitegreen"
 	},
 /area/medical/virology)
+"roJ" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/machinery/light,
+/turf/simulated/floor{
+	icon_state = "green"
+	},
+/area/hallway/primary/starboard)
 "rvk" = (
 /obj/structure/sign/poster,
 /turf/simulated/wall,
@@ -123229,10 +123548,22 @@
 	icon_state = "whitepurple"
 	},
 /area/research_outpost/hallway)
+<<<<<<< HEAD
 "saY" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/simulated/floor{
 	icon_state = "white"
+=======
+"sdU" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/simulated/floor,
+/area/hallway/primary/starboard)
+"siw" = (
+/obj/item/device/radio/intercom/medbay{
+	pixel_y = -30
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 	},
 /area/medical/virology)
 "sgl" = (
@@ -123265,6 +123596,7 @@
 	icon_state = "white"
 	},
 /area/medical/virology)
+<<<<<<< HEAD
 "ssc" = (
 /obj/structure/cable/yellow{
 	d1 = 1;
@@ -123307,11 +123639,21 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 4
+=======
+"sqJ" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/light/small{
+	dir = 8
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 	},
 /turf/simulated/floor{
 	icon_state = "white"
 	},
+<<<<<<< HEAD
 /area/medical/virology_break)
+=======
+/area/medical/medbay)
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 "sEN" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 5
@@ -123327,6 +123669,7 @@
 	icon_state = "whitepurple"
 	},
 /area/research_outpost/hallway)
+<<<<<<< HEAD
 "thI" = (
 /obj/machinery/disease2/centrifuge,
 /turf/simulated/floor{
@@ -123334,6 +123677,15 @@
 	icon_state = "whitegreen"
 	},
 /area/medical/virology)
+=======
+"tii" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/simulated/floor,
+/area/hallway/primary/central)
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 "tkH" = (
 /turf/simulated/wall,
 /area/research_outpost/maint)
@@ -123640,6 +123992,7 @@
 	icon_state = "white"
 	},
 /area/research_outpost/hallway)
+<<<<<<< HEAD
 "vHy" = (
 /obj/structure/table,
 /obj/item/weapon/paper_bin/white,
@@ -123668,6 +124021,18 @@
 	icon_state = "white"
 	},
 /area/medical/virology)
+=======
+"vAT" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	dir = 4
+	},
+/obj/machinery/light,
+/turf/simulated/floor,
+/area/hallway/primary/port)
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 "wbE" = (
 /obj/machinery/air_sensor{
 	frequency = 1443;
@@ -123679,6 +124044,7 @@
 	oxygen = 0.01
 	},
 /area/research_outpost/atmos)
+<<<<<<< HEAD
 "wjQ" = (
 /turf/simulated/wall,
 /area/medical/patient_room1)
@@ -123728,12 +124094,21 @@
 	pixel_x = -1
 	},
 /obj/machinery/atmospherics/unary/vent_scrubber/on{
+=======
+"xxt" = (
+/obj/machinery/chem_master,
+/obj/machinery/light/small{
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 	dir = 1
 	},
 /turf/simulated/floor{
 	icon_state = "white"
 	},
+<<<<<<< HEAD
 /area/medical/virology)
+=======
+/area/medical/chemistry)
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 "xxO" = (
 /obj/structure/disposalpipe/segment{
 	dir = 8;
@@ -203914,7 +204289,7 @@ aCL
 aFj
 aGG
 awH
-aJa
+pCU
 aKi
 aLG
 aNg
@@ -204425,7 +204800,7 @@ aPg
 aKj
 aRI
 aKj
-aKj
+bfb
 aKj
 aXP
 aZm
@@ -212964,7 +213339,7 @@ aWd
 awr
 aZy
 bbB
-bdc
+vAT
 beM
 beM
 beM
@@ -213966,8 +214341,13 @@ aTf
 aUD
 aWf
 aXZ
+<<<<<<< HEAD
 aZw
 aZJ
+=======
+bua
+bbA
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 bde
 beM
 bgA
@@ -228022,7 +228402,7 @@ aMg
 aMg
 aMg
 aMg
-aVc
+bap
 baj
 bdD
 beY
@@ -228527,9 +228907,9 @@ awr
 aZR
 baj
 bdC
-bfb
 bbQ
 bbQ
+tii
 bbQ
 bbQ
 bnc
@@ -228548,8 +228928,13 @@ bGh
 bEk
 bEk
 bbQ
+<<<<<<< HEAD
 bbQ
 bEk
+=======
+bNq
+imo
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 bCB
 bSN
 bUD
@@ -231538,7 +231923,7 @@ aWw
 aYl
 aZW
 aVc
-bdG
+kBT
 bfe
 aaa
 bff
@@ -232004,7 +232389,7 @@ amb
 amM
 anv
 aoe
-aoB
+oxE
 aph
 apS
 aqF
@@ -233073,7 +233458,7 @@ bSQ
 bGi
 bVO
 bdE
-bYI
+bYJ
 bZZ
 cbw
 cbC
@@ -233524,7 +233909,7 @@ asR
 aoS
 awU
 ayh
-azn
+rgv
 aAw
 aBK
 aDq
@@ -234024,7 +234409,7 @@ arw
 ase
 asU
 aoS
-awU
+qVH
 ayh
 azn
 aAw
@@ -234536,7 +234921,11 @@ aEn
 aFM
 aHc
 aAw
+<<<<<<< HEAD
 aJz
+=======
+jpN
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 aKK
 aMr
 aNA
@@ -236108,7 +236497,7 @@ cuT
 cqZ
 cwo
 cxp
-cyn
+dXT
 czG
 cyn
 cBN
@@ -236600,7 +236989,7 @@ ckC
 clD
 cmI
 cnT
-coT
+ixd
 coT
 crb
 crU
@@ -237060,7 +237449,7 @@ aVc
 aVc
 bag
 bbX
-bdG
+kBT
 bfm
 bhd
 biK
@@ -243559,7 +243948,7 @@ ast
 ate
 atM
 aux
-avf
+isb
 aqU
 awA
 awA
@@ -248118,7 +248507,7 @@ btT
 bvg
 bwo
 bxM
-bzt
+xxt
 bAZ
 bCW
 bAZ
@@ -249116,7 +249505,7 @@ bfw
 bma
 bnF
 bpr
-aPN
+iiZ
 bsz
 bsK
 bpL
@@ -251628,7 +252017,7 @@ blY
 aPN
 eHZ
 bhl
-bsK
+sdU
 bpL
 bwr
 bxN
@@ -252144,7 +252533,7 @@ bKs
 bMa
 bNZ
 bPM
-bRv
+fgc
 bTs
 bUQ
 bWl
@@ -255646,7 +256035,7 @@ bqU
 bsE
 bsK
 bpL
-bwn
+roJ
 bxT
 bxU
 bBj
@@ -257149,7 +257538,7 @@ bkL
 bkL
 bpw
 aVp
-bsG
+bsH
 bsK
 bpL
 bwt
@@ -257164,12 +257553,17 @@ bKw
 bMh
 bOc
 bPQ
-bzv
+sqJ
 bCZ
 bCZ
 bzv
+<<<<<<< HEAD
 bzv
 ifS
+=======
+sqJ
+bzv
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 bMe
 cci
 cdv
@@ -258154,7 +258548,7 @@ bnL
 bpA
 aVp
 aVp
-bua
+sdU
 bvi
 bwy
 bxW
@@ -260162,7 +260556,7 @@ bnM
 bpE
 bra
 bsM
-bsK
+sdU
 bpL
 bwC
 bxW
@@ -265177,7 +265571,7 @@ bej
 bej
 bej
 bej
-bej
+gTK
 bnT
 bpJ
 brf
@@ -266188,8 +266582,13 @@ brh
 aSG
 bui
 bpL
+<<<<<<< HEAD
 bwG
 bsK
+=======
+bwu
+ngu
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 bzP
 bBA
 bDk
@@ -271708,7 +272107,7 @@ bob
 bhO
 bhO
 bsQ
-bsK
+sdU
 bpL
 bwG
 byf
@@ -273204,7 +273603,7 @@ aSL
 aSL
 bbd
 aVK
-beu
+eUy
 bfV
 beu
 bjs
@@ -277725,11 +278124,11 @@ bcH
 bey
 bgb
 bcG
-bjw
+fYQ
 bjw
 bmy
 boi
-bjw
+fYQ
 brr
 bsV
 bcG

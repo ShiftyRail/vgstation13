@@ -70,10 +70,6 @@
 			materials.addAmount(matID, starting_materials[matID])
 
 /atom/movable/Destroy()
-	var/turf/T
-	if (opacity && isturf(loc))
-		T = loc // recalc_atom_opacity() is called later on this
-		T.reconsider_lights()
 
 	if(materials)
 		qdel(materials)
@@ -82,6 +78,10 @@
 	remove_border_dummy()
 
 	INVOKE_EVENT(src, /event/destroyed, "thing" = src)
+
+	var/turf/T = loc
+	if (opacity && isturf(loc))
+		T = loc // check_blocks_light() is called later on this
 
 	for (var/atom/movable/AM in locked_atoms)
 		unlock_atom(AM)
@@ -96,10 +96,10 @@
 
 	break_all_tethers()
 
-	forceMove(null, harderforce = TRUE)
+	forceMove(null)
 
-	if (T)
-		T.recalc_atom_opacity()
+	if (istype(T))
+		T.check_blocks_light()
 
 	if(virtualhearer)
 		qdel(virtualhearer)
@@ -131,8 +131,13 @@
 	else
 		glide_size = max(min, glide_size_override)
 
+<<<<<<< HEAD
 /atom/movable/Move(NewLoc, Dir = 0, step_x = 0, step_y = 0, var/glide_size_override = 0)
 	if(!loc || !NewLoc || locked_to)
+=======
+/atom/movable/Move(NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0)
+	if(!loc || !NewLoc)
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 		return 0
 	INVOKE_EVENT(src, /event/before_move)
 
@@ -416,6 +421,7 @@
 			Obstacle.Bumped(src)
 	sound_override = 0
 
+<<<<<<< HEAD
 //As it says above, don't override this. Override to_bump() and/or Obstacle's get_bump_target() instead. Assumes could_bump is already a list (not null).
 /atom/movable/Bump(atom/Obstacle)
 	SHOULD_NOT_OVERRIDE(TRUE)
@@ -482,6 +488,20 @@
 		A.Exited(src, loc)
 	for(var/atom/A in uncrossing)
 		A.Uncrossed(src)
+=======
+/atom/movable/proc/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0, from_tp = 0)
+	invoke_event(/event/before_move)
+	if(glide_size_override)
+		glide_size = glide_size_override
+	var/atom/old_loc = loc
+	loc = NewLoc
+	last_moved = world.time
+
+	if(old_loc)
+		old_loc.Exited(src, NewLoc)
+		for(var/atom/movable/AM in old_loc)
+			AM.Uncrossed(src)
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 
 	if(loc)
 		last_move = get_dir(old_loc, loc)
@@ -492,8 +512,13 @@
 			var/area/A = loc.loc
 			A.Entered(src, old_loc)
 
+<<<<<<< HEAD
 			for(var/atom/movable/AM in obounds(src))
 				AM.Crossed(src,no_tp)
+=======
+			for(var/atom/movable/AM in loc)
+				AM.Crossed(src, from_tp) // Says if we crossed it from a teleporter.
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 
 
 	for(var/atom/movable/AM in locked_atoms)
@@ -502,6 +527,7 @@
 
 	update_client_hook(loc)
 
+<<<<<<< HEAD
 	INVOKE_EVENT(src, /event/moved, "mover" = src)
 
 	var/turf/from_turf = get_turf(old_loc)
@@ -510,6 +536,14 @@
 		INVOKE_EVENT(src, /event/z_transition, "user" = src, "from_z" = from_turf.z, "to_z" = to_turf.z)
 
 	INVOKE_EVENT(src, /event/after_move)
+=======
+	invoke_event(/event/moved, list("mover" = src))
+	var/turf/T = get_turf(NewLoc)
+
+	if(old_loc && T && old_loc.z != T.z)
+		invoke_event(/event/z_transition, list("user" = src, "from_z" = old_loc.z, "to_z" = T.z))
+	invoke_event(/event/after_move)
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 	return 1
 
 /atom/movable/proc/update_client_hook(atom/destination)

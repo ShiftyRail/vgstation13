@@ -1,9 +1,17 @@
 /datum/component/ai/target_finder
+<<<<<<< HEAD
 	var/range = 0
 	var/list/exclude_types = list(
 		/obj/effect,
 		/atom/movable/lighting_overlay,
 		/turf
+=======
+	var/range=0
+	var/list/exclude_types=list(
+			/obj/effect,
+			/atom/movable/light,
+			/turf
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 	)
 
 /datum/component/ai/target_finder/initialize()

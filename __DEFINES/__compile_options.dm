@@ -38,10 +38,13 @@
 //#define MAP_OVERRIDE 11
 // lowfatbagel.dm
 //#define MAP_OVERRIDE 12
+<<<<<<< HEAD
 // island.dm
 //#define MAP_OVERRIDE 13
 // line.dm
 //#define MAP_OVERRIDE 14
+=======
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 
 // Toggles several features, explained in their respective comments.
 // You can turn those on and off manually if you prefer, instead of setting this

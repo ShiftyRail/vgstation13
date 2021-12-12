@@ -1113,7 +1113,7 @@
 /obj/machinery/light/small{
 	dir = 4;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/machinery/camera{
 	name = "Locker Room East"
@@ -3538,7 +3538,7 @@
 	},
 /obj/machinery/light/small{
 	dir = 4;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor{
 	icon_state = "floorscorched2"
@@ -12338,7 +12338,7 @@
 /obj/machinery/light/small{
 	dir = 4;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor,
 /area/lamprey/foreporthallways)
@@ -13103,7 +13103,7 @@
 "aDD" = (
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor{
 	icon_state = "floorgrime"
@@ -16377,7 +16377,7 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor{
 	dir = 9;
@@ -20257,7 +20257,7 @@
 /obj/machinery/light/small{
 	dir = 4;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/wood,
 /area/lamprey/warzonemaintenanceblob)
@@ -23903,7 +23903,7 @@
 /obj/machinery/light/small{
 	dir = 4;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor{
 	dir = 1;
@@ -25198,7 +25198,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor{
 	dir = 8;
@@ -25286,7 +25286,7 @@
 /obj/machinery/light/small{
 	dir = 4;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/machinery/door/firedoor/border_only{
 	name = "Firelock South"
@@ -35303,7 +35303,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor,
 /area/lamprey/tinyroomzone)
@@ -36647,7 +36647,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor{
 	dir = 1;
@@ -45180,7 +45180,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/item/weapon/storage/box/inflatables,
 /obj/effect/decal/warning_stripes{
@@ -50893,7 +50893,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/plating,
 /area/lamprey/researchwarehousemaintenanceblob)
@@ -51916,7 +51916,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/machinery/conveyor/auto,
 /turf/simulated/floor,
@@ -52282,7 +52282,7 @@
 "cna" = (
 /obj/machinery/light/small{
 	dir = 4;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/plating,
 /area/lamprey/botanymaintenanceblob)
@@ -52627,7 +52627,7 @@
 /obj/machinery/light/small{
 	dir = 4;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/effect/decal/warning_stripes{
 	dir = 1;
@@ -54771,7 +54771,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor{
 	icon_state = "floorgrime"
@@ -56772,7 +56772,7 @@
 /obj/machinery/light/small{
 	dir = 4;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor{
@@ -58454,7 +58454,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/warning_stripes{
@@ -72077,7 +72077,7 @@
 "dfb" = (
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/plating{
 	icon_state = "platingdmg3"
@@ -79975,7 +79975,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/plating,
 /area/lamprey/engineering)
@@ -82346,7 +82346,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/plating,
 /area/lamprey/engineering)
@@ -86889,7 +86889,7 @@
 "dGU" = (
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/effect/decal/warning_stripes{
 	icon_state = "radiation-w"
@@ -89351,7 +89351,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers,
 /obj/machinery/light/small{
 	dir = 4;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/item/stack/cable_coil{
 	amount = 1;
@@ -91174,7 +91174,7 @@
 "dPl" = (
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/structure/closet/secure_closet/engineering_atmos,
 /obj/effect/decal/warning_stripes{
@@ -92996,7 +92996,7 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/arcade,
 /area/lamprey/engineeringmaintenanceblob)
@@ -93008,7 +93008,7 @@
 "dSU" = (
 /obj/machinery/light/small{
 	dir = 4;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/structure/closet/wardrobe/grey,
 /turf/simulated/floor/plating,
@@ -93045,7 +93045,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers,
 /obj/machinery/light/small{
 	dir = 4;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/vending,
@@ -94462,7 +94462,7 @@
 /obj/machinery/light/small{
 	dir = 4;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/engine,
 /area/lamprey/xenobarology)
@@ -100969,7 +100969,7 @@
 	},
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor{
 	icon_state = "stage_stairs";
@@ -101307,7 +101307,7 @@
 "eld" = (
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor{
 	dir = 1;
@@ -102153,7 +102153,7 @@
 	},
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/machinery/door/firedoor/border_only{
 	name = "Firelock South"
@@ -102392,7 +102392,7 @@
 	},
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 1;
@@ -102686,7 +102686,7 @@
 "eoh" = (
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/machinery/camera{
 	dir = 4;
@@ -103542,7 +103542,7 @@
 /obj/item/mounted/poster,
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/wood,
 /area/lamprey/barattheedgeoftheworld)
@@ -108152,7 +108152,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/carpet,
 /area/lamprey/theater)
@@ -109204,7 +109204,7 @@
 "eBd" = (
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/effect/mist{
 	icon = 'icons/obj/posters.dmi';
@@ -109262,7 +109262,7 @@
 /obj/machinery/light/small{
 	dir = 4;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/effect/mist{
 	icon = 'icons/obj/posters.dmi';
@@ -109297,7 +109297,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/effect/mist{
 	icon = 'icons/obj/posters.dmi';
@@ -124594,7 +124594,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor{
 	dir = 8;
@@ -195562,7 +195562,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/vox{
 	icon_state = "bar";

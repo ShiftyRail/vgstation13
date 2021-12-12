@@ -104,7 +104,7 @@
 		src.force = null
 		src.damtype = "brute"
 		src.icon_state = "cake0"
-		set_light(0)
+		kill_light()
 	return
 
 
@@ -161,7 +161,7 @@
 	_color = "pumpkin"
 	flags = FPRINT
 	body_parts_covered = FULL_HEAD|BEARD|HIDEHAIR
-	var/brightness_on = 2 //luminosity when on
+	light_range = 2
 	var/on = 0
 
 /obj/item/clothing/head/pumpkinhead/attack_self(mob/user)
@@ -173,10 +173,17 @@
 	icon_state = "hardhat[on]_[_color]"
 	item_state = "hardhat[on]_[_color]"
 
+<<<<<<< HEAD
 	if(on)
 		set_light(brightness_on)
 	else
 		set_light(0)
+=======
+		if(on)
+			set_light()
+		else
+			kill_light()
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 
 /obj/item/clothing/head/pumpkinhead/attackby(var/obj/item/I, var/mob/user)
 	..()

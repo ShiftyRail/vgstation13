@@ -165,7 +165,11 @@ var/list/all_rods = list()
 		if(prob(50))
 			clong()
 
+<<<<<<< HEAD
 /obj/item/projectile/immovablerod/forceMove(atom/destination, step_x = 0, step_y = 0, no_tp = FALSE, harderforce = FALSE, glide_size_override = 0)
+=======
+/obj/item/projectile/immovablerod/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0, from_tp = 0)
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 	..()
 	if(z != starting.z)
 		qdel(src)

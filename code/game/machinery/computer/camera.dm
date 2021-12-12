@@ -38,7 +38,12 @@ var/list/obj/machinery/camera/cyborg_cams = list(
 	cam_screen.screen_loc = "[map_name]:1,1"
 	cam_screen.del_on_map_removal = FALSE
 	cam_plane_masters = list()
-	for(var/plane in subtypesof(/obj/abstract/screen/plane_master))
+	var/static/list/darkness_plane_things = list(
+		/obj/abstract/screen/plane/master,
+		/obj/abstract/screen/backdrop,
+		/obj/abstract/screen/plane/dark
+	)
+	for(var/plane in subtypesof(/obj/abstract/screen/plane_master) + darkness_plane_things)
 		var/obj/abstract/screen/instance = new plane()
 		instance.assigned_map = map_name
 		instance.screen_loc = "[map_name]:CENTER"
@@ -224,8 +229,11 @@ var/list/obj/machinery/camera/cyborg_cams = list(
 	network = list(CAMERANET_THUNDER, CAMERANET_COURTROOM, CAMERANET_SPESSTV)
 	density = 0
 	circuit = null
-
-	light_color = null
+	moody_light_type = /atom/movable/light/moody/statusdisplay
+	lighting_flags = FOLLOW_PIXEL_OFFSET
+	light_color = "#ffffff"
+	light_power = 1
+	light_range = 1
 
 /obj/machinery/computer/security/telescreen/entertainment/spesstv
 	name = "low-latency Spess.TV CRT monitor"
@@ -234,6 +242,7 @@ var/list/obj/machinery/camera/cyborg_cams = list(
 	icon_state = "crt"
 	network = list(CAMERANET_SPESSTV)
 	density = TRUE
+<<<<<<< HEAD
 	tgui_interface = "SpessTVCameraConsole"
 
 /obj/machinery/computer/security/telescreen/entertainment/spesstv/ui_act(action, list/params)
@@ -257,6 +266,9 @@ var/list/obj/machinery/camera/cyborg_cams = list(
 			if(!istype(streamer_role))
 				return
 			streamer_role.try_add_subscription(usr.mind, src)
+=======
+	moody_light_type = null
+>>>>>>> parent of 689fdb1d59... Merge pull request #30791 from ShiftyRail/revert_EL
 
 /obj/machinery/computer/security/telescreen/entertainment/spesstv/is_operational()
 	return TRUE
