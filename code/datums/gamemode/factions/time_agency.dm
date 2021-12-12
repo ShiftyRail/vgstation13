@@ -9,6 +9,8 @@
 	initroletype = /datum/role/time_agent
 	logo_state = "time-logo"
 	hud_icons = list("time-logo")
+	default_admin_voice = "The Agency"
+	admin_voice_style = "notice"
 	var/datum/role/time_agent/primary_agent = null // first added is primary, any others added are doppelgangers.
 	var/list/eviltwins = list()
 
@@ -69,4 +71,10 @@
 	var/mob/living/carbon/human/H = user
 	var/datum/role/time_agent/R = H.mind.GetRole(TIMEAGENT)
 	if(R)
-		R.time_elapsed = -1 // increments every tick or so, teleport to station at 0.
+		R.time_elapsed = 59 // increments every tick or so, teleport to station at 60.
+
+/obj/effect/decal/timeagentporter
+	name = "time agent teleporter"
+	desc = "Teleports you at the press of a button!"
+	icon = 'icons/mecha/mecha_equipment.dmi' //placeholder until someone sprites something better
+	icon_state = "mecha_teleport"

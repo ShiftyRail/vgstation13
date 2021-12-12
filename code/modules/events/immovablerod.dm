@@ -84,8 +84,7 @@ var/list/all_rods = list()
 /obj/item/projectile/immovablerod/hyper/New()
 	..()
 	var/image/I = image('icons/obj/objects_96x96.dmi',"immrod_bottom")
-	I.layer = layer-1
-	I.plane = -1
+	I.plane = relative_plane(PLATING_PLANE-1)
 	overlays += I
 
 /obj/item/projectile/immovablerod/throw_at(atom/end)
@@ -166,7 +165,11 @@ var/list/all_rods = list()
 		if(prob(50))
 			clong()
 
+<<<<<<< HEAD
 /obj/item/projectile/immovablerod/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0)
+=======
+/obj/item/projectile/immovablerod/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0, from_tp = 0)
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	..()
 	if(z != starting.z)
 		qdel(src)

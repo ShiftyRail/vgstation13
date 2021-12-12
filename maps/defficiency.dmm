@@ -8919,6 +8919,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 4
 	},
+/obj/item/weapon/storage/bag/trash/bio,
 /turf/simulated/floor{
 	icon_state = "dark"
 	},
@@ -13505,7 +13506,7 @@
 	},
 /area/engineering/atmos)
 "aAA" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = 32
 	},
 /turf/simulated/floor{
@@ -21165,7 +21166,7 @@
 "aOb" = (
 /obj/machinery/door/airlock/medical{
 	name = "Morgue";
-	req_access_txt = "5;500"
+	req_one_access_txt = "5;500"
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8;
@@ -23895,7 +23896,6 @@
 	pixel_x = 1;
 	pixel_y = -1
 	},
-/obj/item/weapon/circuitboard/security/advanced,
 /turf/simulated/floor/plating,
 /area/storage/tech)
 "aTh" = (
@@ -30482,11 +30482,11 @@
 	pixel_y = -4;
 	req_access_txt = "5"
 	},
-/obj/effect/landmark/start{
-	name = "Medical Doctor"
-	},
 /obj/structure/bed/chair/office/light{
 	dir = 1
+	},
+/obj/effect/landmark/start{
+	name = "Orderly"
 	},
 /turf/simulated/floor{
 	icon_state = "dark"
@@ -40565,6 +40565,22 @@
 /obj/item/device/multitool{
 	pixel_x = 3
 	},
+/obj/item/device/assembly/prox_sensor{
+	pixel_x = -8;
+	pixel_y = 4
+	},
+/obj/item/device/assembly/prox_sensor{
+	pixel_x = -8;
+	pixel_y = 4
+	},
+/obj/item/device/assembly/prox_sensor{
+	pixel_x = -8;
+	pixel_y = 4
+	},
+/obj/item/device/assembly/prox_sensor{
+	pixel_x = -8;
+	pixel_y = 4
+	},
 /turf/simulated/floor{
 	dir = 8;
 	icon_state = "whitebluecorner"
@@ -40626,29 +40642,7 @@
 	},
 /area/science/robotics)
 "bwH" = (
-/obj/item/weapon/stool,
-/turf/simulated/floor{
-	icon_state = "white"
-	},
-/area/science/robotics)
-"bwI" = (
 /obj/structure/table,
-/obj/item/device/assembly/prox_sensor{
-	pixel_x = -8;
-	pixel_y = 4
-	},
-/obj/item/device/assembly/prox_sensor{
-	pixel_x = -8;
-	pixel_y = 4
-	},
-/obj/item/device/assembly/prox_sensor{
-	pixel_x = -8;
-	pixel_y = 4
-	},
-/obj/item/device/assembly/prox_sensor{
-	pixel_x = -8;
-	pixel_y = 4
-	},
 /obj/item/weapon/cell/high{
 	charge = 100;
 	maxcharge = 15000
@@ -40659,9 +40653,15 @@
 	pixel_x = 5;
 	pixel_y = -5
 	},
+/turf/simulated/floor{
+	icon_state = "white"
+	},
+/area/science/robotics)
+"bwI" = (
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/machinery/suit_modifier,
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -41357,18 +41357,13 @@
 	},
 /area/science/robotics)
 "bye" = (
-/obj/structure/bed/chair{
-	dir = 1
-	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/structure/disposalpipe/segment,
+/obj/item/weapon/stool,
 /obj/effect/landmark/start{
 	name = "Roboticist"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	dir = 4
-	},
-/turf/simulated/floor{
-	icon_state = "white"
-	},
+/turf/simulated/floor,
 /area/science/robotics)
 "byf" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden,
@@ -70780,9 +70775,13 @@
 	name = "Station Intercom (Captain)";
 	pixel_x = 28
 	},
+<<<<<<< HEAD
 /obj/machinery/light{
 	dir = 4
 	},
+=======
+/obj/item/clothing/shoes/magboots/captain,
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 /turf/simulated/floor/wood,
 /area/crew_quarters/captain)
 "cFP" = (
@@ -72197,7 +72196,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = 32
 	},
 /obj/structure/window/reinforced{
@@ -72451,19 +72450,9 @@
 	},
 /area/security/brig)
 "cIY" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/machinery/computer/security/telescreen{
-	desc = "Used for watching Prison Wing holding areas.";
-	name = "Prison Monitor";
-	network = list("Prison");
-	pixel_y = 30
-	},
+/obj/machinery/photobooth/security,
 /turf/simulated/floor{
-	dir = 1;
-	icon_state = "darkred";
-	tag = "icon-darkred (NORTH)"
+	icon_state = "dark"
 	},
 /area/security/brig)
 "cIZ" = (
@@ -76093,6 +76082,15 @@
 /obj/machinery/recharger,
 /obj/machinery/light{
 	dir = 1
+<<<<<<< HEAD
+=======
+},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/machinery/alarm{
+	pixel_y = 23
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	},
 /turf/simulated/floor{
 	dir = 1;
@@ -78121,7 +78119,10 @@
 	d2 = 4;
 	icon_state = "2-4"
 	},
+<<<<<<< HEAD
 /obj/item/weapon/circuitboard/security/advanced,
+=======
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 /obj/machinery/light{
 	dir = 8
 	},
@@ -111834,11 +111835,6 @@
 	},
 /area/research_outpost/gearstore)
 "emN" = (
-/obj/machinery/light_switch{
-	dir = 4;
-	pixel_x = -24;
-	pixel_y = 7
-	},
 /obj/machinery/atmospherics/unary/vent_scrubber/layered{
 	dir = 4;
 	on = 1
@@ -116868,7 +116864,7 @@
 /turf/simulated/floor/engine,
 /area/shuttle/salvage/start)
 "eyo" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_x = -32
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -117500,11 +117496,24 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1
+<<<<<<< HEAD
 	},
+=======
+		},
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 /turf/simulated/floor{
 	icon_state = "dark"
 	},
 /area/chapel/office)
+<<<<<<< HEAD
+=======
+"ezU" = (
+/obj/effect/landmark/start{
+	name = "Medical Doctor"
+	},
+	/area/medical/medbay)
+
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 "frc" = (
 /obj/machinery/light{
 	dir = 8
@@ -222708,12 +222717,21 @@ cFp
 cGX
 cIh
 cFl
+<<<<<<< HEAD
 uVi
 uVi
 cFl
 cFl
 uVi
 uVi
+=======
+cGR
+cIc
+cFl
+cFl
+cFl
+cFl
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 cSP
 cTS
 aaa
@@ -226170,7 +226188,7 @@ bwE
 byd
 bzs
 bAN
-bBN
+bye
 bBN
 bEa
 bFh
@@ -227673,7 +227691,7 @@ bdf
 buk
 bvy
 bwF
-bye
+byd
 bzt
 bAO
 bAO
@@ -229666,7 +229684,7 @@ aUj
 jRA
 bat
 bbP
-aUj
+ezU
 beV
 bgG
 bio
@@ -250817,8 +250835,8 @@ ctl
 ctl
 ctl
 ctl
-ctl
 cIY
+cIU
 cKA
 cLZ
 cNp

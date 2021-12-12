@@ -226,6 +226,10 @@ Class Procs:
 			qdel(pulse2)
 	..()
 
+/obj/machinery/suicide_act(var/mob/living/user)
+	to_chat(viewers(user), "<span class='danger'>[user] is placing \his hands into the sockets of the [src] and tries to fry \himself! It looks like \he's trying to commit suicide.</span>")
+	return(SUICIDE_ACT_FIRELOSS)
+
 /obj/machinery/ex_act(severity)
 	switch(severity)
 		if(1.0)
@@ -247,9 +251,6 @@ Class Procs:
 		qdel(src)
 
 /obj/machinery/proc/auto_use_power()
-	if(!powered(power_channel) && !connected_cell)
-		return 0
-
 	switch (use_power)
 		if (1)
 			use_power(idle_power_usage, power_channel)

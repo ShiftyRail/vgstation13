@@ -21,30 +21,29 @@ var/list/current_prisoners = list()
 		recruiter.jobban_roles = list("minor roles") //has anyone even been banned from minor roles?
 
 		// Role set to Yes or Always
-		recruiter.player_volunteering.Add(src, "recruiter_recruiting")
+		recruiter.player_volunteering = new /callback(src, .proc/recruiter_recruiting)
 		// Role set to No or Never
-		recruiter.player_not_volunteering.Add(src, "recruiter_not_recruiting")
+		recruiter.player_not_volunteering = new /callback(src, .proc/recruiter_not_recruiting)
 
-		recruiter.recruited.Add(src, "recruiter_recruited")
+		recruiter.recruited = new /callback(src, .proc/recruiter_recruited)
 
 		recruiter.request_player()
+<<<<<<< HEAD
+
+=======
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 
-/datum/event/prisontransfer/proc/recruiter_recruiting(var/list/args)
-	var/mob/dead/observer/O = args["player"]
-	var/controls = args["controls"]
-	to_chat(O, "<span class='recruit'>A prisoner is about to be sent to the station. You have been added to the list of potential ghosts. ([controls])</span>")
+/datum/event/prisontransfer/proc/recruiter_recruiting(mob/dead/observer/player, controls)
+	to_chat(player, "<span class='recruit'>A prisoner is about to be sent to the station. You have been added to the list of potential ghosts. ([controls])</span>")
 
-/datum/event/prisontransfer/proc/recruiter_not_recruiting(var/list/args)
-	var/mob/dead/observer/O = args["player"]
-	var/controls = args["controls"]
-	to_chat(O, "<span class='recruit'>A prisoner is about to be sent to the station. ([controls])</span>")
+/datum/event/prisontransfer/proc/recruiter_not_recruiting(mob/dead/observer/player, controls)
+	to_chat(player, "<span class='recruit'>A prisoner is about to be sent to the station. ([controls])</span>")
 
 
-/datum/event/prisontransfer/proc/recruiter_recruited(var/list/args)
-	var/mob/dead/observer/O = args["player"]
+/datum/event/prisontransfer/proc/recruiter_recruited(mob/dead/observer/player)
 	can_request_prisoner = TRUE		//This is set to false by the prisoner role if we exceed the limit.
-	if(O)
+	if(player)
 		qdel(recruiter)
 		recruiter = null
 
@@ -52,7 +51,7 @@ var/list/current_prisoners = list()
 
 		//Make the prisoner
 		var/mob/living/carbon/human/H = new /mob/living/carbon/human
-		H.ckey = O.ckey
+		H.ckey = player.ckey
 		H.client.changeView()
 		var/species = pickweight(list(
 			"Human" 	= 4,

@@ -200,6 +200,7 @@ var/list/admin_verbs_debug = list(
 	/client/proc/check_convertables,
 	/client/proc/toggle_convertibles,
 	/client/proc/check_spiral,
+	/client/proc/check_multi_z_spiral,
 	/client/proc/check_striketeams,
 	/client/proc/cmd_admin_find_bad_blood_tracks,
 	/client/proc/debugNatureMapGenerator,
@@ -208,9 +209,11 @@ var/list/admin_verbs_debug = list(
 	/client/proc/cmd_mass_modify_object_variables,
 	/client/proc/emergency_shuttle_panel,
 	/client/proc/bee_count,
+	/client/proc/see_lightmap,
 #if UNIT_TESTS_ENABLED
 	/client/proc/unit_test_panel,
 #endif
+	/client/proc/update_all_open_spaces,
 	)
 var/list/admin_verbs_possess = list(
 	/proc/possess,
@@ -976,9 +979,15 @@ var/list/admin_verbs_mod = list(
 		to_chat(usr, "player list is empty!")
 		return
 
-	var/mob/winner = input("Who's a winner?", "Achievement Winner", null) as null|anything in player_list
-	if(!winner)
+	var/list/winners = list()
+	for (var/mob/M in player_list)
+		winners["[M.real_name] ([M.key])"] = M
+
+	var/choice = input("Who's a winner?", "Achievement Winner", null) as null|anything in winners
+	if(!choice)
 		return
+
+	var/mob/winner = winners[choice]
 
 	var/name = input("What will you call your achievement?", "Achievement Winner", "New Achievement", null) as null|text
 	if(!name)
@@ -1319,3 +1328,20 @@ var/list/admin_verbs_mod = list(
 		holder.ViewAllRods()
 	feedback_add_details("admin_verb","V-ROD") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	return
+
+/client/proc/see_lightmap()
+	set name = "See lightmap"
+	set category = "Ghost"
+
+	if (!usr.check_rights(R_DEBUG))
+		to_chat(usr, "<span class='notice'>Only admins can use this command.</span>")
+		return
+
+	if (holder.see_lightmap)
+		usr.dark_plane.plane = LIGHTING_PLANE
+		usr.dark_plane.alphas["light_map"] = 0
+	else
+		usr.dark_plane.plane = initial(usr.dark_plane.plane)
+		usr.dark_plane.alphas -= "light_map"
+
+	holder.see_lightmap = !holder.see_lightmap

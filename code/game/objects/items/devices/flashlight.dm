@@ -52,6 +52,13 @@
 	update_brightness(user)
 	return 1
 
+/obj/item/device/flashlight/attack_animal(mob/living/simple_animal/M)
+	if(M.melee_damage_upper == 0)
+		return
+	else if (on && isspider(M))
+		on = FALSE
+		M.do_attack_animation(src, M)
+		update_brightness(M,1)
 
 /obj/item/device/flashlight/attack(mob/living/M as mob, mob/living/user as mob)
 	add_fingerprint(user)
@@ -141,6 +148,10 @@
 	icon_state = "lamp"
 	item_state = "lamp"
 	light_range = 5
+<<<<<<< HEAD
+=======
+	light_type = LIGHT_SOFT
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	w_class = W_CLASS_LARGE
 	flags = FPRINT
 	siemens_coefficient = 1
@@ -176,7 +187,11 @@
 	w_class = W_CLASS_SMALL
 	light_range = 4
 	light_power = 2.5 // Pretty bright.
+<<<<<<< HEAD
 	light_type = LIGHT_SOFT
+=======
+	light_type = LIGHT_SOFT_FLICKER
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	icon_state = "flare"
 	item_state = "flare"
 	actions_types = list(/datum/action/item_action/toggle_light)
@@ -187,6 +202,10 @@
 	heat_production = 1500
 	source_temperature = TEMPERATURE_FLAME
 	var/H_color = ""
+<<<<<<< HEAD
+=======
+
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	light_type = LIGHT_SOFT_FLICKER
 	light_color = LIGHT_COLOR_FLARE
 
@@ -236,6 +255,10 @@
 	user.visible_message("<span class='notice'>[user] activates the flare.</span>", "<span class='notice'>You pull the cord on the flare, activating it!</span>")
 	Light(user)
 
+
+/obj/item/device/flashlight/flare/attack_animal(mob/living/simple_animal/M)
+	return
+
 /obj/item/device/flashlight/flare/proc/Light(var/mob/user as mob)
 	on = 1
 	src.force = on_damage
@@ -250,6 +273,16 @@
 	if(on)
 		return source_temperature
 	return 0
+
+/obj/item/device/flashlight/flare/suicide_act(var/mob/living/user)
+	if(!on)
+		Light(user)
+	to_chat(viewers(user), "<span class='danger'>[user] is swallowing a lit flare! It looks like \he's trying to commit suicide.</span>")
+	qdel(src)
+	if(!fuel)
+		return (SUICIDE_ACT_TOXLOSS)
+	user.IgniteMob()
+	return (SUICIDE_ACT_TOXLOSS|SUICIDE_ACT_FIRELOSS)
 
 /obj/item/device/flashlight/flare/ever_bright/New()
 	. = ..()

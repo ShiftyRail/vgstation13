@@ -597,7 +597,7 @@
 	icon_state = "ghettorig0"
 	item_state = "ghettorig0"
 	light_power = 1.5
-	var/brightness_on = 4 //luminosity when on
+	light_range = 4
 	var/on = 0
 	_color = "ghetto"
 	pressure_resistance = 4 * ONE_ATMOSPHERE
@@ -618,7 +618,11 @@
 	item_state = "ghettorig[on]"
 
 	if(on)
+<<<<<<< HEAD
 		set_light(light_range)
+=======
+		set_light()
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	else
 		kill_light()
 
@@ -680,3 +684,49 @@
 	armor = list(melee = 40, bullet = 0, laser = 0,energy = 0, bomb = 65, bio = 100, rad = 50)
 	light_color = "#81F9C6" //Aquamarine. A combination of the colors from the lamp and rail light.
 	species_fit = list(INSECT_SHAPED)
+
+
+//Ninja Rig
+/obj/item/clothing/suit/space/rig/sundowner
+	name = "sundowner suit"
+	desc = "A unique, vacuum-proof suit of nano-enhanced armor designed specifically for Desperado Spider Clan squad."
+	icon_state = "sundowner_suit"
+	item_state = "sundowner_suit"
+	head_type = /obj/item/clothing/head/helmet/space/rig/sundowner
+	boots_type = /obj/item/clothing/shoes/ninja/redsun
+	body_parts_covered = ARMS|LEGS|FULL_TORSO
+	armor = list(melee = 60, bullet = 50, laser = 30,energy = 15, bomb = 30, bio = 30, rad = 30)
+	species_fit = list("Human")
+	species_restricted = list("Human") //only have human sprites :/
+	can_take_pai = TRUE
+	allowed = list(
+		/obj/item/weapon/tank,
+		/obj/item/weapon/cell,
+		/obj/item/weapon/melee/energy/sword,
+		/obj/item/stack/shuriken,
+		/obj/item/weapon/storage/box/syndie_kit/smokebombs,
+		/obj/item/toy/snappop/smokebomb,
+		/obj/item/weapon/substitutionhologram,
+		/obj/item/mounted/poster/stealth
+		)
+
+/obj/item/clothing/head/helmet/space/rig/sundowner
+	name = "sundowner headgear"
+	desc = "What may appear to be a simple visor and neck guard is in fact a highly sophisticated nano-weave helmet."
+	icon_state = "rig0-sundowner"
+	item_state = "rig0-sundowner"
+	_color = "sundowner"
+	armor = list(melee = 40, bullet = 0, laser = 0,energy = 0, bomb = 65, bio = 100, rad = 50)
+	color_on = "#ff0000" //RED SUN
+	pressure_resistance = 0
+	eyeprot = 0
+	body_parts_covered = EARS|BEARD
+
+/obj/item/clothing/head/helmet/space/rig/sundowner/update_brightness() //Shitcode HIJACK!
+	..()
+	update_mask()
+
+/obj/item/clothing/head/helmet/space/rig/sundowner/proc/update_mask()
+	pressure_resistance = on ? (200 * ONE_ATMOSPHERE) : initial(pressure_resistance)
+	eyeprot = on ? 3 : initial(eyeprot)
+	body_parts_covered = on ? FULL_HEAD : initial(body_parts_covered) //It's ninja magic, i ain't gonna explain shit

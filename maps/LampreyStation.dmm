@@ -1110,7 +1110,7 @@
 /obj/machinery/light/small{
 	dir = 4;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/machinery/camera{
 	name = "Locker Room East"
@@ -3538,7 +3538,7 @@
 	},
 /obj/machinery/light/small{
 	dir = 4;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor{
 	icon_state = "floorscorched2"
@@ -4502,7 +4502,7 @@
 /obj/effect/decal/cleanable/soot,
 /obj/effect/decal/cleanable/fruit_smudge,
 /obj/structure/closet/crate/secure/plasma/prefilled,
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = 32
 	},
 /turf/simulated/floor/wood{
@@ -12349,7 +12349,7 @@
 /obj/machinery/light/small{
 	dir = 4;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor,
 /area/lamprey/foreporthallways)
@@ -13115,7 +13115,7 @@
 "aDD" = (
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor{
 	icon_state = "floorgrime"
@@ -13270,7 +13270,7 @@
 /turf/simulated/floor/carpet,
 /area/lamprey/bronxmaintenanceblob)
 "aDZ" = (
-/obj/machinery/computer/security/advanced,
+/obj/machinery/computer/security,
 /turf/simulated/floor/plating,
 /area/lamprey/bronxmaintenanceblob)
 "aEa" = (
@@ -16389,7 +16389,7 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor{
 	dir = 9;
@@ -17909,7 +17909,7 @@
 	},
 /area/lamprey/telecommunications)
 "aPO" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = -32
 	},
 /obj/abstract/map/spawner/maint,
@@ -20270,7 +20270,7 @@
 /obj/machinery/light/small{
 	dir = 4;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/wood,
 /area/lamprey/warzonemaintenanceblob)
@@ -23916,7 +23916,7 @@
 /obj/machinery/light/small{
 	dir = 4;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor{
 	dir = 1;
@@ -25211,7 +25211,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor{
 	dir = 8;
@@ -25299,7 +25299,7 @@
 /obj/machinery/light/small{
 	dir = 4;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/machinery/door/firedoor/border_only{
 	name = "Firelock South"
@@ -29795,7 +29795,7 @@
 /turf/simulated/floor/plating,
 /area/lamprey/ghettosecuritymaintenanceblob)
 "bpx" = (
-/obj/machinery/computer/security/advanced,
+/obj/machinery/computer/security,
 /obj/structure/window/reinforced{
 	dir = 1
 	},
@@ -30586,7 +30586,7 @@
 	},
 /area/lamprey/security)
 "brl" = (
-/obj/machinery/computer/security/advanced,
+/obj/machinery/computer/security,
 /turf/simulated/floor{
 	icon_state = "darkredcorners";
 	tag = "icon-darkredcorners"
@@ -30977,7 +30977,7 @@
 /turf/simulated/floor/plating,
 /area/lamprey/escape)
 "bsk" = (
-/obj/structure/closet/fireaxecabinet,
+/obj/structure/fireaxecabinet,
 /turf/simulated/wall,
 /area/lamprey/escape)
 "bsl" = (
@@ -32225,7 +32225,7 @@
 /turf/simulated/floor,
 /area/lamprey/escape)
 "buT" = (
-/obj/machinery/computer/security/advanced,
+/obj/machinery/computer/security,
 /obj/machinery/light{
 	dir = 8
 	},
@@ -35318,7 +35318,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor,
 /area/lamprey/tinyroomzone)
@@ -36662,7 +36662,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor{
 	dir = 1;
@@ -38779,7 +38779,7 @@
 /turf/simulated/floor/plating,
 /area/lamprey/ghettosecuritymaintenanceblob)
 "bJk" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = -32
 	},
 /turf/simulated/floor/plating{
@@ -44942,7 +44942,6 @@
 	pixel_x = 1;
 	pixel_y = -1
 	},
-/obj/item/weapon/circuitboard/security/advanced,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 4
 	},
@@ -45146,7 +45145,7 @@
 /area/lamprey/originmaintenanceblob)
 "bXf" = (
 /obj/effect/landmark/corpse/janitor,
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = 32
 	},
 /obj/effect/decal/cleanable/mucus,
@@ -45197,7 +45196,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/item/weapon/storage/box/inflatables,
 /obj/effect/decal/warning_stripes{
@@ -49266,7 +49265,7 @@
 /area/lamprey/botaneva)
 "cgE" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = 32
 	},
 /obj/structure/closet/secure_closet/medical3,
@@ -50910,7 +50909,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/plating,
 /area/lamprey/researchwarehousemaintenanceblob)
@@ -51933,7 +51932,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/machinery/conveyor/auto,
 /turf/simulated/floor,
@@ -52055,7 +52054,7 @@
 /turf/simulated/wall/r_wall,
 /area/lamprey/hellmaintenanceblob)
 "cmv" = (
-/obj/structure/closet/fireaxecabinet,
+/obj/structure/fireaxecabinet,
 /turf/simulated/wall/r_wall,
 /area/lamprey/hellmaintenanceblob)
 "cmw" = (
@@ -52299,7 +52298,7 @@
 "cna" = (
 /obj/machinery/light/small{
 	dir = 4;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/plating,
 /area/lamprey/botanymaintenanceblob)
@@ -52644,7 +52643,7 @@
 /obj/machinery/light/small{
 	dir = 4;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/effect/decal/warning_stripes{
 	dir = 1;
@@ -54788,7 +54787,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor{
 	icon_state = "floorgrime"
@@ -56789,7 +56788,7 @@
 /obj/machinery/light/small{
 	dir = 4;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor{
@@ -57079,7 +57078,7 @@
 	},
 /area/lamprey/researchwarehousemaintenanceblob)
 "cye" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = 32
 	},
 /turf/simulated/floor/plating,
@@ -58471,7 +58470,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/warning_stripes{
@@ -61094,7 +61093,7 @@
 /turf/simulated/floor/plating,
 /area/lamprey/botaneva)
 "cGQ" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = 32
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -61953,7 +61952,7 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/abstract/map/spawner/space/supply,
 /obj/structure/table,
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = 32
 	},
 /turf/simulated/floor/plating,
@@ -62619,7 +62618,7 @@
 /area/lamprey/medbaywarehousemaintenanceblob)
 "cKb" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = -32
 	},
 /turf/simulated/floor/plating,
@@ -63443,7 +63442,7 @@
 /area/lamprey/researchwarehousemaintenanceblob)
 "cLX" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = 32
 	},
 /obj/item/device/multitool,
@@ -69425,7 +69424,7 @@
 	},
 /area/lamprey/bridge)
 "cZc" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = 32
 	},
 /turf/simulated/floor{
@@ -69564,7 +69563,7 @@
 /area/lamprey/headofpersonnelline)
 "cZq" = (
 /obj/structure/lattice,
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = -32
 	},
 /turf/space,
@@ -69763,7 +69762,7 @@
 	},
 /area/lamprey/bottomrung)
 "cZN" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = 32
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -72106,7 +72105,7 @@
 "dfb" = (
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/plating{
 	icon_state = "platingdmg3"
@@ -73670,7 +73669,7 @@
 	},
 /area/lamprey/bottomrung)
 "dhZ" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = 32
 	},
 /obj/machinery/power/photocollector,
@@ -79713,7 +79712,7 @@
 	},
 /area/lamprey/bridge)
 "dsN" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = -32
 	},
 /turf/simulated/floor{
@@ -80020,7 +80019,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/plating,
 /area/lamprey/engineering)
@@ -82393,7 +82392,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/plating,
 /area/lamprey/engineering)
@@ -86940,7 +86939,7 @@
 "dGU" = (
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/effect/decal/warning_stripes{
 	icon_state = "radiation-w"
@@ -89406,7 +89405,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers,
 /obj/machinery/light/small{
 	dir = 4;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/item/stack/cable_coil{
 	amount = 1;
@@ -89761,7 +89760,7 @@
 	},
 /area/lamprey/xenobiology)
 "dMs" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_z = 32
 	},
 /obj/machinery/light/small{
@@ -91037,7 +91036,7 @@
 	icon_state = "2-4"
 	},
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = 32
 	},
 /turf/simulated/floor/plating,
@@ -91229,7 +91228,7 @@
 "dPl" = (
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/structure/closet/secure_closet/engineering_atmos,
 /obj/effect/decal/warning_stripes{
@@ -93051,7 +93050,7 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/arcade,
 /area/lamprey/engineeringmaintenanceblob)
@@ -93063,7 +93062,7 @@
 "dSU" = (
 /obj/machinery/light/small{
 	dir = 4;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/structure/closet/wardrobe/grey,
 /turf/simulated/floor/plating,
@@ -93100,7 +93099,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers,
 /obj/machinery/light/small{
 	dir = 4;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/vending,
@@ -94519,7 +94518,7 @@
 /obj/machinery/light/small{
 	dir = 4;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/engine,
 /area/lamprey/xenobarology)
@@ -100178,7 +100177,7 @@
 	},
 /area/lamprey/thebelt)
 "eiQ" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_x = -32
 	},
 /obj/structure/table,
@@ -101036,7 +101035,7 @@
 	},
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor{
 	icon_state = "stage_stairs";
@@ -101374,7 +101373,7 @@
 "eld" = (
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor{
 	dir = 1;
@@ -102007,7 +102006,7 @@
 	},
 /area/lamprey/bridge)
 "emI" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = -32
 	},
 /turf/simulated/floor/wood,
@@ -102220,7 +102219,7 @@
 	},
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/machinery/door/firedoor/border_only{
 	name = "Firelock South"
@@ -102459,7 +102458,7 @@
 	},
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 1;
@@ -102753,7 +102752,7 @@
 "eoh" = (
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/machinery/camera{
 	dir = 4;
@@ -103609,7 +103608,7 @@
 /obj/item/mounted/poster,
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/wood,
 /area/lamprey/barattheedgeoftheworld)
@@ -108219,7 +108218,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/carpet,
 /area/lamprey/theater)
@@ -109271,7 +109270,7 @@
 "eBd" = (
 /obj/machinery/light/small{
 	dir = 8;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/effect/mist{
 	icon = 'icons/obj/posters.dmi';
@@ -109329,7 +109328,7 @@
 /obj/machinery/light/small{
 	dir = 4;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/effect/mist{
 	icon = 'icons/obj/posters.dmi';
@@ -109364,7 +109363,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /obj/effect/mist{
 	icon = 'icons/obj/posters.dmi';
@@ -124777,7 +124776,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor{
 	dir = 8;
@@ -132937,7 +132936,7 @@
 /obj/structure/window/reinforced/plasma{
 	dir = 4
 	},
-/obj/machinery/computer/security/advanced,
+/obj/machinery/computer/security,
 /turf/simulated/shuttle/floor/vox,
 /area/shuttle/nuclearops)
 "fAF" = (
@@ -154102,7 +154101,7 @@
 /turf/space,
 /area)
 "gtk" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = 32
 	},
 /turf/space,
@@ -171909,7 +171908,7 @@
 /turf/space,
 /area)
 "hav" = (
-/obj/machinery/computer/security/advanced,
+/obj/machinery/computer/security,
 /turf/space,
 /area)
 "haw" = (
@@ -180059,7 +180058,7 @@
 	icon_state = "0-4"
 	},
 /obj/item/mounted/frame/apc_frame,
-/obj/machinery/computer/security/advanced,
+/obj/machinery/computer/security,
 /turf/space,
 /area)
 "hoH" = (
@@ -182878,7 +182877,7 @@
 /area)
 "htK" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_x = 32
 	},
 /turf/space,
@@ -188589,7 +188588,7 @@
 /turf/unsimulated/floor/asteroid,
 /area/lamprey/asteroid)
 "hGj" = (
-/obj/machinery/computer/security/advanced,
+/obj/machinery/computer/security,
 /turf/simulated/floor{
 	icon_state = "dark"
 	},
@@ -192013,7 +192012,7 @@
 	},
 /area/lamprey/excavationtunnels)
 "hNt" = (
-/obj/machinery/computer/security/advanced,
+/obj/machinery/computer/security,
 /turf/simulated/floor/plating{
 	icon_state = "asteroidfloor"
 	},
@@ -196209,7 +196208,7 @@
 /obj/machinery/light/small{
 	dir = 8;
 	flickering = 1;
-	light_range = 2.5
+	light_range = 3
 	},
 /turf/simulated/floor/vox{
 	icon_state = "bar";

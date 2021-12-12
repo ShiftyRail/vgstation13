@@ -279,7 +279,7 @@
 
 	var/dat
 	dat += "<h4>Crew Manifest</h4>"
-	dat += data_core.get_manifest()
+	dat += data_core.get_manifest(OOC = 1)
 
 	src << browse(dat, "window=manifest;size=370x420;can_close=1")
 
@@ -543,7 +543,7 @@
 	var/response = alert(src, "Are you -sure- you want to become a space hobo?","Are you sure you want to ramble?","Yeah!","Nope!")
 	if(response != "Yeah!")
 		return  //Hit the wrong key...again.
-	
+
 	//find a viable mouse candidate
 	var/mob/living/carbon/human/hobo = new(pick(hobostart))
 	hobo.key = src.key

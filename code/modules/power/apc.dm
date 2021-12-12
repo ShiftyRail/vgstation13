@@ -101,8 +101,12 @@
 
 	machine_flags = WIREJACK
 
+<<<<<<< HEAD
 	plane = LIGHTING_PLANE
 	layer = ABOVE_LIGHTING_LAYER
+=======
+	plane = OBJ_PLANE
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 	light_range = 1
 	light_power = 1
@@ -270,6 +274,8 @@
 			light_range = 0
 			light_power = 0
 			var/basestate = "apc[ cell ? "2" : "1" ]"
+			light_range = 0
+			light_power = 0
 			if(update_state & UPSTATE_OPENED1)
 				if(update_state & (UPSTATE_MAINT|UPSTATE_BROKE))
 					icon_state = "apcmaint" //disabled APC cannot hold cell
@@ -290,6 +296,11 @@
 			icon_state = "apcewires"
 			light_range = 0
 			light_power = 0
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 	if(!(update_state & UPSTATE_ALLGOOD))
 		if(overlays.len)
@@ -323,6 +334,10 @@
 
 	if (old_light_range != light_range || old_light_power != light_power)
 		light_obj.cast_light()
+<<<<<<< HEAD
+=======
+
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 /obj/machinery/power/apc/proc/check_updates()
 
@@ -656,7 +671,7 @@
 					"You hear something metallic being hit, and falling on the floor.")
 				update_icon()
 			else
-				user.visible_message("<span class='warning'>\The [user.name] hits the broken APC's cover with \a [W.name] by [user.name]!</span>", \
+				user.visible_message("<span class='warning'>\The [user.name] hits the broken APC's cover with \a [W.name]!</span>", \
 					"<span class='warning'>You hit the APC's cover with your [W.name]!</span>", \
 					"You hear something metallic being hit.")
 
@@ -778,7 +793,7 @@
 		"chargingStatus" = charging,
 		"totalLoad" = lastused_equip + lastused_light + lastused_environ,
 		"coverLocked" = coverlocked,
-		"siliconUser" = istype(user, /mob/living/silicon) || isAdminGhost(user), // Allow aghosts to fuck with APCs
+		"siliconUser" = istype(user, /mob/living/silicon) || isAdminGhost(user) || OMNI_LINK(user,src), // Allow aghosts to fuck with APCs
 		"malfLocked"= malflocked,
 		"malfStatus" = get_malf_status(user),
 
@@ -893,7 +908,7 @@
 			return 0
 
 	else
-		if ((!in_range(src, user) || !istype(src.loc, /turf)))
+		if ((!is_in_range(user) || !istype(src.loc, /turf)))
 			nanomanager.close_user_uis(user, src)
 
 		if (wiresexposed)
@@ -914,11 +929,8 @@
 	return 1
 
 /obj/machinery/power/apc/is_in_range(var/mob/user)
-	if((!in_range(src, usr) || !istype(src.loc, /turf)) && !istype(usr, /mob/living/silicon))
-		var/obj/item/device/multitool/omnitool/O = user.get_active_hand()
-		if(istype(O))
-			return O.can_connect(src,user)
-		return FALSE
+	if(!..())
+		return OMNI_LINK(user,src)
 	return TRUE
 
 /obj/machinery/power/apc/Topic(href, href_list)
@@ -933,7 +945,7 @@
 		return 0
 	if(!can_use(usr, 1))
 		return 0
-	if(!(istype(usr, /mob/living/silicon) || isAdminGhost(usr)) && locked)
+	if(!(istype(usr, /mob/living/silicon) || isAdminGhost(usr) || OMNI_LINK(usr, src)) && locked)
 	// Shouldn't happen, this is here to prevent href exploits
 		to_chat(usr, "You must unlock the panel to use this!")
 		return 1

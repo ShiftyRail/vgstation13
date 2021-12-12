@@ -731,6 +731,8 @@
 		holder.remove_reagent(AMATOXIN, 2 * REM)
 	if(holder.has_reagent(CHLORALHYDRATE))
 		holder.remove_reagent(CHLORALHYDRATE, 5 * REM)
+	if(holder.has_reagent(SUX))
+		holder.remove_reagent(SUX, REM)
 	if(holder.has_reagent(CARPOTOXIN))
 		holder.remove_reagent(CARPOTOXIN, REM)
 	if(holder.has_reagent(ZOMBIEPOWDER))
@@ -4188,6 +4190,31 @@
 	glass_icon_state = "beerglass"
 	glass_desc = "A cold pint of pale lager."
 
+/datum/reagent/suxameth
+	name = "Suxameth"
+	id = SUX
+	description = "A name for Suxamethonium chloride. A medical full-body paralytic preferred because it is easy to purge."
+	reagent_state = REAGENT_STATE_LIQUID
+	color = "#CFC5E9" //rgb: 207, 197, 223
+	data = null
+	flags = CHEMFLAG_DISHONORABLE
+	overdose_am = 21
+	custom_metabolism = 1
+
+/datum/reagent/suxameth/on_mob_life(var/mob/living/M)
+	if(..())
+		return 1
+	if(isnull(data))
+		// copied from chloral for the same reasons
+		data = 0
+	if(data >= 2)
+		M.SetStunned(2)
+		M.SetKnockdown(2)
+	data++
+
+/datum/reagent/suxameth/on_overdose(var/mob/living/M)
+	M.adjustOxyLoss(6) //Paralyzes the diaphragm if they go over 20 units
+
 /////////////////////////Food Reagents////////////////////////////
 
 //Part of the food code. Nutriment is used instead of the old "heal_amt" code
@@ -4549,7 +4576,7 @@
 	id = FROSTOIL
 	description = "A special oil that noticably chills the body. Extraced from Icepeppers."
 	reagent_state = REAGENT_STATE_LIQUID
-	color = "#B31008" //rgb: 139, 166, 233
+	color = "#8BA6E9" //rgb: 139, 166, 233
 	data = 1 //Used as a tally
 	custom_metabolism = FOOD_METABOLISM
 
@@ -5141,6 +5168,29 @@
 		return 1
 	M.bodytemperature += 3 * TEMPERATURE_DAMAGE_COEFFICIENT
 
+/datum/reagent/pancake_mix
+	name = "pancake mix"
+	id = PANCAKE
+	description = "A mix of flour, milk, butter, and egg yolk. ready to be cooked into delicious pancakes."
+	reagent_state = REAGENT_STATE_LIQUID
+	nutriment_factor = 15 * REAGENTS_METABOLISM
+	color = "#E6C968" //rgb: 90, 78, 40
+
+/datum/reagent/pancake_mix/on_mob_life(var/mob/living/M)
+
+	if(..())
+		return 1
+	M.nutrition += nutriment_factor
+
+/datum/reagent/pancake_mix/reaction_turf(var/turf/simulated/T, var/volume)
+
+	if(..())
+		return 1
+
+	if(!(locate(/obj/effect/decal/cleanable/flour) in T))
+		var/obj/effect/decal/cleanable/flour/F = new (T)
+		F.color = "#E6C968"
+
 /datum/reagent/rice
 	name = "Rice"
 	id = RICE
@@ -5179,7 +5229,7 @@
 	color = "#6F884F" //rgb: 111, 136, 79
 	data = 1 //Used as a tally
 	nutriment_factor = 4 * REAGENTS_METABOLISM
-	
+
 /datum/reagent/discount/New()
 	..()
 	density = rand(12,48)
@@ -5227,7 +5277,7 @@
 	reagent_state = REAGENT_STATE_LIQUID
 	color = "#6F884F" //rgb: 255,255,255 //to-do
 	nutriment_factor = 1 * REAGENTS_METABOLISM
-	
+
 /datum/reagent/irradiatedbeans/on_mob_life(var/mob/living/M)
 
 	if(..())
@@ -5244,7 +5294,7 @@
 	color = "#6F884F" //rgb: 255,255,255 //to-do
 	density = 5.59
 	specheatcap = 2.71
-	
+
 /datum/reagent/toxicwaste/on_mob_life(var/mob/living/M)
 
 	if(..())
@@ -5268,7 +5318,7 @@
 	reagent_state = REAGENT_STATE_LIQUID
 	color = "#6F884F" //rgb: 255,255,255 //to-do
 	nutriment_factor = 1 * REAGENTS_METABOLISM
-	
+
 /datum/reagent/mutatedbeans/on_mob_life(var/mob/living/M)
 
 	if(..())
@@ -5299,7 +5349,7 @@
 	description = "We don't know much about it, but we damn well know that it hates the human skeleton."
 	reagent_state = REAGENT_STATE_LIQUID
 	color = "#6F884F" //rgb: 255,255,255 //to-do
-	
+
 /datum/reagent/moonrocks/on_mob_life(var/mob/living/M)
 
 	if(..())
@@ -5323,7 +5373,7 @@
 	reagent_state = REAGENT_STATE_LIQUID
 	color = "#6F884F" //rgb: 255,255,255 //to-do
 	nutriment_factor = REAGENTS_METABOLISM
-	
+
 /datum/reagent/greenramen
 	name = "Greenish Ramen Noodles"
 	id = GREENRAMEN
@@ -5339,9 +5389,9 @@
 
 	if(prob(5))
 		M.adjustToxLoss(1)
-	
+
 	if(prob(5))
-		M.apply_radiation(1, RAD_INTERNAL) //Call it uranium contamination so heavy metal poisoning for the tox and the uranium radiation for the radiation damage 
+		M.apply_radiation(1, RAD_INTERNAL) //Call it uranium contamination so heavy metal poisoning for the tox and the uranium radiation for the radiation damage
 
 /datum/reagent/glowingramen
 	name = "Glowing Ramen Noodles"
@@ -5355,7 +5405,7 @@
 
 	if(..())
 		return 1
-	
+
 	if(prob(10))
 		M.apply_radiation(1, RAD_INTERNAL)
 
@@ -6507,10 +6557,10 @@
 					imageloc = M.current.loc
 					imagelocB = M.current.loc
 				var/image/I = image('icons/mob/HUD.dmi', loc = imageloc, icon_state = "metaclub")
-				I.plane = MISC_HUD_MARKERS_PLANE
+				I.plane = ANTAG_HUD_PLANE
 				M.current.client.images += I
 				var/image/J = image('icons/mob/HUD.dmi', loc = imagelocB, icon_state = "metaclub")
-				J.plane = MISC_HUD_MARKERS_PLANE
+				J.plane = ANTAG_HUD_PLANE
 				new_buddy.current.client.images += J
 
 /datum/reagent/ethanol/waifu
@@ -6739,7 +6789,11 @@
 				M.gib()
 	//Will pull items in a range based on time in system
 	for(var/atom/X in orange((data+30)/50, M))
+<<<<<<< HEAD
 		if(islightingoverlay(X))//since there's one on every turf
+=======
+		if(X.type == /atom/movable/light)//since there's one on every turf
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 			continue
 		X.singularity_pull(M, data/50, data/50)
 	data++
@@ -6781,7 +6835,11 @@
 				M.gib()
 	//Will pull items in a range based on time in system
 	for(var/atom/X in orange((data+30)/50, M))
+<<<<<<< HEAD
 		if(islightingoverlay(X))//since there's one on every turf
+=======
+		if(X.type == /atom/movable/light)//since there's one on every turf
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 			continue
 		X.singularity_pull(M, data/50, data/50)
 	data++
@@ -8474,7 +8532,7 @@ var/global/list/tonio_doesnt_remove=list("tonio", "blood")
 	description = "Aww, come on Double D, I don't say 'gravy' all the time."
 	reagent_state = REAGENT_STATE_LIQUID
 	nutriment_factor = 10 * REAGENTS_METABOLISM
-	color = "#EDEDE1"
+	color = "#E7A568"
 
 /datum/reagent/gravy/on_mob_life(var/mob/living/M, var/alien)
 	if(..())
@@ -8996,6 +9054,14 @@ var/global/list/tonio_doesnt_remove=list("tonio", "blood")
 	color = "#FFFFFF"
 	density = 2.211
 	specheatcap = 87.45
+
+/datum/reagent/calciumcarbonate
+	name = "Calcium Carbonate"
+	id = CALCIUMCARBONATE
+	description = "An odorless, fine, white micro-crystalline powder. Usually obtained by grinding limestone, or egg shells."
+	color = "#FFFFFF"
+	density = 2.73
+	specheatcap = 83.43
 
 /datum/reagent/sodium_silicate
 	name = "Sodium Silicate"

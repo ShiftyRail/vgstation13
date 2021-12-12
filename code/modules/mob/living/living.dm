@@ -246,7 +246,7 @@ lazy_invoke_event
 	if(status_flags & GODMODE)
 		return 0	//godmode
 
-	if(lazy_invoke_event(/lazy_event/on_damaged, list("kind" = BRUTE, "amount" = amount)))
+	if(invoke_event(/event/damaged, list("kind" = BRUTE, "amount" = amount)))
 		return 0
 
 	bruteloss = min(max(bruteloss + (amount * brute_damage_modifier), 0),(maxHealth*2))
@@ -258,7 +258,7 @@ lazy_invoke_event
 	if(status_flags & GODMODE)
 		return 0	//godmode
 
-	if(lazy_invoke_event(/lazy_event/on_damaged, list("kind" = OXY, "amount" = amount)))
+	if(invoke_event(/event/damaged, list("kind" = OXY, "amount" = amount)))
 		return 0
 
 	oxyloss = min(max(oxyloss + (amount * oxy_damage_modifier), 0),(maxHealth*2))
@@ -275,7 +275,7 @@ lazy_invoke_event
 	if(status_flags & GODMODE)
 		return 0	//godmode
 
-	if(lazy_invoke_event(/lazy_event/on_damaged, list("kind" = TOX, "amount" = amount)))
+	if(invoke_event(/event/damaged, list("kind" = TOX, "amount" = amount)))
 		return 0
 
 	var/mult = 1
@@ -299,7 +299,7 @@ lazy_invoke_event
 		return 0	//godmode
 	if(mutations.Find(M_RESIST_HEAT))
 		return 0
-	if(lazy_invoke_event(/lazy_event/on_damaged, list("kind" = BURN, "amount" = amount)))
+	if(invoke_event(/event/damaged, list("kind" = BURN, "amount" = amount)))
 		return 0
 
 	fireloss = min(max(fireloss + (amount * burn_damage_modifier), 0),(maxHealth*2))
@@ -311,7 +311,7 @@ lazy_invoke_event
 	if(status_flags & GODMODE)
 		return 0	//godmode
 
-	if(lazy_invoke_event(/lazy_event/on_damaged, list("kind" = CLONE, "amount" = amount)))
+	if(invoke_event(/event/damaged, list("kind" = CLONE, "amount" = amount)))
 		return 0
 
 	if(ishuman(src))
@@ -333,7 +333,7 @@ lazy_invoke_event
 	if(status_flags & GODMODE)
 		return 0	//godmode
 
-	if(lazy_invoke_event(/lazy_event/on_damaged, list("kind" = BRAIN, "amount" = amount)))
+	if(invoke_event(/event/damaged, list("kind" = BRAIN, "amount" = amount)))
 		return 0
 
 	brainloss = min(max(brainloss + (amount * brain_damage_modifier), 0),(maxHealth*2))
@@ -720,9 +720,9 @@ Thanks.
 						if (ok)
 							var/atom/movable/secondarypull = M.pulling
 							M.stop_pulling()
-							lazy_invoke_event(/lazy_event/on_before_move)
+							invoke_event(/event/before_move)
 							pulling.Move(T, get_dir(pulling, T), glide_size_override = src.glide_size)
-							lazy_invoke_event(/lazy_event/on_after_move)
+							invoke_event(/event/after_move)
 							if(M && secondarypull)
 								M.start_pulling(secondarypull)
 					else
@@ -790,7 +790,7 @@ Thanks.
 
 	var/turf/T = get_turf(src)
 
-	lazy_invoke_event(/lazy_event/on_resist, list("user" = src))
+	invoke_event(/event/resist, list("user" = src))
 
 	delayNextSpecial(10) // Special delay, a cooldown to prevent spamming too much.
 
@@ -823,9 +823,13 @@ Thanks.
 		return
 	else if(istype(src.loc, /obj/structure/strange_present))
 		var/obj/structure/strange_present/present = src.loc
-		forceMove(T)
-		qdel(present)
-		playsound(src.loc, 'sound/items/poster_ripped.ogg', 100, 1)
+		to_chat(L, "<span class='warning'>You attempt to unwrap yourself, these wraps are tight and will take some time.</span>")
+		if(do_after(src, src, 2 MINUTES))
+			L.visible_message("<span class='danger'>[L] successfully breaks out of [present]!</span>",\
+							  "<span class='notice'>You successfully break out!</span>")
+			forceMove(T)
+			qdel(present)
+			playsound(src.loc, 'sound/items/poster_ripped.ogg', 100, 1)
 		return
 	else if(istype(src.loc, /obj/item/delivery/large)) //Syndie item
 		var/obj/item/delivery/large/package = src.loc
@@ -920,12 +924,14 @@ Thanks.
 	if(L.locked_to && !L.isUnconscious())
 		// unbeartrapping yourself
 		if (istype(L.locked_to, /obj/item/weapon/beartrap/))
-			if (iscarbon(L))
+			if (!iscarbon(L))
+				L.locked_to.attack_hand(L)
+				return
+			else
 				var/mob/living/carbon/C = L
-				if (C.handcuffed)
+				if (!C.handcuffed)
+					L.locked_to.attack_hand(L)
 					return
-			L.locked_to.attack_hand(L)
-			return
 		//unbuckling yourself
 		if(istype(L.locked_to, /obj/structure/bed))
 			var/obj/structure/bed/B = L.locked_to
@@ -1426,9 +1432,9 @@ Thanks.
 					AM.set_glide_size(src.glide_size)
 					if (ismob(AM))
 						var/mob/M = AM
-						lazy_invoke_event(/lazy_event/on_before_move)
+						invoke_event(/event/before_move)
 						step(M, t)
-						lazy_invoke_event(/lazy_event/on_after_move)
+						invoke_event(/event/after_move)
 					else
 						step(AM, t)
 				now_pushing = 0
@@ -1464,11 +1470,14 @@ Thanks.
 			return 0
 
 	spawn()
+		//we try to turn into marble mannequins, but if we're not compatible we'll use the old statue type
 		if(forever)
-			new /obj/structure/closet/statue/eternal(get_turf(src), src)
+			if (!turn_into_mannequin("marble",TRUE))
+				new /obj/structure/closet/statue/eternal(get_turf(src), src)
 		else
-			new /obj/structure/closet/statue(get_turf(src), src)
-
+			if (!turn_into_mannequin("marble"))
+				new /obj/structure/closet/statue(get_turf(src), src)
+		timestopped = 1
 	return 1
 
 /*
@@ -1809,7 +1818,7 @@ Thanks.
 		block = check_contact_sterility(FEET)
 		bleeding = check_bodypart_bleeding(FEET)
 
-	var/list/viral_cleanable_types = list(
+	var/static/list/viral_cleanable_types = list(
 		/obj/effect/decal/cleanable/blood,
 		/obj/effect/decal/cleanable/mucus,
 		/obj/effect/decal/cleanable/vomit,

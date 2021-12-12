@@ -210,11 +210,14 @@ obj/item/asteroid/basilisk_hide/New()
 
 /mob/living/simple_animal/hostile/asteroid/goldgrub/proc/Burrow()//Begin the chase to kill the goldgrub in time
 	if(!alerted)
-		alerted = 1
+		alerted = TRUE
 		spawn(chase_time)
 			if(alerted)
-				visible_message("<span class='danger'>\The [src] burrows into the ground, vanishing from sight!</span>")
 				var/turf/T = get_turf(src)
+				if (istype(T, /turf/space))
+					alerted = FALSE
+					return
+				visible_message("<span class='danger'>\The [src] burrows into the ground, vanishing from sight!</span>")
 				forceMove(null)
 				T.ex_act(2)
 				spawn(rand(30 SECONDS,90 SECONDS))
@@ -892,11 +895,11 @@ obj/item/asteroid/basilisk_hide/New()
 	holder_type = /obj/item/weapon/holder/animal/pillow
 	size = SIZE_SMALL
 	pacify_aura = TRUE
+	environment_smash_flags = 0
 	var/image/eyes
 
 /mob/living/simple_animal/hostile/asteroid/pillow/no_pacify
 	pacify_aura = FALSE
-	environment_smash_flags = 0
 	response_help = "pets"
 
 /mob/living/simple_animal/hostile/asteroid/pillow/examine(mob/user)

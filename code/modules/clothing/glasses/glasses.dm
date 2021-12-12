@@ -22,6 +22,14 @@
 
 	var/obj/item/clothing/glasses/stored_glasses = null
 	var/glasses_fit = FALSE
+
+	var/my_dark_plane_alpha_override
+	var/my_dark_plane_alpha_override_value
+
+
+/obj/item/clothing/glasses/proc/update_perception(var/mob/living/carbon/human/M)
+	return
+
 /*
 SEE_SELF  // can see self, no matter what
 SEE_MOBS  // can see all mobs, no matter what
@@ -509,6 +517,8 @@ var/list/science_goggles_wearers = list()
 	eyeprot = -2 //prepare for your eyes to get shit on
 
 	glasses_fit = TRUE
+	my_dark_plane_alpha_override = "thermals"
+	my_dark_plane_alpha_override_value = 255
 
 /obj/item/clothing/glasses/thermal/emp_act(severity)
 	if(istype(src.loc, /mob/living/carbon/human))
@@ -659,8 +669,8 @@ var/list/science_goggles_wearers = list()
 
 /obj/item/clothing/glasses/emitter/proc/enable()
 	if (istype(emitter))
-		emitter.lazy_register_event(/lazy_event/on_before_move, src, /obj/item/clothing/glasses/emitter/proc/update_emitter_start)
-		emitter.lazy_register_event(/lazy_event/on_after_move, src, /obj/item/clothing/glasses/emitter/proc/update_emitter_end)
+		emitter.register_event(/event/before_move, src, /obj/item/clothing/glasses/emitter/proc/update_emitter_start)
+		emitter.register_event(/event/after_move, src, /obj/item/clothing/glasses/emitter/proc/update_emitter_end)
 	update_emitter()
 
 /obj/item/clothing/glasses/emitter/proc/disable()
@@ -668,8 +678,8 @@ var/list/science_goggles_wearers = list()
 		qdel(beam)
 		beam = null
 	if (emitter)
-		emitter.lazy_unregister_event(/lazy_event/on_before_move, src, /obj/item/clothing/glasses/emitter/proc/update_emitter_start)
-		emitter.lazy_unregister_event(/lazy_event/on_after_move, src, /obj/item/clothing/glasses/emitter/proc/update_emitter_end)
+		emitter.unregister_event(/event/before_move, src, /obj/item/clothing/glasses/emitter/proc/update_emitter_start)
+		emitter.unregister_event(/event/after_move, src, /obj/item/clothing/glasses/emitter/proc/update_emitter_end)
 		emitter = null
 
 /obj/item/clothing/glasses/emitter/process()

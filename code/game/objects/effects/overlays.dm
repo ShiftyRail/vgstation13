@@ -25,13 +25,33 @@
 	anchored = 1
 	var/tmp/atom/BeamSource
 
-/obj/effect/overlay/beam/New(var/turf/loc, var/lifetime = 10, var/fade = 0, var/src_icon = 'icons/effects/beam.dmi', var/icon_state = "b_beam", var/base_damage = 30)
+	// light
+	lighting_flags = IS_LIGHT_SOURCE
+	light_range = 1
+	light_power = 3 // very bright
+	light_color = LIGHT_COLOR_RED
+
+/obj/effect/overlay/beam/New(var/turf/loc, var/lifetime = 10, var/fade = 0, var/src_icon = 'icons/effects/beam.dmi', var/icon_state = "b_beam", var/base_damage = 30, var/col_override = null, var/col_shift = null, var/emit_light = TRUE, var/_light_power, var/_light_color)
+	if (!emit_light)
+		lighting_flags = 0
+	if (_light_power)
+		light_power = _light_power
+	if (_light_color)
+		light_color = _light_color
+
+	light_power = round(light_power*max(1,loc.last_beam_damage)/max(1,base_damage))
+
 	..()
 	alpha = round(255*(max(1,loc.last_beam_damage)/max(1,base_damage)))
 	icon = src_icon
 	src.icon_state = icon_state
+	if (col_override)
+		color = col_override
 	spawn if(fade)
-		animate(src, alpha=0, time=lifetime)
+		if (col_shift)
+			animate(src, alpha=0, color=col_shift, time=lifetime)
+		else
+			animate(src, alpha=0, time=lifetime)
 	spawn(lifetime)
 		qdel(src)
 

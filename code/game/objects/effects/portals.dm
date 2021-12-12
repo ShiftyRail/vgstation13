@@ -40,7 +40,15 @@
 	spawn()
 		src.teleport(M)
 */
+<<<<<<< HEAD
 /obj/effect/portal/Crossed(AM as mob|obj)
+=======
+/obj/effect/portal/Crossed(AM as mob|obj, var/from_tp)
+	if (from_tp)
+		return
+	if(istype(AM, /atom/movable/light))
+		return
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	spawn()
 		teleport(AM)
 
@@ -160,6 +168,10 @@ var/list/portal_cache = list()
 /obj/effect/portal/proc/teleport(atom/movable/M as mob|obj)
 	if(istype(M, /obj/effect)) //sparks don't teleport
 		return
+	if(istype(M, /atom/movable/light))
+		var/atom/movable/light/L = M
+		if (istype(L.holder, /obj/effect)) // sparks lights don't teleport either
+			return
 	if (!isobserver(M) && M.anchored && !istype(M, /obj/mecha) && !istype(M, /obj/item/projectile))
 		return
 	if (!target)

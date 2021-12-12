@@ -978,7 +978,7 @@
 /turf/simulated/floor/plating,
 /area/surface/forest/deer)
 "acG" = (
-/obj/machinery/computer/security/advanced,
+/obj/machinery/computer/security,
 /turf/simulated/shuttle/floor{
 	icon_state = "floor4";
 	tag = "icon-floor4"
@@ -6250,7 +6250,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
 	dir = 4
 	},
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = -32
 	},
 /turf/simulated/floor,
@@ -15089,7 +15089,6 @@
 	pixel_x = 1;
 	pixel_y = -1
 	},
-/obj/item/weapon/circuitboard/security/advanced,
 /obj/item/device/radio/intercom{
 	pixel_x = 25
 	},
@@ -35827,6 +35826,9 @@
 /area/security/brig)
 "bDo" = (
 /obj/machinery/computer/security_alerts,
+/obj/machinery/camera{
+	c_tag = "Security Lobby North"
+	},
 /turf/simulated/floor{
 	dir = 9;
 	icon_state = "darkred";
@@ -36376,17 +36378,6 @@
 	},
 /area/security/lobby)
 "bEi" = (
-/obj/machinery/camera{
-	c_tag = "Security Lobby North"
-	},
-/obj/machinery/power/apc{
-	dir = 1;
-	pixel_y = 24
-	},
-/obj/structure/cable{
-	d2 = 2;
-	icon_state = "0-2"
-	},
 /turf/simulated/floor{
 	dir = 1;
 	icon_state = "darkred";
@@ -37070,11 +37061,6 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
-	},
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 4;
-	icon_state = "1-4"
 	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
 	dir = 1
@@ -39948,7 +39934,6 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/item/weapon/circuitboard/security/advanced,
 /turf/simulated/floor{
 	icon_state = "dark"
 	},
@@ -41004,6 +40989,13 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 4
+	},
+/obj/structure/cable{
+	d2 = 8;
+	icon_state = "0-8"
+	},
+/obj/machinery/power/apc{
+	pixel_y = -24
 	},
 /turf/simulated/floor{
 	icon_state = "darkred";
@@ -46987,6 +46979,7 @@
 /obj/item/weapon/tank/jetpack/oxygen,
 /obj/item/clothing/mask/gas,
 /obj/item/clothing/suit/space/rig/captain,
+/obj/item/clothing/shoes/magboots/captain,
 /obj/item/weapon/card/id/captains_spare,
 /turf/simulated/floor/carpet,
 /area/crew_quarters/captain)
@@ -48253,7 +48246,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = 32
 	},
 /turf/simulated/floor{
@@ -77905,7 +77898,7 @@
 /turf/simulated/floor/engine,
 /area/shuttle/salvage/start)
 "dol" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_x = -32
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -92096,6 +92089,12 @@
 /obj/machinery/r_n_d/fabricator/circuit_imprinter,
 /turf/simulated/floor/bluegrid,
 /area/science/lab)
+"fSj" = (
+/obj/machinery/photobooth/security,
+/turf/simulated/floor{
+	icon_state = "dark"
+	},
+/area/security/lobby)
 "fTC" = (
 /obj/machinery/space_heater/campfire/stove{
 	icon_state = "stove0"
@@ -93388,16 +93387,7 @@
 /obj/machinery/atmospherics/unary/vent_scrubber/on{
 	dir = 4
 	},
-/obj/item/weapon/storage/firstaid/regular{
-	empty = 1;
-	name = "First-Aid (empty)"
-	},
-/obj/item/weapon/storage/firstaid/regular{
-	empty = 1;
-	name = "First-Aid (empty)"
-	},
-/obj/item/weapon/reagent_containers/glass/bucket,
-/obj/structure/table,
+/obj/structure/closet/wardrobe/robotics_black,
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -96268,7 +96258,16 @@
 	},
 /area/tdome/tdomeadmin)
 "mig" = (
-/obj/structure/closet/wardrobe/robotics_black,
+/obj/structure/table,
+/obj/item/weapon/storage/firstaid/regular{
+	empty = 1;
+	name = "First-Aid (empty)"
+	},
+/obj/item/weapon/storage/firstaid/regular{
+	empty = 1;
+	name = "First-Aid (empty)"
+	},
+/obj/item/weapon/reagent_containers/glass/bucket,
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -96326,6 +96325,9 @@
 /area/medical/chemistry)
 "mkQ" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
 	dir = 4
 	},
 /turf/simulated/floor{
@@ -97269,9 +97271,12 @@
 /turf/simulated/floor,
 /area/tdome)
 "nMB" = (
-/obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden{
 	dir = 8
+	},
+/obj/structure/disposalpipe/junction{
+	dir = 2;
+	icon_state = "pipe-j2"
 	},
 /turf/simulated/floor,
 /area/hallway/primary/starboard{
@@ -99404,23 +99409,10 @@
 /turf/simulated/floor,
 /area/science/chargebay)
 "rhj" = (
-/obj/structure/table,
-/obj/item/device/flash/synthetic,
-/obj/item/device/flash/synthetic,
-/obj/item/device/flash/synthetic,
-/obj/item/device/flash/synthetic,
-/obj/item/device/flash/synthetic,
-/obj/item/weapon/reagent_containers/glass/beaker/large,
-/obj/item/weapon/cell/high{
-	charge = 100;
-	maxcharge = 15000
-	},
 /obj/structure/sign/kiddieplaque{
 	pixel_x = -32
 	},
-/obj/item/device/assembly/prox_sensor,
-/obj/item/device/assembly/prox_sensor,
-/obj/item/device/assembly/prox_sensor,
+/obj/machinery/suit_modifier,
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -99672,9 +99664,20 @@
 	name = "Brig Dormitories"
 	})
 "rHs" = (
-/obj/structure/rack{
-	dir = 8
+/obj/structure/table,
+/obj/item/device/flash/synthetic,
+/obj/item/device/flash/synthetic,
+/obj/item/device/flash/synthetic,
+/obj/item/device/flash/synthetic,
+/obj/item/device/flash/synthetic,
+/obj/item/weapon/reagent_containers/glass/beaker/large,
+/obj/item/weapon/cell/high{
+	charge = 100;
+	maxcharge = 15000
 	},
+/obj/item/device/assembly/prox_sensor,
+/obj/item/device/assembly/prox_sensor,
+/obj/item/device/assembly/prox_sensor,
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -102796,6 +102799,9 @@
 	})
 "xii" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
 	dir = 4
 	},
 /turf/simulated/wall,
@@ -148234,7 +148240,7 @@ bxU
 bxU
 bBM
 bxU
-bxU
+fSj
 bEi
 bFh
 bGq

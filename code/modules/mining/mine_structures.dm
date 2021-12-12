@@ -18,7 +18,11 @@
 	icon = 'icons/obj/lighting.dmi'
 	icon_state = "hanginglantern1"
 	anchored = 1
+<<<<<<< HEAD
 	plane = OBJ_PLANE
+=======
+	plane = ABOVE_HUMAN_PLANE
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	layer = LIGHTBULB_LAYER
 	var/tmp/flickering = 0 //SPOOK
 	var/obj/item/device/flashlight/lantern/lantern = null

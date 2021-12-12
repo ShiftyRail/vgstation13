@@ -10315,7 +10315,7 @@
 /turf/simulated/floor/plating,
 /area/security/hos)
 "aqL" = (
-/obj/machinery/computer/security/advanced,
+/obj/machinery/computer/security,
 /turf/simulated/floor/carpet,
 /area/security/hos)
 "aqM" = (
@@ -12988,7 +12988,7 @@
 	dir = 10
 	},
 /obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden/layered,
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = 32
 	},
 /turf/simulated/floor,
@@ -22882,7 +22882,7 @@
 	},
 /area/hallway/primary/central)
 "aLf" = (
-/obj/machinery/computer/security/advanced,
+/obj/machinery/computer/security,
 /turf/simulated/floor{
 	icon_state = "dark"
 	},
@@ -38664,7 +38664,7 @@
 /obj/machinery/camera/flawless{
 	name = "Bridge West"
 	},
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = 32
 	},
 /turf/simulated/floor{
@@ -87639,7 +87639,6 @@
 	pixel_x = 1;
 	pixel_y = -1
 	},
-/obj/item/weapon/circuitboard/security/advanced,
 /obj/effect/decal/warning_stripes{
 	icon_state = "bot"
 	},
@@ -88570,7 +88569,7 @@
 /turf/simulated/floor/engine,
 /area/shuttle/salvage/start)
 "dAp" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_x = -32
 	},
 /obj/effect/decal/cleanable/dirt,

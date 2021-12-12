@@ -14,6 +14,8 @@
 	greets = list(GREET_DEFAULT,GREET_CUSTOM,GREET_ADMINTOGGLE, GREET_MASTER)
 	required_pref = VAMPIRE
 	protected_traitor_prob = PROB_PROTECTED_RARE
+	default_admin_voice = "Vampire Overlord"
+	admin_voice_style = "danger"
 
 	var/ismenacing = FALSE
 	var/iscloaking = FALSE
@@ -95,19 +97,12 @@
 	..()
 
 /datum/role/vampire/AdminPanelEntry(var/show_logo = FALSE,var/datum/admins/A)
-	var/icon/logo = icon('icons/logos.dmi', logo_state)
-	var/mob/M = antag.current
-	var/text
-	if (!M) // Body destroyed
-		text = "[antag.name]/[antag.key] (BODY DESTROYED)"
-	else
-		text = {"[show_logo ? "<img src='data:image/png;base64,[icon2base64(logo)]' style='position: relative; top: 10;'/> " : "" ]
-[name] <a href='?_src_=holder;adminplayeropts=\ref[M]'>[key_name(M)]</a>[M.client ? "" : " <i> - (logged out)</i>"][M.stat == DEAD ? " <b><font color=red> - (DEAD)</font></b>" : ""]
- - <a href='?src=\ref[usr];priv_msg=\ref[M]'>(priv msg)</a>
- - <a href='?_src_=holder;traitor=\ref[M]'>(role panel)</a> - <a href='?src=\ref[src]&mind=\ref[antag]&giveblood=1'>Give blood</a>"}
-	return text
+	var/dat = ..()
+	dat += "  - <a href='?src=\ref[src]&mind=\ref[antag]&giveblood=1'>Give blood</a>"
+	return dat
 
 /datum/role/vampire/RoleTopic(href, href_list, var/datum/mind/M, var/admin_auth)
+	..()
 	if (!usr.client.holder)
 		return FALSE
 	if (href_list["giveblood"])
@@ -135,7 +130,7 @@
 
 	AppendObjective(/datum/objective/acquire_blood)
 
-	AppendObjective(/datum/objective/target/delayed/assassinate)
+	AppendObjective(/datum/objective/target/assassinate/delay_medium)// 10 minutes
 
 	AppendObjective(/datum/objective/target/steal)
 
@@ -260,9 +255,12 @@
 
 	if (locate(/datum/power/vampire/mature) in current_powers)
 		H.change_sight(adding = SEE_TURFS|SEE_OBJS)
+<<<<<<< HEAD
 		H.dark_plane["vampire_vision"] = 255
+=======
+		H.dark_plane.alphas["vampire_vision"] = 255
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 		H.see_in_dark = 8
-		H.see_invisible = SEE_INVISIBLE_MINIMUM
 
 /datum/role/vampire/proc/is_mature_or_has_vision()
 	return (locate(/datum/power/vampire/vision) in current_powers) || (locate(/datum/power/vampire/mature) in current_powers)
@@ -304,6 +302,12 @@
 			O.status &= ~ORGAN_SPLINTED
 			O.status &= ~ORGAN_BLEEDING
 	nullified = max(0, nullified - 1)
+
+/datum/role/vampire/update_perception()
+	var/mob/living/carbon/human/H = antag.current
+	if (locate(/datum/power/vampire/mature) in current_powers)
+		H.dark_plane.alphas["vampire_vision"] = 255
+		H.see_in_dark = 8
 
 /datum/role/vampire/proc/handle_cloak(var/mob/living/carbon/human/H)
 	var/turf/T = get_turf(H)

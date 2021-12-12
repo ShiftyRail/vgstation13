@@ -124,7 +124,12 @@ proc/getFlatIconDeluxe(list/image_datas, var/turf/center, var/radius = 0, var/ov
 	data[GFI_DX_ICON] = to_sort:icon
 	data[GFI_DX_STATE] = to_sort:icon_state
 	data[GFI_DX_DIR] = to_sort:dir
-	data[GFI_DX_PLANE] = to_sort:plane
+	if (to_sort:plane > 10000)
+		data[GFI_DX_PLANE] = to_sort:plane + FLOAT_PLANE - 2
+	else if (to_sort:plane < -10000)
+		data[GFI_DX_PLANE] = to_sort:plane - FLOAT_PLANE
+	else
+		data[GFI_DX_PLANE] = to_sort:plane
 	data[GFI_DX_LAYER] = to_sort:layer
 	data[GFI_DX_COLOR] = to_sort:color
 	data[GFI_DX_ALPHA] = to_sort:alpha
@@ -177,7 +182,7 @@ proc/getFlatIconDeluxe(list/image_datas, var/turf/center, var/radius = 0, var/ov
 			data[GFI_DX_COLOR] = blood_color
 		else if (isitem(parent_atom) && (to_sort:name == "blood_overlay")) // just a blood-covered item
 			data[GFI_DX_COLOR] = to_sort:color
-		else
+		else if (parent[GFI_DX_COLOR] != null)
 			data[GFI_DX_COLOR] = parent[GFI_DX_COLOR]
 		if (parent[GFI_DX_ALPHA] != 255)
 			data[GFI_DX_ALPHA] = parent[GFI_DX_ALPHA]

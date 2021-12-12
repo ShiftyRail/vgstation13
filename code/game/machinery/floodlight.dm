@@ -10,6 +10,10 @@
 	var/powercost = 5
 	light_range = 5
 	light_power = 2
+<<<<<<< HEAD
+=======
+
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	machine_flags = SCREWTOGGLE | WRENCHMOVE
 
 /obj/machinery/floodlight/get_cell()

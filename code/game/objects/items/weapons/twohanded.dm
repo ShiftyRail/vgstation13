@@ -78,7 +78,7 @@
 	if(user)
 		user.update_inv_hands()
 
-/obj/item/weapon/fireaxe/suicide_act(mob/user)
+/obj/item/weapon/fireaxe/suicide_act(var/mob/living/user)
 		to_chat(viewers(user), "<span class='danger'>[user] is smashing \himself in the head with the [src.name]! It looks like \he's commit suicide!</span>")
 		return (SUICIDE_ACT_BRUTELOSS)
 
@@ -201,7 +201,7 @@
 
 /obj/item/binoculars/update_wield(mob/user)
 	if(wielded)
-		user.lazy_register_event(/lazy_event/on_moved, src, .proc/mob_moved)
+		user.register_event(/event/moved, src, .proc/mob_moved)
 		user.visible_message("\The [user] holds \the [src] up to \his eyes.","You hold \the [src] up to your eyes.")
 		item_state = "binoculars_wielded"
 		user.regenerate_icons()
@@ -210,7 +210,7 @@
 			var/client/C = user.client
 			C.changeView(C.view + 7)
 	else
-		user.lazy_unregister_event(/lazy_event/on_moved, src, .proc/mob_moved)
+		user.unregister_event(/event/moved, src, .proc/mob_moved)
 		user.visible_message("\The [user] lowers \the [src].","You lower \the [src].")
 		item_state = "binoculars"
 		user.regenerate_icons()
@@ -249,9 +249,9 @@
 	if(user)
 		user.update_inv_hands()
 	if(wielded)
-		user.lazy_register_event(/lazy_event/on_moved, src, .proc/mob_moved)
+		user.register_event(/event/moved, src, .proc/mob_moved)
 	else
-		user.lazy_unregister_event(/lazy_event/on_moved, src, .proc/mob_moved)
+		user.unregister_event(/event/moved, src, .proc/mob_moved)
 
 /obj/item/weapon/bloodlust/attack(target as mob, mob/living/user)
 	if(isliving(target))
@@ -288,7 +288,7 @@
 		new /obj/item/weapon/melee/energy/hfmachete(user.loc)
 		qdel(src)
 
-/obj/item/weapon/bloodlust/suicide_act(mob/user)
+/obj/item/weapon/bloodlust/suicide_act(var/mob/living/user)
 	. = (SUICIDE_ACT_OXYLOSS)
 	user.visible_message("<span class='danger'>[user] is putting \his neck between \the [src]s blades! It looks like \he's trying to commit suicide.</span>")
 	spawn(2 SECONDS) //Adds drama.

@@ -16,7 +16,7 @@
 	if (!istype(loc, /obj/item/weapon/melee/soulblade))
 		return
 	DisplayUI("Soulblade")
-	lazy_register_event(/lazy_event/on_living_login, src, /mob/living/simple_animal/shade/proc/add_HUD)
+	register_event(/event/living_login, src, /mob/living/simple_animal/shade/proc/add_HUD)
 	if (client)
 		client.CAN_MOVE_DIAGONALLY = 1
 		client.screen += list(
@@ -44,7 +44,7 @@
 			healths2,
 			)
 	HideUI("Soulblade")
-	lazy_unregister_event(/lazy_event/on_living_login, src, /mob/living/simple_animal/shade/proc/add_HUD)
+	unregister_event(/event/living_login, src, /mob/living/simple_animal/shade/proc/add_HUD)
 	for(var/spell/soulblade/spell_to_remove in spell_list)
 		remove_spell(spell_to_remove)
 
@@ -141,7 +141,11 @@
 	for (var/atom/A in T)
 		if (A == SB)
 			continue
+<<<<<<< HEAD
 		if (islightingoverlay(A))
+=======
+		if (istype(A,/atom/movable/light))
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 			continue
 		if (ismob(A))
 			var/mob/M = A
@@ -152,7 +156,11 @@
 			if (!istype(A, /obj/item/weapon/storage))
 				my_targets += A
 	for (var/atom/A in get_step(T,dir))
+<<<<<<< HEAD
 		if (islightingoverlay(A))
+=======
+		if (istype(A,/atom/movable/light))
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 			continue
 		if (ismob(A))
 			var/mob/M = A

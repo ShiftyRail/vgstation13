@@ -11401,7 +11401,7 @@
 	holomap_draw_override = 1
 	})
 "gik" = (
-/obj/structure/closet/fireaxecabinet/empty{
+/obj/structure/fireaxecabinet/empty{
 	pixel_y = -30
 	},
 /turf/simulated/floor{
@@ -16197,7 +16197,7 @@
 /turf/simulated/floor/plating,
 /area/bridge)
 "iHb" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_x = -32
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -42497,7 +42497,7 @@
 /turf/unsimulated/wall,
 /area/centcom/control)
 "wdu" = (
-/obj/machinery/computer/security/advanced,
+/obj/machinery/computer/security,
 /turf/unsimulated/floor{
 	icon_state = "dark"
 	},

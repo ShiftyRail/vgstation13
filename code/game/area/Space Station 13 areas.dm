@@ -69,7 +69,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	var/forbid_apc = FALSE //never build an APC here?
 	var/construction_zone = FALSE //treat this area like space for blueprints?
 
-	var/has_gravity = 1
+	var/gravity = 1 // THIS REPLACES HAS_GRAVITY, now should be used as a float instead of a bool, for gravity multipliers in multi-z falling stuff
 
 	var/no_air = null
 //	var/list/lights				// list of all lights on this area
@@ -177,7 +177,7 @@ proc/process_adminbus_teleport_locs()
 	name = "\improper Spider Clan Dojo"
 	icon_state = "dojo"
 	requires_power = 0
-	dynamic_lighting = 0
+	dynamic_lighting = 1
 	shuttle_can_crush = FALSE
 	flags = NO_PERSISTENCE
 
@@ -185,7 +185,7 @@ proc/process_adminbus_teleport_locs()
 	name = "\improper Void Between Timelines"
 	icon_state = "time_void"
 	requires_power = 0
-	dynamic_lighting = 0
+	dynamic_lighting = 1
 	shuttle_can_crush = FALSE
 	flags = NO_PERSISTENCE
 
@@ -525,8 +525,13 @@ proc/process_adminbus_teleport_locs()
 	name = "start area"
 	icon_state = "start"
 	requires_power = 0
+<<<<<<< HEAD
 	dynamic_lighting = 1
 	has_gravity = 1
+=======
+	dynamic_lighting = 0
+	gravity = 1
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	flags = NO_PERSISTENCE //hmmm I wonder if someone can fuck with this
 
 // === end remove
@@ -543,6 +548,10 @@ proc/process_adminbus_teleport_locs()
 	icon_state = "centcom"
 	requires_power = 0
 	dynamic_lighting = 1
+<<<<<<< HEAD
+=======
+	luminosity = 1
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	shuttle_can_crush = FALSE
 	flags = NO_PERSISTENCE //Central Command is always squeaky clean yo
 
@@ -680,24 +689,28 @@ proc/process_adminbus_teleport_locs()
 	name = "\improper aft port solars"
 	icon_state = "southwest"
 	requires_power = 0
+	dynamic_lighting = 1
 	holomap_color = HOLOMAP_AREACOLOR_ENGINEERING
 
 /area/vox_station/northwest_solars
 	name = "\improper fore port solars"
 	icon_state = "northwest"
 	requires_power = 0
+	dynamic_lighting = 1
 	holomap_color = HOLOMAP_AREACOLOR_ENGINEERING
 
 /area/vox_station/northeast_solars
 	name = "\improper fore starboard solars"
 	icon_state = "northeast"
 	requires_power = 0
+	dynamic_lighting = 1
 	holomap_color = HOLOMAP_AREACOLOR_ENGINEERING
 
 /area/vox_station/southeast_solars
 	name = "\improper aft starboard solars"
 	icon_state = "southeast"
 	requires_power = 0
+	dynamic_lighting = 1
 	holomap_color = HOLOMAP_AREACOLOR_ENGINEERING
 
 /area/vox_station/mining
@@ -1152,7 +1165,7 @@ proc/process_adminbus_teleport_locs()
 /area/holodeck
 	name = "\improper Holodeck"
 	icon_state = "Holodeck"
-	dynamic_lighting = 0
+	dynamic_lighting = 1
 	shuttle_can_crush = FALSE
 	flags = NO_PERSISTENCE
 	jammed = SUPER_JAMMED
@@ -1236,6 +1249,8 @@ proc/process_adminbus_teleport_locs()
 	name = "\improper Holodeck - Checkers"
 /area/holodeck/source_gym
 	name = "\improper Holodeck - Gym"
+/area/holodeck/source_library
+	name = "\improper Holodeck - Library"
 
 /area/holodeck/source_catnip
 	name = "\improper Holodeck - Club Catnip"
@@ -2665,7 +2680,7 @@ var/list/the_station_areas = list (
 /area/beach/
 	name = "The metaclub's private beach"
 	icon_state = "null"
-	dynamic_lighting = 0
+	dynamic_lighting = 1
 	requires_power = 0
 	var/sound/mysound = null
 	shuttle_can_crush = FALSE
@@ -2841,7 +2856,7 @@ var/list/the_station_areas = list (
 	name = "abandoned shack"
 	requires_power = 0
 	icon_state = "firingrange"
-	dynamic_lighting = 1
+	dynamic_lighting = 0
 
 	holomap_draw_override = HOLOMAP_DRAW_FULL
 

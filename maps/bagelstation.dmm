@@ -1190,8 +1190,8 @@
 /area/supply/qm)
 "adb" = (
 /obj/structure/table,
-/obj/item/weapon/folder/yellow,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/item/weapon/folder/orange,
 /turf/simulated/floor,
 /area/supply/qm)
 "adc" = (
@@ -1201,13 +1201,13 @@
 	name = "Station Intercom (General)";
 	pixel_x = -31
 	},
-/obj/item/weapon/paper_bin,
 /obj/item/weapon/pen,
 /obj/item/weapon/pen/red,
 /obj/item/weapon/pen/blue,
 /obj/item/weapon/stamp{
 	name = "Quartermaster's stamp"
 	},
+/obj/item/weapon/paper_bin/orange,
 /turf/simulated/floor,
 /area/supply/qm)
 "add" = (
@@ -3861,7 +3861,7 @@
 	icon_state = "4-8"
 	},
 /obj/item/weapon/storage/bag/clipboard,
-/obj/item/weapon/folder/yellow,
+/obj/item/weapon/folder/orange,
 /turf/simulated/floor,
 /area/supply/office)
 "aiz" = (
@@ -3876,12 +3876,12 @@
 	dir = 1;
 	pixel_y = -25
 	},
-/obj/item/weapon/paper_bin,
 /obj/item/weapon/pen,
 /obj/item/weapon/pen/red,
 /obj/item/weapon/pen/blue,
 /obj/item/weapon/stamp/denied,
 /obj/item/weapon/stamp,
+/obj/item/weapon/paper_bin/orange,
 /turf/simulated/floor,
 /area/supply/office)
 "aiA" = (
@@ -5537,6 +5537,12 @@
 	pixel_x = 30
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/item/weapon/paper_bin/red{
+	pixel_x = -3;
+	pixel_y = 7
+	},
+/obj/item/weapon/folder/red,
+/obj/item/weapon/pen,
 /turf/simulated/floor,
 /area/security/checkpoint)
 "alE" = (
@@ -14763,6 +14769,9 @@
 	dir = 1;
 	pixel_y = 28
 	},
+/obj/item/clothing/head/soft/bridgeofficer,
+/obj/item/clothing/suit/storage/lawyer/bridgeofficer,
+/obj/item/clothing/under/bridgeofficer,
 /turf/simulated/floor{
 	icon_state = "wood"
 	},
@@ -15142,8 +15151,11 @@
 	pixel_x = -22
 	},
 /obj/structure/table/woodentable,
-/obj/item/weapon/paper_bin,
 /obj/item/weapon/pen,
+/obj/item/weapon/paper_bin/black{
+	pixel_x = -3;
+	pixel_y = 7
+	},
 /turf/simulated/floor{
 	icon_state = "wood"
 	},
@@ -15998,7 +16010,16 @@
 /area/lawoffice)
 "aHZ" = (
 /obj/structure/table/woodentable,
-/obj/item/weapon/paper_bin,
+/obj/item/weapon/paper_bin/black{
+	pixel_x = -3;
+	pixel_y = 7
+	},
+/obj/item/weapon/pen/multi{
+	pixel_x = -8
+	},
+/obj/item/weapon/pen/fountain{
+	pixel_x = -3
+	},
 /turf/simulated/floor{
 	icon_state = "wood"
 	},
@@ -16833,19 +16854,11 @@
 	pixel_x = 5;
 	pixel_y = -5
 	},
-/obj/item/weapon/folder/white{
-	pixel_x = -5;
-	pixel_y = -5
-	},
-/obj/item/weapon/folder/white{
-	pixel_x = -5;
-	pixel_y = -5
-	},
-/obj/item/weapon/folder/yellow{
+/obj/item/weapon/folder/black{
 	pixel_x = 5;
 	pixel_y = 5
 	},
-/obj/item/weapon/folder/yellow{
+/obj/item/weapon/folder/black{
 	pixel_x = 5;
 	pixel_y = 5
 	},
@@ -16857,12 +16870,14 @@
 	pixel_x = -5;
 	pixel_y = 5
 	},
-/obj/item/weapon/pen/red,
-/obj/item/weapon/pen/red,
-/obj/item/weapon/pen/blue,
-/obj/item/weapon/pen/blue,
-/obj/item/weapon/pen,
-/obj/item/weapon/pen,
+/obj/item/weapon/folder{
+	pixel_x = -5;
+	pixel_y = -5
+	},
+/obj/item/weapon/folder{
+	pixel_x = -5;
+	pixel_y = -5
+	},
 /turf/simulated/floor{
 	icon_state = "wood"
 	},
@@ -17520,6 +17535,10 @@
 "aKN" = (
 /obj/structure/table/woodentable,
 /obj/item/weapon/reagent_containers/food/drinks/flask/detflask,
+/obj/item/weapon/paper_bin/red{
+	pixel_x = -3;
+	pixel_y = 7
+	},
 /turf/simulated/floor{
 	icon_state = "wood"
 	},
@@ -21809,15 +21828,13 @@
 /area/crew_quarters/hop)
 "aTo" = (
 /obj/structure/table/woodentable,
-/obj/item/weapon/paper_bin,
-/obj/item/weapon/pen,
-/obj/item/weapon/pen/blue,
-/obj/item/weapon/pen/red,
 /obj/structure/cable/blue{
 	d1 = 4;
 	d2 = 8;
 	icon_state = "4-8"
 	},
+/obj/item/weapon/paper_bin/blue,
+/obj/item/weapon/pen/multi,
 /turf/simulated/floor/carpet,
 /area/crew_quarters/hop)
 "aTp" = (
@@ -21930,7 +21947,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_y = 32
 	},
 /turf/simulated/floor,
@@ -23027,7 +23044,6 @@
 "aVv" = (
 /obj/structure/table,
 /obj/item/weapon/folder/white,
-/obj/item/weapon/paper_bin,
 /obj/item/weapon/pen/blue,
 /obj/item/weapon/stamp/rd,
 /obj/structure/cable/green{
@@ -23039,6 +23055,10 @@
 	d1 = 2;
 	d2 = 8;
 	icon_state = "2-8"
+	},
+/obj/item/weapon/paper_bin/purple{
+	pixel_x = 1;
+	pixel_y = 9
 	},
 /turf/simulated/floor{
 	dir = 5;
@@ -24415,7 +24435,6 @@
 	dir = 8;
 	pixel_x = -24
 	},
-/obj/item/weapon/paper_bin,
 /obj/item/weapon/pen,
 /obj/item/weapon/pen/blue,
 /obj/item/weapon/pen/red,
@@ -24423,6 +24442,10 @@
 	id_tag = "heads_meeting";
 	name = "Security Shutters";
 	pixel_y = 24
+	},
+/obj/item/weapon/paper_bin/black{
+	pixel_x = 1;
+	pixel_y = 9
 	},
 /turf/simulated/floor{
 	icon_state = "wood"
@@ -26805,10 +26828,10 @@
 /area/bridge/meeting_room)
 "bcD" = (
 /obj/structure/table/reinforced,
-/obj/item/weapon/paper_bin,
 /obj/item/weapon/pen,
 /obj/item/weapon/pen/blue,
 /obj/item/weapon/pen/red,
+/obj/item/weapon/paper_bin/blue,
 /turf/simulated/floor{
 	dir = 5;
 	icon_state = "bluefull"
@@ -27559,10 +27582,13 @@
 /area/medical/cmo)
 "bdV" = (
 /obj/structure/table/glass,
-/obj/item/weapon/paper_bin,
 /obj/item/weapon/folder/white,
 /obj/item/weapon/pen/blue,
 /obj/item/weapon/stamp/cmo,
+/obj/item/weapon/paper_bin/white{
+	pixel_x = -3;
+	pixel_y = 7
+	},
 /turf/simulated/floor{
 	icon_state = "cmo"
 	},
@@ -27736,6 +27762,7 @@
 /obj/item/device/flash/synthetic,
 /obj/item/device/flash/synthetic,
 /obj/item/device/flash/synthetic,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -28107,13 +28134,37 @@
 "bfa" = (
 /obj/machinery/camera{
 	dir = 4;
-	name = "Robotics"
-	},
-/obj/item/stack/sheet/plasteel{
-	amount = 10
+	name = "Robotics Workshop"
 	},
 /obj/structure/table,
-/obj/item/stack/cable_coil/random,
+/obj/item/stack/sheet/plasteel{
+	amount = 10;
+	pixel_x = 3;
+	pixel_y = -3
+	},
+/obj/item/stack/sheet/metal{
+	amount = 50
+	},
+/obj/item/stack/sheet/metal{
+	amount = 50
+	},
+/obj/item/stack/sheet/metal{
+	amount = 50
+	},
+/obj/item/stack/sheet/metal{
+	amount = 50
+	},
+/obj/item/stack/sheet/metal{
+	amount = 50
+	},
+/obj/item/stack/sheet/metal{
+	amount = 50
+	},
+/obj/item/stack/sheet/glass/glass{
+	amount = 20;
+	pixel_x = -3;
+	pixel_y = 3
+	},
 /obj/item/stack/cable_coil/random,
 /turf/simulated/floor{
 	icon_state = "white"
@@ -28153,33 +28204,10 @@
 	},
 /area/science/robotics)
 "bfe" = (
-/obj/structure/table,
-/obj/item/stack/sheet/metal{
-	amount = 50
-	},
-/obj/item/stack/sheet/metal{
-	amount = 50
-	},
-/obj/item/stack/sheet/metal{
-	amount = 50
-	},
-/obj/item/stack/sheet/metal{
-	amount = 50
-	},
-/obj/item/stack/sheet/metal{
-	amount = 50
-	},
-/obj/item/stack/sheet/metal{
-	amount = 50
-	},
-/obj/item/stack/sheet/glass/glass{
-	amount = 20;
-	pixel_x = -3;
-	pixel_y = 6
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden{
 	dir = 4
 	},
+/obj/machinery/suit_modifier,
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -28733,11 +28761,9 @@
 /area/science/robotics)
 "bge" = (
 /obj/structure/table,
-/obj/item/device/multitool,
-/obj/item/device/multitool,
-/obj/item/tool/crowbar,
 /obj/item/device/flash,
 /obj/item/device/flash,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -29032,6 +29058,7 @@
 /area/bridge)
 "bgK" = (
 /obj/machinery/computer/aifixer,
+/obj/item/weapon/paper_bin/blue,
 /turf/simulated/floor{
 	dir = 6;
 	icon_state = "purple"
@@ -30151,7 +30178,11 @@
 	dir = 4
 	},
 /obj/structure/table/glass,
-/obj/item/weapon/paper_bin,
+/obj/item/weapon/paper_bin/purple{
+	pixel_x = -3;
+	pixel_y = 7
+	},
+/obj/item/weapon/folder/white,
 /obj/item/weapon/pen/blue,
 /turf/simulated/floor{
 	icon_state = "white"
@@ -30210,13 +30241,12 @@
 	},
 /area/science/robotics)
 "biC" = (
-/obj/structure/table,
 /obj/machinery/light,
-/obj/item/device/assembly/prox_sensor,
-/obj/item/device/assembly/prox_sensor,
-/obj/item/device/assembly/prox_sensor,
-/obj/item/device/assembly/prox_sensor,
-/obj/item/device/assembly/prox_sensor,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/structure/table,
+/obj/item/device/multitool,
+/obj/item/device/multitool,
+/obj/item/tool/crowbar,
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -30235,6 +30265,11 @@
 	empty = 1;
 	name = "First-Aid (empty)"
 	},
+/obj/item/device/assembly/prox_sensor,
+/obj/item/device/assembly/prox_sensor,
+/obj/item/device/assembly/prox_sensor,
+/obj/item/device/assembly/prox_sensor,
+/obj/item/device/assembly/prox_sensor,
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -32220,10 +32255,10 @@
 /area/crew_quarters/captain)
 "bms" = (
 /obj/structure/table/woodentable,
-/obj/item/weapon/paper_bin,
 /obj/item/weapon/pen,
 /obj/item/weapon/pen/blue,
 /obj/item/weapon/pen/red,
+/obj/item/weapon/paper_bin/blue,
 /turf/simulated/floor/carpet,
 /area/crew_quarters/captain)
 "bmt" = (
@@ -32302,6 +32337,9 @@
 /obj/machinery/light_switch{
 	pixel_x = -24
 	},
+/obj/effect/landmark/start{
+	name = "Medical Doctor"
+	},
 /turf/simulated/floor{
 	dir = 1;
 	icon_state = "barber";
@@ -32327,6 +32365,9 @@
 	},
 /obj/machinery/light_switch{
 	pixel_x = -24
+	},
+/obj/effect/landmark/start{
+	name = "Medical Doctor"
 	},
 /turf/simulated/floor{
 	dir = 1;
@@ -33696,6 +33737,7 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
+/obj/item/weapon/pen/fountain/cap,
 /turf/simulated/floor/carpet,
 /area/crew_quarters/captain)
 "bph" = (
@@ -34370,6 +34412,7 @@
 	name = "Station Intercom (General)";
 	pixel_y = 20
 	},
+/obj/item/weapon/storage/bag/trash/bio,
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -36698,7 +36741,7 @@
 "buF" = (
 /obj/structure/table,
 /obj/item/weapon/folder/white,
-/obj/item/weapon/folder/blue,
+/obj/item/weapon/folder/orange,
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -36710,9 +36753,12 @@
 	departmentType = 2;
 	pixel_x = 30
 	},
-/obj/item/weapon/paper_bin,
 /obj/item/weapon/pen,
 /obj/item/weapon/pen/red,
+/obj/item/weapon/paper_bin/white{
+	pixel_x = -3;
+	pixel_y = 7
+	},
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -38848,10 +38894,13 @@
 "byS" = (
 /obj/structure/table,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
-/obj/item/weapon/paper_bin,
 /obj/item/weapon/folder/white,
 /obj/item/weapon/pen/blue,
 /obj/item/weapon/reagent_containers/glass/bottle/mutagen,
+/obj/item/weapon/paper_bin/white{
+	pixel_x = -3;
+	pixel_y = 7
+	},
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -41637,9 +41686,12 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/obj/item/weapon/paper_bin,
 /obj/item/weapon/pen,
 /obj/item/weapon/pen/blue,
+/obj/item/weapon/paper_bin/white{
+	pixel_x = -3;
+	pixel_y = 7
+	},
 /turf/simulated/floor{
 	icon_state = "cmo"
 	},
@@ -42486,11 +42538,11 @@
 	range = 3;
 	req_access_txt = "5"
 	},
-/obj/effect/landmark/start{
-	name = "Medical Doctor"
-	},
 /obj/machinery/atmospherics/unary/vent_pump{
 	on = 1
+	},
+/obj/effect/landmark/start{
+	name = "Orderly"
 	},
 /turf/simulated/floor{
 	icon_state = "cmo"
@@ -44725,7 +44777,7 @@
 /area/library)
 "bJj" = (
 /obj/structure/table/woodentable,
-/obj/item/weapon/folder/blue,
+/obj/item/weapon/folder/green,
 /turf/simulated/floor/carpet,
 /area/library)
 "bJk" = (
@@ -46368,10 +46420,10 @@
 	pixel_y = -6;
 	range = 4
 	},
-/obj/effect/landmark/start{
-	name = "Medical Doctor"
-	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
+/obj/effect/landmark/start{
+	name = "Orderly"
+	},
 /turf/simulated/floor{
 	icon_state = "cmo"
 	},
@@ -46526,9 +46578,17 @@
 "bMr" = (
 /obj/structure/table/woodentable,
 /obj/item/weapon/paper_bin,
-/obj/item/weapon/pen,
-/obj/item/weapon/pen/blue,
-/obj/item/weapon/pen/red,
+/obj/item/weapon/pen/blue{
+	pixel_x = 5;
+	pixel_y = 5
+	},
+/obj/item/weapon/pen/red{
+	pixel_y = 5
+	},
+/obj/item/weapon/pen/fountain{
+	pixel_x = -5;
+	pixel_y = 5
+	},
 /turf/simulated/floor/carpet,
 /area/library)
 "bMs" = (
@@ -47042,10 +47102,10 @@
 	dir = 8
 	},
 /obj/structure/table,
-/obj/item/weapon/paper_bin,
 /obj/item/weapon/pen,
 /obj/item/weapon/pen/blue,
 /obj/item/weapon/pen/red,
+/obj/item/weapon/paper_bin/red,
 /turf/simulated/floor{
 	icon_state = "dark"
 	},
@@ -49721,10 +49781,10 @@
 /obj/item/weapon/storage/bag/clipboard,
 /obj/item/weapon/folder/yellow,
 /obj/item/weapon/folder/blue,
-/obj/item/weapon/paper_bin,
 /obj/item/weapon/pen,
 /obj/item/weapon/pen/blue,
 /obj/item/weapon/stamp/ce,
+/obj/item/weapon/paper_bin/yellow,
 /turf/simulated/floor/carpet,
 /area/engineering/ce)
 "bSe" = (
@@ -49895,7 +49955,6 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/item/weapon/paper_bin,
 /obj/item/weapon/pen,
 /obj/item/weapon/pen/blue,
 /obj/item/weapon/pen/red,
@@ -49906,6 +49965,7 @@
 	name = "Security Blast Door";
 	opacity = 0
 	},
+/obj/item/weapon/paper_bin/red,
 /turf/simulated/floor{
 	dir = 10;
 	icon_state = "darkred";
@@ -50110,7 +50170,7 @@
 	},
 /area/security/warden)
 "bSO" = (
-/obj/machinery/computer/security/advanced,
+/obj/machinery/computer/security,
 /obj/machinery/light{
 	dir = 1
 	},
@@ -57907,7 +57967,11 @@
 /area/crew_quarters/courtroom)
 "cgD" = (
 /obj/structure/table/woodentable,
-/obj/item/weapon/paper_bin,
+/obj/item/weapon/paper_bin/blue{
+	pixel_x = -3;
+	pixel_y = 7
+	},
+/obj/item/weapon/folder/blue,
 /obj/item/weapon/pen,
 /turf/simulated/floor/wood,
 /area/crew_quarters/courtroom)
@@ -58193,10 +58257,13 @@
 	name = "Bar Shutters";
 	opacity = 0
 	},
-/obj/item/weapon/paper_bin,
 /obj/item/weapon/pen/blue,
 /obj/item/weapon/pen,
 /obj/item/weapon/pen/red,
+/obj/item/weapon/paper_bin/green{
+	pixel_x = -3;
+	pixel_y = 7
+	},
 /turf/simulated/floor{
 	icon_state = "grimy"
 	},
@@ -58456,7 +58523,11 @@
 /area/hydroponics)
 "chC" = (
 /obj/structure/table/glass,
-/obj/item/weapon/paper_bin,
+/obj/item/weapon/paper_bin/green{
+	pixel_x = -3;
+	pixel_y = 7
+	},
+/obj/item/weapon/folder/green,
 /obj/item/weapon/pen/blue,
 /turf/simulated/floor{
 	dir = 8;
@@ -59847,7 +59918,7 @@
 "ckh" = (
 /obj/structure/table/woodentable,
 /obj/item/weapon/book/manual/security_space_law,
-/obj/item/weapon/folder/red,
+/obj/item/weapon/folder/black,
 /turf/simulated/floor/carpet,
 /area/crew_quarters/courtroom)
 "cki" = (
@@ -60589,9 +60660,12 @@
 "clu" = (
 /obj/structure/table,
 /obj/item/weapon/folder/yellow,
-/obj/item/weapon/paper_bin,
 /obj/item/weapon/pen,
 /obj/item/weapon/pen/blue,
+/obj/item/weapon/paper_bin/yellow{
+	pixel_x = 1;
+	pixel_y = 9
+	},
 /turf/simulated/floor,
 /area/engineering/break_room)
 "clv" = (
@@ -61715,10 +61789,13 @@
 /area/crew_quarters/courtroom)
 "cnx" = (
 /obj/structure/table/woodentable,
-/obj/item/weapon/paper_bin,
 /obj/item/weapon/pen,
 /obj/item/weapon/pen/blue,
 /obj/item/weapon/pen/red,
+/obj/item/weapon/paper_bin/black{
+	pixel_x = -3;
+	pixel_y = 7
+	},
 /turf/simulated/floor/carpet,
 /area/crew_quarters/courtroom)
 "cny" = (
@@ -61774,10 +61851,13 @@
 /area/security/main)
 "cnD" = (
 /obj/structure/table,
-/obj/item/weapon/paper_bin,
 /obj/item/weapon/pen,
 /obj/item/weapon/pen/blue,
 /obj/item/weapon/pen/red,
+/obj/item/weapon/paper_bin/red{
+	pixel_x = -3;
+	pixel_y = 7
+	},
 /turf/simulated/floor{
 	icon_state = "dark"
 	},
@@ -64160,12 +64240,16 @@
 	icon_state = "0-8"
 	},
 /obj/structure/table,
-/obj/item/weapon/paper_bin,
-/obj/item/weapon/pen/blue,
 /obj/machinery/power/apc{
 	dir = 4;
 	pixel_x = 24
 	},
+/obj/item/weapon/paper_bin/yellow{
+	pixel_x = 1;
+	pixel_y = 9
+	},
+/obj/item/weapon/folder/purple,
+/obj/item/weapon/pen/blue,
 /turf/simulated/floor,
 /area/engineering/mechanics)
 "crG" = (
@@ -64594,7 +64678,7 @@
 	dir = 8;
 	pixel_x = -26
 	},
-/obj/machinery/computer/security/advanced,
+/obj/machinery/computer/security,
 /turf/simulated/floor{
 	icon_state = "dark"
 	},
@@ -66064,8 +66148,8 @@
 	pixel_y = -32
 	},
 /obj/structure/table/woodentable,
-/obj/item/weapon/paper_bin,
 /obj/item/weapon/pen,
+/obj/item/weapon/paper_bin/red,
 /turf/simulated/floor{
 	icon_state = "dark"
 	},
@@ -69126,7 +69210,7 @@
 /obj/machinery/light{
 	dir = 4
 	},
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_x = 32
 	},
 /turf/simulated/floor,
@@ -105805,13 +105889,7 @@
 "elL" = (
 /obj/structure/table,
 /obj/item/weapon/storage/box/solution_trays,
-/obj/item/weapon/paper_bin{
-	pixel_x = -2;
-	pixel_y = 5
-	},
 /obj/item/weapon/storage/bag/clipboard,
-/obj/item/weapon/pen,
-/obj/item/weapon/folder,
 /obj/machinery/light{
 	dir = 4
 	},
@@ -105819,6 +105897,12 @@
 	dir = 8;
 	pixel_x = 24
 	},
+/obj/item/weapon/paper_bin/purple{
+	pixel_x = -3;
+	pixel_y = 7
+	},
+/obj/item/weapon/folder/purple,
+/obj/item/weapon/pen,
 /turf/simulated/floor{
 	icon_state = "dark"
 	},
@@ -106972,13 +107056,13 @@
 /obj/machinery/newscaster{
 	pixel_x = 30
 	},
-/obj/item/weapon/paper_bin{
-	pixel_x = -2;
-	pixel_y = 5
-	},
 /obj/item/weapon/storage/bag/clipboard,
+/obj/item/weapon/paper_bin/purple{
+	pixel_x = -3;
+	pixel_y = 7
+	},
+/obj/item/weapon/folder/purple,
 /obj/item/weapon/pen,
-/obj/item/weapon/folder,
 /turf/simulated/floor/wood,
 /area/research_outpost/hallway)
 "eoi" = (
@@ -112938,11 +113022,11 @@
 "eyT" = (
 /obj/structure/table,
 /obj/item/weapon/storage/bag/clipboard,
-/obj/item/weapon/folder/blue,
-/obj/item/weapon/pen,
 /obj/machinery/media/receiver/boombox/wallmount/muzak{
 	pixel_y = 24
 	},
+/obj/item/weapon/folder/green,
+/obj/item/weapon/pen,
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -112963,9 +113047,9 @@
 	pixel_x = 1;
 	pixel_y = 12
 	},
-/obj/item/weapon/paper_bin{
-	pixel_x = -2;
-	pixel_y = 5
+/obj/item/weapon/paper_bin/green{
+	pixel_x = -3;
+	pixel_y = 7
 	},
 /turf/simulated/floor{
 	icon_state = "white"
@@ -119320,7 +119404,7 @@
 /turf/simulated/floor/engine,
 /area/shuttle/salvage/start)
 "eKb" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_x = -32
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -121553,6 +121637,10 @@
 	},
 /turf/simulated/floor/plating/airless,
 /area/engineering/engine)
+"fwK" = (
+/obj/item/weapon/pen/blue,
+/turf/simulated/floor/grass,
+/area/hydroponics)
 "fDX" = (
 /obj/item/toy/gasha/narnar,
 /turf/simulated/wall/r_wall,
@@ -122075,6 +122163,16 @@
 	},
 /turf/simulated/floor/plating,
 /area/maintenance/asmaint)
+"qbY" = (
+/obj/structure/table/woodentable,
+/obj/item/weapon/paper_bin/red{
+	pixel_x = -3;
+	pixel_y = 7
+	},
+/obj/item/weapon/folder/red,
+/obj/item/weapon/pen,
+/turf/simulated/floor/wood,
+/area/crew_quarters/courtroom)
 "qps" = (
 /obj/machinery/atmospherics/pipe/simple/heat_exchanging{
 	dir = 4
@@ -122437,6 +122535,23 @@
 	},
 /turf/simulated/floor,
 /area/hallway/primary/starboard)
+"xvw" = (
+/obj/structure/table/woodentable,
+/obj/item/weapon/paper_bin/black{
+	pixel_x = -3;
+	pixel_y = 7
+	},
+/obj/item/weapon/pen/multi{
+	pixel_x = -8
+	},
+/obj/item/weapon/pen/fountain{
+	pixel_x = -3
+	},
+/obj/item/weapon/stamp/iaa,
+/turf/simulated/floor{
+	icon_state = "wood"
+	},
+/area/lawoffice)
 "xyK" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced,
@@ -235219,7 +235334,7 @@ chx
 chs
 cLJ
 ctb
-ctb
+fwK
 ctb
 ctb
 ctb
@@ -261258,7 +261373,7 @@ aEm
 aFD
 aGv
 aHs
-aHZ
+xvw
 aIS
 aJC
 aIS
@@ -274372,7 +274487,7 @@ cke
 ceD
 ceD
 ceD
-cgD
+qbY
 ceG
 ccK
 cve

@@ -189,12 +189,12 @@ proc/cardinalrange(var/center)
 			overlays += I
 			set_light(1.4,1)
 		else
-			set_light(0)
+			kill_light()
 		if(!processing)
 			setup_core()
 		return
 	else if(processing)
-		set_light(0)
+		kill_light()
 		shutdown_core()
 
 	for(var/direction in alldirs)
@@ -204,6 +204,11 @@ proc/cardinalrange(var/center)
 			if(direction in cardinal)
 				if((istype(machine, /obj/machinery/am_shielding) && machine:control_unit == control_unit) || (istype(machine, /obj/machinery/power/am_control_unit) && machine == control_unit))
 					dirs |= direction
+
+	if (control_unit && control_unit.active)
+		set_light(1, 1)
+	else
+		kill_light()
 
 	icon_state = "shield_[dirs]"
 
@@ -217,6 +222,13 @@ proc/cardinalrange(var/center)
 	if(!istype(W) || !user)
 		return
 	if(W.force > 10)
+		user.do_attack_animation(src, W)
+		playsound(src, 'sound/items/metal_impact.ogg', 75, 1)
+		shake(1, 3)
+		user.delayNextAttack(8)
+		visible_message("<span class='warning'>\The [user] hits \the [src] with \a [W]!</span>", \
+					"<span class='warning'>You hit \the [src] with your [W]!</span>", \
+					"You hear something metallic being hit.")
 		stability -= W.force/2
 		check_stability()
 	..()

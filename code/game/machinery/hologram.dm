@@ -29,6 +29,8 @@ Possible to do for anyone motivated enough:
 // 1 = AREA BASED
 var/const/HOLOPAD_MODE = 0
 
+var/list/holopads = list()
+
 /obj/machinery/hologram/holopad
 	name = "\improper AI holopad"
 	desc = "It's a floor-mounted device for projecting holographic images. It is activated remotely."
@@ -43,6 +45,7 @@ var/const/HOLOPAD_MODE = 0
 
 /obj/machinery/hologram/holopad/New()
 	..()
+	holopads += src
 	component_parts = newlist(
 		/obj/item/weapon/circuitboard/holopad,
 		/obj/item/weapon/stock_parts/console_screen,
@@ -50,6 +53,10 @@ var/const/HOLOPAD_MODE = 0
 		/obj/item/weapon/stock_parts/micro_laser,
 		/obj/item/weapon/stock_parts/micro_laser
 	)
+
+/obj/machinery/hologram/holopad/Destroy()
+	holopads -= src
+	..()
 
 /obj/machinery/hologram/holopad/GhostsAlwaysHear()
 	return TRUE
@@ -128,6 +135,10 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 			if(ol.loc == src)
 				ol.icon_state = "holopad1"
 				break
+<<<<<<< HEAD
+=======
+
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	return 1
 
 /obj/machinery/hologram/holopad/proc/clear_holo()

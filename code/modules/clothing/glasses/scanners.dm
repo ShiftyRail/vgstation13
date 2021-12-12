@@ -2,23 +2,20 @@
 	item_state = "glasses"
 	species_fit = list(GREY_SHAPED)
 	var/on = TRUE
-	var/list/color_matrix = null
 
 /obj/item/clothing/glasses/scanner/attack_self()
 	toggle()
 
-/obj/item/clothing/glasses/scanner/proc/apply_color(mob/living/carbon/user)	//for altering the color of the wearer's vision while active
-	if(color_matrix)
-		if(user.client)
-			var/client/C = user.client
-			C.color =  color_matrix
 
+<<<<<<< HEAD
 /obj/item/clothing/glasses/scanner/proc/remove_color(mob/living/carbon/user)
 	if(color_matrix)
 		if(user.client)
 			var/client/C = user.client
 			C.color = initial(C.color)
 
+=======
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 /obj/item/clothing/glasses/scanner/equipped(var/mob/M, glasses)
 	if(istype(M, /mob/living/carbon/monkey))
 		var/mob/living/carbon/monkey/O = M
@@ -32,16 +29,24 @@
 		return
 	if(on)
 		if(iscarbon(M))
+<<<<<<< HEAD
 			M.update_darkness()
 			apply_color(M)
+=======
+			M.update_perception()
+			M.update_darkness()
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	..()
 
 /obj/item/clothing/glasses/scanner/unequipped(mob/user, var/from_slot = null)
 	if(from_slot == slot_glasses)
 		if(on)
 			user.seedarkness = TRUE
+<<<<<<< HEAD
 			if(iscarbon(user))
 				remove_color(user)
+=======
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	..()
 
 /obj/item/clothing/glasses/scanner/update_icon()
@@ -72,28 +77,10 @@
 /obj/item/clothing/glasses/scanner/proc/enable(var/mob/C)
 	on = TRUE
 	to_chat(C, "You turn \the [src] on.")
-	if(iscarbon(loc))
-		if(istype(loc, /mob/living/carbon/monkey))
-			var/mob/living/carbon/monkey/M = C
-			if(M.glasses && (M.glasses == src))
-				apply_color(M)
-		else if(istype(loc, /mob/living/carbon/human))
-			var/mob/living/carbon/human/H = C
-			if(H.glasses && (H.glasses == src))
-				apply_color(H)
 
 /obj/item/clothing/glasses/scanner/proc/disable(var/mob/C)
 	on = FALSE
 	to_chat(C, "You turn \the [src] off.")
-	if(iscarbon(loc))
-		if(istype(loc, /mob/living/carbon/monkey))
-			var/mob/living/carbon/monkey/M = C
-			if(M.glasses && (M.glasses == src))
-				remove_color(M)
-		else if(istype(loc, /mob/living/carbon/human))
-			var/mob/living/carbon/human/H = C
-			if(H.glasses && (H.glasses == src))
-				remove_color(H)
 
 /obj/item/clothing/glasses/scanner/night
 	name = "night vision goggles"
@@ -101,29 +88,116 @@
 	icon_state = "night"
 	item_state = "glasses"
 	origin_tech = Tc_MAGNETS + "=2"
+<<<<<<< HEAD
 	see_invisible = SEE_INVISIBLE_MINIMUM
 	seedarkness = FALSE
+=======
+	see_invisible = 0
+	seedarkness = TRUE
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	see_in_dark = 8
 	actions_types = list(/datum/action/item_action/toggle_goggles)
 	species_fit = list(VOX_SHAPED, GREY_SHAPED)
 	eyeprot = -1
-	color_matrix = list(0.8, 0, 0  ,\
-						0  , 1, 0  ,\
-						0  , 0, 0.8) //equivalent to #CCFFCC
+	my_dark_plane_alpha_override_value = 30
+	var/obj/abstract/screen/plane_master/overdark_planemaster/overdark_planemaster
+	var/obj/abstract/screen/plane_master/overdark_planemaster_target/overdark_target
+
+/obj/item/clothing/glasses/scanner/night/New()
+	..()
+	overdark_planemaster = new
+	overdark_planemaster.render_target = "night vision goggles (\ref[src])"
+	overdark_target = new
+	overdark_target.render_source = "night vision goggles (\ref[src])"
 
 /obj/item/clothing/glasses/scanner/night/enable(var/mob/C)
-	see_invisible = initial(see_invisible)
 	see_in_dark = initial(see_in_dark)
 	seedarkness = FALSE
 	eyeprot = initial(eyeprot)
-	..()
+	my_dark_plane_alpha_override = "night_vision"
+	add_overdark(C)
+	if (ishuman(C))
+		var/mob/living/carbon/human/H = C
+		if (H.glasses == src)
+			C.update_perception()
+	else if (ismonkey(C))
+		var/mob/living/carbon/monkey/M = C
+		if (M.glasses == src)
+			C.update_perception()
+	return ..()
 
 /obj/item/clothing/glasses/scanner/night/disable(var/mob/C)
-	see_invisible = 0
+	. = ..()
 	see_in_dark = 0
+<<<<<<< HEAD
 	seedarkness = TRUE
+=======
+	my_dark_plane_alpha_override = null
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	eyeprot = 0
+	remove_overdark(C)
+	if (ishuman(C))
+		var/mob/living/carbon/human/H = C
+		if (H.glasses == src)
+			if (C.client)
+				C.client.color = null
+			C.update_perception()
+	else if (ismonkey(C))
+		var/mob/living/carbon/monkey/M = C
+		if (M.glasses == src)
+			if (C.client)
+				C.client.color = null
+			C.update_perception()
+
+/obj/item/clothing/glasses/scanner/night/update_perception(var/mob/living/carbon/human/M)
+	if (on)
+		if (M.master_plane)
+			M.master_plane.blend_mode = BLEND_ADD
+		if (M.client)
+			M.client.color = "#33FF33"
+			remove_overdark(M)
+			add_overdark(M)
+	else
+		my_dark_plane_alpha_override = null
+		if (M.master_plane)
+			M.master_plane.blend_mode = BLEND_MULTIPLY
+
+/obj/item/clothing/glasses/scanner/night/equipped(var/mob/M, glasses)
+	if(istype(M, /mob/living/carbon/monkey))
+		var/mob/living/carbon/monkey/O = M
+		if(O.glasses != src)
+			return
+	else if(istype(M, /mob/living/carbon/human))
+		var/mob/living/carbon/human/H = M
+		if(H.glasses != src)
+			return
+	else
+		return
+	if(on)
+		if(iscarbon(M))
+			add_overdark(M)
 	..()
+
+/obj/item/clothing/glasses/scanner/night/unequipped(mob/user, var/from_slot = null)
+	if(from_slot == slot_glasses)
+		if(on)
+			remove_overdark(user)
+			if (user.client)
+				user.client.color = null
+				user.update_perception()
+	..()
+
+/obj/item/clothing/glasses/scanner/night/proc/add_overdark(var/mob/living/carbon/C)
+	if (istype(C) && C.client)
+		C.client.screen |= overdark_planemaster
+		C.client.screen |= overdark_target
+
+/obj/item/clothing/glasses/scanner/night/proc/remove_overdark(var/mob/living/carbon/C)
+	if (istype(C) && C.client)
+		C.client.screen -= overdark_planemaster
+		C.client.screen -= overdark_target
+
+var/list/meson_wearers = list()
 
 /obj/item/clothing/glasses/scanner/meson
 	name = "optical meson scanner"
@@ -136,10 +210,15 @@
 	seedarkness = FALSE
 	actions_types = list(/datum/action/item_action/toggle_goggles)
 	species_fit = list(VOX_SHAPED, GREY_SHAPED, INSECT_SHAPED)
-
 	glasses_fit = TRUE
+	var/mob/viewing
+
+	my_dark_plane_alpha_override = "mesons"
+	my_dark_plane_alpha_override_value = 255
 
 /obj/item/clothing/glasses/scanner/meson/enable(var/mob/C)
+	on = 1
+	update_mob(viewing)
 	var/area/A = get_area(src)
 	if(A.flags & NO_MESONS)
 		to_chat(C, "<span class = 'warning'>\The [src] flickers, but refuses to come online!</span>")
@@ -148,30 +227,84 @@
 	vision_flags |= SEE_TURFS
 	see_invisible |= SEE_INVISIBLE_MINIMUM
 	seedarkness = FALSE
+<<<<<<< HEAD
 	C.update_darkness()
 	C.dark_plane?.alphas["mesons"] = 255
+=======
+	my_dark_plane_alpha_override_value = 255
+
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 //	body_parts_covered |= EYES
 	..()
 
 /obj/item/clothing/glasses/scanner/meson/disable(var/mob/C)
+	update_mob(viewing)
 	eyeprot = 0
+	on = 0
 //	body_parts_covered &= ~EYES
 	vision_flags &= ~SEE_TURFS
 	see_invisible &= ~SEE_INVISIBLE_MINIMUM
+<<<<<<< HEAD
 	seedarkness = TRUE
 	C.update_darkness()
 	C.dark_plane?.alphas -= "mesons"
+=======
+	my_dark_plane_alpha_override_value = 0
+	seedarkness = TRUE
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 /obj/item/clothing/glasses/scanner/meson/unequipped(mob/user, from_slot)
 	. = ..()
 	if (user)
+<<<<<<< HEAD
 		user.update_darkness()
 		user.dark_plane?.alphas -= "mesons"
+=======
+		user.dark_plane?.alphas -= "mesons"
+		user.update_darkness()
+		user.check_dark_vision()
+>>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 /obj/item/clothing/glasses/scanner/meson/area_entered(area/A)
 	if(A.flags & NO_MESONS && on)
 		visible_message("<span class = 'warning'>\The [src] sputter out.</span>")
 		disable()
+
+/obj/item/clothing/glasses/scanner/meson/proc/clear()
+	if (viewing)
+		meson_wearers -= viewing
+		if (viewing.client)
+			viewing.client.images -= false_wall_images
+
+/obj/item/clothing/glasses/scanner/meson/proc/apply()
+	if (!viewing || !viewing.client || !on)
+		return
+
+	meson_wearers += viewing
+	viewing.client.images += false_wall_images
+
+/obj/item/clothing/glasses/scanner/meson/unequipped(var/mob/M)
+	update_mob()
+	..()
+
+/obj/item/clothing/glasses/scanner/meson/equipped(var/mob/M)
+	update_mob(M)
+	..()
+
+/obj/item/clothing/glasses/scanner/meson/proc/update_mob(var/mob/new_mob)
+	if (new_mob == viewing)
+		clear()
+		apply()
+		return
+
+	if (new_mob != viewing)
+		clear()
+		if (viewing)
+			viewing = null
+		if (new_mob)
+			viewing = new_mob
+			apply()
+
 
 /obj/item/clothing/glasses/scanner/material
 	name = "optical material scanner"
@@ -188,12 +321,12 @@
 	var/mob/viewing
 
 /obj/item/clothing/glasses/scanner/material/enable()
-	update_mob(viewing)
 	..()
+	update_mob(viewing)
 
 /obj/item/clothing/glasses/scanner/material/disable()
-	update_mob(viewing)
 	..()
+	update_mob(viewing)
 
 /obj/item/clothing/glasses/scanner/material/update_icon()
 	if (!on)
@@ -233,29 +366,29 @@
 	showing = get_images(get_turf(viewing), viewing.client.view)
 	viewing.client.images += showing
 
+
 /obj/item/clothing/glasses/scanner/material/proc/update_mob(var/mob/new_mob)
 	if (new_mob == viewing)
 		clear()
 		apply()
 		return
 
-	if (new_mob != viewing)
-		clear()
+	clear()
 
-		if (viewing)
-			viewing.lazy_unregister_event(/lazy_event/on_logout, src, .proc/mob_logout)
-			viewing = null
+	if (viewing)
+		viewing.unregister_event(/event/logout, src, .proc/mob_logout)
+		viewing = null
 
-		if (new_mob)
-			new_mob.lazy_register_event(/lazy_event/on_logout, src, .proc/mob_logout)
-			viewing = new_mob
+	if (new_mob)
+		new_mob.register_event(/event/logout, src, .proc/mob_logout)
+		viewing = new_mob
 
 /obj/item/clothing/glasses/scanner/material/proc/mob_logout(mob/user)
 	if (user != viewing)
 		return
 
 	clear()
-	viewing.lazy_unregister_event(/lazy_event/on_logout, src, .proc/mob_logout)
+	viewing.unregister_event(/event/logout, src, .proc/mob_logout)
 	viewing = null
 
 /obj/item/clothing/glasses/scanner/material/proc/get_images(var/turf/T, var/view)

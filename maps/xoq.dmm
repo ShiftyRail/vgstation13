@@ -6014,7 +6014,7 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/machinery/computer/security/advanced,
+/obj/machinery/computer/security,
 /turf/simulated/floor{
 	icon_state = "dark"
 	},
@@ -34351,7 +34351,7 @@
 	},
 /area/bridge)
 "bkx" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	locked = 1;
 	pixel_y = 32
 	},
@@ -43581,35 +43581,12 @@
 /turf/simulated/floor/plating,
 /area/science/robotics)
 "bBX" = (
-/obj/structure/table,
-/obj/item/stack/sheet/glass/glass{
-	amount = 20;
-	pixel_x = 3;
-	pixel_y = -6
-	},
-/obj/item/stack/sheet/metal{
-	amount = 50
-	},
-/obj/item/stack/sheet/metal{
-	amount = 50
-	},
-/obj/item/stack/sheet/metal{
-	amount = 50
-	},
-/obj/item/stack/sheet/metal{
-	amount = 50
-	},
-/obj/item/stack/sheet/metal{
-	amount = 50
-	},
-/obj/item/stack/sheet/metal{
-	amount = 50
-	},
 /obj/effect/decal/warning_stripes{
 	dir = 2;
 	icon_state = "warning";
 	tag = "icon-warning (NORTH)"
 	},
+/obj/machinery/suit_modifier,
 /turf/simulated/floor{
 	icon_state = "dark"
 	},
@@ -44423,9 +44400,6 @@
 	},
 /area/medical/medbay)
 "bDu" = (
-/obj/effect/landmark/start{
-	name = "Medical Doctor"
-	},
 /obj/machinery/door_control{
 	desc = "A remote control switch for the medbay foyer.";
 	id_tag = "MedbayFoyerL";
@@ -44438,6 +44412,9 @@
 	},
 /obj/structure/bed/chair/office/light{
 	dir = 2
+	},
+/obj/effect/landmark/start{
+	name = "Orderly"
 	},
 /turf/simulated/floor{
 	icon_state = "white"
@@ -44455,6 +44432,9 @@
 	pixel_x = -32;
 	pixel_y = 6;
 	range = 4
+	},
+/obj/effect/landmark/start{
+	name = "Orderly"
 	},
 /turf/simulated/floor{
 	icon_state = "white"
@@ -44731,9 +44711,6 @@
 /area/science/robotics)
 "bDQ" = (
 /obj/structure/table,
-/obj/item/stack/sheet/plasteel{
-	amount = 10
-	},
 /obj/item/stack/cable_coil,
 /obj/item/device/flash,
 /obj/item/device/flash,
@@ -45713,10 +45690,6 @@
 /turf/simulated/floor,
 /area/science/chargebay)
 "bFD" = (
-/obj/structure/disposalpipe/segment{
-	dir = 8;
-	icon_state = "pipe-c"
-	},
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
@@ -45728,8 +45701,8 @@
 /obj/structure/disposalpipe/segment{
 	dir = 8
 	},
-/turf/simulated/floor,
-/area/science/chargebay)
+/turf/simulated/wall,
+/area/science/robotics)
 "bFF" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced{
@@ -45741,15 +45714,37 @@
 /obj/structure/window/reinforced{
 	dir = 4
 	},
-/obj/structure/disposalpipe/segment{
-	dir = 8
-	},
 /turf/simulated/floor/plating,
 /area/science/robotics)
 "bFG" = (
-/obj/machinery/disposal,
-/obj/structure/disposalpipe/trunk{
-	dir = 4
+/obj/structure/table,
+/obj/item/stack/sheet/plasteel{
+	amount = 10;
+	pixel_x = -3;
+	pixel_y = 3
+	},
+/obj/item/stack/sheet/metal{
+	amount = 50
+	},
+/obj/item/stack/sheet/metal{
+	amount = 50
+	},
+/obj/item/stack/sheet/metal{
+	amount = 50
+	},
+/obj/item/stack/sheet/metal{
+	amount = 50
+	},
+/obj/item/stack/sheet/metal{
+	amount = 50
+	},
+/obj/item/stack/sheet/metal{
+	amount = 50
+	},
+/obj/item/stack/sheet/glass/glass{
+	amount = 20;
+	pixel_x = 3;
+	pixel_y = -3
 	},
 /turf/simulated/floor{
 	icon_state = "dark"
@@ -46831,11 +46826,14 @@
 /turf/simulated/floor/bluegrid,
 /area/science/chargebay)
 "bHM" = (
-/obj/structure/disposalpipe/segment,
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
 	icon_state = "1-2"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 8;
+	icon_state = "pipe-c"
 	},
 /turf/simulated/floor,
 /area/science/chargebay)
@@ -46844,13 +46842,16 @@
 	dir = 4;
 	pixel_x = -24
 	},
+/obj/structure/disposalpipe/segment{
+	dir = 8
+	},
 /turf/simulated/floor,
 /area/science/chargebay)
 "bHO" = (
-/obj/structure/table,
-/obj/item/device/mmi,
-/obj/item/device/mmi,
-/obj/item/device/mmi,
+/obj/structure/disposalpipe/trunk{
+	dir = 4
+	},
+/obj/machinery/disposal,
 /turf/simulated/floor{
 	icon_state = "dark"
 	},
@@ -47818,6 +47819,9 @@
 /obj/item/tool/scalpel{
 	pixel_y = -14
 	},
+/obj/item/device/mmi,
+/obj/item/device/mmi,
+/obj/item/device/mmi,
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -56008,6 +56012,7 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden{
 	dir = 2
 	},
+/obj/item/weapon/storage/bag/trash/bio,
 /turf/simulated/floor{
 	dir = 2;
 	icon_state = "whiteblue"
@@ -68616,7 +68621,7 @@
 /turf/simulated/floor,
 /area/engineering/atmos_control)
 "cun" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	locked = 1;
 	pixel_y = 32
 	},
@@ -69603,7 +69608,6 @@
 	pixel_x = -1;
 	pixel_y = 1
 	},
-/obj/item/weapon/circuitboard/security/advanced,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 4
 	},
@@ -123074,7 +123078,7 @@
 /turf/simulated/floor/engine,
 /area/shuttle/salvage/start)
 "eyA" = (
-/obj/structure/closet/fireaxecabinet{
+/obj/structure/fireaxecabinet{
 	pixel_x = 32
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -127640,7 +127644,7 @@
 	},
 /area/security/warden)
 "eMD" = (
-/obj/machinery/computer/security/advanced,
+/obj/machinery/computer/security,
 /turf/simulated/floor{
 	icon_state = "dark"
 	},
@@ -236393,7 +236397,7 @@ aSF
 byy
 byy
 byy
-byy
+bFE
 bFF
 bDP
 bBW
@@ -236896,7 +236900,7 @@ buZ
 bLu
 bJD
 bHN
-bFE
+bBV
 bDO
 bBV
 bAj

@@ -26,7 +26,7 @@ var/list/datum/map_element/map_elements = list()
 		return FALSE
 	return TRUE
 
-/datum/map_element/proc/initialize(list/objects) //Called after loading the element. The "objects" list contains all spawned atoms
+/datum/map_element/initialize(list/objects) //Called after loading the element. The "objects" list contains all spawned atoms
 	map_elements.Add(src)
 
 	if(!location && objects.len)
@@ -87,7 +87,7 @@ var/list/datum/map_element/map_elements = list()
 	if(!istype(A))
 		return
 
-	A.lazy_register_event(/lazy_event/on_destroyed, src, .proc/clear_references)
+	A.register_event(/event/destroyed, src, .proc/clear_references)
 	return A
 
 
