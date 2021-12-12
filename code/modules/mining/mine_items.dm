@@ -164,11 +164,7 @@ proc/move_mining_shuttle()
 	icon_state = "lantern"
 	item_state = "lantern"
 	desc = "A mining lantern."
-<<<<<<< HEAD
-	light_range = 5
-=======
 	light_range = 5			// luminosity when on
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	light_power = 2
 	light_color = LIGHT_COLOR_TUNGSTEN
 

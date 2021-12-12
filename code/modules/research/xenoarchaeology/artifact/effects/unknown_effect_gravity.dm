@@ -28,11 +28,8 @@
 
 /datum/artifact_effect/gravity/proc/gravitypull(range)
 	for(var/atom/X in orange(effectrange, get_turf(holder)))
-<<<<<<< HEAD
-		if(islightingoverlay(X))
-=======
+
 		if(X.type == /atom/movable/light)
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 			continue
 		if(istype(X, /mob/living) && X.Adjacent(holder))
 			var/mob/living/L = X

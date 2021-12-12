@@ -6,12 +6,9 @@
 	var/light_range = 1
 	var/light_color = "#F4FFFA"
 
-<<<<<<< HEAD
-=======
 	// Movable lights only
 	var/atom/movable/light/smooth/smooth_light_obj
 
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 // Used to change hard BYOND opacity; this means a lot of updates are needed.
 /atom/proc/set_opacity(var/newopacity)
 	opacity = newopacity ? 1 : 0
@@ -19,14 +16,11 @@
 	if(istype(T))
 		T.blocks_light = -1
 		for(var/atom/movable/light/L in range(world.view, T)) //view(world.view, dview_mob))
-<<<<<<< HEAD
 			L.cast_light()
-=======
 			if (world.cpu > 50 && ticker.current_state > GAME_STATE_PREGAME)
 				lighting_update_lights |= L
 			else
 				L.cast_light()
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 /atom/proc/copy_light(var/atom/other)
 	light_range = other.light_range
@@ -39,11 +33,8 @@
 		light_obj.follow_holder()
 	if (shadow_obj && !shadow_obj.gcDestroyed)
 		shadow_obj.follow_holder()
-<<<<<<< HEAD
-=======
 	if (smooth_light_obj && !smooth_light_obj.gcDestroyed)
 		smooth_light_obj.follow_holder()
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 /atom/movable/change_dir()
 	. = ..()
@@ -53,11 +44,7 @@
 	. = ..()
 	update_contained_lights()
 
-<<<<<<< HEAD
-/atom/movable/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0)
-=======
 /atom/movable/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0, from_tp = 0)
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	. = ..()
 	update_contained_lights()
 
@@ -78,15 +65,10 @@
 /area/proc/update_dynamic_lighting()
 	if(dynamic_lighting)
 		var/image/I = image(icon = 'icons/mob/screen1.dmi', icon_state = "white")
-<<<<<<< HEAD
-		I.plane = LIGHTING_PLANE_MASTER
-		I.blend_mode = BLEND_ADD
-		overlays += I
-=======
-		I.plane = relative_plane(LIGHTING_PLANE)
+		I.plane = LIGHTING_PLANE
 		I.blend_mode = BLEND_ADD
 		overlays += I
 		luminosity = 1
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
+
 	else
 		overlays.Cut()

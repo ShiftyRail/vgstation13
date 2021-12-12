@@ -1435,11 +1435,7 @@ var/mob/dview/tview/tview_mob = new()
 	if(!contents.len)
 		return 0
 	for(var/atom/A in contents)
-<<<<<<< HEAD
-		if(!islightingoverlay(A))
-=======
 		if(!istype(A, /atom/movable/light))
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 			return 0
 	return 1
 
@@ -1447,11 +1443,7 @@ var/mob/dview/tview/tview_mob = new()
 //Includes an exception list if you don't want to delete some stuff
 /turf/proc/clear_contents(var/list/ignore = list())
 	for(var/atom/turf_contents in contents)
-<<<<<<< HEAD
-		if(!islightingoverlay(turf_contents) && !is_type_in_list(turf_contents, ignore) && !(flags & INVULNERABLE))
-=======
 		if(!istype(turf_contents, /atom/movable/light) && !is_type_in_list(turf_contents, ignore) && !(flags & INVULNERABLE))
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 			qdel(turf_contents)
 
 /proc/multinum_display(var/number,var/digits)//multinum_display(42,4) = "0042"; multinum_display(-137,6) = "-000137"; multinum_display(4572,3) = "999"

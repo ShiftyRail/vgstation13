@@ -100,13 +100,7 @@
 	var/make_alerts = TRUE // Should this APC make power alerts to the area?
 
 	machine_flags = WIREJACK
-
-<<<<<<< HEAD
-	plane = LIGHTING_PLANE
-	layer = ABOVE_LIGHTING_LAYER
-=======
 	plane = OBJ_PLANE
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 	light_range = 1
 	light_power = 1
@@ -296,11 +290,6 @@
 			icon_state = "apcewires"
 			light_range = 0
 			light_power = 0
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 	if(!(update_state & UPSTATE_ALLGOOD))
 		if(overlays.len)
@@ -334,10 +323,6 @@
 
 	if (old_light_range != light_range || old_light_power != light_power)
 		light_obj.cast_light()
-<<<<<<< HEAD
-=======
-
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 /obj/machinery/power/apc/proc/check_updates()
 

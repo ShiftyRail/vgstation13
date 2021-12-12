@@ -199,11 +199,7 @@
 			C.name = name
 			C.attackby(W,user)
 			C.update_brightness()
-<<<<<<< HEAD
-			set_light(C.light_range)
-=======
 			set_light(C.light_range, C.light_power, C.light_color, C.light_type)
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 			if(ismetal)
 				icon_state = "pipe_tomahawk_metal_on"
 				item_state = "pipe_tomahawk_metal_on"
@@ -346,11 +342,7 @@
 			C.name = name
 			C.attackby(W,user)
 			C.update_brightness()
-<<<<<<< HEAD
-			set_light(C.light_range)
-=======
 			set_light(C.light_range, C.light_power, C.light_color, C.light_type)
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 			icon_state = "pipe_tomahawk_broken_on"
 			item_state = "pipe_tomahawk_broken_on"
 			is_lit = 1

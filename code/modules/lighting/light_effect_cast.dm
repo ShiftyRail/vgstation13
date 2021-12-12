@@ -3,15 +3,17 @@
 #define WIDE_SHADOW_THRESHOLD 80
 #define OFFSET_MULTIPLIER_SIZE 32
 #define CORNER_OFFSET_MULTIPLIER_SIZE 16
+#define BLUR_SIZE 2 // integer, please
 
 // Shadows over light_range 5 haven't been done yet.
 #define MAX_LIGHT_RANGE 5
 
-<<<<<<< HEAD
-=======
+#define NO_POST_PROCESSING 	0
+#define WALL_SHADOWS_ONLY  	1
+#define ALL_SHADOWS	 		2
 
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 var/light_power_multiplier = 5
+var/light_post_processing = NO_POST_PROCESSING // Use writeglobal to change this
 
 // We actually see these "pseudo-light atoms" in order to ensure that wall shadows are only seen by people who can see the light.
 // Yes, this is stupid, but it's one of the limitations of TILE_BOUND, which cannot be chosen on an overlay-per-overlay basis.
@@ -19,8 +21,7 @@ var/light_power_multiplier = 5
 // Do note that this means that everything is twice as bright, and twice as dark.
 // Draw/generate your shadow masks & light spots accordingly!
 
-<<<<<<< HEAD
-=======
+
 // What's will all this render target nonsense?
 // The icons we are trying to draw are, for the scale of BYOND, quite complex.
 // In particular, the shadow trapezoids are subject to various transformation matrices and clients may struggle to render them.
@@ -29,7 +30,6 @@ var/light_power_multiplier = 5
 // As it turns out, for wall-shadow icons and for black masks, it is possible to copy and paste the pre-rendered icon from a nearby visible light as well.
 // This saves quite a bit on rendering in areas with many overlapping lights close to one another.
 
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 // cast_light() is the "master proc", shared by the two kinds.
 
 /atom/movable/light/proc/cast_light()
@@ -44,7 +44,7 @@ var/light_power_multiplier = 5
 
 // Initialisation of the cast_light proc.
 /atom/movable/light/proc/cast_light_init()
-<<<<<<< HEAD
+
 	temp_appearance = list()
 	affecting_turfs = list()
 	luminosity = 2*light_range
@@ -53,11 +53,10 @@ var/light_power_multiplier = 5
 	light_range = min(MAX_LIGHT_RANGE, light_range)
 	light_color = (holder.light_color || light_color)
 
-=======
-
 	filters = list()
 	pre_rendered_shadows = list()
 	temp_appearance = list()
+	temp_appearance_shadows = list()
 	affecting_turfs = list()
 	affected_shadow_walls = list()
 
@@ -69,29 +68,24 @@ var/light_power_multiplier = 5
 	var/atom/location = get_turf(src)
 	var/distance_to_wall_illum = get_wall_view()
 
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	if (light_swallowed > 0)
 		light_range = 1
 		light_power = 1
 		if (light_type != LIGHT_DIRECTIONAL)
 			light_type = LIGHT_SOFT_FLICKER
-<<<<<<< HEAD
-=======
 		light_swallowed--
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 	if(light_type == LIGHT_SOFT_FLICKER)
 		alpha = initial(alpha)
 		animate(src, alpha = initial(alpha) - rand(30, 60), time = 2, loop = -1, easing = SINE_EASING)
 
-<<<<<<< HEAD
 	for (var/mob/M in view(world.view, src))
 		M.check_dark_vision()
 
 	for(var/turf/T in view(2*light_range, src))
 		T.lumcount = -1
 		affecting_turfs += T
-=======
+
 	for (var/thing in view(min(world.view, light_range), src))
 		if (ismob(thing))
 			var/mob/M = thing
@@ -102,15 +96,12 @@ var/light_power_multiplier = 5
 			affecting_turfs += T
 			if (get_dist(T, location) <= distance_to_wall_illum && CHECK_OCCLUSION(T))
 				affected_shadow_walls += T
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 	if(!isturf(loc))
 		for(var/turf/T in affecting_turfs)
 			T.lumcount = -1
-<<<<<<< HEAD
 			T.affecting_lights -= src
-=======
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
+
 		affecting_turfs.Cut()
 		return
 
@@ -165,33 +156,7 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 		light_range = 2.5
 
 	else
-<<<<<<< HEAD
-		// An explicit call to file() is easily 1000 times as expensive than this construct, so... yeah.
-		// Setting icon explicitly allows us to use byond rsc instead of fetching the file everytime.
-		// The downside is, of course, that you need to cover all the cases in your switch.
-		switch (light_range)
-			if (1)
-				icon = 'icons/lighting/light_range_1.dmi'
-			if (2)
-				icon = 'icons/lighting/light_range_2.dmi'
-			if (3)
-				icon = 'icons/lighting/light_range_3.dmi'
-			if (4)
-				icon = 'icons/lighting/light_range_4.dmi'
-			if (5)
-				icon = 'icons/lighting/light_range_5.dmi'
-			if (6)
-				icon = 'icons/lighting/light_range_6.dmi'
-			if (7)
-				icon = 'icons/lighting/light_range_7.dmi'
-			if (8)
-				icon = 'icons/lighting/light_range_8.dmi'
-			if (9)
-				icon = 'icons/lighting/light_range_9.dmi'
-=======
 		if (base_light_color_state == "white")
-
-
 		// An explicit call to file() is easily 1000 times as expensive than this construct, so... yeah.
 		// Setting icon explicitly allows us to use byond rsc instead of fetching the file everytime.
 		// The downside is, of course, that you need to cover all the cases in your switch.
@@ -226,39 +191,16 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 					icon = 'icons/lighting/shadow_range_4.dmi'
 				if (5)
 					icon = 'icons/lighting/shadow_range_5.dmi'
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 	if (light_type != LIGHT_DIRECTIONAL)
 		pixel_x = -(world.icon_size * light_range)
 		pixel_y = -(world.icon_size * light_range)
 
-	// This to avoid TILE_BOUND corner light effects while keeping smooth movement for movable light sources
-<<<<<<< HEAD
-	// Basically, for movable lights, we always do white square + masking
-	// But for fixed lights, we wall-shadows-only lights do not cast a white square
-	// Probably not the smartest way around this
-	if (holder.lighting_flags & MOVABLE_LIGHT)
-		icon_state = "white"
-	else
-		icon_state = base_light_color_state
-
-	if (icon_state == "white") // This mask only makes sense if we are casting a white light
-		alpha = min(255,max(0,round(light_power*light_power_multiplier*25)))
-		var/image/I = image(icon)
-		I.icon_state = "overlay"
-		if(light_type == LIGHT_DIRECTIONAL)
-			var/turf/next_turf = get_step(src, dir)
-			for(var/i = 1 to 3)
-				if(CheckOcclusion(next_turf))
-					I.icon_state = "[I.icon_state]_[i]"
-					break
-				next_turf = get_step(next_turf, dir)
-
-=======
 	// There are THREE light atoms on an object
 	// - the white square (not TILE_BOUND)
 	// - the shadow square (TILE_BOUND)
 	// - the smooth white square (not TILE_BOUND)
+	// This to avoid TILE_BOUND corner light effects while keeping smooth movement for movable light sources
 	icon_state = base_light_color_state
 
 	if (icon_state == "white") // This mask only makes sense if we are casting a white light
@@ -298,8 +240,6 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 				else
 					I.icon_state = "overlay"
 				I.render_target = white_light_identifier
-
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 		temp_appearance += I
 
 // On how many turfs do we cast a shadow ?
@@ -309,11 +249,6 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 		return
 
 	for(var/turf/T in view(light_range, src))
-<<<<<<< HEAD
-		if(CheckOcclusion(T))
-			CastShadow(T)
-
-=======
 		if(CHECK_OCCLUSION(T))
 			CastShadow(T)
 
@@ -329,7 +264,6 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 	if ((target_turf in affected_shadow_walls) && is_valid_turf(target_turf))
 		cast_turf_shadow(target_turf, x_offset, y_offset)
 
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 /atom/movable/light/proc/cast_main_shadow(var/turf/target_turf, var/x_offset, var/y_offset)
 
 	var/num = 1
@@ -344,114 +278,6 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 
 	var/shadowoffset = WORLD_ICON_SIZE/2 + (WORLD_ICON_SIZE*light_range)
 
-<<<<<<< HEAD
-	// An explicit call to file() is easily 1000 times as expensive than this construct, so... yeah.
-	// Setting icon explicitly allows us to use byond rsc instead of fetching the file everytime.
-	// The downside is, of course, that you need to cover all the cases in your switch.
-	var/icon/shadowicon
-	switch(light_range)
-		if(2)
-			if(num == 1)
-				shadowicon = 'icons/lighting/light_range_2_shadows1.dmi'
-			else
-				shadowicon = 'icons/lighting/light_range_2_shadows2.dmi'
-		if(3)
-			if(num == 1)
-				shadowicon = 'icons/lighting/light_range_3_shadows1.dmi'
-			else
-				shadowicon = 'icons/lighting/light_range_3_shadows2.dmi'
-		if(4)
-			if(num == 1)
-				shadowicon = 'icons/lighting/light_range_4_shadows1.dmi'
-			else
-				shadowicon = 'icons/lighting/light_range_4_shadows2.dmi'
-		if(5)
-			if(num == 1)
-				shadowicon = 'icons/lighting/light_range_5_shadows1.dmi'
-			else
-				shadowicon = 'icons/lighting/light_range_5_shadows2.dmi'
-		if(6)
-			if(num == 1)
-				shadowicon = 'icons/lighting/light_range_6_shadows1.dmi'
-			else
-				shadowicon = 'icons/lighting/light_range_6_shadows2.dmi'
-		if(7)
-			if(num == 1)
-				shadowicon = 'icons/lighting/light_range_7_shadows1.dmi'
-			else
-				shadowicon = 'icons/lighting/light_range_7_shadows2.dmi'
-		if(8)
-			if(num == 1)
-				shadowicon = 'icons/lighting/light_range_8_shadows1.dmi'
-			else
-				shadowicon = 'icons/lighting/light_range_8_shadows2.dmi'
-		if(9)
-			if(num == 1)
-				shadowicon = 'icons/lighting/light_range_9_shadows1.dmi'
-			else
-				shadowicon = 'icons/lighting/light_range_9_shadows2.dmi'
-
-	var/image/I = image(shadowicon)
-
-	//due to the way the offsets are named, we can just swap the x and y offsets to "rotate" the icon state
-	if(xy_swap)
-		I.icon_state = "[abs(y_offset)]_[abs(x_offset)]"
-	else
-		I.icon_state = "[abs(x_offset)]_[abs(y_offset)]"
-
-	var/matrix/M = matrix()
-
-=======
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
-	//TODO: rewrite this comment:
-	//using scale to flip the shadow template if needed
-	//horizontal (x) flip is easy, we just check if the offset is negative
-	//vertical (y) flip is a little harder, if the shadow will be rotated we need to flip if the offset is positive,
-	// but if it wont be rotated then we just check if its negative to flip (like the x flip)
-	var/x_flip
-	var/y_flip
-	if(xy_swap)
-		x_flip = y_offset > 0 ? -1 : 1
-		y_flip = x_offset < 0 ? -1 : 1
-	else
-		x_flip = x_offset < 0 ? -1 : 1
-		y_flip = y_offset < 0 ? -1 : 1
-
-<<<<<<< HEAD
-	M.Scale(x_flip, y_flip)
-
-	//here we do the actual rotate if needed
-	if(xy_swap)
-		M.Turn(90)
-
-	//warning: you are approaching shitcode (this is where we move the shadow to the correct quadrant based on its rotation and flipping)
-	//shadows are only as big as a quarter or half of the light for optimization
-
-	//please for the love of god change this if there's a better way
-
-	if(num == 1)
-		if((x_flip == 1 && y_flip == 1 && xy_swap == 0) || (x_flip == -1 && y_flip == 1 && xy_swap == 1))
-			M.Translate(shadowoffset, shadowoffset)
-		else if((x_flip == 1 && y_flip == -1 && xy_swap == 0) || (x_flip == 1 && y_flip == 1 && xy_swap == 1))
-			M.Translate(shadowoffset, 0)
-		else if((xy_swap == 0 && x_flip == -y_flip) || (xy_swap == 1 && x_flip == -1 && y_flip == -1))
-			M.Translate(0, shadowoffset)
-	else
-		if(x_flip == 1 && y_flip == 1 && xy_swap == 0)
-			M.Translate(0, shadowoffset)
-		else if(x_flip == 1 && y_flip == 1 && xy_swap == 1)
-			M.Translate(shadowoffset / 2, shadowoffset / 2)
-		else if(x_flip == 1 && y_flip == -1 && xy_swap == 1)
-			M.Translate(-shadowoffset / 2, shadowoffset / 2)
-
-	//apply the transform matrix
-	I.transform = M
-	I.layer = LIGHTING_LAYER
-	//and add it to the lights overlays
-	temp_appearance += I
-	for(var/turf/T in affecting_turfs)
-		T.affecting_lights |= src
-=======
 	var/matrix/M = matrix()
 
 	// Using BYOND's render_target magick here
@@ -550,13 +376,12 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 			I.pixel_y += shadowoffset/2
 
 	//and add it to the lights overlays
-	temp_appearance += I
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
+	temp_appearance_shadows += I
 
 /atom/movable/light/shadow/cast_main_shadow(var/turf/target_turf, var/x_offset, var/y_offset)
 	return
 
-<<<<<<< HEAD
+
 /atom/movable/light/proc/cast_turf_shadow(var/turf/target_turf, var/x_offset, var/y_offset)
 	var/targ_dir = get_dir(target_turf, src)
 	// CHECK: may not actually smoothout that well.
@@ -569,7 +394,7 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 	// The "edge" of the light, with images consisting of directional sprites from wall_lighting.dmi "pushed" in the correct direction.
 	var/image/I = image('icons/lighting/wall_lighting.dmi', loc = get_turf(src))
 	I.icon_state = "[blocking_dirs]-[targ_dir]"
-=======
+
 // While this proc is quite involuted, the highest it can do is :
 // 8 loops in the first "for"
 // 4 loops in the second "for"
@@ -689,31 +514,29 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 			I.render_target = turf_shadow_image_identifier
 			pre_rendered_shadows += turf_shadow_image_identifier
 
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	I.pixel_x = (world.icon_size * light_range) + (x_offset * world.icon_size)
 	I.pixel_y = (world.icon_size * light_range) + (y_offset * world.icon_size)
 	I.layer = HIGHEST_LIGHTING_LAYER
 	temp_appearance += I
 
 /atom/movable/light/proc/update_appearance()
-<<<<<<< HEAD
+
 	overlays = temp_appearance
 	temp_appearance = null
-	// Because movable lights do this two-lights-sources thing
-	if (holder.lighting_flags & MOVABLE_LIGHT)
-=======
-	post_processing()
+
+	if (light_post_processing)
+		post_processing()
+	else
+		temp_appearance += temp_appearance_shadows
 	overlays = temp_appearance
 	temp_appearance = null
 	// Because movable lights do this two-lights-sources thing
 	if ((holder.lighting_flags & MOVABLE_LIGHT) && icon_state == "white")
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 		var/list/RGB = rgb2num(light_color)
 		color = rgb(round(RGB[1]/2), round(RGB[2]/2), round(RGB[3]/2))
 	else
 		color = light_color
 
-<<<<<<< HEAD
 /atom/movable/light/proc/CastShadow(var/turf/target_turf)
 	//get the x and y offsets for how far the target turf is from the light
 	var/x_offset = target_turf.x - x
@@ -722,9 +545,20 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 
 	if (is_valid_turf(target_turf))
 		cast_turf_shadow(target_turf, x_offset, y_offset)
-=======
+
 // -- Smoothing out shadows
 /atom/movable/light/proc/post_processing()
+	if (light_post_processing == ALL_SHADOWS)
+		var/image/shadow_overlay/image_result = new()
+		for (var/image/image_component in temp_appearance_shadows)
+			image_result.temp_appearance += image_component
+
+		image_result.overlays = image_result.temp_appearance
+		// Apply a filter
+		image_result.filters += filter(type = "blur", size = BLUR_SIZE)
+		temp_appearance += image_result
+	else
+		temp_appearance += temp_appearance_shadows
 	// And then blacken out what's unvisible
 	// -- eliminating the underglow
 	for (var/turf/T in affected_shadow_walls)
@@ -744,9 +578,6 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 		black_turf.layer = ANTI_GLOW_PASS_LAYER
 		temp_appearance += black_turf
 
-/atom/movable/light/shadow/post_processing()
-	return
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 /atom/movable/light/proc/update_light_dir()
 	if(light_type == LIGHT_DIRECTIONAL)
@@ -819,8 +650,7 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 	I.icon_state = "overlay[overlay_state]"
 	overlays += I
 
-<<<<<<< HEAD
-=======
+
 // -- debug & shit
 
 /turf/proc/get_attack_dir(var/atom/movable/light/light_source)
@@ -861,10 +691,15 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 
 	message_admins("final targ_dir is: [targ_dir]")
 
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 #undef MAX_LIGHT_RANGE
 #undef BASE_PIXEL_OFFSET
 #undef BASE_TURF_OFFSET
 #undef WIDE_SHADOW_THRESHOLD
 #undef OFFSET_MULTIPLIER_SIZE
 #undef CORNER_OFFSET_MULTIPLIER_SIZE
+#undef BLUR_SIZE
+
+
+#undef NO_POST_PROCESSING
+#undef WALL_SHADOWS_ONLY
+#undef ALL_SHADOWS

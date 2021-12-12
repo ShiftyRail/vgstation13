@@ -6,12 +6,9 @@
 	if (shadow_obj)
 		qdel(shadow_obj)
 		shadow_obj = null
-<<<<<<< HEAD
-=======
 	if (smooth_light_obj)
 		qdel(smooth_light_obj)
 		smooth_light_obj = null
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 // Updates all appropriate lighting values and then applies all changed values
 // to the objects light_obj overlay atom.
@@ -23,12 +20,9 @@
 			qdel(shadow_obj)
 			light_obj = null
 			shadow_obj = null
-<<<<<<< HEAD
-=======
 		if (smooth_light_obj)
 			qdel(smooth_light_obj)
 			smooth_light_obj = null
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 		return
 
 	if (moody_light_type)
@@ -53,8 +47,6 @@
 
 	light_atom_update(shadow_obj, update_cast_shadow)
 
-<<<<<<< HEAD
-=======
 	var/update_cast_smooth_light
 	if (lighting_flags & MOVABLE_LIGHT)
 		if(!smooth_light_obj)
@@ -64,16 +56,11 @@
 
 	if (smooth_light_obj)
 		light_atom_update(smooth_light_obj, update_cast_smooth_light)
-
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	// Rare enough that we can probably get away with calling animate().
 	if(fadeout)
 		animate(light_obj, alpha = 0, time = fadeout)
 		animate(shadow_obj, alpha = 0, time = fadeout)
-<<<<<<< HEAD
-=======
 		animate(smooth_light_obj, alpha = 0, time = fadeout)
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 /atom/proc/light_value_inits(var/l_range, var/l_power, var/l_color, var/l_type)
 	// Update or retrieve our variable data.

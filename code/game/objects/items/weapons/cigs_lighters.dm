@@ -25,12 +25,8 @@ MATCHBOXES ARE ALSO IN FANCY.DM
 	icon_state = "match"
 	item_state = "match"
 	var/lit = 0
-	var/smoketime = 10
-<<<<<<< HEAD
-	light_range = 1 //Barely enough to see where you're standing, it's a shitty discount match
-=======
+	var/smoketime = 1
 	light_range = 1
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	heat_production = 1000
 	source_temperature = TEMPERATURE_FLAME
 	autoignition_temperature = AUTOIGNITION_PAPER
@@ -190,10 +186,7 @@ MATCHBOXES ARE ALSO IN FANCY.DM
 	var/overlay_on = "ciglit" //Apparently not used
 	var/type_butt = /obj/item/trash/cigbutt
 	var/lastHolder = null
-<<<<<<< HEAD
-=======
 	light_range = 1
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	var/smoketime = 300
 	var/chem_volume = 20
 	var/inside_item = 0 //For whether the cigarette is contained inside another item.
@@ -803,10 +796,7 @@ MATCHBOXES ARE ALSO IN FANCY.DM
 	siemens_coefficient = 1
 	light_range = 2
 	var/color_suffix = "-g" // Determines the sprite used
-<<<<<<< HEAD
-=======
 	light_range = 2
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	var/lightersound = list('sound/items/lighter1.ogg','sound/items/lighter2.ogg')
 	var/fuel = 20
 	var/fueltime

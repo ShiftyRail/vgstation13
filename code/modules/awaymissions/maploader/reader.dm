@@ -420,13 +420,10 @@ var/list/map_dimension_cache = list()
 	placed.underlays += turfs_underlays
 
 /atom/New()
-<<<<<<< HEAD
-	// Incase any lighting vars are on in the typepath we turn the light on in New().
 
+	// Incase any lighting vars are on in the typepath we turn the light on in New().
 	if (light_power && light_range)
 		set_light(light_range, light_power)
-=======
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 	//atom creation method that preloads variables at creation
 	if(_preloader && (src.type == _preloader.target_path))//in case the instanciated atom is creating other atoms in New()

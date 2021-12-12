@@ -283,11 +283,7 @@
 
 			A.invoke_event(/event/post_z_transition, list("user" = A, "from_z" = A.z, "to_z" = move_to_z))
 			for(var/atom/movable/AA in contents_brought)
-<<<<<<< HEAD
 				AA.lazy_invoke_event(/lazy_event/on_post_z_transition, list("user" = AA, "from_z" = AA.z, "to_z" = move_to_z))
-=======
-				AA.invoke_event(/event/post_z_transition, list("user" = AA, "from_z" = AA.z, "to_z" = move_to_z))
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 /turf/proc/is_plating()
 	return 0
@@ -355,10 +351,8 @@
 	var/datum/gas_mixture/env
 
 	var/old_opacity = opacity
-<<<<<<< HEAD
 	var/old_affecting_lights = affecting_lights
-=======
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
+
 	var/old_density = density
 	var/old_holomap_draw_override = holomap_draw_override
 	var/old_registered_events = registered_events
@@ -459,12 +453,9 @@
 
 		. = W
 
-<<<<<<< HEAD
 	if (SS_READY(SSlighting))
 		affecting_lights = old_affecting_lights
 
-=======
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	if (!ticker)
 		holomap_draw_override = old_holomap_draw_override//we don't want roid/snowmap cave tunnels appearing on holomaps
 	holomap_data = old_holomap // Holomap persists through everything

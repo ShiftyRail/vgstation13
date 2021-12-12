@@ -156,9 +156,6 @@
 // atom/touched: the thing being touched
 /event/touched
 
-<<<<<<< HEAD
-//Called when living calls a life() tick
-=======
 // Called by to_bump
 // Currently only implemented for humans.
 // Arguments:
@@ -217,14 +214,11 @@
 /event/ui_act
 
 // Called when living calls a life() tick
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 // Arguments:
 // mob/living/L: thing that ticker
 // life_ticks: the amounts of lifetick processed
 /lazy_event/on_life
 
-<<<<<<< HEAD
-=======
 // Called by attack_self
 // Arguments:
 // mob/living/user
@@ -247,7 +241,6 @@
 // emote: the name of the emote being performed
 // mob/source: the mob performing the emote
 /event/emote
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 /datum
 	/// Associative list of type path -> list(),

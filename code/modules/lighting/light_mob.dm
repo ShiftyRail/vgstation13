@@ -1,14 +1,8 @@
 /mob
 	var/obj/abstract/screen/plane/master/master_plane
-<<<<<<< HEAD
-	var/obj/abstract/screen/plane/dark/dark_plane
-	var/obj/abstract/screen/backdrop/backdrop
-	var/obj/abstract/screen/plane/self_vision/self_vision
-=======
 	var/obj/abstract/screen/backdrop/backdrop
 	var/obj/abstract/screen/plane/self_vision/self_vision
 	var/obj/abstract/screen/plane/dark/dark_plane
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	var/seedarkness = 1
 
 /mob/proc/create_lighting_planes()
@@ -33,16 +27,11 @@
 		qdel(self_vision)
 		self_vision = null
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	dark_plane = new(client)
 	master_plane = new(client)
 	backdrop = new(client)
 	self_vision = new(client)
 
-<<<<<<< HEAD
 	client.screen |= dark_plane
 	client.screen |= master_plane
 	client.screen |= backdrop
@@ -56,7 +45,7 @@
 		master_plane.color = LIGHTING_PLANEMASTER_COLOR
 	else
 		master_plane.color = ""
-=======
+
 	update_darkness()
 	register_event(/event/before_move, src, /mob/proc/check_dark_vision)
 
@@ -65,4 +54,4 @@
 		master_plane?.color = LIGHTING_PLANEMASTER_COLOR
 	else
 		master_plane?.color = ""
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
+

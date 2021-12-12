@@ -77,15 +77,9 @@ Why is FLOAT_PLANE added to a bunch of these?
 	FLOAT_PLANE = -32767
 */
 
-<<<<<<< HEAD
-#define PLATING_PLANE 			-21
-
-#define ABOVE_PLATING_PLANE		-20
-=======
 #define PLATING_PLANE 			(-5 + FLOAT_PLANE)
 
 #define ABOVE_PLATING_PLANE		(-4 + FLOAT_PLANE)
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 	#define CATWALK_LAYER				2
 	#define DISPOSALS_PIPE_LAYER		3
@@ -95,18 +89,6 @@ Why is FLOAT_PLANE added to a bunch of these?
 	#define VENT_BEZEL_LAYER			7
 	#define WIRE_TERMINAL_LAYER			8
 
-<<<<<<< HEAD
-#define FLOOR_PLANE 			-19
-
-#define BELOW_TURF_PLANE 		-18 		// objects that are below turfs and darkness but above platings. Useful for asteroid smoothing or other such magic.
-	#define CORNER_LAYER 				2
-	#define SIDE_LAYER					3
-
-#define TURF_PLANE				-17
-	#define MAPPING_TURF_LAYER			-999
-
-#define ABOVE_TURF_PLANE 		-16			// For items which should appear above turfs but below other objects and hiding mobs, eg: wires & pipes
-=======
 #define FLOOR_PLANE 			(-3 + FLOAT_PLANE)
 
 #define BELOW_TURF_PLANE 		(-2 + FLOAT_PLANE)		// objects that are below turfs and darkness but above platings. Useful for asteroid smoothing or other such magic.
@@ -119,7 +101,6 @@ Why is FLOAT_PLANE added to a bunch of these?
 #define GLASSTILE_PLANE			-1						// Another one that won't behave, since it's an overlay
 
 #define ABOVE_TURF_PLANE 		(0 + FLOAT_PLANE)			// For items which should appear above turfs but below other objects and hiding mobs, eg: wires & pipes
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 	#define HOLOMAP_LAYER				1 //Note: Holomap images are not actually on ABOVE_TURF_PLANE. They are explicitly one plane above the parent turf.
 	#define RUNE_LAYER					2
@@ -142,19 +123,11 @@ Why is FLOAT_PLANE added to a bunch of these?
 	#define CREEPER_LAYER				19
 	#define WEED_LAYER					420
 
-<<<<<<< HEAD
-#define NOIR_BLOOD_PLANE 		-15		 	// Contains BLOOD, (ALSO) will appear to people under the influence of the noir colour matrix. -if changing this, make sure that the blood layer changes too.
-
-#define HIDING_MOB_PLANE 		-14			// for hiding mobs like MoMMIs or spiders or whatever, under most objects but over pipes & such.
-
-#define OBJ_PLANE 				-13			// For objects which appear below humans.
-=======
 #define NOIR_BLOOD_PLANE 		(1 + FLOAT_PLANE)		 	// Contains BLOOD, (ALSO) will appear to people under the influence of the noir colour matrix. -if changing this, make sure that the blood layer changes too.
 
 #define HIDING_MOB_PLANE 		(2 + FLOAT_PLANE)			// for hiding mobs like MoMMIs or spiders or whatever, under most objects but over pipes & such.
 
 #define OBJ_PLANE 				(3 + FLOAT_PLANE)			// For objects which appear below humans.
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 	#define BELOW_TABLE_LAYER			0
 	#define TABLE_LAYER					0.5
@@ -173,19 +146,6 @@ Why is FLOAT_PLANE added to a bunch of these?
 	#define ABOVE_DOOR_LAYER			12
 	#define CHAIR_LEG_LAYER				13
 
-<<<<<<< HEAD
-#define LYING_MOB_PLANE			-12			// other mobs that are lying down.
-
-#define LYING_HUMAN_PLANE 		-11			// humans that are lying down
-
-#define ABOVE_OBJ_PLANE			-10			// for objects that are below humans when they are standing but above them when they are not. - eg, blankets.
-	#define BLANKIES_LAYER				0
-	#define FACEHUGGER_LAYER			1
-
-#define HUMAN_PLANE 			-9			// For Humans that are standing up.
-
-#define MOB_PLANE 				-8			// For Mobs.
-=======
 #define LYING_MOB_PLANE			(4 + FLOAT_PLANE)			// other mobs that are lying down.
 
 #define LYING_HUMAN_PLANE 		(5 + FLOAT_PLANE)			// humans that are lying down
@@ -197,16 +157,11 @@ Why is FLOAT_PLANE added to a bunch of these?
 #define HUMAN_PLANE 			(7 + FLOAT_PLANE)			// For Humans that are standing up.
 
 #define MOB_PLANE 				(8 + FLOAT_PLANE)			// For Mobs.
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 //	#define MOB_LAYER					4
 	#define SLIME_LAYER					5
 
-<<<<<<< HEAD
-#define ABOVE_HUMAN_PLANE 		-7			// For things that should appear above humans.
-=======
 #define ABOVE_HUMAN_PLANE 		(9 + FLOAT_PLANE)			// For things that should appear above humans.
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 	#define SHADOW_LAYER				0
 	#define VEHICLE_LAYER 				0
@@ -219,11 +174,7 @@ Why is FLOAT_PLANE added to a bunch of these?
 	#define CLOSED_CURTAIN_LAYER		5
 	#define CHAT_LAYER					6
 
-<<<<<<< HEAD
-#define BLOB_PLANE 				-6			// For Blobs, which are above humans.
-=======
 #define BLOB_PLANE 				(10 + FLOAT_PLANE)			// For Blobs, which are above humans.
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 	#define BLOB_ROOTS_LAYER			-1
 	#define BLOB_BASE_LAYER				0
@@ -234,11 +185,7 @@ Why is FLOAT_PLANE added to a bunch of these?
 	#define BLOB_CORE_LAYER				5
 	#define BLOB_SPORE_LAYER			6
 
-<<<<<<< HEAD
-#define EFFECTS_PLANE 			-5			// For special effects.
-=======
 #define EFFECTS_PLANE 			(11 + FLOAT_PLANE)			// For special effects.
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 	#define BELOW_PROJECTILE_LAYER 		3
 	#define PROJECTILE_LAYER 			4
@@ -250,28 +197,7 @@ Why is FLOAT_PLANE added to a bunch of these?
 	#define HORIZON_EXHAUST_LAYER		10
 	#define POINTER_LAYER 				11
 
-<<<<<<< HEAD
-#define GHOST_PLANE 			-4			// Ghosts show up under lighting, HUD etc.
 
-	#define GHOST_LAYER 				1
-
-#define LIGHTING_PLANE 			-3
-	#define SELF_VISION_LAYER 		   -1
-	#define LIGHTBULB_LAYER 			0
-	#define POINTER_LAYER 				1
-	#define LIGHTING_LAYER 				2
-	#define ABOVE_LIGHTING_LAYER 		3
-	#define HIGHEST_LIGHTING_LAYER		3.5
-	#define SUPERMATTER_WALL_LAYER 		4
-	#define SUPER_PORTAL_LAYER			5
-	#define NARSIE_GLOW 				6
-	#define LIGHTING_LAYER 				7
-
-#define LIGHTING_PLANE_MASTER -2
-	#define FULL_DARK_LAYER 1
-
-#define ABOVE_LIGHTING_PLANE	-1
-=======
 #define GAS_PLANE 				11					// Gas overlays really hate being in anything except vis_contents when FLOAT_PLANE'D, don't ask
 
 #define GHOST_PLANE 			(12 + FLOAT_PLANE)			// Ghosts show up under lighting, HUD etc.
@@ -290,7 +216,6 @@ Why is FLOAT_PLANE added to a bunch of these?
 	#define ROID_TURF_LIGHT_LAYER 		5
 
 #define ABOVE_LIGHTING_PLANE	(15)
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	#define SUPERMATTER_WALL_LAYER 		1
 	#define SUPER_PORTAL_LAYER			2
 	#define NARSIE_GLOW 				3

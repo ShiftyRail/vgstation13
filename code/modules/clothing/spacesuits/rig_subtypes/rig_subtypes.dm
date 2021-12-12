@@ -618,11 +618,7 @@
 	item_state = "ghettorig[on]"
 
 	if(on)
-<<<<<<< HEAD
-		set_light(light_range)
-=======
 		set_light()
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	else
 		kill_light()
 

@@ -348,13 +348,6 @@
 	light_type = LIGHT_SOFT_FLICKER
 	lighting_flags = FOLLOW_PIXEL_OFFSET
 
-	moody_light_type = /atom/movable/light/moody/beam
-	light_color = LIGHT_COLOR_HALOGEN
-	light_power = 3
-	light_range = 1
-	light_type = LIGHT_SOFT_FLICKER
-	lighting_flags = FOLLOW_PIXEL_OFFSET
-
 /obj/effect/beam/emitter/proc/set_power(var/newpower = 1)
 	power = newpower
 	if(next)

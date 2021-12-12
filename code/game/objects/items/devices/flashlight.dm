@@ -148,10 +148,7 @@
 	icon_state = "lamp"
 	item_state = "lamp"
 	light_range = 5
-<<<<<<< HEAD
-=======
 	light_type = LIGHT_SOFT
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	w_class = W_CLASS_LARGE
 	flags = FPRINT
 	siemens_coefficient = 1
@@ -187,11 +184,7 @@
 	w_class = W_CLASS_SMALL
 	light_range = 4
 	light_power = 2.5 // Pretty bright.
-<<<<<<< HEAD
-	light_type = LIGHT_SOFT
-=======
 	light_type = LIGHT_SOFT_FLICKER
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	icon_state = "flare"
 	item_state = "flare"
 	actions_types = list(/datum/action/item_action/toggle_light)
@@ -202,10 +195,6 @@
 	heat_production = 1500
 	source_temperature = TEMPERATURE_FLAME
 	var/H_color = ""
-<<<<<<< HEAD
-=======
-
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	light_type = LIGHT_SOFT_FLICKER
 	light_color = LIGHT_COLOR_FLARE
 

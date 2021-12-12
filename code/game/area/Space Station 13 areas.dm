@@ -525,13 +525,8 @@ proc/process_adminbus_teleport_locs()
 	name = "start area"
 	icon_state = "start"
 	requires_power = 0
-<<<<<<< HEAD
-	dynamic_lighting = 1
-	has_gravity = 1
-=======
 	dynamic_lighting = 0
 	gravity = 1
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	flags = NO_PERSISTENCE //hmmm I wonder if someone can fuck with this
 
 // === end remove
@@ -548,10 +543,7 @@ proc/process_adminbus_teleport_locs()
 	icon_state = "centcom"
 	requires_power = 0
 	dynamic_lighting = 1
-<<<<<<< HEAD
-=======
 	luminosity = 1
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	shuttle_can_crush = FALSE
 	flags = NO_PERSISTENCE //Central Command is always squeaky clean yo
 

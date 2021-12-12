@@ -28,11 +28,6 @@ var/list/current_prisoners = list()
 		recruiter.recruited = new /callback(src, .proc/recruiter_recruited)
 
 		recruiter.request_player()
-<<<<<<< HEAD
-
-=======
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
-
 
 /datum/event/prisontransfer/proc/recruiter_recruiting(mob/dead/observer/player, controls)
 	to_chat(player, "<span class='recruit'>A prisoner is about to be sent to the station. You have been added to the list of potential ghosts. ([controls])</span>")

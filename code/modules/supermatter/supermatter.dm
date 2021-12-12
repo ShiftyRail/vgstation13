@@ -71,12 +71,9 @@
 	var/list/message_exclusions = list(/obj/effect/sparks,/obj/effect/overlay/hologram)
 	machine_flags = MULTITOOL_MENU
 
-<<<<<<< HEAD
 	light_type = LIGHT_SOFT_FLICKER
 	lighting_flags = IS_LIGHT_SOURCE
-=======
 	var/has_exploded = 0 // increments each times it tries to explode so we may track how it may occur more than once
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 /obj/machinery/power/supermatter/airflow_hit(atom/A)
 	if(ismovable(A))

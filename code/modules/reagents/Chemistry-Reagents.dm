@@ -6789,11 +6789,7 @@
 				M.gib()
 	//Will pull items in a range based on time in system
 	for(var/atom/X in orange((data+30)/50, M))
-<<<<<<< HEAD
-		if(islightingoverlay(X))//since there's one on every turf
-=======
 		if(X.type == /atom/movable/light)//since there's one on every turf
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 			continue
 		X.singularity_pull(M, data/50, data/50)
 	data++
@@ -6835,11 +6831,7 @@
 				M.gib()
 	//Will pull items in a range based on time in system
 	for(var/atom/X in orange((data+30)/50, M))
-<<<<<<< HEAD
-		if(islightingoverlay(X))//since there's one on every turf
-=======
 		if(X.type == /atom/movable/light)//since there's one on every turf
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 			continue
 		X.singularity_pull(M, data/50, data/50)
 	data++

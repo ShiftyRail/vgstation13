@@ -1633,10 +1633,7 @@
 #include "code\modules\library\computers\base.dm"
 #include "code\modules\library\computers\checkout.dm"
 #include "code\modules\library\computers\public.dm"
-<<<<<<< HEAD
 #include "code\modules\lighting\effects\effects_drugs.dm"
-=======
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 #include "code\modules\lighting\_lighting.dm"
 #include "code\modules\lighting\light_atom.dm"
 #include "code\modules\lighting\light_atom_set.dm"
@@ -1646,10 +1643,6 @@
 #include "code\modules\lighting\light_planes.dm"
 #include "code\modules\lighting\light_turf.dm"
 #include "code\modules\lighting\light_types.dm"
-<<<<<<< HEAD
-=======
-#include "code\modules\lighting\effects\effects_drugs.dm"
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 #include "code\modules\liquid\splash_simulation.dm"
 #include "code\modules\maps\map_objects.dm"
 #include "code\modules\maps\movers.dm"

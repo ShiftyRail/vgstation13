@@ -517,11 +517,7 @@
 	var/child_volume = 3 // every spawned child will have this much or less reagent transferred to it. Small number = a lot of small items spawn
 
 // called when it leaves the microwave
-<<<<<<< HEAD
-/obj/item/weapon/reagent_containers/food/snacks/multispawner/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0)
-=======
 /obj/item/weapon/reagent_containers/food/snacks/multispawner/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0, from_tp = 0)
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	. = ..()
 	if(isnull(NewLoc))
 		return

@@ -48,12 +48,8 @@
 						var/list/allturfcontents = currentturf.contents.Copy()
 
 						//Remove the following line to allow lighting to be considered, if you do this it must be blended with BLEND_MULTIPLY instead of ICON_OVERLAY
-<<<<<<< HEAD
-						allturfcontents -= locate(/atom/movable/light) in allturfcontents
-=======
 						for (var/atom/movable/light/L in allturfcontents)
 							allturfcontents -= L
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 						for(var/atom/movable/A in allturfcontents)
 							if(A.locs.len > 1) //Fix for multitile objects I wish I didn't have to do this its probably slow

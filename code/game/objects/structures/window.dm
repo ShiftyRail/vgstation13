@@ -620,11 +620,7 @@ var/list/one_way_windows
 		for(var/obj/structure/window/W in get_step(T,direction))
 			W.update_icon()
 
-<<<<<<< HEAD
-/obj/structure/window/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0)
-=======
 /obj/structure/window/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0, from_tp = 0)
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	var/turf/T = loc
 	..()
 	update_nearby_icons(T)

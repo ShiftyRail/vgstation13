@@ -344,34 +344,6 @@ var/list/global_singularity_pool
 	//set background = BACKGROUND_ENABLED
 	//var/ngrabbed=0
 	//Note on June 27, 2019. Apparently it IS being used, so... go wild!
-<<<<<<< HEAD
-	for(var/atom/X in orange(grav_pull, src))
-		if(islightingoverlay(X))//since there's one on every turf
-			continue
-		if (current_size > 11 && X.type == /turf/unsimulated/wall/supermatter) // galaxy end ongoing
-			continue
-		// Caps grabbing shit at 100 items.
-		//if(ngrabbed==100)
-			//warning("Singularity eat() capped at [ngrabbed]")
-			//return
-		//if(!isturf(X))//a stage five singularity has a grav pull of 10, that means it covers 441 turfs (21x21) at every ticks.
-			//ngrabbed++
-		try
-			var/dist = get_dist(X, src)
-			var/obj/machinery/singularity/S = src
-			if(!istype(src))
-				return
-			if(dist > consume_range)
-				X.singularity_pull(S, current_size)
-			else if(dist <= consume_range)
-				consume(X)
-		catch(var/exception/e)
-			error("Singularity eat() caught exception:")
-			error(e)
-
-			spawn(0) //So the following line doesn't stop execution
-				throw e //So ALL debug information is sent to the runtime log
-=======
 	var/turf/T = get_turf(src)
 	for(var/z0 in GetOpenConnectedZlevels(T))
 		var/z_dist = abs(z0 - T.z)
@@ -402,7 +374,6 @@ var/list/global_singularity_pool
 
 					spawn(0) //So the following line doesn't stop execution
 						throw e //So ALL debug information is sent to the runtime log
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 					continue
 
@@ -790,11 +761,7 @@ var/list/global_singularity_pool
 
 /obj/machinery/singularity/deadchat_controlled/proc/eat_no_pull() //Copied from proc/eat() and altered
 	for(var/atom/X in orange(consume_range, src))
-<<<<<<< HEAD
-		if(islightingoverlay(X))
-=======
 		if(X.type == /atom/movable/light)
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 			continue
 		if(current_size > 11 && X.type == /turf/unsimulated/wall/supermatter)
 			continue

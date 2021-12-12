@@ -63,8 +63,6 @@
 	var/_re_emit = 1 // Re-Emit from master when deleted? Set to 0 to not re-emit.
 	moody_light_type = null
 
-	moody_light_type = null
-
 /obj/effect/beam/emitter/eyes
 	icon_state = "emitter_double_1"
 	base_state = "emitter_double_1"

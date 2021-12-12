@@ -165,11 +165,7 @@ var/list/all_rods = list()
 		if(prob(50))
 			clong()
 
-<<<<<<< HEAD
-/obj/item/projectile/immovablerod/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0)
-=======
 /obj/item/projectile/immovablerod/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0, from_tp = 0)
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	..()
 	if(z != starting.z)
 		qdel(src)

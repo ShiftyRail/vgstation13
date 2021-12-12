@@ -252,12 +252,7 @@
 			snap_neck(M)
 			break
 
-<<<<<<< HEAD
-/mob/living/simple_animal/scp_173/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0)
-=======
 /mob/living/simple_animal/scp_173/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0, from_tp = 0)
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
-
 	..()
 	check_snap_neck()
 

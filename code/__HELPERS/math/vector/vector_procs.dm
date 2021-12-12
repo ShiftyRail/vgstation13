@@ -86,7 +86,3 @@
 			if (1 to 12)
 				steps += new /vector(0, sign(V.y))
 				V.y -= sign(V.y)
-<<<<<<< HEAD
-
-=======
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d

@@ -66,13 +66,6 @@
 			materials.addAmount(matID, starting_materials[matID])
 
 /atom/movable/Destroy()
-<<<<<<< HEAD
-	var/turf/T
-	if (opacity && isturf(loc))
-		T = loc // recalc_atom_opacity() is called later on this
-=======
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
-
 	if(materials)
 		qdel(materials)
 		materials = null
@@ -97,12 +90,7 @@
 	break_all_tethers()
 
 	forceMove(null)
-
-<<<<<<< HEAD
-	if (T)
-=======
 	if (istype(T))
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 		T.check_blocks_light()
 
 	if(virtualhearer)
@@ -134,11 +122,7 @@
 	else
 		glide_size = max(min, glide_size_override)
 
-<<<<<<< HEAD
-/atom/movable/Move(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, var/glide_size_override = 0)
-=======
 /atom/movable/Move(NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0)
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	if(!loc || !NewLoc)
 		return 0
 	invoke_event(/event/before_move)
@@ -421,12 +405,8 @@
 			Obstacle.Bumped(src)
 	sound_override = 0
 
-<<<<<<< HEAD
-/atom/movable/proc/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0)
-=======
 /atom/movable/proc/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0, from_tp = 0)
-	invoke_event(/event/before_move)
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
+
 	if(glide_size_override)
 		glide_size = glide_size_override
 	var/atom/old_loc = loc
@@ -447,12 +427,7 @@
 			A.Entered(src, old_loc)
 
 			for(var/atom/movable/AM in loc)
-<<<<<<< HEAD
-				AM.Crossed(src)
-=======
 				AM.Crossed(src, from_tp) // Says if we crossed it from a teleporter.
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
-
 
 	for(var/atom/movable/AM in locked_atoms)
 		var/datum/locking_category/category = locked_atoms[AM]
@@ -460,14 +435,9 @@
 
 	update_client_hook(loc)
 
-<<<<<<< HEAD
 	lazy_invoke_event(/lazy_event/on_moved, list("mover" = src))
 	var/turf/T = get_turf(NewLoc)
-=======
-	invoke_event(/event/moved, list("mover" = src))
-	var/turf/T = get_turf(NewLoc)
 
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	if(old_loc && T && old_loc.z != T.z)
 		invoke_event(/event/z_transition, list("user" = src, "from_z" = old_loc.z, "to_z" = T.z))
 	invoke_event(/event/after_move)

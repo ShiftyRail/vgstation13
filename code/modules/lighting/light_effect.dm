@@ -1,8 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 /atom/movable/light
 	mouse_opacity = 0
 	plane = LIGHTING_PLANE_MASTER
-=======
+
 #define LIGHT_CPU_THRESHOLD 80
 #define TURF_SHADOW_FRACTION 0.75
 
@@ -11,8 +12,6 @@
 	mouse_opacity = 0
 	plane = LIGHTING_PLANE
 	anchored = 1
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
-
 	layer = 1
 	//layer 1 = base plane layer
 	//layer 2 = base shadow templates
@@ -26,11 +25,6 @@
 	pixel_y = -WORLD_ICON_SIZE/2
 	glide_size = WORLD_ICON_SIZE
 	blend_mode = BLEND_ADD
-<<<<<<< HEAD
-
-	// Prevent shadows from jerking over walls when walking with a flashlight.
-=======
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	animate_movement = NO_STEPS
 
 	alpha = 180
@@ -40,21 +34,10 @@
 	var/atom/movable/holder
 	var/point_angle
 	var/list/affecting_turfs = list()
-<<<<<<< HEAD
-=======
 	var/list/affected_shadow_walls = list()
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	var/list/temp_appearance
 
 	var/light_swallowed = 0
-
-<<<<<<< HEAD
-/atom/movable/light/shadow
-	base_light_color_state = "black"
-	appearance_flags = KEEP_TOGETHER | TILE_BOUND
-	animate_movement = SLIDE_STEPS
-=======
-	var/list/pre_rendered_shadows = list()
 
 /atom/movable/light/smooth
 	animate_movement = SLIDE_STEPS
@@ -64,7 +47,7 @@
 	base_light_color_state = "black"
 	appearance_flags = KEEP_TOGETHER | TILE_BOUND
 	animate_movement = NO_STEPS
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
+
 
 /atom/movable/light/New(..., var/atom/newholder)
 	holder = newholder
@@ -92,10 +75,8 @@
 	for(var/thing in affecting_turfs)
 		var/turf/T = thing
 		T.lumcount = -1
-<<<<<<< HEAD
 		T.affecting_lights -= src
-=======
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
+
 	affecting_turfs.Cut()
 	. = ..()
 
@@ -132,16 +113,10 @@
 				forceMove(holder.loc.loc, glide_size_override = M.glide_size) // Glide size from our mob.
 			else
 				forceMove(holder.loc, glide_size_override = 8) // Hopefully whatever we're gliding with has smooth movement.
-
-<<<<<<< HEAD
-			cast_light() // We don't use the subsystem queue for this since it's too slow to prevent shadows not being updated quickly enough
-=======
 			if (world.cpu < LIGHT_CPU_THRESHOLD || !ticker || ticker.current_state < GAME_STATE_SETTING_UP)
 				cast_light() // We don't use the subsystem queue for this since it's too slow to prevent shadows not being updated quickly enough
 			else
 				lighting_update_lights |= src
-
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	else
 		init_lights |= src
 
@@ -167,8 +142,6 @@
 /atom/movable/light/proc/light_off()
 	alpha = 0
 
-<<<<<<< HEAD
-=======
 /atom/movable/light/proc/get_wall_view()
 	return light_range
 
@@ -178,7 +151,6 @@
 /atom/movable/light/smooth/get_wall_view()
 	return 0
 
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 // -- Does a basic cheap raycast from the light to the turf.
 // Return true if it can see it.
 /atom/movable/light/proc/can_see_turf(var/turf/T)
@@ -188,11 +160,6 @@
 	. = TRUE
 	for (var/vector/step in steps)
 		current_turf = current_turf.get_translated_turf(step)
-<<<<<<< HEAD
-		if (CheckOcclusion(current_turf))
-			. = FALSE
-			return
-=======
 		if (CHECK_OCCLUSION(current_turf))
 			. = FALSE
 			return
@@ -203,4 +170,3 @@
 
 #undef LIGHT_CPU_THRESHOLD
 #undef TURF_SHADOW_FRACTION
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d

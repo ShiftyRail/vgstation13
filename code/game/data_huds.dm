@@ -295,13 +295,8 @@ proc/process_sec_hud(var/mob/M, var/advanced_mode,var/mob/eye)
 		if(G.see_invisible)
 			see_invisible = G.see_invisible
 
-<<<<<<< HEAD
-		seedarkness = G.seedarkness
-		update_darkness()
-=======
 	seedarkness = G.seedarkness
 	update_darkness()
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 	/* HUD shit goes here, as long as it doesn't modify sight flags
 	 * The purpose of this is to stop xray and w/e from preventing you from using huds -- Love, Doohl

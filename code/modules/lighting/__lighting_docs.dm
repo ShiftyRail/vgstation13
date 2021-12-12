@@ -47,12 +47,9 @@ atom: (lighting_atom.dm)
   - var/atom/movable/light/light_obj; light source object for this atom, only present if light_range && light_power
   - var/atom/movable/light/shadow/shadow_obj; wall shadow source object for this atom, with TILE_BOUND to prevent it from bleeding over other walls
 
-<<<<<<< HEAD
-=======
 	Movable lights only :
   - var/atom/movable/light/smooth/smooth_light_obj; light_source for this atom, but with smooth movement.
 
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	NB: this means that the object casts its light twice, one for the people who can see it, another for those who can't.
     NB2: due to additive colour mixing, this means a normal colour would be shifted to white. To prevent this, light atoms have RGB numbers halved.
 	.... when they recombine, we see the original light.
@@ -77,10 +74,8 @@ atom: (lighting_atom.dm)
 
 
 turf: (lighting_turf.dm)
-<<<<<<< HEAD
+
   - var/list/affecting_lights; list of light sources that are shining onto this turf
-=======
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
   - proc/get_lumcount(var/minlum = 0, var/maxlum = 10)
   	  - Returns an integer according to the amount of lums on a turf's overlay (also averages them)

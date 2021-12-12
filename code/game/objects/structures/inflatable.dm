@@ -333,11 +333,7 @@
 	if(living_contents.len)
 		to_chat(user,"<span class='info'>You can see [english_list(living_contents)] inside.</span>")
 
-<<<<<<< HEAD
-/obj/structure/inflatable/shelter/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0) //Like an unanchored window, we can block if pushed into place.
-=======
-/obj/structure/inflatable/shelter/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0, from_tp = 0) //Like an unanchored window, we can block if pushed into place.
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
+/obj/structure/inflatable/shelter/forceMove(NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0, from_tp = 0) //Like an unanchored window, we can block if pushed into place.
 	..()
 	update_nearby_tiles()
 

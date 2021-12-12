@@ -16,7 +16,6 @@
 // Use this when setting the aiEye's location.
 // It will also stream the chunk that the new loc is in.
 
-<<<<<<< HEAD
 /mob/camera/aiEye/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0)
 	if(ai)
 		if(!isturf(ai.loc))
@@ -24,17 +23,6 @@
 		if(!isturf(NewLoc))
 			NewLoc = get_turf(NewLoc);
 		forceEnter(NewLoc)
-=======
-/mob/camera/aiEye/forceMove(atom/NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0, from_tp = 0)
-	if(ai)
-		if(!isturf(ai.loc))
-			return
-		var/turf/destination = NewLoc
-		if(!isturf(NewLoc))
-			destination = get_turf(NewLoc)
-
-		forceEnter(destination)
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 		cameranet.visibility(src)
 		if(ai.client && ai.client.eye != src) // Set the eye to us and give the AI the sight & visibility flags it needs.

@@ -7,15 +7,13 @@
 	toggle()
 
 
-<<<<<<< HEAD
+
 /obj/item/clothing/glasses/scanner/proc/remove_color(mob/living/carbon/user)
 	if(color_matrix)
 		if(user.client)
 			var/client/C = user.client
 			C.color = initial(C.color)
 
-=======
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 /obj/item/clothing/glasses/scanner/equipped(var/mob/M, glasses)
 	if(istype(M, /mob/living/carbon/monkey))
 		var/mob/living/carbon/monkey/O = M
@@ -29,24 +27,14 @@
 		return
 	if(on)
 		if(iscarbon(M))
-<<<<<<< HEAD
-			M.update_darkness()
-			apply_color(M)
-=======
 			M.update_perception()
 			M.update_darkness()
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	..()
 
 /obj/item/clothing/glasses/scanner/unequipped(mob/user, var/from_slot = null)
 	if(from_slot == slot_glasses)
 		if(on)
 			user.seedarkness = TRUE
-<<<<<<< HEAD
-			if(iscarbon(user))
-				remove_color(user)
-=======
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	..()
 
 /obj/item/clothing/glasses/scanner/update_icon()
@@ -88,13 +76,8 @@
 	icon_state = "night"
 	item_state = "glasses"
 	origin_tech = Tc_MAGNETS + "=2"
-<<<<<<< HEAD
-	see_invisible = SEE_INVISIBLE_MINIMUM
-	seedarkness = FALSE
-=======
 	see_invisible = 0
 	seedarkness = TRUE
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	see_in_dark = 8
 	actions_types = list(/datum/action/item_action/toggle_goggles)
 	species_fit = list(VOX_SHAPED, GREY_SHAPED)
@@ -129,11 +112,8 @@
 /obj/item/clothing/glasses/scanner/night/disable(var/mob/C)
 	. = ..()
 	see_in_dark = 0
-<<<<<<< HEAD
 	seedarkness = TRUE
-=======
 	my_dark_plane_alpha_override = null
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	eyeprot = 0
 	remove_overdark(C)
 	if (ishuman(C))
@@ -227,13 +207,10 @@ var/list/meson_wearers = list()
 	vision_flags |= SEE_TURFS
 	see_invisible |= SEE_INVISIBLE_MINIMUM
 	seedarkness = FALSE
-<<<<<<< HEAD
 	C.update_darkness()
 	C.dark_plane?.alphas["mesons"] = 255
-=======
 	my_dark_plane_alpha_override_value = 255
 
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 //	body_parts_covered |= EYES
 	..()
 
@@ -244,26 +221,18 @@ var/list/meson_wearers = list()
 //	body_parts_covered &= ~EYES
 	vision_flags &= ~SEE_TURFS
 	see_invisible &= ~SEE_INVISIBLE_MINIMUM
-<<<<<<< HEAD
 	seedarkness = TRUE
 	C.update_darkness()
 	C.dark_plane?.alphas -= "mesons"
-=======
 	my_dark_plane_alpha_override_value = 0
 	seedarkness = TRUE
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 /obj/item/clothing/glasses/scanner/meson/unequipped(mob/user, from_slot)
 	. = ..()
 	if (user)
-<<<<<<< HEAD
 		user.update_darkness()
 		user.dark_plane?.alphas -= "mesons"
-=======
-		user.dark_plane?.alphas -= "mesons"
-		user.update_darkness()
 		user.check_dark_vision()
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 
 /obj/item/clothing/glasses/scanner/meson/area_entered(area/A)
 	if(A.flags & NO_MESONS && on)

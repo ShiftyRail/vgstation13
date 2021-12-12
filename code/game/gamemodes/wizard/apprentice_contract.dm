@@ -176,12 +176,7 @@ var/list/wizard_apprentice_setups_by_name = list()
 	var/mob/living/carbon/human/apprentice = new(this_turf)
 	apprentice.setGender(forced_apprentice_gender || pick(MALE,FEMALE))
 	apprentice.randomise_appearance_for(apprentice.gender)
-<<<<<<< HEAD
-	apprentice.ckey = ghost.ckey
-=======
 	apprentice.ckey = player.ckey
-
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	chosen_setup.give_spells(apprentice)
 
 	var/datum/faction/wizard_contract/contract_faction = find_active_faction_by_typeandmember(/datum/faction/wizard_contract, null, owner)

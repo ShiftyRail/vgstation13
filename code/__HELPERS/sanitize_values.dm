@@ -59,11 +59,8 @@
 			else
 				return default
 	return .
-<<<<<<< HEAD
-=======
 
 //Removes lighting overlays from a list of objects
 /proc/sanitize_contents_list(list/contents)
 	for(var/atom/movable/light/lighting_overlay in contents)
 		contents.Remove(lighting_overlay)
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d

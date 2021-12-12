@@ -59,11 +59,7 @@ var/global/list/ghdel_profiling = list()
 /atom/New()
 	. = ..()
 	// Light effects
-<<<<<<< HEAD
-	if (moody_light_type || lighting_flags & IS_LIGHT_SOURCE)
-=======
 	if (moody_light_type || (lighting_flags & IS_LIGHT_SOURCE))
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 		set_light()
 
 /atom/proc/beam_connect(var/obj/effect/beam/B)
@@ -184,12 +180,9 @@ var/global/list/ghdel_profiling = list()
 	if(shadow_obj)
 		qdel(shadow_obj)
 		shadow_obj = null
-<<<<<<< HEAD
-=======
 	if(smooth_light_obj)
 		qdel(smooth_light_obj)
 		smooth_light_obj = null
->>>>>>> 40795be7642603c4532345d315e4dc093591f32d
 	..()
 
 /atom/proc/assume_air(datum/gas_mixture/giver)
