@@ -14,12 +14,6 @@
 	icon = 'icons/mob/screen1.dmi'
 	appearance_flags = NO_CLIENT_COLOR | PLANE_MASTER | RESET_TRANSFORM | RESET_COLOR | RESET_ALPHA
 	color = LIGHTING_PLANEMASTER_COLOR  // Completely black.
-<<<<<<< HEAD
-<<<<<<< HEAD
-	plane = LIGHTING_PLANE_MASTER
-	mouse_opacity = 0
-
-=======
 	plane = LIGHTING_PLANE
 	mouse_opacity = 0
 
@@ -61,9 +55,7 @@
 	M.Scale(world.view*3)
 	transform = M
 	verbs.Cut()
-
-<<<<<<< HEAD
-<<<<<<< HEAD
+	
 /obj/abstract/screen/plane/dark
 	blend_mode = BLEND_ADD
 	plane = LIGHTING_PLANE_MASTER // Just below the master plane.

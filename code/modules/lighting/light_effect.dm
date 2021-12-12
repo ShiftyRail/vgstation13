@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 /atom/movable/light
 	mouse_opacity = 0
 	plane = LIGHTING_PLANE_MASTER
