@@ -278,10 +278,23 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 
 	var/shadowoffset = WORLD_ICON_SIZE/2 + (WORLD_ICON_SIZE*light_range)
 
+	//TODO: rewrite this comment:
+	//using scale to flip the shadow template if needed
+	//horizontal (x) flip is easy, we just check if the offset is negative
+	//vertical (y) flip is a little harder, if the shadow will be rotated we need to flip if the offset is positive,
+	// but if it wont be rotated then we just check if its negative to flip (like the x flip)
+	var/x_flip
+	var/y_flip
+	if(xy_swap)
+		x_flip = y_offset > 0 ? -1 : 1
+		y_flip = x_offset < 0 ? -1 : 1
+	else
+		x_flip = x_offset < 0 ? -1 : 1
+		y_flip = y_offset < 0 ? -1 : 1
+
 	var/matrix/M = matrix()
 
 	// Using BYOND's render_target magick here
-
 	var/image/I = new()
 	var/shadow_image_identifier = "shadow[num]_[light_range]_[x_flip]_[y_flip]_[xy_swap]_[abs(y_offset)]_[abs(x_offset)]"
 
@@ -380,20 +393,6 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 
 /atom/movable/light/shadow/cast_main_shadow(var/turf/target_turf, var/x_offset, var/y_offset)
 	return
-
-
-/atom/movable/light/proc/cast_turf_shadow(var/turf/target_turf, var/x_offset, var/y_offset)
-	var/targ_dir = get_dir(target_turf, src)
-	// CHECK: may not actually smoothout that well.
-	var/blocking_dirs = 0
-	for(var/d in cardinal)
-		var/turf/T = get_step(target_turf, d)
-		if(CheckOcclusion(T) && (T in view(light_range, src)))
-			blocking_dirs |= d
-
-	// The "edge" of the light, with images consisting of directional sprites from wall_lighting.dmi "pushed" in the correct direction.
-	var/image/I = image('icons/lighting/wall_lighting.dmi', loc = get_turf(src))
-	I.icon_state = "[blocking_dirs]-[targ_dir]"
 
 // While this proc is quite involuted, the highest it can do is :
 // 8 loops in the first "for"
@@ -536,15 +535,6 @@ If you feel like fixing it, try to find a way to calculate the bounds that is le
 		color = rgb(round(RGB[1]/2), round(RGB[2]/2), round(RGB[3]/2))
 	else
 		color = light_color
-
-/atom/movable/light/proc/CastShadow(var/turf/target_turf)
-	//get the x and y offsets for how far the target turf is from the light
-	var/x_offset = target_turf.x - x
-	var/y_offset = target_turf.y - y
-	cast_main_shadow(target_turf, x_offset, y_offset)
-
-	if (is_valid_turf(target_turf))
-		cast_turf_shadow(target_turf, x_offset, y_offset)
 
 // -- Smoothing out shadows
 /atom/movable/light/proc/post_processing()

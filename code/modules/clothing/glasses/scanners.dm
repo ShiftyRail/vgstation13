@@ -6,14 +6,6 @@
 /obj/item/clothing/glasses/scanner/attack_self()
 	toggle()
 
-
-
-/obj/item/clothing/glasses/scanner/proc/remove_color(mob/living/carbon/user)
-	if(color_matrix)
-		if(user.client)
-			var/client/C = user.client
-			C.color = initial(C.color)
-
 /obj/item/clothing/glasses/scanner/equipped(var/mob/M, glasses)
 	if(istype(M, /mob/living/carbon/monkey))
 		var/mob/living/carbon/monkey/O = M

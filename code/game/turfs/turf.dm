@@ -283,7 +283,7 @@
 
 			A.invoke_event(/event/post_z_transition, list("user" = A, "from_z" = A.z, "to_z" = move_to_z))
 			for(var/atom/movable/AA in contents_brought)
-				AA.lazy_invoke_event(/lazy_event/on_post_z_transition, list("user" = AA, "from_z" = AA.z, "to_z" = move_to_z))
+				AA.invoke_event(/event/post_z_transition, list("user" = AA, "from_z" = AA.z, "to_z" = move_to_z))
 
 /turf/proc/is_plating()
 	return 0
@@ -445,7 +445,7 @@
 
 		if(istype(W, /turf/space) && W.loc.dynamic_lighting == 0)
 			var/image/I = image(icon = 'icons/mob/screen1.dmi', icon_state = "white")
-			I.plane = LIGHTING_PLANE_MASTER
+			I.plane = LIGHTING_PLANE
 			I.blend_mode = BLEND_ADD
 			W.overlays += I
 

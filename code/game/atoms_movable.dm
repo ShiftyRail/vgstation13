@@ -435,7 +435,7 @@
 
 	update_client_hook(loc)
 
-	lazy_invoke_event(/lazy_event/on_moved, list("mover" = src))
+	invoke_event(/event/moved, list("mover" = src))
 	var/turf/T = get_turf(NewLoc)
 
 	if(old_loc && T && old_loc.z != T.z)

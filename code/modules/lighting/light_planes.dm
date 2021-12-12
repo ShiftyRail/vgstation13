@@ -35,9 +35,6 @@
 		mob.master_plane.update_blurring(src)
 		to_chat(mob, "<span class='notice'>Blur size updared.</span>")
 
-	plane = LIGHTING_PLANE
-	mouse_opacity = 0
-
 //poor inheritance shitcode
 /obj/abstract/screen/backdrop
 	blend_mode = BLEND_OVERLAY
@@ -55,19 +52,10 @@
 	M.Scale(world.view*3)
 	transform = M
 	verbs.Cut()
-	
-/obj/abstract/screen/plane/dark
-	blend_mode = BLEND_ADD
-	plane = LIGHTING_PLANE_MASTER // Just below the master plane.
-	layer = FULL_DARK_LAYER
-	icon = 'icons/lighting/over_dark.dmi'
-	alpha = 10
-	appearance_flags = RESET_TRANSFORM | RESET_COLOR | RESET_ALPHA
-	var/list/alphas = list()
 
 /obj/abstract/screen/plane/self_vision
 	blend_mode = BLEND_ADD
-	plane = LIGHTING_PLANE_MASTER
+	plane = LIGHTING_PLANE
 
 /obj/abstract/screen/plane/self_vision
 	blend_mode = BLEND_ADD

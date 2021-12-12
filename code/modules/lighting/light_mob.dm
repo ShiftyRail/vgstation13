@@ -38,20 +38,11 @@
 	client.screen |= self_vision
 
 	update_darkness()
-	lazy_register_event(/lazy_event/on_before_move, src, /mob/proc/check_dark_vision)
+	register_event(/event/before_move, src, /mob/proc/check_dark_vision)
 
 /mob/proc/update_darkness()
 	if(seedarkness)
 		master_plane.color = LIGHTING_PLANEMASTER_COLOR
 	else
 		master_plane.color = ""
-
-	update_darkness()
-	register_event(/event/before_move, src, /mob/proc/check_dark_vision)
-
-/mob/proc/update_darkness()
-	if(seedarkness)
-		master_plane?.color = LIGHTING_PLANEMASTER_COLOR
-	else
-		master_plane?.color = ""
 

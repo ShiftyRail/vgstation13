@@ -16,8 +16,8 @@
 	still_recharging_msg = "<span class='notice'>You're still regaining your strength.</span>"
 
 /spell/swallow_light/cast(list/targets, mob/user)
-	user.lazy_register_event(/lazy_event/on_moved, user, /mob/living/proc/absorb_lights_moving)
-	user.lazy_register_event(/lazy_event/on_life, user, /mob/living/proc/absorb_lights_living)
+	user.register_event(/event/moved, user, /mob/living/proc/absorb_lights_moving)
+	user.register_event(/event/on_life, user, /mob/living/proc/absorb_lights_living)
 	playsound(user, cast_sound, 50, 1)
 	playsound(user, 'sound/misc/grue_ambience.ogg', 50, channel = CHANNEL_GRUE)
 

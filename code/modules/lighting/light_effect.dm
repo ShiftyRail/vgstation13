@@ -1,7 +1,3 @@
-/atom/movable/light
-	mouse_opacity = 0
-	plane = LIGHTING_PLANE_MASTER
-
 #define LIGHT_CPU_THRESHOLD 80
 #define TURF_SHADOW_FRACTION 0.75
 
@@ -33,7 +29,10 @@
 	var/point_angle
 	var/list/affecting_turfs = list()
 	var/list/affected_shadow_walls = list()
+
 	var/list/temp_appearance
+	var/list/temp_appearance_shadows
+	var/list/pre_rendered_shadows
 
 	var/light_swallowed = 0
 
