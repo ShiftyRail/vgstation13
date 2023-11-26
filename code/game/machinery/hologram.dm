@@ -189,8 +189,7 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 			if(ol.loc == src)
 				ol.icon_state = "holopad0"
 				break
-
-	set_light(0)			//pad lighting (hologram lighting will be handled automatically since its owner was deleted)
+	kill_light()			//pad lighting (hologram lighting will be handled automatically since its owner was deleted)
 	icon_state = "holopad0"
 	use_power = MACHINE_POWER_USE_IDLE//Passive power usage.
 	advancedholo = FALSE

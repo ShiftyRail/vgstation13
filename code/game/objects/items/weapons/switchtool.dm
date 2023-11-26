@@ -366,7 +366,7 @@
 			lighter.lit = 1
 			processing_objects.Add(deployed)
 			light_color = LIGHT_COLOR_FIRE
-			set_light(lighter.brightness_on)
+			set_light(lighter.light_power)
 			deploy_sound = 'sound/items/zippo_open.ogg'
 			undeploy_sound = 'sound/items/zippo_close.ogg'
 	else
@@ -399,7 +399,7 @@
 			user.update_inv_hands()
 			processing_objects.Add(match)
 			light_color = LIGHT_COLOR_FIRE
-			set_light(match.brightness_on)
+			set_light(match.light_power)
 
 /obj/item/weapon/switchtool/switchblade
 	name = "switchblade"
@@ -591,7 +591,7 @@
 		var/obj/item/tool/weldingtool/experimental/weldingtool = deployed
 		weldingtool.setWelding(0)
 	..()
-	set_light(0)
+	kill_light()
 
 //switchtools maxed out intended for testing/spawning and maybe as loot. Don't forget to add any more tools added to these lists later
 /obj/item/weapon/switchtool/holo/maxed

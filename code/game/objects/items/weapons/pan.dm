@@ -419,7 +419,7 @@
 			cooked = cook_fail()
 
 		if(cooked)
-			cooked.forceMove(src, harderforce = TRUE)
+			cooked.forceMove(src)
 			update_icon()
 			O?.render_cookvessel()
 
