@@ -335,8 +335,6 @@ Attach to transfer valve and open. BOOM.
 		icon_state = "key1"
 		l_power = 1*heatlight
 
-	var/neighbour_count = 0
-	var/obj/effect/fire/neighbour
 	var/l_range = 1
 
 	set_light(l_range, l_power, color, null, 0, neighbour)
