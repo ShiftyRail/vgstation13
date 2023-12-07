@@ -5264,9 +5264,6 @@
 /obj/effect/decal/warning_stripes{
 	icon_state = "bot"
 	},
-/obj/machinery/light{
-	dir = 4
-	},
 /turf/simulated/floor{
 	icon_state = "floorgrime"
 	},
@@ -7003,6 +7000,9 @@
 	dir = 4;
 	name = "Security Equipment"
 	},
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/simulated/floor{
 	dir = 8;
 	icon_state = "red"
@@ -8216,9 +8216,6 @@
 /obj/effect/decal/warning_stripes{
 	icon_state = "bot"
 	},
-/obj/machinery/light{
-	dir = 4
-	},
 /turf/simulated/floor{
 	icon_state = "floorgrime"
 	},
@@ -9215,9 +9212,6 @@
 	dir = 9;
 	icon_state = "warning";
 	tag = "icon-warning (NORTHWEST)"
-	},
-/obj/machinery/light{
-	dir = 4
 	},
 /turf/simulated/floor,
 /area/security/brig)
@@ -13452,14 +13446,14 @@
 	},
 /area/security/lobby)
 "avM" = (
-/obj/structure/bed/chair{
+/obj/machinery/light{
 	dir = 1
 	},
-/obj/machinery/light,
 /turf/simulated/floor{
-	icon_state = "red"
+	dir = 1;
+	icon_state = "whiteblue"
 	},
-/area/security/lobby)
+/area/medical/sleeper)
 "avN" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
@@ -50434,17 +50428,11 @@
 /area/medical/sleeper)
 "bRy" = (
 /obj/structure/closet/secure_closet/medical1,
-/obj/machinery/light{
-	dir = 8
-	},
 /turf/simulated/floor,
 /area/medical/sleeper)
 "bRz" = (
 /obj/machinery/camera{
 	name = "Medbay Cryogenics"
-	},
-/obj/machinery/light{
-	dir = 4
 	},
 /obj/structure/table/reinforced,
 /obj/item/tool/crowbar,
@@ -53169,6 +53157,9 @@
 	dir = 8;
 	on = 1
 	},
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/simulated/floor{
 	dir = 4;
 	icon_state = "whiteblue"
@@ -53951,10 +53942,10 @@
 	dir = 1;
 	pixel_y = -22
 	},
+/obj/machinery/light,
 /turf/simulated/floor,
 /area/medical/sleeper)
 "bXP" = (
-/obj/machinery/light,
 /obj/item/device/radio/intercom/medbay{
 	pixel_y = -30
 	},
@@ -53965,7 +53956,6 @@
 /obj/machinery/atmospherics/unary/cold_sink/freezer{
 	dir = 1
 	},
-/obj/machinery/light,
 /turf/simulated/floor,
 /area/medical/sleeper)
 "bXR" = (
@@ -53995,9 +53985,6 @@
 "bXT" = (
 /obj/machinery/vending/medical{
 	pixel_x = -2
-	},
-/obj/machinery/light{
-	dir = 4
 	},
 /turf/simulated/floor{
 	dir = 4;
@@ -57223,9 +57210,6 @@
 	},
 /area/medical/storage)
 "cdv" = (
-/obj/machinery/light{
-	dir = 8
-	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
 	dir = 8
 	},
@@ -57234,6 +57218,9 @@
 	},
 /obj/structure/disposalpipe/sortjunction/CMO{
 	dir = 1
+	},
+/obj/machinery/light{
+	dir = 8
 	},
 /turf/simulated/floor{
 	icon_state = "white"
@@ -57918,9 +57905,6 @@
 	},
 /obj/structure/bed,
 /obj/item/weapon/bedsheet/medical,
-/obj/machinery/light{
-	dir = 4
-	},
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -57958,9 +57942,6 @@
 /obj/item/weapon/cane,
 /obj/item/weapon/cane,
 /obj/item/clothing/accessory/stethoscope,
-/obj/machinery/light{
-	dir = 8
-	},
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -58627,6 +58608,7 @@
 /obj/item/device/radio/intercom/medbay{
 	pixel_y = -30
 	},
+/obj/machinery/light,
 /turf/simulated/floor{
 	icon_state = "white"
 	},
@@ -58655,6 +58637,7 @@
 	name = "Medbay RC";
 	pixel_y = -30
 	},
+/obj/machinery/light,
 /turf/simulated/floor{
 	icon_state = "whiteblue"
 	},
@@ -61289,16 +61272,6 @@
 	icon_state = "white"
 	},
 /area/medical/medbay)
-"ckO" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden,
-/obj/machinery/light{
-	dir = 4
-	},
-/turf/simulated/floor{
-	dir = 4;
-	icon_state = "whitegreen"
-	},
-/area/medical/medbay)
 "ckP" = (
 /obj/machinery/atmospherics/binary/pump{
 	dir = 1
@@ -61947,6 +61920,9 @@
 /area/medical/surgery_ghetto)
 "cmg" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden{
+	dir = 4
+	},
+/obj/machinery/light{
 	dir = 4
 	},
 /turf/simulated/floor{
@@ -122111,15 +122087,6 @@
 	icon_state = "floorgrime"
 	},
 /area/medical/surgery_ghetto)
-"ifS" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/simulated/floor{
-	icon_state = "white"
-	},
-/area/medical/medbay)
 "ikQ" = (
 /obj/structure/cable/yellow{
 	d1 = 1;
@@ -122681,13 +122648,6 @@
 /obj/structure/window/reinforced,
 /turf/simulated/floor/plating,
 /area/research_outpost/hallway)
-"qku" = (
-/obj/machinery/alarm{
-	dir = 4;
-	pixel_x = -23
-	},
-/turf/space,
-/area)
 "qkw" = (
 /obj/machinery/atmospherics/unary/vent{
 	dir = 1
@@ -235797,7 +235757,7 @@ asV
 atE
 auq
 asV
-avM
+avL
 awx
 axj
 ayh
@@ -251911,7 +251871,7 @@ bKs
 bMa
 bNZ
 bPM
-bRv
+avM
 bTs
 bUQ
 bWl
@@ -256936,7 +256896,7 @@ bCZ
 bCZ
 bzv
 bzv
-ifS
+bzv
 bMe
 cci
 cdv
@@ -257949,7 +257909,7 @@ cgr
 chk
 cir
 cjF
-ckO
+cng
 cmg
 cng
 cov

@@ -337,9 +337,7 @@ Attach to transfer valve and open. BOOM.
 
 	var/l_range = 1
 
-	set_light(l_range, l_power, color, null, 0, neighbour)
-
-
+	set_light(l_range, l_power, color, null, 0)
 
 /turf/simulated/var/fire_protection = 0 //Protects newly extinguished tiles from being overrun again.
 /turf/proc/apply_fire_protection()

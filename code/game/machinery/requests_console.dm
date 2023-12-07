@@ -55,6 +55,7 @@ var/list/obj/machinery/requests_console/requests_consoles = list()
 	var/priority = -1 ; //Priority of the message being sent
 	var/announceSound = 'sound/vox/_bloop.wav'
 	luminosity = 0
+	light_range = 1
 
 /obj/machinery/requests_console/power_change()
 	..()
@@ -199,7 +200,6 @@ var/list/obj/machinery/requests_console/requests_consoles = list()
 						if (Console.department == department)
 							Console.newmessagepriority = 0
 							Console.icon_state = "req_comp0"
-							Console.set_light(1)
 				for(var/msg in messages)
 					dat += text("[msg]<BR>")
 				dat += text("<A href='?src=\ref[src];setScreen=0'>Back to main menu</A><BR>")
@@ -352,7 +352,6 @@ var/list/obj/machinery/requests_console/requests_consoles = list()
 									sleep(10)
 									playsound(Console.loc, 'sound/machines/request.ogg', 50, 1)
 								Console.messages += "<B>Message from <A href='?src=\ref[Console];write=[ckey(department)]'>[department]</A></FONT></B><BR>[sending]"
-						Console.set_light(2)
 				messages += "<B>Message sent to [dpt]</B><BR>[message]"
 			else
 				say("NOTICE: No server detected!")
