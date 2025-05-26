@@ -75,6 +75,7 @@ var/list/preference_settings_character = list(
 		setting = new_name
 	else
 		to_chat(user, "<span class='red'>Invalid name. Your name should be at least 2 and at most [MAX_NAME_LEN] characters long. It may only contain the characters A-Z, a-z, -, ', some diacritics, and .</span>")
+	parent.ShowChoices(user)
 
 //whether we are a random name every round
 /datum/preference_setting/toggle/be_random_name
@@ -266,10 +267,10 @@ var/list/preference_settings_character = list(
 		return
 	var/species = parent.get_pref(/datum/preference_setting/string/species)
 	switch (task)
-		if ("next_facehair_style")
+		if ("next_hair_style")
 			setting = next_list_item(setting, valid_sprite_accessories(hair_styles_list, null, species)) //gender intentionally left null so speshul snowflakes can cross-hairdress
 			parent.ShowChoices(user)
-		if("previous_facehair_style")
+		if("previous_hair_style")
 			setting = previous_list_item(setting, valid_sprite_accessories(hair_styles_list, null, species)) //gender intentionally left null so speshul snowflakes can cross-hairdress
 			parent.ShowChoices(user)
 		if("input_hair_color")
@@ -374,24 +375,19 @@ var/list/preference_settings_character = list(
 	parent.ShowChoices(user)
 
 /datum/preference_setting/string/f_style/process_link(var/task, var/mob/user, var/list/href_list)
-	message_admins("enter f_style process_link")
 	. = ..()
 	if (.)
 		return
 	var/species = parent.get_pref(/datum/preference_setting/string/species)
 	switch (task)
-		if ("next_hair_style")
-			message_admins("hair style is [setting]")
-			setting = next_list_item(setting, valid_sprite_accessories(hair_styles_list, null, species)) //gender intentionally left null so speshul snowflakes can cross-hairdress
-			message_admins("hair style is [setting]")
+		if ("next_facehair_style")
+			setting = next_list_item(setting, valid_sprite_accessories(facial_hair_styles_list, null, species)) //gender intentionally left null so speshul snowflakes can cross-hairdress
 			parent.ShowChoices(user)
-		if("previous_hair_style")
-			setting = previous_list_item(setting, valid_sprite_accessories(hair_styles_list, null, species))
-			message_admins("hair style is [setting]")
+		if("next_facehair_style")
+			setting = previous_list_item(setting, valid_sprite_accessories(facial_hair_styles_list, null, species))
 			parent.ShowChoices(user)
-			message_admins("hair style is [setting]")
 		if("input_facial_hair_color")
-			input_facial_hair_color()
+			input_facial_hair_color(user)
 
 /datum/preference_setting/numerical/r_facial
 	name = "Red comp. RGB facial hair"
@@ -484,9 +480,9 @@ var/list/preference_settings_character = list(
 	sql_table = "body"
 	enabled = TRUE
 
-	default_setting = 35
-	min_value = 0
-	max_value = 255
+	default_setting = -100
+	min_value = -185
+	max_value = 35
 
 /datum/preference_setting/numerical/s_tone/choose_setting(var/mob/user)
 	var/datum/preference_setting/species_datum = parent.get_pref_datum(/datum/preference_setting/string/species)
@@ -524,7 +520,7 @@ var/list/preference_settings_character = list(
 	parent.ShowChoices(user)
 
 /datum/preference_setting/numerical/s_tone/randomise()
-	var/species = parent.get_pref_datum(/datum/preference_setting/string/species)
+	var/species = parent.get_pref(/datum/preference_setting/string/species)
 	setting = random_skin_tone(species)
 
 /datum/preference_setting/string/species
@@ -876,6 +872,9 @@ var/list/preference_settings_character = list(
 	default_setting = 50
 	min_value = 0
 	max_value = 100
+
+/datum/preference_setting/numerical/wage_ratio/randomise()
+	return
 
 /datum/preference_setting/numerical/wage_ratio/choose_setting(var/mob/user)
 	var/new_wage_ratio = input(user, "Input what % of wages end up in virtual wallets, from 0-100", "Character Preference",setting) as num

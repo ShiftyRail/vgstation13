@@ -48,10 +48,8 @@
 	for (var/database_setting in preference_settings_client)
 
 		var/datum/preference_setting/setting_datum = preference_settings_client[database_setting]
-		setting_datum.setting = setting_datum.load_sql(database_data) // First we load...
+		setting_datum.setting = setting_datum.load_sql(database_data[setting_datum.sql_name]) // First we load...
 		setting_datum.setting = setting_datum.sanitize_setting(setting_datum.setting) // Then we sanitize
-
-		preference_settings_client[database_setting] = setting_datum
 
 /datum/preferences/proc/initialize_preferences(client_login = 0)
 	var/attack_animation = get_pref(/datum/preference_setting/enum/attack_animations)
@@ -71,7 +69,7 @@
 	check.Add("SELECT ckey FROM client WHERE ckey = ?", ckey)
 	if(check.Execute(db))
 		if(!check.NextRow())
-			var/list/arguments_query = new_db_entry_query_args()
+			var/list/arguments_query = new_db_entry_query_args(ckey)
 			q.Add(arglist(arguments_query))
 			if(!q.Execute(db))
 				message_admins("Error in save_preferences_sqlite [__FILE__] ln:[__LINE__] #: [q.Error()] - [q.ErrorMsg()]. sql= [arguments_query[1]]")
@@ -84,6 +82,7 @@
 				message_admins("Error in save_preferences_sqlite [__FILE__] ln:[__LINE__] #: [q.Error()] - [q.ErrorMsg()]. sql= [arguments_query[1]]")
 				WARNING("Error in save_preferences_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
 				return 0
+			message_admins(json_encode(arguments_query))
 	else
 		message_admins("Error in save_preferences_sqlite [__FILE__] ln:[__LINE__] #: [check.Error()] - [check.ErrorMsg()]")
 		WARNING("Error in save_preferences_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
@@ -260,7 +259,7 @@
 	check.Add("SELECT player_ckey FROM players WHERE player_ckey = ? AND player_slot = ?", ckey, slot)
 	if(check.Execute(db))
 		if(!check.NextRow())
-			var/list/sql_arguments_new_character = new_db_entry_query_character_args()
+			var/list/sql_arguments_new_character = new_db_entry_query_character_args(ckey, slot)
 			q.Add(arglist(sql_arguments_new_character))
 			if (!q.Execute(db))
 				message_admins("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
@@ -268,7 +267,7 @@
 				return 0
 			to_chat(user, "Created Character")
 		else
-			var/list/sql_arguments_update_character = update_db_entry_query_character_args()
+			var/list/sql_arguments_update_character = update_db_entry_query_character_args(ckey, slot)
 			q.Add(arglist(sql_arguments_update_character))
 			if(!q.Execute(db))
 				message_admins("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()] sql=[sql_arguments_update_character[1]]")
@@ -283,7 +282,7 @@
 	check.Add("SELECT player_ckey FROM body WHERE player_ckey = ? AND player_slot = ?", ckey, slot)
 	if(check.Execute(db))
 		if(!check.NextRow())
-			var/list/sql_arguments_new_body = new_db_entry_query_body_args()
+			var/list/sql_arguments_new_body = new_db_entry_query_body_args(ckey, slot)
 			q.Add(arglist(sql_arguments_new_body))
 			if(!q.Execute(db))
 				message_admins("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
@@ -291,12 +290,13 @@
 				return 0
 			to_chat(user, "Created Body")
 		else
-			var/list/sql_arguments_update_body = update_db_entry_query_character_args()
+			var/list/sql_arguments_update_body = update_db_entry_query_body_args(ckey, slot)
 			q.Add(arglist(sql_arguments_update_body))
 			if(!q.Execute(db))
 				message_admins("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
 				WARNING("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
 				return 0
+			message_admins(json_encode(sql_arguments_update_body))
 			to_chat(user, "Updated Body")
 	else
 		message_admins("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #: [check.Error()] - [check.ErrorMsg()]")
@@ -438,6 +438,8 @@
 	returned_list.Add(ckey) // Second-to-last item is the ckey (second to last joker)
 	returned_list.Add(slot) // Last item is the slot (last joker)
 	returned_list[1] = "[sql_text][sql_text_end]"
+	message_admins("sql: [returned_list[1]], params: [returned_list.len]")
+	message_admins(json_encode(returned_list))
 	return returned_list
 
 // The sql text this outputs looks like this :

@@ -1,6 +1,7 @@
 
 /datum/preferences/proc/setup_character_options(var/dat, var/user)
 
+	var/race_skin_tone_desc = skintone2racedescription(get_pref(/datum/preference_setting/numerical/s_tone), get_pref(/datum/preference_setting/string/species))
 
 	dat += {"<center><h2>Occupation Choices</h2>
 	<a href='?_src_=prefs;preference=jobs;task=menu'>Set Occupation Preferences</a><br></center>
@@ -18,10 +19,10 @@
 	<h2>Body</h2>
 	<a href='?_src_=prefs;preference=all;task=random_body'>Random Body</A>
 	<a href='?_src_=prefs;preference=random_boyd;task=input'>Always Random Body: [get_pref(/datum/preference_setting/toggle/be_random_body) ? "Yes" : "No"]</A><br>
-	<table width='100%'><tr><td width='24%' valign='top'>
+	<table width='100%'><tr><td width='54%' valign='top'>
 	<b>Species:</b> <a href='?_src_=prefs;preference=species;task=input'>[get_pref(/datum/preference_setting/string/species)]</a><BR>
 	<b>Tertiary Language:</b> <a href='byond://?src=\ref[user];preference=language;task=input'>[get_pref(/datum/preference_setting/string/language)]</a><br>
-	<b>Skin Tone:</b> <a href='?_src_=prefs;preference=skin_tone;task=input'>[get_pref(/datum/preference_setting/string/species) == "Human" ? "[-get_pref(/datum/preference_setting/numerical/s_tone) + 35]/220" : "[-get_pref(/datum/preference_setting/numerical/s_tone)]"] - [skintone2racedescription(-get_pref(/datum/preference_setting/numerical/s_tone), get_pref(/datum/preference_setting/string/species))]</a><br><BR>
+	<b>Skin Tone:</b> <a href='?_src_=prefs;preference=skin_tone;task=input'>[get_pref(/datum/preference_setting/string/species) == "Human" ? "[-get_pref(/datum/preference_setting/numerical/s_tone) + 35]/220" : "[get_pref(/datum/preference_setting/numerical/s_tone)]"] - [race_skin_tone_desc]</a><br><BR>
 	<b>Handicaps:</b> <a href='byond://?src=\ref[user];task=input;preference=disabilities'>Set</a><br>
 	<b>Limbs:</b> <a href='byond://?_src_=prefs;subsection=limbs;task=menu'>Set</a><br>
 	<b>Organs:</b> <a href='byond://?_src_=prefs;subsection=organs;task=menu'>Set</a><br>
@@ -33,20 +34,22 @@
 	[jobban_isbanned(user, "Records") ? "Banned" : "<a href=\"byond://?src=\ref[user];preference=records;record=1\">Set</a>"]<br>
 	<b>Bank account security preference:</b><a href ='?_src_=prefs;preference=bank_security;task=input'>[bank_security_num2text(get_pref(/datum/preference_setting/enum/bank_security))]</a> <br>
 	<b>Percent of wages sent to ID virtual wallet:</b><a href ='?_src_=prefs;preference=wage_ratio;task=input'>[get_pref(/datum/preference_setting/numerical/wage_ratio)]</a> <br>
-	</td><td valign='top' width='21%'>
+	</td><td valign='top' width='21%'> <center>
 	<h3>Hair Style</h3>
 	<a href='?_src_=prefs;preference=hair_style_name;task=input'>[get_pref(/datum/preference_setting/string/h_style)]</a><BR>
 	<a href='?_src_=prefs;preference=hair_style_name;task=previous_hair_style'>&lt;</a> <a href='?_src_=prefs;preference=hair_style_name;task=next_hair_style'>&gt;</a><BR>
 	<span style='border:1px solid #161616; background-color: #[num2hex(get_pref(/datum/preference_setting/numerical/r_hair), 2)][num2hex(get_pref(/datum/preference_setting/numerical/g_hair), 2)][num2hex(get_pref(/datum/preference_setting/numerical/b_hair), 2)];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=hair_style_name;task=input_hair_color'>Change</a><BR>
-	</td><td valign='top' width='21%'>
+	</center> </td><td valign='top' width='21%'>
 	<h3>Facial Hair Style</h3>
+	<center>
 	<a href='?_src_=prefs;preference=facial_style_name;task=input'>[get_pref(/datum/preference_setting/string/f_style)]</a><BR>
 	<a href='?_src_=prefs;preference=facial_style_name;task=previous_facehair_style'>&lt;</a> <a href='?_src_=prefs;preference=facial_style_name;task=next_facehair_style'>&gt;</a><BR>
 	<span style='border: 1px solid #161616; background-color: #[num2hex(get_pref(/datum/preference_setting/numerical/r_facial), 2)][num2hex(get_pref(/datum/preference_setting/numerical/g_facial), 2)][num2hex(get_pref(/datum/preference_setting/numerical/b_facial), 2)];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=facial_style_name;task=input_facial_hair_color'>Change</a><BR>
 	</td><td valign='top' width='21%'>
-	<h3>Eye Color</h3>
+	</center>
+	<h3>Eye Color</h3><center>
 	<span style='border: 1px solid #161616; background-color: #[num2hex(get_pref(/datum/preference_setting/numerical/r_eyes), 2)][num2hex(get_pref(/datum/preference_setting/numerical/g_eyes), 2)][num2hex(get_pref(/datum/preference_setting/numerical/b_eyes), 2)];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=eyes_red;task=input'>Change</a><BR>
-	</tr></td></table>
+	</tr></td></center></table>
 	"}
 
 	return dat

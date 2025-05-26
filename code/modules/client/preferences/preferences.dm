@@ -158,24 +158,25 @@ var/const/MAX_SAVE_SLOTS = 16
 		init_subsections()
 		var/theckey = C.ckey
 		var/thekey = C.key
-		spawn()
-			if(!IsGuestKey(thekey))
-				var/load_pref = load_preferences_sqlite(theckey)
-				if(load_pref)
-					while(!SS_READY(SShumans))
-						sleep(1)
-					try_load_save_sqlite(theckey, C, default_slot)
-					return
+		if(!IsGuestKey(thekey))
+			var/load_pref = load_preferences_sqlite(theckey)
+			if(load_pref)
+				to_chat(C, "Successfully loaded preferences.")
+				while(!SS_READY(SShumans))
+					sleep(1)
+				try_load_save_sqlite(theckey, C, default_slot)
+				return
+			CRASH("Could not load ")
 
-			while(!SS_READY(SShumans))
-				sleep(1)
-			randomize_appearance_for()
-			var/gender = get_pref(/datum/preference_setting/enum/gender)
-			var/species = get_pref(/datum/preference_setting/string/species)
-			var/datum/preference_setting/real_name = get_pref_datum(/datum/preference_setting/string/real_name)
-			real_name.setting = random_name(gender, species)
-			save_character_sqlite(theckey, C, default_slot)
-			saveloaded = 1
+		while(!SS_READY(SShumans))
+			sleep(1)
+		randomize_appearance_for()
+		var/gender = get_pref(/datum/preference_setting/enum/gender)
+		var/species = get_pref(/datum/preference_setting/string/species)
+		var/datum/preference_setting/real_name = get_pref_datum(/datum/preference_setting/string/real_name)
+		real_name.setting = random_name(gender, species)
+		save_character_sqlite(theckey, C, default_slot)
+		saveloaded = 1
 
 /datum/preferences/proc/init_datums()
 	for (var/database_setting in typesof(/datum/preference_setting))
