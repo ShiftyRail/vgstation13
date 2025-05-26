@@ -15,7 +15,7 @@
 
 #define LIMB_HEART			"heart"
 #define LIMB_EYES			"eyes"
-#define LIMB_LUNG			"lung"
+#define LIMB_LUNG			"lungs"
 #define LIMB_LIVER			"liver"
 #define LIMB_KIDNEYS		"kidneys"
 

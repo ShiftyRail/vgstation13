@@ -23,6 +23,7 @@ var/bunker_up = 0 //this round
 var/bunker_saved = 0 //saved to file
 var/bunker_setting = 0
 var/updated_stats = 0
+
 /client
 	var/account_joined = ""
 	var/account_age

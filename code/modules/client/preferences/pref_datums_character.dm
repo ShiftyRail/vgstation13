@@ -122,7 +122,7 @@ var/list/preference_settings_character = list(
 
 	f_style.setting = random_facial_hair_style(setting, species)
 	h_style.setting = random_hair_style(setting, species)
-
+	parent.ShowChoices(user)
 
 /datum/preference_setting/enum/gender/sanitize_setting(var/new_setting)
 	return sanitize_gender(new_setting) // Historical reasons
@@ -143,7 +143,8 @@ var/list/preference_settings_character = list(
 /datum/preference_setting/numerical/age/choose_setting(mob/user)
 	var/new_age = input(user, "Choose your character's age:\n([AGE_MIN]-[AGE_MAX])", "Character Preference") as num|null
 	if(new_age)
-		setting = clamp(round(setting), min_value, max_value)
+		setting = clamp(round(new_age), min_value, max_value)
+	parent.ShowChoices(user)
 
 //underwear
 // This is an integer for historical reasons (you'll read that a lot in this file)
@@ -170,6 +171,7 @@ var/list/preference_settings_character = list(
 	var/new_underwear = input(user, "Choose your character's underwear:", "Character Preference")  as null|anything in underwear_options
 	if(new_underwear)
 		setting = underwear_options.Find(new_underwear)
+	parent.ShowChoices(user)
 
 /datum/preference_setting/numerical/backbag
 	name = "Backbag"
@@ -185,6 +187,7 @@ var/list/preference_settings_character = list(
 	var/new_backbag = input(user, "Choose your character's style of bag:", "Character Preference")  as null|anything in backbaglist
 	if(new_backbag)
 		setting = backbaglist.Find(new_backbag)
+	parent.ShowChoices(user)
 
 /datum/preference_setting/string/h_style
 	name = "Hair style"
@@ -248,12 +251,14 @@ var/list/preference_settings_character = list(
 				r_facial.setting = clamp(r_hair, 0, 80)
 				g_facial.setting = clamp(g_hair, 0, 50)
 				b_facial.setting = clamp(b_hair, 0, 35)
+	parent.ShowChoices(user)
 
 /datum/preference_setting/string/h_style/choose_setting(var/mob/user)
 	var/species = parent.get_pref(/datum/preference_setting/string/species)
 	var/new_h_style = input(user, "Choose your character's hair style:", "Character Preference") as null|anything in valid_sprite_accessories(hair_styles_list, null, species) //gender intentionally left null so speshul snowflakes can cross-hairdress
 	if(new_h_style)
 		setting = new_h_style
+	parent.ShowChoices(user)
 
 /datum/preference_setting/string/h_style/process_link(var/task, var/mob/user, var/list/href_list)
 	. = ..()
@@ -263,8 +268,10 @@ var/list/preference_settings_character = list(
 	switch (task)
 		if ("next_facehair_style")
 			setting = next_list_item(setting, valid_sprite_accessories(hair_styles_list, null, species)) //gender intentionally left null so speshul snowflakes can cross-hairdress
+			parent.ShowChoices(user)
 		if("previous_facehair_style")
 			setting = previous_list_item(setting, valid_sprite_accessories(hair_styles_list, null, species)) //gender intentionally left null so speshul snowflakes can cross-hairdress
+			parent.ShowChoices(user)
 		if("input_hair_color")
 			input_hair_color(user)
 
@@ -341,20 +348,22 @@ var/list/preference_settings_character = list(
 		b_facial.setting = colours[3]
 
 /datum/preference_setting/string/f_style/proc/input_facial_hair_color(var/mob/user)
-	var/datum/preference_setting/species_setting = parent.get_pref_datum(/datum/preference_setting/string/species)
-	var/species = species_setting.setting
-
+	message_admins("begin input facial hair colour")
+	var/species = parent.get_pref(/datum/preference_setting/string/species)
 	var/datum/preference_setting/numerical/r_facial = parent.get_pref_datum(/datum/preference_setting/numerical/r_facial)
 	var/datum/preference_setting/numerical/g_facial = parent.get_pref_datum(/datum/preference_setting/numerical/g_facial)
 	var/datum/preference_setting/numerical/b_facial = parent.get_pref_datum(/datum/preference_setting/numerical/b_facial)
 
 	switch(species)
 		if("Human", "Unathi")
-			var/new_facial = input(user, "Choose your character's facial-hair colour:", "Character Preference", rgb(r_facial, g_facial, b_facial)) as color|null
+			var/new_facial = input(user, "Choose your character's facial-hair colour:", "Character Preference", rgb(r_facial.setting, g_facial.setting, b_facial.setting)) as color|null
 			if(new_facial)
 				r_facial.setting = hex2num(copytext(new_facial, 2, 4))
 				g_facial.setting = hex2num(copytext(new_facial, 4, 6))
 				b_facial.setting = hex2num(copytext(new_facial, 6, 8))
+		else
+			to_chat(user, "<span class='warning'>No facial hair colour setting for speices [species] yet.</span>")
+	parent.ShowChoices(user)
 
 /datum/preference_setting/string/f_style/choose_setting(var/mob/user)
 	var/species = parent.get_pref(/datum/preference_setting/string/species)
@@ -362,17 +371,25 @@ var/list/preference_settings_character = list(
 	var/new_f_style = input(user, "Choose your character's facial-hair style:", "Character Preference")  as null|anything in valid_sprite_accessories(facial_hair_styles_list, gender, species)
 	if(new_f_style)
 		setting = new_f_style
+	parent.ShowChoices(user)
 
 /datum/preference_setting/string/f_style/process_link(var/task, var/mob/user, var/list/href_list)
+	message_admins("enter f_style process_link")
 	. = ..()
 	if (.)
 		return
 	var/species = parent.get_pref(/datum/preference_setting/string/species)
 	switch (task)
 		if ("next_hair_style")
+			message_admins("hair style is [setting]")
 			setting = next_list_item(setting, valid_sprite_accessories(hair_styles_list, null, species)) //gender intentionally left null so speshul snowflakes can cross-hairdress
+			message_admins("hair style is [setting]")
+			parent.ShowChoices(user)
 		if("previous_hair_style")
 			setting = previous_list_item(setting, valid_sprite_accessories(hair_styles_list, null, species))
+			message_admins("hair style is [setting]")
+			parent.ShowChoices(user)
+			message_admins("hair style is [setting]")
 		if("input_facial_hair_color")
 			input_facial_hair_color()
 
@@ -420,7 +437,7 @@ var/list/preference_settings_character = list(
 // This should probably be reworked but that'll be in a later PR.
 /datum/preference_setting/numerical/r_eyes
 	name = "Red comp. RGB eyes"
-	sql_name = "eyes_red"
+	sql_name = "eyes_red" // WHY IS YOUR SQL NAME DIFFERENT FROM YOUR REAL HANDLE???
 	sql_table = "body"
 	enabled = TRUE
 
@@ -439,6 +456,7 @@ var/list/preference_settings_character = list(
 		setting = hex2num(copytext(new_eyes, 2, 4))
 		g_eyes.setting = hex2num(copytext(new_eyes, 4, 6))
 		b_eyes.setting = hex2num(copytext(new_eyes, 6, 8))
+	parent.ShowChoices(user)
 
 /datum/preference_setting/numerical/g_eyes
 	name = "Green comp. RGB eyes"
@@ -503,13 +521,12 @@ var/list/preference_settings_character = list(
 				b_hair.setting = clamp(b_hair.setting, 0, 35)
 		else
 			to_chat(user,"Your species doesn't have different skin tones. Yet?")
-			return
+	parent.ShowChoices(user)
 
 /datum/preference_setting/numerical/s_tone/randomise()
 	var/species = parent.get_pref_datum(/datum/preference_setting/string/species)
 	setting = random_skin_tone(species)
 
-// The sanity check here is handled at Topic() level with `input()`
 /datum/preference_setting/string/species
 	name = "Species"
 	sql_name = "species"
@@ -570,6 +587,7 @@ var/list/preference_settings_character = list(
 				if(!job.species_whitelist.Find(setting)) //And it doesn't include our new species
 					if(jobs_list.Remove(job.title))
 						to_chat(user, "<span class='info'>Your new species ([setting]) can't be [job.title]. Your preferences have been adjusted.</span>")
+	parent.ShowChoices(user)
 
 // The sanity check here is handled at Topic() level with `input()`
 /datum/preference_setting/string/language
@@ -588,6 +606,7 @@ var/list/preference_settings_character = list(
 			new_languages += lang.name
 
 	setting = input("Please select a secondary language", "Character Generation", null) in new_languages
+	parent.ShowChoices(user)
 
 /datum/preference_setting/string/flavor_text
 	name = "Flavor Text"
@@ -600,6 +619,7 @@ var/list/preference_settings_character = list(
 
 /datum/preference_setting/string/flavor_text/choose_setting(var/mob/user)
 	setting = input(user,"Set the flavor text in your 'examine' verb. This can also be used for OOC notes and preferences!","Flavor Text",html_decode(setting)) as message
+	parent.ShowChoices(user)
 
 /datum/preference_setting/string/med_record
 	name = "Medical Records"
@@ -789,22 +809,21 @@ var/list/preference_settings_character = list(
 	return json_decode(sql_value)
 
 /datum/preference_setting/assoc_list_setting/jobs/process_link(var/task, var/mob/user, var/list/href_list)
-	var/alternate_option = parent.get_pref(/datum/preference_setting/enum/alternate_option)
+	var/datum/preference_setting/alternate_option = parent.get_pref(/datum/preference_setting/enum/alternate_option)
 	switch(task)
 		if("close")
 			user << browse(null, "window=mob_occupation")
 			parent.ShowChoices(user)
 		if("reset")
 			parent.ResetJobs()
-			parent.SetChoices(user)
-		if("random")
-			if(alternate_option == GET_RANDOM_JOB || alternate_option == BE_ASSISTANT || alternate_option == RETURN_TO_LOBBY)
-				alternate_option += 1
+		if("random") // This just changes the alternate option.
+			if(alternate_option.setting == GET_RANDOM_JOB || alternate_option.setting == BE_ASSISTANT || alternate_option.setting == RETURN_TO_LOBBY)
+				alternate_option.setting += 1
 			else if(alternate_option == GET_EMPTY_JOB)
-				alternate_option = 0
+				alternate_option.setting = 0
 			else
 				return 0
-			parent.SetChoices(user)
+			parent.SetJobsChoice(user)
 		if ("alt_title")
 			var/datum/job/job = locate(href_list["job"])
 			if (job)
@@ -812,11 +831,10 @@ var/list/preference_settings_character = list(
 				var/choice = input("Pick a title for [job.title].", "Character Generation", parent.GetPlayerAltTitle(job)) as anything in choices | null
 				if(choice)
 					parent.SetPlayerAltTitle(job, choice)
-					parent.SetChoices(user)
 		if("input")
 			parent.SetJob(user, href_list["text"], href_list["level"] == "1")
-		else
-			parent.SetChoices(user)
+		else // Menu
+			parent.SetJobsChoice(user)
 	return 1
 
 /datum/preference_setting/enum/string/nanotrasen_relation
@@ -832,6 +850,7 @@ var/list/preference_settings_character = list(
 	var/new_relation = input(user, "Choose your relation to NT. Note that this represents what others can find out about your character by researching your background, not what your character actually thinks.", "Character Preference")  as null|anything in list("Loyal", "Supportive", "Neutral", "Skeptical", )
 	if(new_relation)
 		setting = new_relation
+	parent.ShowChoices(user)
 
 /datum/preference_setting/enum/bank_security
 	name = "Bank security"
@@ -846,6 +865,7 @@ var/list/preference_settings_character = list(
 	var/new_bank_security = input(user, BANK_SECURITY_EXPLANATION, "Character Preference")  as null|anything in bank_security_text2num_associative
 	if(!isnull(new_bank_security))
 		setting = bank_security_text2num_associative[new_bank_security]
+	parent.ShowChoices(user)
 
 /datum/preference_setting/numerical/wage_ratio
 	name = "Wage ratio"
@@ -862,13 +882,13 @@ var/list/preference_settings_character = list(
 	if(!isnull(new_wage_ratio))
 		new_wage_ratio = clamp(new_wage_ratio,0,100)
 		setting = new_wage_ratio
+	parent.ShowChoices(user)
 
 /datum/preference_setting/binary_flag/disabilities
 	name = "Disabilities"
 	sql_name = "disabilities"
 	sql_table = "players"
 	enabled = TRUE
-
 
 /datum/preference_setting/binary_flag/disabilities/process_link(var/task, var/mob/user, var/list/href_list)
 	switch(task)

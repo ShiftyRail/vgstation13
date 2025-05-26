@@ -717,37 +717,39 @@
 	if(new_character.mind)
 		new_character.mind.store_memory("<b>Your blood type is:</b> [new_character.dna.b_type]<br>", category=MIND_MEMORY_GENERAL, forced=TRUE)
 
-	if(prefs.get_pref_datum(/datum/preference_setting/binary_flag/disabilities) & DISABILITY_FLAG_NEARSIGHTED)
+	var/disabilities = prefs.get_pref(/datum/preference_setting/binary_flag/disabilities)
+
+	if(disabilities & DISABILITY_FLAG_NEARSIGHTED)
 		new_character.dna.SetSEState(GLASSESBLOCK,1,1)
 		new_character.disabilities |= NEARSIGHTED
 
-	if(prefs.get_pref_datum(/datum/preference_setting/binary_flag/disabilities) & DISABILITY_FLAG_VEGAN)
+	if(disabilities & DISABILITY_FLAG_VEGAN)
 		new_character.dna.SetSEState(VEGANBLOCK, 1, 1)
 
-	if(prefs.get_pref_datum(/datum/preference_setting/binary_flag/disabilities) & DISABILITY_FLAG_ASTHMA)
+	if(disabilities & DISABILITY_FLAG_ASTHMA)
 		new_character.dna.SetSEState(ASTHMABLOCK, 1, 1)
 
 	chosen_species = all_species[species]
-	if( (prefs.get_pref_datum(/datum/preference_setting/binary_flag/disabilities) & DISABILITY_FLAG_FAT) && (chosen_species.anatomy_flags & CAN_BE_FAT) )
+	if( (disabilities & DISABILITY_FLAG_FAT) && (chosen_species.anatomy_flags & CAN_BE_FAT) )
 		new_character.mutations += M_FAT
 		new_character.overeatduration = 600
 
-	if(prefs.get_pref_datum(/datum/preference_setting/binary_flag/disabilities) & DISABILITY_FLAG_EPILEPTIC)
+	if(disabilities & DISABILITY_FLAG_EPILEPTIC)
 		new_character.dna.SetSEState(EPILEPSYBLOCK,1,1)
 		new_character.disabilities |= EPILEPSY
 
-	if(prefs.get_pref_datum(/datum/preference_setting/binary_flag/disabilities) & DISABILITY_FLAG_DEAF)
+	if(disabilities & DISABILITY_FLAG_DEAF)
 		new_character.dna.SetSEState(DEAFBLOCK,1,1)
 		new_character.sdisabilities |= DEAF
 
-	if(prefs.get_pref_datum(/datum/preference_setting/binary_flag/disabilities) & DISABILITY_FLAG_MUTE)
+	if(disabilities & DISABILITY_FLAG_MUTE)
 		new_character.dna.SetSEState(MUTEBLOCK,1,1)
 		new_character.sdisabilities |= MUTE
 
-	if(prefs.get_pref_datum(/datum/preference_setting/binary_flag/disabilities) & DISABILITY_FLAG_LISP)
+	if(disabilities & DISABILITY_FLAG_LISP)
 		new_character.dna.SetSEState(LISPBLOCK, 1, 1)
 
-	if(prefs.get_pref_datum(/datum/preference_setting/binary_flag/disabilities) & DISABILITY_FLAG_ANEMIA)
+	if(disabilities & DISABILITY_FLAG_ANEMIA)
 		new_character.dna.SetSEState(ANEMIABLOCK, 1, 1)
 
 	new_character.dna.UpdateSE()
@@ -788,6 +790,7 @@
 			break //Only autoconvert them once, and only if they aren't leading their own faith.
 
 	if(late_join)
+		message_admins("latejoin, key transfer.")
 		new_character.key = key
 
 	return new_character

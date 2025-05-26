@@ -582,7 +582,7 @@ var/list/admin_verbs_mod = list(
 	if(++warns.setting >= MAX_WARNS)					//uh ohhhh...you'reee iiiiin trouuuubble O:)
 		var/bantime = AUTOBANTIME//= (++D.warnbans * AUTOBANTIME)
 		warns.setting = 0
-		var/datum/preference_setting/warnbans = D.get_pref_datum(/datum/preference_setting/numerical/warnsbans)
+		var/datum/preference_setting/warnbans = D.get_pref_datum(/datum/preference_setting/numerical/warnbans)
 		++warnbans.setting
 		for(var/i = 1; i < warnbans.setting; i++)
 			bantime *= 2
@@ -598,7 +598,7 @@ var/list/admin_verbs_mod = list(
 		D.save_preferences_sqlite(C, C.ckey)
 		del(C)
 	else
-		var/warnbans = D.get_pref(/datum/preference_setting/numerical/warnsbans)
+		var/warnbans = D.get_pref(/datum/preference_setting/numerical/warnbans)
 		if(C)
 			to_chat(C, "<span class='danger'><BIG>You have been formally warned by an administrator - Reason: [warn_reason].</span></BIG><br>Further warnings will result in an autoban.</font>")
 			message_admins("[key_name_admin(src)] has warned [key_name_admin(C)] - [warn_reason]. They have [MAX_WARNS-warnbans] strikes remaining. And have been warn banned [warnbans] [warnbans == 1 ? "time" : "times"]")
@@ -643,9 +643,9 @@ var/list/admin_verbs_mod = list(
 	var/strikesleft = MAX_WARNS-warns.setting
 	if(C)
 		to_chat(C, "<span class='red'><BIG><B>One of your warnings has been removed.</B></BIG><br>You currently have [strikesleft] strike\s left</span>")
-		message_admins("[key_name_admin(src)] has unwarned [key_name_admin(C)]. They have [strikesleft] strike(s) remaining, and have been warn banned [D.get_pref(/datum/preference_setting/numerical/warnsbans)] [D.get_pref(/datum/preference_setting/numerical/warnsbans) == 1 ? "time" : "times"]")
+		message_admins("[key_name_admin(src)] has unwarned [key_name_admin(C)]. They have [strikesleft] strike(s) remaining, and have been warn banned [D.get_pref(/datum/preference_setting/numerical/warnbans)] [D.get_pref(/datum/preference_setting/numerical/warnbans) == 1 ? "time" : "times"]")
 	else
-		message_admins("[key_name_admin(src)] has unwarned [warned_ckey] (DC). They have [strikesleft] strike(s) remaining, and have been warn banned [D.get_pref(/datum/preference_setting/numerical/warnsbans)] [D.get_pref(/datum/preference_setting/numerical/warnsbans) == 1 ? "time" : "times"]")
+		message_admins("[key_name_admin(src)] has unwarned [warned_ckey] (DC). They have [strikesleft] strike(s) remaining, and have been warn banned [D.get_pref(/datum/preference_setting/numerical/warnbans)] [D.get_pref(/datum/preference_setting/numerical/warnbans) == 1 ? "time" : "times"]")
 	D.save_preferences_sqlite(C, C.ckey)
 	feedback_add_details("admin_verb","UNWARN") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 

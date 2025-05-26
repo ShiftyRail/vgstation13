@@ -1,6 +1,6 @@
 var/list/preference_settings_client = list(
 	/datum/preference_setting/numerical/warns,
-	/datum/preference_setting/numerical/warnsbans,
+	/datum/preference_setting/numerical/warnbans,
 	/datum/preference_setting/toggle/show_warning_next_time,
 	/datum/preference_setting/string/last_warned_message,
 	/datum/preference_setting/string/warning_admin,
@@ -26,7 +26,7 @@ var/list/preference_settings_client = list(
 	/datum/preference_setting/toggle/pulltoggle,
 	/datum/preference_setting/toggle/hear_instruments,
 	/datum/preference_setting/numerical/ambience_volume,
-	/datum/preference_setting/numerical/credit_volume,
+	/datum/preference_setting/numerical/credits_volume,
 	/datum/preference_setting/enum/credits,
 	/datum/preference_setting/enum/jingle,
 	/datum/preference_setting/enum/headset_sound,
@@ -53,9 +53,9 @@ var/list/preference_settings_client = list(
 
 	default_setting = 0
 
-/datum/preference_setting/numerical/warnsbans
+/datum/preference_setting/numerical/warnbans
 	name = "Warn bans"
-	sql_name = "warnsbans"
+	sql_name = "warnbans"
 	sql_table = "client"
 	enabled = TRUE
 
@@ -388,9 +388,9 @@ var/list/preference_settings_client = list(
 	var/new_volume = input(user, "Enter the new volume you wish to use. (0-100)","Ambience Volume Preferences", setting)
 	setting = clamp(new_volume, min_value, max_value)
 
-/datum/preference_setting/numerical/credit_volume
+/datum/preference_setting/numerical/credits_volume
 	name = "Ambience volume"
-	sql_name = "credit_volume"
+	sql_name = "credits_volume"
 	sql_table = "client"
 	enabled = TRUE
 
@@ -398,7 +398,7 @@ var/list/preference_settings_client = list(
 	min_value = 0
 	max_value = 100
 
-/datum/preference_setting/numerical/credit_volume/choose_setting(var/mob/user)
+/datum/preference_setting/numerical/credits_volume/choose_setting(var/mob/user)
 	var/credits_volume = input(user, "Enter the new volume you wish to use. (0-100, default is 75)","Credits/Jingle Volume", setting)
 	setting = clamp(credits_volume, min_value, max_value)
 
@@ -424,7 +424,7 @@ var/list/preference_settings_client = list(
 
 /datum/preference_setting/enum/jingle
 	name = "Jingle"
-	sql_name = "Jingle"
+	sql_name = "jingle"
 	sql_table = "client"
 	enabled = TRUE
 

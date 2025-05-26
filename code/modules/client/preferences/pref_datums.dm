@@ -59,6 +59,7 @@
 		if ("input")
 			choose_setting(user)
 			return TRUE
+	return FALSE // Need to do something more
 
 /datum/preference_setting/proc/randomise()
 

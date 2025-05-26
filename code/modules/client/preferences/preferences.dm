@@ -283,7 +283,7 @@ var/const/MAX_SAVE_SLOTS = 16
 		jobs -= job.title
 	else
 		jobs[job.title] = new_value
-	SetChoices(user)
+	SetJobsChoice(user)
 	return 1
 
 /datum/preferences/proc/ResetJobs()
@@ -306,6 +306,7 @@ var/const/MAX_SAVE_SLOTS = 16
 	for (var/x in preference_settings_client)
 		var/datum/preference_setting/the_setting = preference_settings_client[x]
 		if (the_setting.sql_name == href_list["preference"])
+			message_admins("process_link : [the_setting], task = [href_list["task"]]")
 			the_setting.process_link(href_list["task"], user, href_list)
 			ShowChoices(user)
 			return
@@ -313,8 +314,8 @@ var/const/MAX_SAVE_SLOTS = 16
 	for (var/x in preference_settings_character)
 		var/datum/preference_setting/the_setting = preference_settings_character[x]
 		if (the_setting.sql_name == href_list["preference"])
+			message_admins("process_link : [the_setting], task = [href_list["task"]]")
 			the_setting.process_link(href_list["task"], user, href_list)
-			ShowChoices(user)
 			return
 
 	if(href_list["task"] == "random_body")
@@ -332,6 +333,7 @@ var/const/MAX_SAVE_SLOTS = 16
 			SetRecords(user)
 		else
 			user << browse(null, "window=records")
+			ShowChoices(user)
 
 		if(href_list["task"] == "med_record")
 			var/datum/preference_setting/med_record = get_pref_datum(/datum/preference_setting/string/med_record)
@@ -365,12 +367,18 @@ var/const/MAX_SAVE_SLOTS = 16
 				gen_record.setting = genmsg
 				SetRecords(user)
 
-		ShowChoices(user)
 		return
 
 	// Roles
 	if(href_list["preference"] == "set_roles")
 		return SetRoles(user,href_list)
+
+	if(href_list["preference"] == "next_preview_background")
+		preview_background = next_list_item(preview_background, background_options)
+		return ShowChoices(user)
+	if(href_list["preference"] == "previous_preview_background")
+		preview_background = previous_list_item(preview_background, background_options)
+		return ShowChoices(user)
 
 	// Special actions
 	if (href_list["action"])
@@ -410,7 +418,7 @@ var/const/MAX_SAVE_SLOTS = 16
 		ShowChoices(user)
 		return
 	// We made it this far, means link was unprocessed
-	CRASH("unprocessed href for [client]; data=[json_encode(href_list)]")
+	message_admins("unprocessed href for [client]; data=[json_encode(href_list)]")
 
 /datum/preferences/proc/copy_to(mob/living/carbon/human/character, safety = 0)
 	var/datum/preference_setting/name_setting = get_pref_datum(/datum/preference_setting/string/real_name)

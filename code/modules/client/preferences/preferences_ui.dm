@@ -3,13 +3,13 @@
 
 
 	dat += {"<center><h2>Occupation Choices</h2>
-	<a href='?_src_=prefs;preference=job;task=menu'>Set Occupation Preferences</a><br></center>
+	<a href='?_src_=prefs;preference=jobs;task=menu'>Set Occupation Preferences</a><br></center>
 	<h2>Identity</h2>
 	<table width='100%'><tr><td width='75%' valign='top'>
-	<a href='?_src_=prefs;preference=name;task=random'>Random Name</a>
+	<a href='?_src_=prefs;preference=real_name;task=random'>Random Name</a>
 	<a href='?_src_=prefs;preference=random_name;task=input'>Always Random Name: [get_pref(/datum/preference_setting/toggle/be_random_name) ? "Yes" : "No"]</a><br>
-	<b>Name:</b> <a href='?_src_=prefs;preference=name;task=input'>[get_pref(/datum/preference_setting/string/real_name)]</a><BR>
-	<b>Gender:</b> <a href='?_src_=prefs;preference=gender'>[get_pref(/datum/preference_setting/enum/gender) == MALE ? "Male" : "Female"]</a><BR>
+	<b>Name:</b> <a href='?_src_=prefs;preference=real_name;task=input'>[get_pref(/datum/preference_setting/string/real_name)]</a><BR>
+	<b>Gender:</b> <a href='?_src_=prefs;preference=gender;task=input'>[get_pref(/datum/preference_setting/enum/gender) == MALE ? "Male" : "Female"]</a><BR>
 	<b>Age:</b> <a href='?_src_=prefs;preference=age;task=input'>[get_pref(/datum/preference_setting/numerical/age)]</a>
 	</td><td valign='center'>
 	<div class='statusDisplay'style="height: 64px; width: 128px; padding:0px"><center><img src=previewicon.png class="charPreview"><img src=previewicon2.png class="charPreview"></center></div>
@@ -21,7 +21,7 @@
 	<table width='100%'><tr><td width='24%' valign='top'>
 	<b>Species:</b> <a href='?_src_=prefs;preference=species;task=input'>[get_pref(/datum/preference_setting/string/species)]</a><BR>
 	<b>Tertiary Language:</b> <a href='byond://?src=\ref[user];preference=language;task=input'>[get_pref(/datum/preference_setting/string/language)]</a><br>
-	<b>Skin Tone:</b> <a href='?_src_=prefs;preference=s_tone;task=input'>[get_pref(/datum/preference_setting/string/species) == "Human" ? "[-get_pref(/datum/preference_setting/numerical/s_tone) + 35]/220" : "[-get_pref(/datum/preference_setting/numerical/s_tone)]"] - [skintone2racedescription(-get_pref(/datum/preference_setting/numerical/s_tone), get_pref(/datum/preference_setting/string/species))]</a><br><BR>
+	<b>Skin Tone:</b> <a href='?_src_=prefs;preference=skin_tone;task=input'>[get_pref(/datum/preference_setting/string/species) == "Human" ? "[-get_pref(/datum/preference_setting/numerical/s_tone) + 35]/220" : "[-get_pref(/datum/preference_setting/numerical/s_tone)]"] - [skintone2racedescription(-get_pref(/datum/preference_setting/numerical/s_tone), get_pref(/datum/preference_setting/string/species))]</a><br><BR>
 	<b>Handicaps:</b> <a href='byond://?src=\ref[user];task=input;preference=disabilities'>Set</a><br>
 	<b>Limbs:</b> <a href='byond://?_src_=prefs;subsection=limbs;task=menu'>Set</a><br>
 	<b>Organs:</b> <a href='byond://?_src_=prefs;subsection=organs;task=menu'>Set</a><br>
@@ -35,17 +35,17 @@
 	<b>Percent of wages sent to ID virtual wallet:</b><a href ='?_src_=prefs;preference=wage_ratio;task=input'>[get_pref(/datum/preference_setting/numerical/wage_ratio)]</a> <br>
 	</td><td valign='top' width='21%'>
 	<h3>Hair Style</h3>
-	<a href='?_src_=prefs;preference=h_style;task=input'>[get_pref(/datum/preference_setting/string/h_style)]</a><BR>
-	<a href='?_src_=prefs;preference=h_style;task=previous_hair_style'>&lt;</a> <a href='?_src_=prefs;preference=h_style;task=next_hair_style'>&gt;</a><BR>
-	<span style='border:1px solid #161616; background-color: #[num2hex(get_pref(/datum/preference_setting/numerical/r_hair), 2)][num2hex(get_pref(/datum/preference_setting/numerical/g_hair), 2)][num2hex(get_pref(/datum/preference_setting/numerical/b_hair), 2)];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=h_style;task=input_hair_color'>Change</a><BR>
+	<a href='?_src_=prefs;preference=hair_style_name;task=input'>[get_pref(/datum/preference_setting/string/h_style)]</a><BR>
+	<a href='?_src_=prefs;preference=hair_style_name;task=previous_hair_style'>&lt;</a> <a href='?_src_=prefs;preference=hair_style_name;task=next_hair_style'>&gt;</a><BR>
+	<span style='border:1px solid #161616; background-color: #[num2hex(get_pref(/datum/preference_setting/numerical/r_hair), 2)][num2hex(get_pref(/datum/preference_setting/numerical/g_hair), 2)][num2hex(get_pref(/datum/preference_setting/numerical/b_hair), 2)];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=hair_style_name;task=input_hair_color'>Change</a><BR>
 	</td><td valign='top' width='21%'>
 	<h3>Facial Hair Style</h3>
-	<a href='?_src_=prefs;preference=f_style;task=input'>[get_pref(/datum/preference_setting/string/f_style)]</a><BR>
-	<a href='?_src_=prefs;preference=f_style;task=previous_facehair_style'>&lt;</a> <a href='?_src_=prefs;preference=f_style;task=next_facehair_style'>&gt;</a><BR>
-	<span style='border: 1px solid #161616; background-color: #[num2hex(get_pref(/datum/preference_setting/numerical/r_facial), 2)][num2hex(get_pref(/datum/preference_setting/numerical/g_facial), 2)][num2hex(get_pref(/datum/preference_setting/numerical/b_facial), 2)];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=f_style;task=input_facial_hair_color'>Change</a><BR>
+	<a href='?_src_=prefs;preference=facial_style_name;task=input'>[get_pref(/datum/preference_setting/string/f_style)]</a><BR>
+	<a href='?_src_=prefs;preference=facial_style_name;task=previous_facehair_style'>&lt;</a> <a href='?_src_=prefs;preference=facial_style_name;task=next_facehair_style'>&gt;</a><BR>
+	<span style='border: 1px solid #161616; background-color: #[num2hex(get_pref(/datum/preference_setting/numerical/r_facial), 2)][num2hex(get_pref(/datum/preference_setting/numerical/g_facial), 2)][num2hex(get_pref(/datum/preference_setting/numerical/b_facial), 2)];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=facial_style_name;task=input_facial_hair_color'>Change</a><BR>
 	</td><td valign='top' width='21%'>
 	<h3>Eye Color</h3>
-	<span style='border: 1px solid #161616; background-color: #[num2hex(get_pref(/datum/preference_setting/numerical/r_eyes), 2)][num2hex(get_pref(/datum/preference_setting/numerical/g_eyes), 2)][num2hex(get_pref(/datum/preference_setting/numerical/b_eyes), 2)];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=r_eyes;task=input'>Change</a><BR>
+	<span style='border: 1px solid #161616; background-color: #[num2hex(get_pref(/datum/preference_setting/numerical/r_eyes), 2)][num2hex(get_pref(/datum/preference_setting/numerical/g_eyes), 2)][num2hex(get_pref(/datum/preference_setting/numerical/b_eyes), 2)];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=eyes_red;task=input'>Change</a><BR>
 	</tr></td></table>
 	"}
 
@@ -105,7 +105,7 @@
 	[(get_pref(/datum/preference_setting/binary_flag/toggles) & SOUND_AMBIENCE)? \
 	"<b>Ambience Volume:</b><a href='?_src_=prefs;preference=ambience_volume;task=input'><b>[get_pref(/datum/preference_setting/numerical/ambience_volume)]</b></a><br>":""]
 	<b>Radio Headset Sounds:</b>
-	<a href='?_src_=prefs;preference=headset_sound;task=input'><b>[headset_sound_text2num[get_pref(/datum/preference_setting/enum/headset_sound)+1]]</b></a><br>
+	<a href='?_src_=prefs;preference=hear_voicesound;task=input'><b>[headset_sound_text2num[get_pref(/datum/preference_setting/enum/headset_sound)+1]]</b></a><br>
 	<b>Hear streamed media:</b>
 	<a href='?_src_=prefs;preference=toggles;task=input;toggle=[SOUND_STREAMING]'><b>[(get_pref(/datum/preference_setting/binary_flag/toggles) & SOUND_STREAMING) ? "Yes" : "No"]</b></a><br>
 	<b>Streaming Program:</b>
@@ -117,7 +117,7 @@
 	<b>Hear instruments</b>
 	<a href='?_src_=prefs;preference=hear_instruments;task=input'><b>[(get_pref(/datum/preference_setting/toggle/hear_instruments)) ? "Yes":"No"]</b></a><br>
 	<b>Progress Bars:</b>
-	<a href='?_src_=prefs;preference=progbar;task=input'><b>[get_pref(/datum/preference_setting/toggle/progress_bars) ? "Yes" : "No"]</b></a><br>
+	<a href='?_src_=prefs;preference=progress_bars;task=input'><b>[get_pref(/datum/preference_setting/toggle/progress_bars) ? "Yes" : "No"]</b></a><br>
 	<b>Pause after first step:</b>
 	<a href='?_src_=prefs;preference=stumble;task=input'><b>[get_pref(/datum/preference_setting/toggle/stumble) ? "Yes" : "No"]</b></a><br>
 	<b>Pulling action:</b>
@@ -147,7 +147,7 @@
 	<b>Show Tooltips:</b>
 	<a href='?_src_=prefs;preference=tooltips;task=input'><b>[get_pref(/datum/preference_setting/toggle/tooltips) ? "Yes" : "No"]</b></a><br>
 	<b>Adminhelp Special Tab:</b>
-	<a href='?_src_=prefs;preference=special_popup;task=input'><b>[special_popup_text2num[get_pref(/datum/preference_setting/enum/special_popup)+1]]</b></a><br>
+	<a href='?_src_=prefs;preference=special;task=input'><b>[special_popup_text2num[get_pref(/datum/preference_setting/enum/special_popup)+1]]</b></a><br>
 	<b>Attack Animations:<b>
 	<a href='?_src_=prefs;preference=attack_animation;task=input'><b>[get_pref(/datum/preference_setting/enum/attack_animations) ? (get_pref(/datum/preference_setting/enum/attack_animations) == ITEM_ANIMATION? "Item Anim." : "Person Anim.") : "No"]</b></a><br>
 	<b>Show Credits <span title='&#39;No Reruns&#39; will roll credits only if an admin customized something about this round&#39;s credits, or if a rare and exclusive episode name was selected thanks to something uncommon happening that round.'>(?):</span><b>
@@ -155,7 +155,7 @@
 	<b>Server Shutdown Jingle <span title='These jingles will only play if credits don&#39;t roll for you that round. &#39;Classics&#39; will only play &#39;APC Destroyed&#39; and &#39;Banging Donk&#39;, &#39;All&#39; will play the previous plus retro videogame sounds.'>(?):</span><b>
 	<a href='?_src_=prefs;preference=jingle;task=input'><b>[get_pref(/datum/preference_setting/enum/jingle)]</b></a><br>
 	<b>Credits/Jingle Volume:</b>
-	<a href='?_src_=prefs;preference=credits_volume;task=input'><b>[get_pref(/datum/preference_setting/numerical/credit_volume)]</b></a><br>
+	<a href='?_src_=prefs;preference=credits_volume;task=input'><b>[get_pref(/datum/preference_setting/numerical/credits_volume)]</b></a><br>
 	<b>Window Flashing</b>
 	<a href='?_src_=prefs;preference=window_flashing;task=input'><b>[get_pref(/datum/preference_setting/toggle/window_flashing) ? "Yes":"No"]</b></a><br>
 	<b>Fancy tgui:</b>
@@ -188,7 +188,7 @@
 			return "Low"
 	return "NEVER"
 
-/datum/preferences/proc/SetChoices(mob/user, limit = 16, list/splitJobs = list("Chief Engineer", "Head of Security"), widthPerColumn = 295, height = 620)
+/datum/preferences/proc/SetJobsChoice(mob/user, limit = 16, list/splitJobs = list("Chief Engineer", "Head of Security"), widthPerColumn = 295, height = 620)
 	if(!job_master)
 		return
 
@@ -225,7 +225,7 @@
 	HTML += {"<center>
 		<b>Choose occupation chances</b><br>
 		<div align='center'>Left-click to raise an occupation preference, right-click to lower it.<br><div>
-		<a href='?_src_=prefs;preference=job;task=close'>Done</a></center><br>
+		<a href='?_src_=prefs;preference=jobs;task=close'>Done</a></center><br>
 		<table width='100%' cellpadding='1' cellspacing='0'><tr><td width='20%'>
 		<table width='100%' cellpadding='1' cellspacing='0'>"}
 
@@ -260,12 +260,12 @@
 			continue
 		if((rank in command_positions) || (rank == "AI"))//Bold head jobs
 			if(job.alt_titles)
-				HTML += "<b><span class='dark'><a href=\"byond://?src=\ref[user];preference=job;task=alt_title;job=\ref[job]\">[GetPlayerAltTitle(job)]</a></span></b>"
+				HTML += "<b><span class='dark'><a href=\"byond://?src=\ref[user];preference=jobs;task=alt_title;job=\ref[job]\">[GetPlayerAltTitle(job)]</a></span></b>"
 			else
 				HTML += "<b><span class='dark'>[rank]</span></b>"
 		else
 			if(job.alt_titles)
-				HTML += "<span class='dark'><a href=\"byond://?src=\ref[user];preference=job;task=alt_title;job=\ref[job]\">[GetPlayerAltTitle(job)]</a></span>"
+				HTML += "<span class='dark'><a href=\"byond://?src=\ref[user];preference=jobs;task=alt_title;job=\ref[job]\">[GetPlayerAltTitle(job)]</a></span>"
 			else
 				HTML += "<span class='dark'>[rank]</span>"
 
@@ -307,16 +307,16 @@
 	var/alternate_option = get_pref(/datum/preference_setting/enum/alternate_option)
 	switch(alternate_option)
 		if(GET_EMPTY_JOB)
-			HTML += "<center><br><a href='?_src_=prefs;preference=job;task=random'>Get unique job</a></center><br>"
+			HTML += "<center><br><a href='?_src_=prefs;preference=jobs;task=random'>Get unique job</a></center><br>"
 		if(GET_RANDOM_JOB)
-			HTML += "<center><br><a href='?_src_=prefs;preference=job;task=random'>Get random job if preferences unavailable</a></center><br>"
+			HTML += "<center><br><a href='?_src_=prefs;preference=jobs;task=random'>Get random job if preferences unavailable</a></center><br>"
 		if(BE_ASSISTANT)
-			HTML += "<center><br><a href='?_src_=prefs;preference=job;task=random'>Be assistant if preference unavailable</a></center><br>"
+			HTML += "<center><br><a href='?_src_=prefs;preference=jobs;task=random'>Be assistant if preference unavailable</a></center><br>"
 		if(RETURN_TO_LOBBY)
-			HTML += "<center><br><a href='?_src_=prefs;preference=job;task=random'>Return to lobby if preference unavailable</a></center><br>"
+			HTML += "<center><br><a href='?_src_=prefs;preference=jobs;task=random'>Return to lobby if preference unavailable</a></center><br>"
 
 
-	HTML += {"<center><a href='?_src_=prefs;preference=job;task=reset'>Reset</a></center>
+	HTML += {"<center><a href='?_src_=prefs;preference=jobs;task=reset'>Reset</a></center>
 		</tt>"}
 	user << browse(null, "window=preferences")
 	//user << browse(HTML, "window=mob_occupation;size=[width]x[height]")
@@ -339,9 +339,9 @@
 
 		dat += {"<center>
 			Slot <b>[slot_name]</b> -
-			<a href=\"byond://?src=\ref[user];action=open_load_dialog\">Load slot</a> -
-			<a href=\"byond://?src=\ref[user];action=save\">Save slot</a> -
-			<a href=\"byond://?src=\ref[user];action=reload\">Reload slot</a>
+			<a href=\"byond://?_src_=prefs;action=open_load_dialog\">Load slot</a> -
+			<a href=\"byond://?_src_=prefs;action=save\">Save slot</a> -
+			<a href=\"byond://?_src_=prefs;action=reload\">Reload slot</a>
 			</center><hr>"}
 	else
 		dat += "Please create an account to save your preferences."
@@ -367,14 +367,14 @@
 	dat += "<div style='float:none;'><br><hr><center>"
 
 	if(!IsGuestKey(user.key))
-		dat += {"<a href='?_src_=prefs;preference=load'>Undo</a> |
-			<a href='?_src_=prefs;preference=save'>Save Setup</a> | "}
+		dat += {"<a href='?_src_=prefs;action=load'>Undo</a> |
+			<a href='?_src_=prefs;action=save'>Save Setup</a> | "}
 
-	dat += {"<a href='?_src_=prefs;preference=reset_all'>Reset Setup</a>
+	dat += {"<a href='?_src_=prefs;action=reset_all'>Reset Setup</a>
 		</center></div></body></html>"}
 
 	//user << browse(HTML_SKELETON(dat), "window=preferences;size=560x580")
-	var/datum/browser/popup = new(user, "preferences", "<div align='center'>Character Setup</div>", 680, 640)
+	var/datum/browser/popup = new(user, "preferences", "<div align='center'>Character Setup</div>", 680, 680)
 	popup.set_content(dat)
 	popup.open(0)
 
@@ -454,7 +454,7 @@
 /datum/preferences/proc/open_load_dialog(mob/user)
 	var/database/query/q = new
 	var/list/name_list[MAX_SAVE_SLOTS]
-
+	message_admins("open load dialog for [user]")
 	q.Add("select real_name, player_slot from players where player_ckey=?", user.ckey)
 	if(q.Execute(db))
 		while(q.NextRow())
