@@ -411,6 +411,7 @@ var/const/MAX_SAVE_SLOTS = 16
 				load_save_sqlite(user.ckey, user, num)
 				default_slot = num
 				close_load_dialog(user)
+				ShowChoices(user)
 
 			if("tab")
 				if(href_list["tab"])

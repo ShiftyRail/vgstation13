@@ -86,7 +86,7 @@ LOG_RC
 ##LOG_ADMINWARN  ## Also duplicates a bunch of other messages.
 
 ## log world.log and runtime errors to a file
-# LOG_RUNTIMES
+LOG_RUNTIMES
 
 ## log sql status messages.
 # LOG_SQL

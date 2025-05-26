@@ -2,55 +2,126 @@
 /datum/preferences/proc/setup_character_options(var/dat, var/user)
 
 	var/race_skin_tone_desc = skintone2racedescription(get_pref(/datum/preference_setting/numerical/s_tone), get_pref(/datum/preference_setting/string/species))
+	dat += {"<center>
+    <h2>Occupation Choices</h2>
+    <a href='?_src_=prefs;preference=jobs;task=menu'>Set Occupation Preferences</a><br>
+	</center>
 
-	dat += {"<center><h2>Occupation Choices</h2>
-	<a href='?_src_=prefs;preference=jobs;task=menu'>Set Occupation Preferences</a><br></center>
 	<h2>Identity</h2>
 	<table width='100%'><tr><td width='75%' valign='top'>
-	<a href='?_src_=prefs;preference=real_name;task=random'>Random Name</a>
-	<a href='?_src_=prefs;preference=random_name;task=input'>Always Random Name: [get_pref(/datum/preference_setting/toggle/be_random_name) ? "Yes" : "No"]</a><br>
-	<b>Name:</b> <a href='?_src_=prefs;preference=real_name;task=input'>[get_pref(/datum/preference_setting/string/real_name)]</a><BR>
-	<b>Gender:</b> <a href='?_src_=prefs;preference=gender;task=input'>[get_pref(/datum/preference_setting/enum/gender) == MALE ? "Male" : "Female"]</a><BR>
-	<b>Age:</b> <a href='?_src_=prefs;preference=age;task=input'>[get_pref(/datum/preference_setting/numerical/age)]</a>
+		<a href='?_src_=prefs;preference=real_name;task=random'>Random Name</a>
+		<a href='?_src_=prefs;preference=random_name;task=input'>Always Random Name: [get_pref(/datum/preference_setting/toggle/be_random_name) ? "Yes" : "No"]</a><br>
+		<b>Name:</b> <a href='?_src_=prefs;preference=real_name;task=input'>[get_pref(/datum/preference_setting/string/real_name)]</a><BR>
+		<b>Gender:</b> <a href='?_src_=prefs;preference=gender;task=input'>[get_pref(/datum/preference_setting/enum/gender) == MALE ? "Male" : "Female"]</a><BR>
+		<b>Age:</b> <a href='?_src_=prefs;preference=age;task=input'>[get_pref(/datum/preference_setting/numerical/age)]</a>
 	</td><td valign='center'>
-	<div class='statusDisplay'style="height: 64px; width: 128px; padding:0px"><center><img src=previewicon.png class="charPreview"><img src=previewicon2.png class="charPreview"></center></div>
-	<b>Background </b><a href='?_src_=prefs;preference=previous_preview_background;task=input'>&lt;</a> <a href='?_src_=prefs;preference=next_preview_background;task=input'>&gt;</a><BR>
+		<div class='statusDisplay'style="height: 64px; width: 128px; padding:0px"><center><img src=previewicon.png class="charPreview"><img src=previewicon2.png class="charPreview"></center></div>
+		<b>Background </b><a href='?_src_=prefs;preference=previous_preview_background;task=input'>&lt;</a> <a href='?_src_=prefs;preference=next_preview_background;task=input'>&gt;</a><BR>
 	</td></tr></table>
+
 	<h2>Body</h2>
-	<a href='?_src_=prefs;preference=all;task=random_body'>Random Body</A>
-	<a href='?_src_=prefs;preference=random_boyd;task=input'>Always Random Body: [get_pref(/datum/preference_setting/toggle/be_random_body) ? "Yes" : "No"]</A><br>
-	<table width='100%'><tr><td width='54%' valign='top'>
-	<b>Species:</b> <a href='?_src_=prefs;preference=species;task=input'>[get_pref(/datum/preference_setting/string/species)]</a><BR>
-	<b>Tertiary Language:</b> <a href='byond://?src=\ref[user];preference=language;task=input'>[get_pref(/datum/preference_setting/string/language)]</a><br>
-	<b>Skin Tone:</b> <a href='?_src_=prefs;preference=skin_tone;task=input'>[get_pref(/datum/preference_setting/string/species) == "Human" ? "[-get_pref(/datum/preference_setting/numerical/s_tone) + 35]/220" : "[get_pref(/datum/preference_setting/numerical/s_tone)]"] - [race_skin_tone_desc]</a><br><BR>
-	<b>Handicaps:</b> <a href='byond://?src=\ref[user];task=input;preference=disabilities'>Set</a><br>
-	<b>Limbs:</b> <a href='byond://?_src_=prefs;subsection=limbs;task=menu'>Set</a><br>
-	<b>Organs:</b> <a href='byond://?_src_=prefs;subsection=organs;task=menu'>Set</a><br>
-	<b>Underwear:</b> [get_pref(/datum/preference_setting/enum/gender) == MALE ? "<a href ='?_src_=prefs;preference=underwear;task=input'>[underwear_m[get_pref(/datum/preference_setting/numerical/underwear)]]</a>" : "<a href ='?_src_=prefs;preference=underwear;task=input'>[underwear_f[get_pref(/datum/preference_setting/numerical/underwear)]]</a>"]<br>
-	<b>Backpack:</b> <a href ='?_src_=prefs;preference=backbag;task=input'>[backbaglist[get_pref(/datum/preference_setting/numerical/backbag)]]</a><br>
-	<b>Nanotrasen Relation</b>:<br><a href ='?_src_=prefs;preference=nanotrasen_relation;task=input'>[get_pref(/datum/preference_setting/enum/string/nanotrasen_relation)]</a><br>
-	<b>Flavor Text:</b><a href='byond://?src=\ref[user];preference=flavor_text;task=input'>Set</a><br>
+	<a href='?_src_=prefs;preference=all;task=random_body'>Random Body</a>
+	<a href='?_src_=prefs;preference=random_boyd;task=input'>
+		Always Random Body: [get_pref(/datum/preference_setting/toggle/be_random_body) ? "Yes" : "No"]
+	</a><br>
+
+	<table width='100%'>
+		<tr>
+		<td width='37%' valign='top'>
+			<br/>
+			<b>Species:</b>
+			<a href='?_src_=prefs;preference=species;task=input'>
+			[get_pref(/datum/preference_setting/string/species)]
+			</a><br>
+
+			<b>Tertiary Language:</b>
+			<a href='byond://?src=\ref[user];preference=language;task=input'>
+			[get_pref(/datum/preference_setting/string/language)]
+			</a><br>
+
+			<b>Skin Tone:</b>
+			<a href='?_src_=prefs;preference=skin_tone;task=input'>
+			[get_pref(/datum/preference_setting/string/species) == "Human" ? "[-get_pref(/datum/preference_setting/numerical/s_tone) + 35]/220" : "[get_pref(/datum/preference_setting/numerical/s_tone)]"] - [race_skin_tone_desc]
+			</a><br><br>
+		</td>
+
+		<td valign='top' width='21%'>
+			<center>
+			<h3>Hair Style</h3>
+			<a href='?_src_=prefs;preference=hair_style_name;task=input'>
+				[get_pref(/datum/preference_setting/string/h_style)]
+			</a><br>
+			<a href='?_src_=prefs;preference=hair_style_name;task=previous_hair_style'>&lt;</a>
+			<a href='?_src_=prefs;preference=hair_style_name;task=next_hair_style'>&gt;</a><br>
+			<span style='border:1px solid #161616; background-color: #[num2hex(get_pref(/datum/preference_setting/numerical/r_hair), 2)][num2hex(get_pref(/datum/preference_setting/numerical/g_hair), 2)][num2hex(get_pref(/datum/preference_setting/numerical/b_hair), 2)];'>&nbsp;&nbsp;&nbsp;</span>
+			<a href='?_src_=prefs;preference=hair_style_name;task=input_hair_color'>Change</a><br>
+			</center>
+		</td>
+
+		<td valign='top' width='21%'>
+			<h3>Facial Hair Style</h3>
+			<center>
+			<a href='?_src_=prefs;preference=facial_style_name;task=input'>
+				[get_pref(/datum/preference_setting/string/f_style)]
+			</a><br>
+			<a href='?_src_=prefs;preference=facial_style_name;task=previous_facehair_style'>&lt;</a>
+			<a href='?_src_=prefs;preference=facial_style_name;task=next_facehair_style'>&gt;</a><br>
+			<span style='border: 1px solid #161616; background-color: #[num2hex(get_pref(/datum/preference_setting/numerical/r_facial), 2)][num2hex(get_pref(/datum/preference_setting/numerical/g_facial), 2)][num2hex(get_pref(/datum/preference_setting/numerical/b_facial), 2)];'>&nbsp;&nbsp;&nbsp;</span>
+			<a href='?_src_=prefs;preference=facial_style_name;task=input_facial_hair_color'>Change</a><br>
+			</center>
+		</td>
+
+		<td valign='top' width='21%'>
+			<h3>Eye Color</h3>
+			<center>
+			<span style='border: 1px solid #161616; background-color: #[num2hex(get_pref(/datum/preference_setting/numerical/r_eyes), 2)][num2hex(get_pref(/datum/preference_setting/numerical/g_eyes), 2)][num2hex(get_pref(/datum/preference_setting/numerical/b_eyes), 2)];'>&nbsp;&nbsp;&nbsp;</span>
+			<a href='?_src_=prefs;preference=eyes_red;task=input'>Change</a><br>
+			</center>
+		</td>
+		</tr>
+	</table>
+
+	<b>Handicaps:</b>
+	<a href='?src=\ref[user];task=input;preference=disabilities'>Set</a><br>
+
+	<b>Limbs:</b>
+	<a href='?_src_=prefs;subsection=limbs;task=menu'>Set</a><br>
+
+	<b>Organs:</b>
+	<a href='?_src_=prefs;subsection=organs;task=menu'>Set</a><br>
+
+	<b>Underwear:</b>
+	<a href ='?_src_=prefs;preference=underwear;task=input'>[get_pref(/datum/preference_setting/enum/gender) == MALE ? "[underwear_m[get_pref(/datum/preference_setting/numerical/underwear)]]" : "[underwear_f[get_pref(/datum/preference_setting/numerical/underwear)]]"]
+	</a>
+	<br>
+
+	<b>Backpack:</b>
+	<a href='?_src_=prefs;preference=backbag;task=input'>
+	[backbaglist[get_pref(/datum/preference_setting/numerical/backbag)]]
+	</a><br>
+
+	<b>Nanotrasen Relation:</b>
+	<a href='?_src_=prefs;preference=nanotrasen_relation;task=input'>
+	[get_pref(/datum/preference_setting/enum/string/nanotrasen_relation)]
+	</a><br>
+
+	<b>Flavor Text:</b>
+	<a href='?src=\ref[user];preference=flavor_text;task=input'>Set</a><br>
+
 	<b>Character records:</b>
-	[jobban_isbanned(user, "Records") ? "Banned" : "<a href=\"byond://?src=\ref[user];preference=records;record=1\">Set</a>"]<br>
-	<b>Bank account security preference:</b><a href ='?_src_=prefs;preference=bank_security;task=input'>[bank_security_num2text(get_pref(/datum/preference_setting/enum/bank_security))]</a> <br>
-	<b>Percent of wages sent to ID virtual wallet:</b><a href ='?_src_=prefs;preference=wage_ratio;task=input'>[get_pref(/datum/preference_setting/numerical/wage_ratio)]</a> <br>
-	</td><td valign='top' width='21%'> <center>
-	<h3>Hair Style</h3>
-	<a href='?_src_=prefs;preference=hair_style_name;task=input'>[get_pref(/datum/preference_setting/string/h_style)]</a><BR>
-	<a href='?_src_=prefs;preference=hair_style_name;task=previous_hair_style'>&lt;</a> <a href='?_src_=prefs;preference=hair_style_name;task=next_hair_style'>&gt;</a><BR>
-	<span style='border:1px solid #161616; background-color: #[num2hex(get_pref(/datum/preference_setting/numerical/r_hair), 2)][num2hex(get_pref(/datum/preference_setting/numerical/g_hair), 2)][num2hex(get_pref(/datum/preference_setting/numerical/b_hair), 2)];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=hair_style_name;task=input_hair_color'>Change</a><BR>
-	</center> </td><td valign='top' width='21%'>
-	<h3>Facial Hair Style</h3>
-	<center>
-	<a href='?_src_=prefs;preference=facial_style_name;task=input'>[get_pref(/datum/preference_setting/string/f_style)]</a><BR>
-	<a href='?_src_=prefs;preference=facial_style_name;task=previous_facehair_style'>&lt;</a> <a href='?_src_=prefs;preference=facial_style_name;task=next_facehair_style'>&gt;</a><BR>
-	<span style='border: 1px solid #161616; background-color: #[num2hex(get_pref(/datum/preference_setting/numerical/r_facial), 2)][num2hex(get_pref(/datum/preference_setting/numerical/g_facial), 2)][num2hex(get_pref(/datum/preference_setting/numerical/b_facial), 2)];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=facial_style_name;task=input_facial_hair_color'>Change</a><BR>
-	</td><td valign='top' width='21%'>
-	</center>
-	<h3>Eye Color</h3><center>
-	<span style='border: 1px solid #161616; background-color: #[num2hex(get_pref(/datum/preference_setting/numerical/r_eyes), 2)][num2hex(get_pref(/datum/preference_setting/numerical/g_eyes), 2)][num2hex(get_pref(/datum/preference_setting/numerical/b_eyes), 2)];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=eyes_red;task=input'>Change</a><BR>
-	</tr></td></center></table>
+	[jobban_isbanned(user, "Records") ? "Banned" : "<a href='?src=\ref[user];preference=records;record=1'>Set</a>"]<br>
+
+	<b>Bank account security preference:</b>
+	<a href='?_src_=prefs;preference=bank_security;task=input'>
+	[bank_security_num2text(get_pref(/datum/preference_setting/enum/bank_security))]
+	</a><br>
+
+	<b>Percent of wages sent to ID virtual wallet:</b>
+	<a href='?_src_=prefs;preference=wage_ratio;task=input'>
+	[get_pref(/datum/preference_setting/numerical/wage_ratio)]
+	</a><br>
 	"}
+
 
 	return dat
 
@@ -377,7 +448,7 @@
 		</center></div></body></html>"}
 
 	//user << browse(HTML_SKELETON(dat), "window=preferences;size=560x580")
-	var/datum/browser/popup = new(user, "preferences", "<div align='center'>Character Setup</div>", 680, 680)
+	var/datum/browser/popup = new(user, "preferences", "<div align='center'>Character Setup</div>", 680, 720)
 	popup.set_content(dat)
 	popup.open(0)
 
@@ -470,12 +541,12 @@
 	var/counter = 1
 	while(counter <= MAX_SAVE_SLOTS)
 		if(counter==default_slot)
-			dat += "<a href='?_src_=prefs;preference=action;num=[counter];'><b>[name_list[counter]]</b></a><br>"
+			dat += "<a href='?_src_=prefs;action=changeslot;num=[counter];'><b>[name_list[counter]]</b></a><br>"
 		else
 			if(!name_list[counter])
-				dat += "<a href='?_src_=prefs;preference=action;num=[counter];'>Character[counter]</a><br>"
+				dat += "<a href='?_src_=prefs;action=changeslot;num=[counter];'>Character[counter]</a><br>"
 			else
-				dat += "<a href='?_src_=prefs;preference=action;num=[counter];'>[name_list[counter]]</a><br>"
+				dat += "<a href='?_src_=prefs;action=changeslot;num=[counter];'>[name_list[counter]]</a><br>"
 		counter++
 
 	dat += "</center>"

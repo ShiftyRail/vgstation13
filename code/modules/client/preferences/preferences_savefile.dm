@@ -404,7 +404,7 @@
 	// This MEANS that the order of the param list is pretty important!
 	for (var/setting in preference_settings_character)
 		var/datum/preference_setting/the_setting = preference_settings_client[setting]
-		if (the_setting.sql_table != "players")
+		if (the_setting.sql_table != "client")
 			continue
 		sql_text += ",[the_setting.sql_name]"
 		sql_text_end += ",?"
