@@ -46,7 +46,7 @@
 /datum/preference_setting/proc/load_sql(var/sql_value)
 	return sql_value
 
-/datum/preference_setting/proc/save_sql(var/setting)
+/datum/preference_setting/proc/save_sql()
 	return setting
 
 // Handles the href changes (including things like input(), randomisation, etc)
@@ -54,14 +54,14 @@
 /datum/preference_setting/proc/process_link(var/task, var/mob/user, var/list/href_list) // href_list is for extra data.
 	switch (task)
 		if ("random")
-			randomise()
+			randomise(user)
 			return TRUE
 		if ("input")
 			choose_setting(user)
 			return TRUE
 	return FALSE // Need to do something more
 
-/datum/preference_setting/proc/randomise()
+/datum/preference_setting/proc/randomise(var/mob/user)
 
 /datum/preference_setting/proc/choose_setting(var/mob/user)
 
@@ -80,7 +80,7 @@
 	else
 		return sql_value
 
-/datum/preference_setting/toggle/save_sql(var/setting)
+/datum/preference_setting/toggle/save_sql()
 	if (saved_as_string)
 		return num2text(setting)
 	else
@@ -104,7 +104,7 @@
 	else
 		return sql_value
 
-/datum/preference_setting/numerical/save_sql(var/setting)
+/datum/preference_setting/numerical/save_sql()
 	if (saved_as_string)
 		return num2text(setting)
 	else
@@ -132,7 +132,7 @@
 	else
 		return sql_value
 
-/datum/preference_setting/float/save_sql(var/setting)
+/datum/preference_setting/float/save_sql()
 	if (saved_as_string)
 		return num2text(setting)
 	else
@@ -153,7 +153,7 @@
 	else
 		return sql_value
 
-/datum/preference_setting/binary_flag/save_sql(var/setting)
+/datum/preference_setting/binary_flag/save_sql()
 	if (saved_as_string)
 		return num2text(setting)
 	else
@@ -184,7 +184,7 @@
 	else
 		return sql_value
 
-/datum/preference_setting/enum/save_sql(var/setting)
+/datum/preference_setting/enum/save_sql()
 	if (saved_as_string)
 		return num2text(setting)
 	else

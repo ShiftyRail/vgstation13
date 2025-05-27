@@ -6,6 +6,8 @@
 	var/datum/preference_setting/gender_pref = get_pref_datum(/datum/preference_setting/enum/gender)
 	if(H)
 		gender_pref.setting = H.gender
+	else
+		gender_pref.setting = pick(MALE, FEMALE)
 
 	var/datum/preference_setting/s_tone = get_pref_datum(/datum/preference_setting/numerical/s_tone)
 	var/datum/preference_setting/h_style = get_pref_datum(/datum/preference_setting/string/h_style)

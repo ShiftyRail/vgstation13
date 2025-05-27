@@ -63,10 +63,11 @@ var/list/preference_settings_character = list(
 /datum/preference_setting/string/real_name/sanitize_setting(var/new_setting)
 	return reject_bad_name(new_setting)
 
-/datum/preference_setting/string/real_name/randomise()
-	var/datum/preference_setting/gender = parent.get_pref_datum(/datum/preference_setting/enum/gender)
-	var/datum/preference_setting/species = parent.get_pref_datum(/datum/preference_setting/string/species)
-	setting = random_name(gender.setting,species.setting)
+/datum/preference_setting/string/real_name/randomise(var/mob/user)
+	var/gender = parent.get_pref(/datum/preference_setting/enum/gender)
+	var/species = parent.get_pref(/datum/preference_setting/string/species)
+	setting = random_name(gender, species)
+	parent.ShowChoices(user)
 	return setting
 
 /datum/preference_setting/string/real_name/choose_setting(var/mob/user)
@@ -683,7 +684,7 @@ var/list/preference_settings_character = list(
 		returned_list[job] = title // we assign the alt_titles here to specific job titles and hope everything works.
 	return returned_list
 
-/datum/preference_setting/list_values/player_alt_titles/save_sql(var/setting)
+/datum/preference_setting/list_values/player_alt_titles/save_sql()
 	var/return_string
 
 	// From Nexis, circa 2017
@@ -798,7 +799,7 @@ var/list/preference_settings_character = list(
 	default_setting = list()
 	allowed_values_for_list_items = list(JOB_PREF_NEVER, JOB_PREF_LOW, JOB_PREF_MED, JOB_PREF_HIGH)
 
-/datum/preference_setting/assoc_list_setting/jobs/save_sql(var/setting)
+/datum/preference_setting/assoc_list_setting/jobs/save_sql()
 	return json_encode(setting)
 
 /datum/preference_setting/assoc_list_setting/jobs/load_sql(var/sql_value)

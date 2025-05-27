@@ -206,7 +206,7 @@ var/const/MAX_SAVE_SLOTS = 16
 
 /datum/preferences/proc/try_load_save_sqlite(var/theckey, var/theclient, var/theslot)
 	var/attempts = 0
-	while(!load_save_sqlite(theckey, theclient, theslot) && attempts < 5)
+	while(!load_character_sqlite(theckey, theclient, theslot) && attempts < 5)
 		sleep(15)
 		attempts++
 	if(attempts >= 5)//failsafe so people don't get locked out of the round forever
@@ -395,7 +395,7 @@ var/const/MAX_SAVE_SLOTS = 16
 
 			if("reload")
 				load_preferences_sqlite(user.ckey)
-				load_save_sqlite(user.ckey, user, default_slot)
+				load_character_sqlite(user.ckey, user, default_slot)
 
 			if("open_load_dialog")
 				if(!IsGuestKey(user.key))
@@ -407,9 +407,11 @@ var/const/MAX_SAVE_SLOTS = 16
 				close_load_dialog(user)
 
 			if("changeslot")
+				message_admins("changeslot")
 				var/num = text2num(href_list["num"])
-				load_save_sqlite(user.ckey, user, num)
+				try_load_slot(user.ckey, user, num)
 				default_slot = num
+				slot = num
 				close_load_dialog(user)
 				ShowChoices(user)
 
@@ -542,7 +544,7 @@ var/const/MAX_SAVE_SLOTS = 16
 			ShowChoices(user)
 			return 1
 
-/datum/preferences/proc/get_pref_datum(var/datum/preference_setting/type)
+/datum/preferences/proc/get_pref_datum(var/datum/preference_setting/type) as /datum/preference_setting
 	if (type in preference_settings_client)
 		var/datum/preference_setting/the_setting = preference_settings_client[type]
 		if (!the_setting)

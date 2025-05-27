@@ -125,7 +125,7 @@
 	returned_list[1] = "[sql_text][sql_text_end]"
 	return returned_list
 
-/datum/preferences/proc/load_save_sqlite(var/ckey, var/user, var/slot)
+/datum/preferences/proc/load_character_sqlite(var/ckey, var/user, var/slot)
 	var/list/preference_list = new
 	var/database/query/q     = new
 	var/database/query/check = new
@@ -241,12 +241,12 @@
 		WARNING("Error in random_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
 		return 0
 	var/random_slot = pick(slot_list)
-	load_save_sqlite(ckey, user, random_slot)
+	save_character_sqlite(ckey, user, random_slot)
 	return 1
 
-/datum/preferences/proc/save_character_sqlite(var/ckey, var/user, var/slot)
+/datum/preferences/proc/save_character_sqlite(var/ckey, var/user, var/slot_chosen)
 	if(slot > MAX_SAVE_SLOTS)
-		to_chat(user, "You are limited to 8 character slots.")
+		to_chat(user, "You are limited to [MAX_SAVE_SLOTS] character slots.")
 		message_admins("[ckey] attempted to override character slot limit")
 		return 0
 
@@ -256,117 +256,83 @@
 	var/database/query/check = new
 
 	// General player
-	check.Add("SELECT player_ckey FROM players WHERE player_ckey = ? AND player_slot = ?", ckey, slot)
+	check.Add("SELECT player_ckey FROM players WHERE player_ckey = ? AND player_slot = ?", ckey, slot_chosen)
 	if(check.Execute(db))
 		if(!check.NextRow())
-			var/list/sql_arguments_new_character = new_db_entry_query_character_args(ckey, slot)
-			q.Add(arglist(sql_arguments_new_character))
-			if (!q.Execute(db))
-				message_admins("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
-				WARNING("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
-				return 0
-			to_chat(user, "Created Character")
+			message_admins("Trying to save a character slot but there's no slot!e [slot_chosen]")
+			CRASH("Trying to save a character slot but there's no slot")
 		else
-			var/list/sql_arguments_update_character = update_db_entry_query_character_args(ckey, slot)
+			var/list/sql_arguments_update_character = update_db_entry_query_character_args(ckey, slot_chosen)
 			q.Add(arglist(sql_arguments_update_character))
 			if(!q.Execute(db))
-				message_admins("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()] sql=[sql_arguments_update_character[1]]")
-				WARNING("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+				message_admins("Error in update_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()] sql=[sql_arguments_update_character[1]]")
+				WARNING("Error in update_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
 				return 0
 			to_chat(user, "Updated Character")
 	else
-		message_admins("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[check.Error()] - [check.ErrorMsg()]")
-		WARNING("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+		message_admins("Error at character creation/update: [__FILE__] ln:[__LINE__] #:[check.Error()] - [check.ErrorMsg()]")
+		WARNING("Error at character creation/update: [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
 		return 0
 
-	check.Add("SELECT player_ckey FROM body WHERE player_ckey = ? AND player_slot = ?", ckey, slot)
+	check.Add("SELECT player_ckey FROM body WHERE player_ckey = ? AND player_slot = ?", ckey, slot_chosen)
 	if(check.Execute(db))
 		if(!check.NextRow())
-			var/list/sql_arguments_new_body = new_db_entry_query_body_args(ckey, slot)
-			q.Add(arglist(sql_arguments_new_body))
-			if(!q.Execute(db))
-				message_admins("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
-				WARNING("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
-				return 0
-			to_chat(user, "Created Body")
+			CRASH("Trying to save a character slot but there's no slot")
 		else
-			var/list/sql_arguments_update_body = update_db_entry_query_body_args(ckey, slot)
+			var/list/sql_arguments_update_body = update_db_entry_query_body_args(ckey, slot_chosen)
 			q.Add(arglist(sql_arguments_update_body))
 			if(!q.Execute(db))
-				message_admins("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
-				WARNING("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+				message_admins("Error in update_body_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+				WARNING("Error in update_body_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
 				return 0
 			message_admins(json_encode(sql_arguments_update_body))
 			to_chat(user, "Updated Body")
 	else
-		message_admins("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #: [check.Error()] - [check.ErrorMsg()]")
-		WARNING("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+		message_admins("Error at body selection from ckey: [__FILE__] ln:[__LINE__] #: [check.Error()] - [check.ErrorMsg()]")
+		WARNING("Error at body selection from ckey: [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
 		return 0
 
 	// Jobs are left hardcoded for now since they not likely to be fundamentally changed
 	// However the same proc logic could apply here if we had some job-per-character specific sett
 	var/list/jobs = get_pref(/datum/preference_setting/assoc_list_setting/jobs)
 	var/alternate_option = get_pref(/datum/preference_setting/enum/alternate_option)
-	check.Add("SELECT player_ckey FROM jobs WHERE player_ckey = ? AND player_slot = ?", ckey, slot)
+	check.Add("SELECT player_ckey FROM jobs WHERE player_ckey = ? AND player_slot = ?", ckey, slot_chosen)
 	if(check.Execute(db))
 		if(!check.NextRow())
-		    //                       1           2           3                4
-			q.Add("INSERT INTO jobs (player_ckey,player_slot,alternate_option,jobs) \
-					         VALUES (?,          ?,          ?,               ?)", \
-							        ckey,        slot,       alternate_option,json_encode(jobs))
-			if(!q.Execute(db))
-				message_admins("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #: [q.Error()] - [q.ErrorMsg()]")
-				WARNING("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
-				return 0
-			to_chat(user, "Created Job list")
+			CRASH("Trying to save a character slot but there's no slot")
 		else
 		    //                     1                  2
 			q.Add("UPDATE jobs SET alternate_option=?,jobs=? WHERE player_ckey = ? AND player_slot = ?",\
-								   alternate_option,  json_encode(jobs),        ckey,               slot)
+								   alternate_option,  json_encode(jobs),        ckey,               slot_chosen)
 			if(!q.Execute(db))
-				message_admins("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #: [q.Error()] - [q.ErrorMsg()]")
-				WARNING("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+				message_admins("Error in update_jobs_sqlite [__FILE__] ln:[__LINE__] #: [q.Error()] - [q.ErrorMsg()]")
+				WARNING("Error in update_jobs_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
 				return 0
 			to_chat(user, "Updated Job List")
 	else
-		message_admins("Error in save_character_sqlite ln [__LINE__] #: [check.Error()] - [check.ErrorMsg()]")
-		WARNING("Error in save_character_sqlite ln [__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+		message_admins("Error at jobs selection sqlite ln [__LINE__] #: [check.Error()] - [check.ErrorMsg()]")
+		WARNING("Error  at jobs selection sqlite ln [__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
 		return 0
 
 	// Limbs
-	check.Add("SELECT player_ckey FROM limbs WHERE player_ckey = ? AND player_slot = ?", ckey, slot)
+	check.Add("SELECT player_ckey FROM limbs WHERE player_ckey = ? AND player_slot = ?", ckey, slot_chosen)
 	if(check.Execute(db))
 		if(!check.NextRow())
-			q.Add("INSERT INTO limbs (player_ckey, player_slot) VALUES (?,?)", ckey, slot)
-			if(!q.Execute(db))
-				message_admins("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #: [q.Error()] - [q.ErrorMsg()]")
-				WARNING("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
-				return 0
-			for(var/setting in preference_settings_character)
-				var/datum/preference_setting/the_setting = preference_settings_character[setting]
-				if (the_setting.sql_table != "limbs")
-					continue
-				q.Add("UPDATE limbs SET [the_setting.sql_name]=? WHERE player_ckey = ? AND player_slot = ?", the_setting.setting, ckey, slot)
-				if(!q.Execute(db))
-					message_admins("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #; [q.Error()] - [q.ErrorMsg()]")
-					WARNING("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
-					return 0
-				organ_data[the_setting.sql_name] = the_setting.setting
-			to_chat(user, "Created Limbs")
+			CRASH("Trying to save a character slot but there's no slot")
 		else
 			for(var/setting in preference_settings_character)
 				var/datum/preference_setting/the_setting = preference_settings_character[setting]
 				if (the_setting.sql_table != "limbs")
 					continue
-				q.Add("UPDATE limbs SET [the_setting.sql_name] = ? WHERE player_ckey = ? AND player_slot = ?", the_setting.setting, ckey, slot)
+				q.Add("UPDATE limbs SET [the_setting.sql_name] = ? WHERE player_ckey = ? AND player_slot = ?", the_setting.setting, ckey, slot_chosen)
 				if(!q.Execute(db))
-					message_admins("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #: [q.Error()] - [q.ErrorMsg()]")
-					WARNING("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+					message_admins("Error in update limbs sqlite  [__FILE__] ln:[__LINE__] #: [q.Error()] - [q.ErrorMsg()]")
+					WARNING("Error in update limbs sqlite  [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
 					return 0
 			to_chat(user, "Updated Limbs")
 	else
-		message_admins("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #: [check.Error()] - [check.ErrorMsg()]")
-		WARNING("Error in save_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+		message_admins("Error at limbs selection from ckey sqlite [__FILE__] ln:[__LINE__] #: [check.Error()] - [check.ErrorMsg()]")
+		WARNING("Error at savelimbs selection from ckey sqlite character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
 		return 0
 
 	for(var/role_id in roles)
@@ -383,6 +349,136 @@
 	to_chat(user, "Successfully saved [get_pref(/datum/preference_setting/string/real_name)]")
 
 	return 1
+
+
+/datum/preferences/proc/create_character_sqlite(var/ckey, var/user, var/slot_chosen)
+	if(slot > MAX_SAVE_SLOTS)
+		to_chat(user, "You are limited to [MAX_SAVE_SLOTS] character slots.")
+		message_admins("[ckey] attempted to override character slot limit")
+		return 0
+
+	var/database/query/q = new
+
+	// This checks if the DB is still connected to us.
+	var/database/query/check = new
+
+	// General player
+	check.Add("SELECT player_ckey FROM players WHERE player_ckey = ? AND player_slot = ?", ckey, slot_chosen)
+	if(check.Execute(db))
+		if(check.NextRow())
+			message_admins("creating a character where there is already a slot! [slot_chosen]")
+			CRASH("creating a character where there is already a slot! [slot_chosen]")
+		var/list/sql_arguments_new_character = new_db_entry_query_character_args(ckey, slot_chosen)
+		q.Add(arglist(sql_arguments_new_character))
+		if (!q.Execute(db))
+			message_admins("Error in create_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()] - sql:[sql_arguments_new_character[1]]")
+			WARNING("Error in create_character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+			return 0
+		to_chat(user, "Created Character")
+	else
+		message_admins("Error at character creation: [__FILE__] ln:[__LINE__] #:[check.Error()] - [check.ErrorMsg()]")
+		WARNING("Error at character creation: [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+		return 0
+
+	check.Add("SELECT player_ckey FROM body WHERE player_ckey = ? AND player_slot = ?", ckey, slot_chosen)
+	if(check.Execute(db))
+		if(check.NextRow())
+			CRASH("creating a body where there is already a slot!")
+		var/list/sql_arguments_new_body = new_db_entry_query_body_args(ckey, slot_chosen)
+		q.Add(arglist(sql_arguments_new_body))
+		if(!q.Execute(db))
+			message_admins("Error in create_body_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+			WARNING("Error in create_body_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+			return 0
+		to_chat(user, "Created Body")
+	else
+		message_admins("Error at body selection from ckey: [__FILE__] ln:[__LINE__] #: [check.Error()] - [check.ErrorMsg()]")
+		WARNING("Error at body selection from ckey: [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+		return 0
+
+	// Jobs are left hardcoded for now since they not likely to be fundamentally changed
+	// However the same proc logic could apply here if we had some job-per-character specific sett
+	var/list/jobs = get_pref(/datum/preference_setting/assoc_list_setting/jobs)
+	var/alternate_option = get_pref(/datum/preference_setting/enum/alternate_option)
+	check.Add("SELECT player_ckey FROM jobs WHERE player_ckey = ? AND player_slot = ?", ckey, slot_chosen)
+	if(check.Execute(db))
+		if(check.NextRow())
+			CRASH("creating a body where there is already a slot!")
+		//                       1           2           3                4
+		q.Add("INSERT INTO jobs (player_ckey,player_slot,alternate_option,jobs) \
+							VALUES (?,          ?,          ?,               ?)", \
+							ckey,        slot,       alternate_option,json_encode(jobs))
+		if(!q.Execute(db))
+			message_admins("Error in create_jobs_sqlite [__FILE__] ln:[__LINE__] #: [q.Error()] - [q.ErrorMsg()]")
+			WARNING("Error in create_jobs_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+			return 0
+		to_chat(user, "Created Job list")
+	else
+		message_admins("Error at jobs selection sqlite ln [__LINE__] #: [check.Error()] - [check.ErrorMsg()]")
+		WARNING("Error  at jobs selection sqlite ln [__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+		return 0
+
+	// Limbs
+	check.Add("SELECT player_ckey FROM limbs WHERE player_ckey = ? AND player_slot = ?", ckey, slot_chosen)
+	if(check.Execute(db))
+		if(check.NextRow())
+			CRASH("creating limbs where there is already a slot!")
+		q.Add("INSERT INTO limbs (player_ckey, player_slot) VALUES (?,?)", ckey, slot_chosen)
+		if(!q.Execute(db))
+			message_admins("Error in insert into Limbs sqlite [__FILE__] ln:[__LINE__] #: [q.Error()] - [q.ErrorMsg()]")
+			WARNING("Error in insert into Limbs sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+			return 0
+		for(var/setting in preference_settings_character)
+			var/datum/preference_setting/the_setting = preference_settings_character[setting]
+			if (the_setting.sql_table != "limbs")
+				continue
+			q.Add("UPDATE limbs SET [the_setting.sql_name]=? WHERE player_ckey = ? AND player_slot = ?", the_setting.default_setting, ckey, slot_chosen)
+			if(!q.Execute(db))
+				message_admins("Error in update limbs (creation) sqlite [__FILE__] ln:[__LINE__] #; [q.Error()] - [q.ErrorMsg()]")
+				WARNING("Error in update limbs (creation) sqlite  [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+				return 0
+			organ_data[the_setting.sql_name] = the_setting.setting
+		to_chat(user, "Created Limbs")
+	else
+		message_admins("Error at limbs selection from ckey sqlite [__FILE__] ln:[__LINE__] #: [check.Error()] - [check.ErrorMsg()]")
+		WARNING("Error at savelimbs selection from ckey sqlite character_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+		return 0
+
+	for(var/role_id in roles)
+		if(!(roles[role_id] & ROLEPREF_SAVE))
+			continue
+		q = new
+		q.Add("INSERT OR REPLACE INTO client_roles (ckey, slot, role, preference) VALUES (?,?,?,?)", ckey, slot, role_id, (roles[role_id] & ROLEPREF_VALMASK))
+		//testing("INSERT OR REPLACE INTO client_roles (ckey, slot, role, preference) VALUES ('[ckey]',[slot],'[role_id]',[roles[role_id] & ROLEPREF_VALMASK])")
+		if(!q.Execute(db)) // This never triggers on error, for some reason.
+			message_admins("ClientRoleInsert: Error #: [q.Error()] - [q.ErrorMsg()]")
+			WARNING("ClientRoleInsert: Error #:[q.Error()] - [q.ErrorMsg()]")
+			return 0
+
+	to_chat(user, "Successfully created [get_pref(/datum/preference_setting/string/real_name)]")
+
+	return 1
+
+
+/datum/preferences/proc/try_load_slot(var/ckey, var/user, var/num)
+	var/database/query/check = new
+	message_admins("try_load_slot")
+
+	check.Add("SELECT player_ckey FROM players WHERE player_ckey = ? AND player_slot = ?", ckey, num)
+	if(check.Execute(db))
+		if(!check.NextRow()) // No slot
+			message_admins("no slot creating one")
+			create_character_sqlite(ckey, user, num)
+			randomize_appearance_for()
+		else // Has a slot
+			message_admins("user has a slot at slot [num]")
+			load_character_sqlite(ckey, user, num)
+	else
+		message_admins("load_save_sqlite Check Error #: [check.Error()] - [check.ErrorMsg()]")
+		WARNING("[__LINE__]: datum/preferences/load_save_sqlite has returned")
+
+		return 0
+
 
 // -- DB SQL HELPERS --
 
@@ -403,12 +499,12 @@
 	// This is a prepared queries. All the "?" here are jokers which will be replaced internally by BYOND with the values in the param list
 	// This MEANS that the order of the param list is pretty important!
 	for (var/setting in preference_settings_character)
-		var/datum/preference_setting/the_setting = preference_settings_client[setting]
-		if (the_setting.sql_table != "client")
+		var/datum/preference_setting/the_setting = preference_settings_character[setting]
+		if (the_setting.sql_table != "players")
 			continue
 		sql_text += ",[the_setting.sql_name]"
 		sql_text_end += ",?"
-		returned_list.Add(the_setting.setting)
+		returned_list.Add(the_setting.save_sql(the_setting.default_setting))
 	sql_text_end += ")"
 	returned_list[1] = "[sql_text][sql_text_end]"
 	return returned_list
@@ -433,7 +529,7 @@
 		if (the_setting.sql_table != "players")
 			continue
 		sql_text += "[the_setting.sql_name]=?,"
-		returned_list.Add(the_setting.setting)
+		returned_list.Add(the_setting.save_sql(the_setting.setting))
 	sql_text = copytext(sql_text, 1, length(sql_text)) // Remove the last ,
 	returned_list.Add(ckey) // Second-to-last item is the ckey (second to last joker)
 	returned_list.Add(slot) // Last item is the slot (last joker)
@@ -459,12 +555,12 @@
 	// This is a prepared query. All the "?" here are jokers which will be replaced internally by BYOND with the values in the param list
 	// This MEANS that the order of the param list is pretty important!
 	for (var/setting in preference_settings_character)
-		var/datum/preference_setting/the_setting = preference_settings_client[setting]
+		var/datum/preference_setting/the_setting = preference_settings_character[setting]
 		if (the_setting.sql_table != "body")
 			continue
 		sql_text += ",[the_setting.sql_name]"
 		sql_text_end += ",?"
-		returned_list.Add(the_setting.setting)
+		returned_list.Add(the_setting.save_sql(the_setting.default_setting))
 	sql_text_end += ")"
 	returned_list[1] = "[sql_text][sql_text_end]"
 	return returned_list
@@ -489,7 +585,7 @@
 		if (the_setting.sql_table != "body")
 			continue
 		sql_text += "[the_setting.sql_name]=?,"
-		returned_list.Add(the_setting.setting)
+		returned_list.Add(the_setting.save_sql(the_setting.setting))
 	sql_text = copytext(sql_text, 1, length(sql_text)) // Remove the last ,
 	returned_list.Add(ckey) // Second-to-last item is the ckey (second to last joker)
 	returned_list.Add(slot) // Last item is the slot (last joker)
