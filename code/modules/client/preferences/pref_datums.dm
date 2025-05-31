@@ -40,6 +40,11 @@
 /datum/preference_setting/proc/sanitize_setting(var/new_setting)
 	return new_setting ? new_setting : default_setting // Return the default setting in case of null
 
+// For a very first time you initialise a setting
+// In case it needs to be different than a static value
+/datum/preference_setting/proc/get_new_setting()
+	return default_setting
+
 // Convert the raw SQL value into something byond-readable
 // For HISTORICAL REASONS (forma de technical debt), a lot of stuff is saved in the DB as a string
 // so usually, this means converting whatever you have from a string into a number.
@@ -88,6 +93,7 @@
 
 /datum/preference_setting/toggle/choose_setting(var/mob/user)
 	setting = !setting
+	parent.ShowChoices(user)
 
 // Numerical values
 /datum/preference_setting/numerical

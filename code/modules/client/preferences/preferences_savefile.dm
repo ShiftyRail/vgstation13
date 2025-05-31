@@ -45,9 +45,9 @@
 	return preference_list_client
 
 /datum/preferences/proc/read_database_data_client(var/list/database_data)
-	for (var/database_setting in preference_settings_client)
+	for (var/key, value in preference_settings_client)
+		var/datum/preference_setting/setting_datum = value
 
-		var/datum/preference_setting/setting_datum = preference_settings_client[database_setting]
 		setting_datum.setting = setting_datum.load_sql(database_data[setting_datum.sql_name]) // First we load...
 		setting_datum.setting = setting_datum.sanitize_setting(setting_datum.setting) // Then we sanitize
 
@@ -82,7 +82,6 @@
 				message_admins("Error in save_preferences_sqlite [__FILE__] ln:[__LINE__] #: [q.Error()] - [q.ErrorMsg()]. sql= [arguments_query[1]]")
 				WARNING("Error in save_preferences_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
 				return 0
-			message_admins(json_encode(arguments_query))
 	else
 		message_admins("Error in save_preferences_sqlite [__FILE__] ln:[__LINE__] #: [check.Error()] - [check.ErrorMsg()]")
 		WARNING("Error in save_preferences_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
@@ -100,8 +99,8 @@
 	returned_list.Add(ckey) // Second item is the ckey (first joker)
 	// This is a prepared queries. All the "?" here are jokers which will be replaced internally by BYOND with the values in the param list
 	// This MEANS that the order of the param list is pretty important!
-	for (var/setting in preference_settings_client)
-		var/datum/preference_setting/the_setting = preference_settings_client[setting]
+	for (var/key, setting in preference_settings_client)
+		var/datum/preference_setting/the_setting = setting
 		sql_text += ", [the_setting.sql_name]"
 		sql_text_end += ", ?"
 		returned_list.Add(the_setting.setting)
@@ -116,8 +115,8 @@
 	returned_list.Add(sql_text) // First item in the query is the SQL
 	// This is a prepared queries. All the "?" here are jokers which will be replaced internally by BYOND with the values in the param list
 	// This MEANS that the order of the param list is pretty important!
-	for (var/setting in preference_settings_client)
-		var/datum/preference_setting/the_setting = preference_settings_client[setting]
+	for (var/key, setting in preference_settings_client)
+		var/datum/preference_setting/the_setting = setting
 		sql_text += "[the_setting.sql_name]=?, "
 		returned_list.Add(the_setting.setting)
 	sql_text = copytext(sql_text, 1, length(sql_text)-1) // Remove the last ,
@@ -156,8 +155,8 @@
 		WARNING("[__LINE__]: datum/preferences/load_save_sqlite has returned")
 		return 0
 
-	for (var/setting in preference_settings_character)
-		var/datum/preference_setting/the_setting = preference_settings_character[setting]
+	for (var/key, setting in preference_settings_character)
+		var/datum/preference_setting/the_setting = setting
 		the_setting.setting = the_setting.load_sql(preference_list[the_setting.sql_name])
 		the_setting.setting = the_setting.sanitize_setting(the_setting.setting)
 
@@ -259,8 +258,7 @@
 	check.Add("SELECT player_ckey FROM players WHERE player_ckey = ? AND player_slot = ?", ckey, slot_chosen)
 	if(check.Execute(db))
 		if(!check.NextRow())
-			message_admins("Trying to save a character slot but there's no slot!e [slot_chosen]")
-			CRASH("Trying to save a character slot but there's no slot")
+			CRASH("Trying to save a character slot but there's no slot. Ckey = [ckey], slot_chosen = [slot_chosen]")
 		else
 			var/list/sql_arguments_update_character = update_db_entry_query_character_args(ckey, slot_chosen)
 			q.Add(arglist(sql_arguments_update_character))
@@ -285,7 +283,6 @@
 				message_admins("Error in update_body_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
 				WARNING("Error in update_body_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
 				return 0
-			message_admins(json_encode(sql_arguments_update_body))
 			to_chat(user, "Updated Body")
 	else
 		message_admins("Error at body selection from ckey: [__FILE__] ln:[__LINE__] #: [check.Error()] - [check.ErrorMsg()]")
@@ -320,8 +317,8 @@
 		if(!check.NextRow())
 			CRASH("Trying to save a character slot but there's no slot")
 		else
-			for(var/setting in preference_settings_character)
-				var/datum/preference_setting/the_setting = preference_settings_character[setting]
+			for(var/key, setting in preference_settings_character)
+				var/datum/preference_setting/the_setting = setting
 				if (the_setting.sql_table != "limbs")
 					continue
 				q.Add("UPDATE limbs SET [the_setting.sql_name] = ? WHERE player_ckey = ? AND player_slot = ?", the_setting.setting, ckey, slot_chosen)
@@ -366,7 +363,6 @@
 	check.Add("SELECT player_ckey FROM players WHERE player_ckey = ? AND player_slot = ?", ckey, slot_chosen)
 	if(check.Execute(db))
 		if(check.NextRow())
-			message_admins("creating a character where there is already a slot! [slot_chosen]")
 			CRASH("creating a character where there is already a slot! [slot_chosen]")
 		var/list/sql_arguments_new_character = new_db_entry_query_character_args(ckey, slot_chosen)
 		q.Add(arglist(sql_arguments_new_character))
@@ -428,8 +424,8 @@
 			message_admins("Error in insert into Limbs sqlite [__FILE__] ln:[__LINE__] #: [q.Error()] - [q.ErrorMsg()]")
 			WARNING("Error in insert into Limbs sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
 			return 0
-		for(var/setting in preference_settings_character)
-			var/datum/preference_setting/the_setting = preference_settings_character[setting]
+		for(var/key, setting in preference_settings_character)
+			var/datum/preference_setting/the_setting = setting
 			if (the_setting.sql_table != "limbs")
 				continue
 			q.Add("UPDATE limbs SET [the_setting.sql_name]=? WHERE player_ckey = ? AND player_slot = ?", the_setting.default_setting, ckey, slot_chosen)
@@ -455,6 +451,12 @@
 			WARNING("ClientRoleInsert: Error #:[q.Error()] - [q.ErrorMsg()]")
 			return 0
 
+	randomize_appearance_for()
+	var/gender = get_pref(/datum/preference_setting/enum/gender)
+	var/species = get_pref(/datum/preference_setting/string/species)
+	var/datum/preference_setting/name_setting = get_pref_datum(/datum/preference_setting/string/real_name)
+	name_setting.setting = random_name(gender, species)
+
 	to_chat(user, "Successfully created [get_pref(/datum/preference_setting/string/real_name)]")
 
 	return 1
@@ -462,16 +464,13 @@
 
 /datum/preferences/proc/try_load_slot(var/ckey, var/user, var/num)
 	var/database/query/check = new
-	message_admins("try_load_slot")
 
 	check.Add("SELECT player_ckey FROM players WHERE player_ckey = ? AND player_slot = ?", ckey, num)
 	if(check.Execute(db))
 		if(!check.NextRow()) // No slot
-			message_admins("no slot creating one")
 			create_character_sqlite(ckey, user, num)
 			randomize_appearance_for()
 		else // Has a slot
-			message_admins("user has a slot at slot [num]")
 			load_character_sqlite(ckey, user, num)
 	else
 		message_admins("load_save_sqlite Check Error #: [check.Error()] - [check.ErrorMsg()]")
@@ -498,13 +497,13 @@
 	returned_list.Add(slot) // Third item is the slot (second joker)
 	// This is a prepared queries. All the "?" here are jokers which will be replaced internally by BYOND with the values in the param list
 	// This MEANS that the order of the param list is pretty important!
-	for (var/setting in preference_settings_character)
-		var/datum/preference_setting/the_setting = preference_settings_character[setting]
+	for (var/key, setting in preference_settings_character)
+		var/datum/preference_setting/the_setting = setting
 		if (the_setting.sql_table != "players")
 			continue
 		sql_text += ",[the_setting.sql_name]"
 		sql_text_end += ",?"
-		returned_list.Add(the_setting.save_sql(the_setting.default_setting))
+		returned_list.Add(the_setting.default_setting)
 	sql_text_end += ")"
 	returned_list[1] = "[sql_text][sql_text_end]"
 	return returned_list
@@ -524,8 +523,8 @@
 
 	// This is a prepared query. All the "?" here are jokers which will be replaced internally by BYOND with the values in the param list
 	// This MEANS that the order of the param list is pretty important!
-	for (var/setting in preference_settings_character)
-		var/datum/preference_setting/the_setting = preference_settings_character[setting]
+	for (var/key, setting in preference_settings_character)
+		var/datum/preference_setting/the_setting = setting
 		if (the_setting.sql_table != "players")
 			continue
 		sql_text += "[the_setting.sql_name]=?,"
@@ -534,8 +533,6 @@
 	returned_list.Add(ckey) // Second-to-last item is the ckey (second to last joker)
 	returned_list.Add(slot) // Last item is the slot (last joker)
 	returned_list[1] = "[sql_text][sql_text_end]"
-	message_admins("sql: [returned_list[1]], params: [returned_list.len]")
-	message_admins(json_encode(returned_list))
 	return returned_list
 
 // The sql text this outputs looks like this :
@@ -554,8 +551,8 @@
 	returned_list.Add(slot) // Third item is the slot (second joker)
 	// This is a prepared query. All the "?" here are jokers which will be replaced internally by BYOND with the values in the param list
 	// This MEANS that the order of the param list is pretty important!
-	for (var/setting in preference_settings_character)
-		var/datum/preference_setting/the_setting = preference_settings_character[setting]
+	for (var/key, setting in preference_settings_character)
+		var/datum/preference_setting/the_setting = setting
 		if (the_setting.sql_table != "body")
 			continue
 		sql_text += ",[the_setting.sql_name]"
@@ -580,8 +577,8 @@
 
 	// This is a prepared query. All the "?" here are jokers which will be replaced internally by BYOND with the values in the param list
 	// This MEANS that the order of the param list is pretty important!
-	for (var/setting in preference_settings_character)
-		var/datum/preference_setting/the_setting = preference_settings_character[setting]
+	for (var/key, setting in preference_settings_character)
+		var/datum/preference_setting/the_setting = setting
 		if (the_setting.sql_table != "body")
 			continue
 		sql_text += "[the_setting.sql_name]=?,"

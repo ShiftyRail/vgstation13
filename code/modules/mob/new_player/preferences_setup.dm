@@ -37,6 +37,7 @@
 		copy_to(H,1)
 
 /datum/preferences/proc/blend_backpack(var/icon/clothes_s,var/backbag,var/satchel,var/backpack="backpack",var/messenger_bag)
+	// I'm not even going to pretend what these fucking magic values mean
 	switch(backbag)
 		if(2)
 			clothes_s.Blend(new /icon('icons/mob/back.dmi', backpack), ICON_OVERLAY)

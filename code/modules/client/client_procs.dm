@@ -332,7 +332,7 @@ var/updated_stats = 0
 		show_warning_next_time.setting = 0
 		prefs.save_preferences_sqlite(src, src.ckey)
 
-	if(prefs.get_pref(/datum/preference_setting/) != changelog_hash) //bolds the changelog button on the interface so we know there are updates.
+	if(prefs.get_pref(/datum/preference_setting/string/changelog) != changelog_hash) //bolds the changelog button on the interface so we know there are updates.
 		winset_wrapper("rpane.changelog", "background-color=#eaeaea;font-style=bold")
 		prefs.SetChangelog(ckey,changelog_hash)
 		to_chat(src, "<span class='info'>Changelog has changed since your last visit.</span>")

@@ -1,54 +1,3 @@
-// -- Mostly /datum/preference_setting except on the character table of the sql DB --
-
-var/list/preference_settings_character = list(
-	/datum/preference_setting/string/real_name,
-	/datum/preference_setting/toggle/be_random_name,
-	/datum/preference_setting/toggle/be_random_body,
-	/datum/preference_setting/enum/gender,
-	/datum/preference_setting/numerical/age,
-	/datum/preference_setting/numerical/underwear,
-	/datum/preference_setting/numerical/backbag,
-	/datum/preference_setting/string/h_style,
-	/datum/preference_setting/numerical/r_hair,
-	/datum/preference_setting/numerical/g_hair,
-	/datum/preference_setting/numerical/b_hair,
-	/datum/preference_setting/string/f_style,
-	/datum/preference_setting/numerical/r_facial,
-	/datum/preference_setting/numerical/g_facial,
-	/datum/preference_setting/numerical/b_hair, // Note: This is re-used name for "facial_blue"
-	/datum/preference_setting/numerical/r_eyes,
-	/datum/preference_setting/numerical/g_eyes,
-	/datum/preference_setting/numerical/b_eyes,
-	/datum/preference_setting/numerical/s_tone,
-	/datum/preference_setting/string/species,
-	/datum/preference_setting/string/language,
-	/datum/preference_setting/string/flavor_text,
-	/datum/preference_setting/string/med_record,
-	/datum/preference_setting/string/sec_record,
-	/datum/preference_setting/string/gen_record,
-	/datum/preference_setting/string/metadata,
-	/datum/preference_setting/list_values/player_alt_titles,
-	/datum/preference_setting/enum/organ_data/limb_left_arm,
-	/datum/preference_setting/enum/organ_data/limb_right_arm,
-	/datum/preference_setting/enum/organ_data/limb_left_leg,
-	/datum/preference_setting/enum/organ_data/limb_right_leg,
-	/datum/preference_setting/enum/organ_data/limb_left_hand,
-	/datum/preference_setting/enum/organ_data/limb_right_hand,
-	/datum/preference_setting/enum/organ_data/limb_left_foot,
-	/datum/preference_setting/enum/organ_data/limb_right_foot,
-	/datum/preference_setting/enum/organ_data/organ/heart,
-	/datum/preference_setting/enum/organ_data/organ/eyes,
-	/datum/preference_setting/enum/organ_data/organ/lung,
-	/datum/preference_setting/enum/organ_data/organ/liver,
-	/datum/preference_setting/enum/organ_data/organ/kidneys,
-	/datum/preference_setting/enum/alternate_option,
-	/datum/preference_setting/assoc_list_setting/jobs,
-	/datum/preference_setting/enum/string/nanotrasen_relation,
-	/datum/preference_setting/enum/bank_security,
-	/datum/preference_setting/numerical/wage_ratio,
-	/datum/preference_setting/binary_flag/disabilities,
-)
-
 //our character's name
 /datum/preference_setting/string/real_name
 	name = "Character name"
@@ -828,6 +777,7 @@ var/list/preference_settings_character = list(
 				var/choice = input("Pick a title for [job.title].", "Character Generation", parent.GetPlayerAltTitle(job)) as anything in choices | null
 				if(choice)
 					parent.SetPlayerAltTitle(job, choice)
+			parent.SetJobsChoice(user)
 		if("input")
 			parent.SetJob(user, href_list["text"], href_list["level"] == "1")
 		else // Menu

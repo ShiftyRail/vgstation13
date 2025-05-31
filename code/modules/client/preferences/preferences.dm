@@ -126,8 +126,9 @@ var/const/MAX_SAVE_SLOTS = 16
 
 	var/savefile_version = 0
 
-	var/list/datum/preference_setting/preference_settings_client = list()
-	var/list/datum/preference_setting/preference_settings_character = list()
+	// Alist = associative lists. This is a new 516 thing. Woo!
+	var/alist/preference_settings_client = alist()
+	var/alist/preference_settings_character = alist()
 
 	// Don't like hardcoding this but I can't find a way..
 	var/list/organ_data = list()
@@ -194,33 +195,48 @@ var/const/MAX_SAVE_SLOTS = 16
 		var/datum/preferences_subsection/prefs_ss = subsections[entry]
 		if(prefs_ss && !prefs_ss.gcDestroyed)
 			QDEL_NULL(prefs_ss)
-	for(var/thing in preference_settings_character)
-		var/datum/preference_setting/the_setting = preference_settings_character[thing]
-		QDEL_NULL(the_setting)
-		preference_settings_character -= thing
-	for(var/thing in preference_settings_client)
-		var/datum/preference_setting/the_setting = preference_settings_client[thing]
-		QDEL_NULL(the_setting)
-		preference_settings_client -= thing
+	for(var/key, setting in preference_settings_character)
+		QDEL_NULL(setting)
+		preference_settings_character -= key
+	for(var/key, setting in preference_settings_client)
+		QDEL_NULL(setting)
+		preference_settings_client -= key
 	..()
 
 /datum/preferences/proc/try_load_save_sqlite(var/theckey, var/theclient, var/theslot)
 	var/attempts = 0
-	while(!load_character_sqlite(theckey, theclient, theslot) && attempts < 5)
-		sleep(15)
-		attempts++
-	if(attempts >= 5)//failsafe so people don't get locked out of the round forever
-		randomize_appearance_for()
-		var/species = get_pref(/datum/preference_setting/string/species)
-		var/gender = get_pref(/datum/preference_setting/enum/gender)
-		var/datum/preference_setting/name_setting = get_pref_datum(/datum/preference_setting/string/real_name)
-		name_setting.setting = random_name(gender, species)
-		log_debug("Player [theckey] FAILED to load save 5 times and has been randomized.")
-		log_admin("Player [theckey] FAILED to load save 5 times and has been randomized.")
-		if(theclient)
-			alert(theclient, "For some reason you've failed to load your save slot 5 times now, so you've been generated a random character. Don't worry, it didn't overwrite your old one.","Randomized Character", "OK")
+	var/database/query/existing_player_check = new
+
+	existing_player_check.Add("SELECT player_ckey FROM players WHERE player_ckey = ? AND player_slot = ?", theckey, theslot)
+
+	if(existing_player_check.Execute(db))
+		if(!existing_player_check.NextRow())
+			message_admins("very first connection for [theckey]")
+			while(!create_character_sqlite(theckey, theclient, theslot) && attempts < 5)
+				sleep(15)
+				attempts++
+			if(attempts >= 5)//failsafe so people don't get locked out of the round forever
+				fallback_random_character(theckey, theclient)
+		else
+			while(!load_character_sqlite(theckey, theclient, theslot) && attempts < 5)
+				sleep(15)
+				attempts++
+			if(attempts >= 5)//failsafe so people don't get locked out of the round forever
+				fallback_random_character(theckey, theclient)
+
 	saveloaded = 1
 	theclient << 'sound/misc/prefsready.wav'
+
+/datum/preferences/proc/fallback_random_character(var/theclient, var/theckey)
+	randomize_appearance_for()
+	var/species = get_pref(/datum/preference_setting/string/species)
+	var/gender = get_pref(/datum/preference_setting/enum/gender)
+	var/datum/preference_setting/name_setting = get_pref_datum(/datum/preference_setting/string/real_name)
+	name_setting.setting = random_name(gender, species)
+	log_debug("Player [theckey] FAILED to load save 5 times and has been randomized.")
+	log_admin("Player [theckey] FAILED to load save 5 times and has been randomized.")
+	if(theclient)
+		alert(theclient, "For some reason you've failed to load your save slot 5 times now, so you've been generated a random character. Don't worry, it didn't overwrite your old one.","Randomized Character", "OK")
 
 /datum/preferences/proc/GetPlayerAltTitle(datum/job/job)
 	var/list/player_alt_titles = get_pref(/datum/preference_setting/list_values/player_alt_titles)
@@ -304,27 +320,25 @@ var/const/MAX_SAVE_SLOTS = 16
 
 	// General soft-coding stuff.
 	// Relatively inelegant. Any better idea?
-	for (var/x in preference_settings_client)
-		var/datum/preference_setting/the_setting = preference_settings_client[x]
-		if (the_setting.sql_name == href_list["preference"])
-			message_admins("process_link : [the_setting], task = [href_list["task"]]")
-			the_setting.process_link(href_list["task"], user, href_list)
+	for (var/key, value in preference_settings_client)
+		var/datum/preference_setting/setting = value
+		if (setting.sql_name == href_list["preference"])
+			setting.process_link(href_list["task"], user, href_list)
 			ShowChoices(user)
 			return
 
-	for (var/x in preference_settings_character)
-		var/datum/preference_setting/the_setting = preference_settings_character[x]
-		if (the_setting.sql_name == href_list["preference"])
-			message_admins("process_link : [the_setting], task = [href_list["task"]]")
-			the_setting.process_link(href_list["task"], user, href_list)
+	for (var/key, value in preference_settings_character)
+		var/datum/preference_setting/setting = value
+		if (setting.sql_name == href_list["preference"])
+			setting.process_link(href_list["task"], user, href_list)
 			return
 
 	if(href_list["task"] == "random_body")
-		for (var/x in preference_settings_character)
-			var/datum/preference_setting/the_setting = preference_settings_character[x]
-			if (the_setting.sql_name == "real_name") // Bit ugly but have to do it
+		for (var/key, value in preference_settings_character)
+			var/datum/preference_setting/setting = value
+			if (setting.sql_name == "real_name") // Bit ugly but have to do it
 				continue
-			the_setting.randomise(user)
+			setting.randomise(user)
 		ShowChoices(user)
 		return
 
@@ -410,7 +424,8 @@ var/const/MAX_SAVE_SLOTS = 16
 				message_admins("changeslot")
 				var/num = text2num(href_list["num"])
 				try_load_slot(user.ckey, user, num)
-				default_slot = num
+				var/datum/preference_setting/numerical/default_slot/slot_pref = get_pref_datum(/datum/preference_setting/numerical/default_slot)
+				slot_pref.setting = num
 				slot = num
 				close_load_dialog(user)
 				ShowChoices(user)
@@ -422,7 +437,7 @@ var/const/MAX_SAVE_SLOTS = 16
 		ShowChoices(user)
 		return
 	// We made it this far, means link was unprocessed
-	message_admins("unprocessed href for [client]; data=[json_encode(href_list)]")
+	CRASH("unprocessed href for [client]; data=[json_encode(href_list)]")
 
 /datum/preferences/proc/copy_to(mob/living/carbon/human/character, safety = 0)
 	var/datum/preference_setting/name_setting = get_pref_datum(/datum/preference_setting/string/real_name)
@@ -565,7 +580,8 @@ var/const/MAX_SAVE_SLOTS = 16
 
 // limbs & organs
 /datum/preferences/proc/change_pref_datum_limb(var/limb_internal_name, var/limb_internal_state)
-	for (var/datum/preference_setting/setting_type in preference_settings_character)
+	for (var/key, setting_datum in preference_settings_character)
+		var/datum/preference_setting/setting_type = key
 		if (initial(setting_type.sql_table) != "limbs")
 			continue
 		if (initial(setting_type.sql_name) == limb_internal_name)

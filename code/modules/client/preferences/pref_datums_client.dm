@@ -1,46 +1,3 @@
-var/list/preference_settings_client = list(
-	/datum/preference_setting/numerical/warns,
-	/datum/preference_setting/numerical/warnbans,
-	/datum/preference_setting/toggle/show_warning_next_time,
-	/datum/preference_setting/string/last_warned_message,
-	/datum/preference_setting/string/warning_admin,
-	/datum/preference_setting/string/changelog,
-	/datum/preference_setting/string/ooc_color,
-	/datum/preference_setting/string/UI_style,
-	/datum/preference_setting/binary_flag/toggles,
-	/datum/preference_setting/string/UI_style_color,
-	/datum/preference_setting/numerical/UI_style_alpha,
-	/datum/preference_setting/toggle/space_parallax,
-	/datum/preference_setting/toggle/space_dust,
-	/datum/preference_setting/numerical/parallax_speed,
-	/datum/preference_setting/enum/special_popup,
-	/datum/preference_setting/toggle/tooltips,
-	/datum/preference_setting/toggle/stumble,
-	/datum/preference_setting/toggle/hear_voicesound,
-	/datum/preference_setting/numerical/volume,
-	/datum/preference_setting/toggle/usewmp,
-	/datum/preference_setting/toggle/randomslot,
-	/datum/preference_setting/toggle/usenanoui,
-	/datum/preference_setting/toggle/progress_bars,
-	/datum/preference_setting/enum/attack_animations,
-	/datum/preference_setting/toggle/pulltoggle,
-	/datum/preference_setting/toggle/hear_instruments,
-	/datum/preference_setting/numerical/ambience_volume,
-	/datum/preference_setting/numerical/credits_volume,
-	/datum/preference_setting/enum/credits,
-	/datum/preference_setting/enum/jingle,
-	/datum/preference_setting/enum/headset_sound,
-	/datum/preference_setting/toggle/window_flashing,
-	/datum/preference_setting/toggle/antag_objectives,
-	/datum/preference_setting/toggle/typing_indicator,
-	/datum/preference_setting/toggle/mob_chat_on_map,
-	/datum/preference_setting/numerical/max_chat_length,
-	/datum/preference_setting/toggle/obj_chat_on_map,
-	/datum/preference_setting/toggle/no_goonchat_for_obj,
-	/datum/preference_setting/toggle/tgui_fancy,
-	/datum/preference_setting/numerical/fps
-)
-
 // -- ACTUAL PREFS --
 
 // non-prefs stuff
@@ -86,6 +43,16 @@ var/list/preference_settings_client = list(
 	enabled = TRUE
 
 	default_setting = "Admin"
+
+/datum/preference_setting/numerical/default_slot
+	name = "Default slot"
+	sql_name = "default_slot"
+	sql_table = "client"
+	enabled = TRUE
+
+	default_setting = 1
+	min_value = 1
+	max_value = MAX_SAVE_SLOTS
 
 // game-preferences
 //Saved changlog filesize to detect if there was a change
