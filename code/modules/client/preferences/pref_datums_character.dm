@@ -752,7 +752,9 @@
 	return json_encode(setting)
 
 /datum/preference_setting/assoc_list_setting/jobs/load_sql(var/sql_value)
-	return json_decode(sql_value)
+	if (sql_value)
+		return json_decode(sql_value)
+	return list()
 
 /datum/preference_setting/assoc_list_setting/jobs/process_link(var/task, var/mob/user, var/list/href_list)
 	var/datum/preference_setting/alternate_option = parent.get_pref(/datum/preference_setting/enum/alternate_option)

@@ -22,8 +22,8 @@
 	parent = null
 	return ..()
 
-/datum/preference_setting/variable_edited(variable_name, old_value, new_value)
-	switch (variable_name)
+/datum/preference_setting/can_edit_var(var/edited_variable)
+	switch (edited_variable)
 		// Block varedits related to SQL
 		if ("sql_table", "sql_name", "enabled", "parent", "saved_as_string")
 			return

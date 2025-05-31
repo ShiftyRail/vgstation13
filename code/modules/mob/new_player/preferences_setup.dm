@@ -2,11 +2,11 @@
 	//The mob should have a gender you want before running this proc. Will run fine without H
 
 // I mean ideally we should want to use appearance_datums... ?
-/datum/preferences/proc/randomize_appearance_for(var/mob/living/carbon/human/H)
+/datum/preferences/proc/randomize_appearance_for(var/mob/living/carbon/human/H, var/random_gender = FALSE)
 	var/datum/preference_setting/gender_pref = get_pref_datum(/datum/preference_setting/enum/gender)
 	if(H)
 		gender_pref.setting = H.gender
-	else
+	else if (random_gender)
 		gender_pref.setting = pick(MALE, FEMALE)
 
 	var/datum/preference_setting/s_tone = get_pref_datum(/datum/preference_setting/numerical/s_tone)

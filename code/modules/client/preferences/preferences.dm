@@ -113,7 +113,6 @@ var/const/MAX_SAVE_SLOTS = 16
 	var/path
 
 	// Which character slot
-	var/default_slot = 1				//Holder so it doesn't default to slot 1, rather the last one used
 	var/slot = 1
 	var/list/slot_names = new
 	var/slot_name = ""
@@ -160,18 +159,20 @@ var/const/MAX_SAVE_SLOTS = 16
 		var/theckey = C.ckey
 		var/thekey = C.key
 		if(!IsGuestKey(thekey))
-			var/load_pref = load_preferences_sqlite(theckey)
+			var/load_pref = try_load_preferences(theckey, C.mob)
+			var/default_slot = get_pref(/datum/preference_setting/numerical/default_slot)
 			if(load_pref)
 				to_chat(C, "Successfully loaded preferences.")
 				while(!SS_READY(SShumans))
 					sleep(1)
 				try_load_save_sqlite(theckey, C, default_slot)
 				return
-			CRASH("Could not load ")
+			CRASH("Could not load preferences!")
 
 		while(!SS_READY(SShumans))
 			sleep(1)
-		randomize_appearance_for()
+		randomize_appearance_for(random_gender = TRUE)
+		var/default_slot = get_pref(/datum/preference_setting/numerical/default_slot)
 		var/gender = get_pref(/datum/preference_setting/enum/gender)
 		var/species = get_pref(/datum/preference_setting/string/species)
 		var/datum/preference_setting/real_name = get_pref_datum(/datum/preference_setting/string/real_name)
@@ -203,6 +204,7 @@ var/const/MAX_SAVE_SLOTS = 16
 		preference_settings_client -= key
 	..()
 
+// Try to load a SQLite save for this character, creating it if there's nothing.
 /datum/preferences/proc/try_load_save_sqlite(var/theckey, var/theclient, var/theslot)
 	var/attempts = 0
 	var/database/query/existing_player_check = new
@@ -211,12 +213,12 @@ var/const/MAX_SAVE_SLOTS = 16
 
 	if(existing_player_check.Execute(db))
 		if(!existing_player_check.NextRow())
-			message_admins("very first connection for [theckey]")
 			while(!create_character_sqlite(theckey, theclient, theslot) && attempts < 5)
 				sleep(15)
 				attempts++
 			if(attempts >= 5)//failsafe so people don't get locked out of the round forever
 				fallback_random_character(theckey, theclient)
+			save_character_sqlite(theckey, theclient, theslot)
 		else
 			while(!load_character_sqlite(theckey, theclient, theslot) && attempts < 5)
 				sleep(15)
@@ -228,7 +230,7 @@ var/const/MAX_SAVE_SLOTS = 16
 	theclient << 'sound/misc/prefsready.wav'
 
 /datum/preferences/proc/fallback_random_character(var/theclient, var/theckey)
-	randomize_appearance_for()
+	randomize_appearance_for(random_gender = TRUE)
 	var/species = get_pref(/datum/preference_setting/string/species)
 	var/gender = get_pref(/datum/preference_setting/enum/gender)
 	var/datum/preference_setting/name_setting = get_pref_datum(/datum/preference_setting/string/real_name)
@@ -401,7 +403,7 @@ var/const/MAX_SAVE_SLOTS = 16
 			if("save")
 				if(world.timeofday >= (lastPolled + POLLED_LIMIT) || user.client.holder)
 					save_preferences_sqlite(user, user.ckey)
-					save_character_sqlite(user.ckey, user, default_slot)
+					save_character_sqlite(user.ckey, user, slot)
 					lastPolled = world.timeofday
 				else
 					to_chat(user, "You need to wait [round((((lastPolled + POLLED_LIMIT) - world.timeofday) / 10))] seconds before you can save again.")
@@ -409,7 +411,7 @@ var/const/MAX_SAVE_SLOTS = 16
 
 			if("reload")
 				load_preferences_sqlite(user.ckey)
-				load_character_sqlite(user.ckey, user, default_slot)
+				load_character_sqlite(user.ckey, user, slot)
 
 			if("open_load_dialog")
 				if(!IsGuestKey(user.key))
@@ -421,7 +423,6 @@ var/const/MAX_SAVE_SLOTS = 16
 				close_load_dialog(user)
 
 			if("changeslot")
-				message_admins("changeslot")
 				var/num = text2num(href_list["num"])
 				try_load_slot(user.ckey, user, num)
 				var/datum/preference_setting/numerical/default_slot/slot_pref = get_pref_datum(/datum/preference_setting/numerical/default_slot)
@@ -464,11 +465,6 @@ var/const/MAX_SAVE_SLOTS = 16
 	character.sec_record = get_pref(/datum/preference_setting/string/sec_record)
 	character.gen_record = get_pref(/datum/preference_setting/string/gen_record)
 
-
-	if(get_pref(/datum/preference_setting/toggle/be_random_body))
-		//random_character(gender) - This just selects a random character from the OLD character database.
-		randomize_appearance_for() // Correct.
-
 	character.setGender(gender)
 	character.age = get_pref(/datum/preference_setting/numerical/age)
 
@@ -477,8 +473,8 @@ var/const/MAX_SAVE_SLOTS = 16
 	character.my_appearance.b_eyes = get_pref(/datum/preference_setting/numerical/b_eyes)
 
 	character.my_appearance.r_hair = get_pref(/datum/preference_setting/numerical/r_hair)
-	character.my_appearance.g_hair = get_pref(/datum/preference_setting/numerical/b_hair)
-	character.my_appearance.b_hair = get_pref(/datum/preference_setting/numerical/g_hair)
+	character.my_appearance.g_hair = get_pref(/datum/preference_setting/numerical/g_hair)
+	character.my_appearance.b_hair = get_pref(/datum/preference_setting/numerical/b_hair)
 
 	character.my_appearance.r_facial = get_pref(/datum/preference_setting/numerical/r_facial)
 	character.my_appearance.g_facial = get_pref(/datum/preference_setting/numerical/g_facial)
@@ -490,6 +486,9 @@ var/const/MAX_SAVE_SLOTS = 16
 	character.my_appearance.f_style = get_pref(/datum/preference_setting/string/f_style)
 
 	character.dna.ResetUIFrom(character)
+
+	if(get_pref(/datum/preference_setting/toggle/be_random_body))
+		character.my_appearance.randomise()
 
 	// Destroy/cyborgize organs
 

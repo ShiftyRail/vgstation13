@@ -12,11 +12,27 @@
 		WARNING("Error in Setchangelog [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
 		return 0
 
+
+/datum/preferences/proc/try_load_preferences(var/ckey, var/mob/user)
+	// Check client:
+	var/database/query/client_check = new
+	client_check.Add("SELECT ckey FROM client WHERE ckey = ?", ckey)
+	if(client_check.Execute(db))
+		if(!client_check.NextRow())
+			return save_preferences_sqlite(ckey, user)
+		else
+			return load_preferences_sqlite(ckey)
+	else
+		WARNING("Error in try_load_preferences [__FILE__] ln:[__LINE__] #:[client_check.Error()] - [client_check.ErrorMsg()]")
+
 /datum/preferences/proc/load_preferences_sqlite(var/ckey)
 	var/list/database_data = execute_load_pref_query(ckey)
 	read_database_data_client(database_data)
 	initialize_preferences()
-	return 1
+	if (islist(database_data))
+		return 1
+	else
+		return 0
 
 /datum/preferences/proc/execute_load_pref_query(var/ckey)
 	var/list/preference_list_client = new
@@ -25,12 +41,12 @@
 	check.Add("SELECT ckey FROM client WHERE ckey = ?", ckey)
 	if(check.Execute(db))
 		if(!check.NextRow())
-			message_admins("Error in load_preferences_sqlite [__FILE__] ln:[__LINE__] #: [check.Error()] - [check.ErrorMsg()]")
-			WARNING("Error in load_preferences_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+			message_admins("Empty client setting for [ckey]!")
+			WARNING("Empty client setting for [ckey]")
 			return 0
 	else
 		message_admins("Error in load_preferences_sqlite [__FILE__] ln:[__LINE__] #: [check.Error()] - [check.ErrorMsg()]")
-		WARNING("Error in load_preferences_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
+		WARNING("Error in load_preferences_sqlite [__FILE__] ln:[__LINE__] #:[check.Error()] - [check.ErrorMsg()]")
 		return 0
 	q.Add("SELECT * FROM client WHERE ckey = ?", ckey)
 	if(q.Execute(db))
@@ -47,9 +63,11 @@
 /datum/preferences/proc/read_database_data_client(var/list/database_data)
 	for (var/key, value in preference_settings_client)
 		var/datum/preference_setting/setting_datum = value
-
-		setting_datum.setting = setting_datum.load_sql(database_data[setting_datum.sql_name]) // First we load...
-		setting_datum.setting = setting_datum.sanitize_setting(setting_datum.setting) // Then we sanitize
+		try
+			setting_datum.setting = setting_datum.load_sql(database_data[setting_datum.sql_name]) // First we load...
+			setting_datum.setting = setting_datum.sanitize_setting(setting_datum.setting) // Then we sanitize
+		catch
+			CRASH("wrong setting loaded [key] which got [setting_datum.sql_name], wasn't in list: [json_encode(database_data)]")
 
 /datum/preferences/proc/initialize_preferences(client_login = 0)
 	var/attack_animation = get_pref(/datum/preference_setting/enum/attack_animations)
@@ -291,7 +309,7 @@
 
 	// Jobs are left hardcoded for now since they not likely to be fundamentally changed
 	// However the same proc logic could apply here if we had some job-per-character specific sett
-	var/list/jobs = get_pref(/datum/preference_setting/assoc_list_setting/jobs)
+	var/datum/preference_setting/jobs = get_pref_datum(/datum/preference_setting/assoc_list_setting/jobs)
 	var/alternate_option = get_pref(/datum/preference_setting/enum/alternate_option)
 	check.Add("SELECT player_ckey FROM jobs WHERE player_ckey = ? AND player_slot = ?", ckey, slot_chosen)
 	if(check.Execute(db))
@@ -300,7 +318,7 @@
 		else
 		    //                     1                  2
 			q.Add("UPDATE jobs SET alternate_option=?,jobs=? WHERE player_ckey = ? AND player_slot = ?",\
-								   alternate_option,  json_encode(jobs),        ckey,               slot_chosen)
+								   alternate_option,  jobs.save_sql(jobs.setting),        ckey,               slot_chosen)
 			if(!q.Execute(db))
 				message_admins("Error in update_jobs_sqlite [__FILE__] ln:[__LINE__] #: [q.Error()] - [q.ErrorMsg()]")
 				WARNING("Error in update_jobs_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
@@ -394,16 +412,16 @@
 
 	// Jobs are left hardcoded for now since they not likely to be fundamentally changed
 	// However the same proc logic could apply here if we had some job-per-character specific sett
-	var/list/jobs = get_pref(/datum/preference_setting/assoc_list_setting/jobs)
+	var/datum/preference_setting/jobs = get_pref_datum(/datum/preference_setting/assoc_list_setting/jobs)
 	var/alternate_option = get_pref(/datum/preference_setting/enum/alternate_option)
 	check.Add("SELECT player_ckey FROM jobs WHERE player_ckey = ? AND player_slot = ?", ckey, slot_chosen)
 	if(check.Execute(db))
 		if(check.NextRow())
-			CRASH("creating a body where there is already a slot!")
+			CRASH("creating a body where there is already a slot : [ckey], [slot_chosen]")
 		//                       1           2           3                4
 		q.Add("INSERT INTO jobs (player_ckey,player_slot,alternate_option,jobs) \
 							VALUES (?,          ?,          ?,               ?)", \
-							ckey,        slot,       alternate_option,json_encode(jobs))
+							ckey,        slot_chosen,       alternate_option, jobs.save_sql(jobs.setting))
 		if(!q.Execute(db))
 			message_admins("Error in create_jobs_sqlite [__FILE__] ln:[__LINE__] #: [q.Error()] - [q.ErrorMsg()]")
 			WARNING("Error in create_jobs_sqlite [__FILE__] ln:[__LINE__] #:[q.Error()] - [q.ErrorMsg()]")
@@ -451,7 +469,7 @@
 			WARNING("ClientRoleInsert: Error #:[q.Error()] - [q.ErrorMsg()]")
 			return 0
 
-	randomize_appearance_for()
+	randomize_appearance_for(random_gender = TRUE)
 	var/gender = get_pref(/datum/preference_setting/enum/gender)
 	var/species = get_pref(/datum/preference_setting/string/species)
 	var/datum/preference_setting/name_setting = get_pref_datum(/datum/preference_setting/string/real_name)
@@ -469,7 +487,7 @@
 	if(check.Execute(db))
 		if(!check.NextRow()) // No slot
 			create_character_sqlite(ckey, user, num)
-			randomize_appearance_for()
+			randomize_appearance_for(random_gender = TRUE)
 		else // Has a slot
 			load_character_sqlite(ckey, user, num)
 	else
@@ -503,7 +521,8 @@
 			continue
 		sql_text += ",[the_setting.sql_name]"
 		sql_text_end += ",?"
-		returned_list.Add(the_setting.default_setting)
+		var/data = the_setting.save_sql(the_setting.default_setting)
+		returned_list.Add(data)
 	sql_text_end += ")"
 	returned_list[1] = "[sql_text][sql_text_end]"
 	return returned_list

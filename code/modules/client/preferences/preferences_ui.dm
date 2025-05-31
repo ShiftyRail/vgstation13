@@ -591,7 +591,7 @@
 	var/dat = "<center><b>Select a character slot to load</b><hr>"
 	var/counter = 1
 	while(counter <= MAX_SAVE_SLOTS)
-		if(counter==default_slot)
+		if(counter==get_pref(/datum/preference_setting/numerical/default_slot))
 			dat += "<a href='?_src_=prefs;action=changeslot;num=[counter];'><b>[name_list[counter]]</b></a><br>"
 		else
 			if(!name_list[counter])
